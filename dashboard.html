@@ -7,7 +7,7 @@
     <title>Dashboard · Nexora Financial</title>
     <link rel="stylesheet" href="./assets/style.css">
 </head><body class="dashboard-body"><div class="demo">
-    DEMO FINANCIAL PRODUCT · ALL BALANCES AND TRANSACTIONS ARE SIMULATED
+    DEMO FINANCIAL PRODUCT · ALL BALANCES ARE SIMULATED
 </div><header><a class="brand" href="./index.html">
     NEXORA
     <span>FINANCIAL</span>
@@ -50,7 +50,7 @@
         </div>
 
         <div class="balance-number">
-            £12,480.50
+            £0.00
         </div>
 
         <div class="balance-meta">
@@ -58,6 +58,7 @@
         </div>
 
         <div class="balance-actions">
+
             <a class="btn green" href="#transactions">
                 + Add money
             </a>
@@ -69,6 +70,7 @@
             <a class="btn" href="#transactions">
                 − Withdraw
             </a>
+
         </div>
 
     </div>
@@ -76,10 +78,12 @@
     <div class="dashboard-card">
 
         <div class="card-title">
+
             <div>
                 <div class="eyebrow">QUICK ACTIONS</div>
                 <h2>Move money</h2>
             </div>
+
         </div>
 
         <div class="quick-grid">
@@ -110,71 +114,46 @@
     <div class="dashboard-card" id="transactions">
 
         <div class="card-title">
+
             <div>
                 <div class="eyebrow">RECENT ACTIVITY</div>
                 <h2>Transactions</h2>
             </div>
 
-            <a href="#">View all →</a>
         </div>
 
-        <div class="transaction">
+        <div style="
+            text-align:center;
+            padding:55px 20px;
+            color:#8b98a1;
+        ">
 
-            <div class="tx-icon">N</div>
-
-            <div class="tx-info">
-                <b>Northstar Market</b>
-                <small>29 Aug · Card purchase</small>
+            <div style="
+                width:55px;
+                height:55px;
+                border-radius:18px;
+                background:#f0f3f4;
+                display:grid;
+                place-items:center;
+                margin:0 auto 18px;
+                font-size:24px;
+            ">
+                —
             </div>
 
-            <div class="tx-amount out">
-                −£48.20
-            </div>
+            <strong style="
+                display:block;
+                color:#101820;
+                font-size:15px;
+                margin-bottom:7px;
+            ">
+                No transactions yet
+            </strong>
 
-        </div>
-
-        <div class="transaction">
-
-            <div class="tx-icon">S</div>
-
-            <div class="tx-info">
-                <b>Salary — Demo</b>
-                <small>28 Aug · Incoming transfer</small>
-            </div>
-
-            <div class="tx-amount in">
-                +£3,200.00
-            </div>
-
-        </div>
-
-        <div class="transaction">
-
-            <div class="tx-icon">C</div>
-
-            <div class="tx-info">
-                <b>Cloudline Services</b>
-                <small>26 Aug · Transfer</small>
-            </div>
-
-            <div class="tx-amount out">
-                −£120.00
-            </div>
-
-        </div>
-
-        <div class="transaction">
-
-            <div class="tx-icon">G</div>
-
-            <div class="tx-info">
-                <b>Greenway Coffee</b>
-                <small>25 Aug · Card purchase</small>
-            </div>
-
-            <div class="tx-amount out">
-                −£6.80
-            </div>
+            <span style="font-size:12px;">
+                Your transaction history will appear here
+                when activity is recorded.
+            </span>
 
         </div>
 
@@ -204,6 +183,11 @@
             </div>
 
             <div>
+                <small>Balance</small>
+                <b>£0.00</b>
+            </div>
+
+            <div>
                 <small>Status</small>
                 <b class="in">● Active</b>
             </div>
@@ -215,4 +199,4 @@
 </section>
 
 </main></body>
-      </html>
+                </html>
