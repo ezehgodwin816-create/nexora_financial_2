@@ -15,15 +15,10 @@
 
     <div>
         <div class="eyebrow">JOIN NEXORA</div>
-
-        <h2>
-            A cleaner way
-            to see your money.
-        </h2>
-
+        <h2>A cleaner way to see your money.</h2>
         <p>
             Create a fictional demo profile and explore the
-            Nexora banking experience from the inside.
+            Nexora banking experience.
         </p>
     </div>
 
@@ -42,15 +37,14 @@
 
         <h1>Create your account.</h1>
 
-        <p>
-            Set up a demo profile in a few seconds.
-        </p>
+        <p>Set up your demo profile in a few seconds.</p>
 
-        <form onsubmit="event.preventDefault(); window.location.href='./dashboard.html';">
+        <form id="registerForm">
 
             <label>
                 Full name
                 <input
+                    id="name"
                     type="text"
                     required
                     placeholder="Alex Morgan"
@@ -60,6 +54,7 @@
             <label>
                 Email address
                 <input
+                    id="email"
                     type="email"
                     required
                     placeholder="alex@example.com"
@@ -69,6 +64,7 @@
             <label>
                 Password
                 <input
+                    id="password"
                     type="password"
                     minlength="8"
                     required
@@ -84,9 +80,7 @@
 
         <p class="auth-switch">
             Already have a demo account?
-            <a class="form-link" href="./login.html">
-                Sign in
-            </a>
+            <a class="form-link" href="./login.html">Sign in</a>
         </p>
 
         <p class="auth-switch">
@@ -99,5 +93,30 @@
 
 </section>
 
-</main></body>
-  </html>
+</main><script>
+document.getElementById("registerForm").addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim().toLowerCase();
+    const password = document.getElementById("password").value;
+
+    if (!name || !email || !password) {
+        return;
+    }
+
+    const account = {
+        name: name,
+        email: email,
+        password: password
+    };
+
+    localStorage.setItem("nexoraAccount", JSON.stringify(account));
+
+    localStorage.setItem("nexoraLoggedIn", "true");
+
+    window.location.href = "./dashboard.html";
+});
+</script></body>
+    </html>
