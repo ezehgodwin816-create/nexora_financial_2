@@ -7,7 +7,7 @@
     <title>Admin · Nexora Financial</title>
     <link rel="stylesheet" href="./assets/style.css">
 </head><body class="dashboard-body"><div class="demo">
-    DEMO FINANCIAL PRODUCT · ADMIN AREA · SIMULATED DATA ONLY
+    DEMO FINANCIAL PRODUCT · ADMIN SIMULATION · NO REAL FUNDS
 </div><header><a class="brand" href="./index.html">
     NEXORA
     <span>FINANCIAL</span>
@@ -16,21 +16,19 @@
 <nav class="navlinks">
     <a href="./dashboard.html">Customer view</a>
     <a href="#customers">Customers</a>
-    <a href="#activity">Activity</a>
+    <a href="#controls">Controls</a>
     <a class="btn ghost" href="./index.html">Log out</a>
 </nav>
 
-<a class="btn ghost" href="./index.html">Log out</a>
+<a class="btn ghost" href="./index.html">Exit</a>
 
 </header><main class="dash"><div class="dash-top">
 
     <div>
         <div class="eyebrow">ADMINISTRATION</div>
-
-        <h1>Good afternoon, Admin.</h1>
-
+        <h1>Admin control center.</h1>
         <p>
-            Monitor the Nexora demo platform at a glance.
+            Manage fictional customer profiles and simulate account activity.
         </p>
     </div>
 
@@ -44,213 +42,558 @@
 <section class="admin-stats">
 
     <div class="stat">
-        <small>Total customers</small>
-        <strong>1,248</strong>
-        <div class="positive">↑ 8.4% this month</div>
+        <small>Demo customers</small>
+        <strong>1</strong>
+        <div class="positive">Prototype account</div>
     </div>
 
     <div class="stat">
-        <small>Active accounts</small>
-        <strong>1,106</strong>
-        <div class="positive">↑ 5.2% this month</div>
+        <small>Current balance</small>
+        <strong id="statBalance">£0.00</strong>
+        <div class="positive">Simulated</div>
     </div>
 
     <div class="stat">
-        <small>Simulated funds</small>
-        <strong>£8.4M</strong>
-        <div class="positive">↑ 3.8% this month</div>
+        <small>Transactions</small>
+        <strong id="statTransactions">0</strong>
+        <div class="positive">Demo activity</div>
     </div>
 
     <div class="stat">
-        <small>Transactions today</small>
-        <strong>3,842</strong>
-        <div class="positive">↑ 12.1% today</div>
+        <small>System</small>
+        <strong>LIVE</strong>
+        <div class="positive">Simulation active</div>
     </div>
 
 </section>
 
 <section class="admin-grid">
 
+    <!-- CUSTOMER PROFILE -->
+
     <div class="dashboard-card" id="customers">
 
         <div class="card-title">
-
             <div>
-                <div class="eyebrow">CUSTOMER MANAGEMENT</div>
-                <h2>Recent customers</h2>
+                <div class="eyebrow">CUSTOMER PROFILE</div>
+                <h2>Edit demo customer</h2>
             </div>
-
-            <a href="#">View all →</a>
-
         </div>
 
-        <div class="table">
+        <form id="profileForm">
 
-            <div class="table-row">
+            <label>
+                Full name
+                <input id="customerName" type="text" required>
+            </label>
 
-                <div class="customer-name">
-                    Alex Morgan
-                    <small>alex@example.com</small>
-                </div>
+            <label>
+                Email address
+                <input id="customerEmail" type="email" required>
+            </label>
 
-                <div>
-                    <small>£12,480.50</small>
-                </div>
+            <button class="btn green full" type="submit">
+                Save profile
+            </button>
 
-                <div>
-                    <span class="badge">ACTIVE</span>
-                </div>
+        </form>
 
-            </div>
-
-            <div class="table-row">
-
-                <div class="customer-name">
-                    Jordan Williams
-                    <small>jordan@example.com</small>
-                </div>
-
-                <div>
-                    <small>£8,920.20</small>
-                </div>
-
-                <div>
-                    <span class="badge">ACTIVE</span>
-                </div>
-
-            </div>
-
-            <div class="table-row">
-
-                <div class="customer-name">
-                    Sam Carter
-                    <small>sam@example.com</small>
-                </div>
-
-                <div>
-                    <small>£4,210.75</small>
-                </div>
-
-                <div>
-                    <span class="badge review">REVIEW</span>
-                </div>
-
-            </div>
-
-            <div class="table-row">
-
-                <div class="customer-name">
-                    Taylor Brooks
-                    <small>taylor@example.com</small>
-                </div>
-
-                <div>
-                    <small>£16,780.40</small>
-                </div>
-
-                <div>
-                    <span class="badge">ACTIVE</span>
-                </div>
-
-            </div>
-
+        <div
+            id="profileMessage"
+            style="
+                display:none;
+                margin-top:14px;
+                padding:12px;
+                border-radius:10px;
+                background:#e8f8f1;
+                color:#16815b;
+                font-size:12px;
+                font-weight:700;
+            "
+        >
+            Profile saved.
         </div>
 
     </div>
 
-    <div class="dashboard-card" id="activity">
+    <!-- ACCOUNT CONTROLS -->
 
-        <div class="eyebrow">SYSTEM ACTIVITY</div>
+    <div class="dashboard-card" id="controls">
 
-        <h2>Today's overview</h2>
+        <div class="eyebrow">ACCOUNT CONTROLS</div>
 
-        <div class="account-list">
+        <h2>Simulate activity</h2>
 
-            <div>
-                <small>Transfers processed</small>
-                <b>1,284</b>
-            </div>
+        <label>
+            Amount
+            <input
+                id="amount"
+                type="number"
+                min="0.01"
+                step="0.01"
+                placeholder="100.00"
+            >
+        </label>
 
-            <div>
-                <small>New accounts</small>
-                <b>76</b>
-            </div>
+        <button
+            class="btn green full"
+            onclick="addFunds()"
+            type="button"
+        >
+            + Add simulated funds
+        </button>
 
-            <div>
-                <small>Pending reviews</small>
-                <b>18</b>
-            </div>
+        <button
+            class="btn full"
+            style="margin-top:10px;"
+            onclick="withdrawFunds()"
+            type="button"
+        >
+            − Simulate withdrawal
+        </button>
 
-            <div>
-                <small>System status</small>
-                <b class="in">● Operational</b>
-            </div>
+        <button
+            class="btn full"
+            style="margin-top:10px;background:#fff0f1;color:#c3444d;"
+            onclick="resetAccount()"
+            type="button"
+        >
+            Reset account
+        </button>
 
-        </div>
+        <div
+            id="actionMessage"
+            style="
+                display:none;
+                margin-top:14px;
+                padding:12px;
+                border-radius:10px;
+                font-size:12px;
+                font-weight:700;
+            "
+        ></div>
 
     </div>
 
 </section>
+
+<!-- CUSTOMER INFORMATION -->
 
 <section class="dashboard-card" style="margin-top:18px;">
 
     <div class="card-title">
 
         <div>
-            <div class="eyebrow">RECENT ACTIVITY</div>
-            <h2>Platform transactions</h2>
+            <div class="eyebrow">ACCOUNT OVERVIEW</div>
+            <h2 id="displayName">Customer</h2>
         </div>
 
-        <a href="#">View report →</a>
+        <span class="badge">ACTIVE</span>
 
     </div>
 
-    <div class="transaction">
+    <div class="account-list">
 
-        <div class="tx-icon">A</div>
-
-        <div class="tx-info">
-            <b>Alex Morgan</b>
-            <small>Card purchase · Northstar Market</small>
+        <div>
+            <small>Email</small>
+            <b id="displayEmail">—</b>
         </div>
 
-        <div class="tx-amount out">
-            −£48.20
+        <div>
+            <small>Account number</small>
+            <b>•••• 4821</b>
         </div>
 
-    </div>
-
-    <div class="transaction">
-
-        <div class="tx-icon">J</div>
-
-        <div class="tx-info">
-            <b>Jordan Williams</b>
-            <small>Incoming transfer · Demo Salary</small>
+        <div>
+            <small>Simulated balance</small>
+            <b id="displayBalance">£0.00</b>
         </div>
 
-        <div class="tx-amount in">
-            +£2,800.00
-        </div>
-
-    </div>
-
-    <div class="transaction">
-
-        <div class="tx-icon">S</div>
-
-        <div class="tx-info">
-            <b>Sam Carter</b>
-            <small>Account transfer · Cloudline Services</small>
-        </div>
-
-        <div class="tx-amount out">
-            −£120.00
+        <div>
+            <small>Transaction count</small>
+            <b id="displayTransactions">0</b>
         </div>
 
     </div>
 
 </section>
 
-</main></body>
-                </html>
+<!-- TRANSACTIONS -->
+
+<section class="dashboard-card" style="margin-top:18px;">
+
+    <div class="card-title">
+
+        <div>
+            <div class="eyebrow">SIMULATED ACTIVITY</div>
+            <h2>Transaction history</h2>
+        </div>
+
+        <button
+            class="btn ghost"
+            onclick="clearTransactions()"
+            type="button"
+        >
+            Clear history
+        </button>
+
+    </div>
+
+    <div id="transactionList"></div>
+
+</section>
+
+</main><script>
+
+function getAccount() {
+
+    const saved = localStorage.getItem("nexoraAccount");
+
+    if (saved) {
+        return JSON.parse(saved);
+    }
+
+    const account = {
+        name: "Alex Morgan",
+        email: "alex@example.com",
+        password: "",
+        balance: 0,
+        transactions: []
+    };
+
+    localStorage.setItem(
+        "nexoraAccount",
+        JSON.stringify(account)
+    );
+
+    return account;
+}
+
+
+function saveAccount(account) {
+
+    localStorage.setItem(
+        "nexoraAccount",
+        JSON.stringify(account)
+    );
+
+    render();
+}
+
+
+function formatMoney(amount) {
+
+    return "£" + Number(amount).toLocaleString(
+        "en-GB",
+        {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }
+    );
+}
+
+
+function showMessage(message, type = "success") {
+
+    const box = document.getElementById("actionMessage");
+
+    box.textContent = message;
+    box.style.display = "block";
+
+    if (type === "error") {
+        box.style.background = "#fff0f1";
+        box.style.color = "#c3444d";
+    } else {
+        box.style.background = "#e8f8f1";
+        box.style.color = "#16815b";
+    }
+
+    setTimeout(() => {
+        box.style.display = "none";
+    }, 2500);
+}
+
+
+function addFunds() {
+
+    const amountInput = document.getElementById("amount");
+    const amount = Number(amountInput.value);
+
+    if (!amount || amount <= 0) {
+
+        showMessage(
+            "Enter a valid amount.",
+            "error"
+        );
+
+        return;
+    }
+
+    const account = getAccount();
+
+    account.balance =
+        Number(account.balance || 0) + amount;
+
+    account.transactions =
+        account.transactions || [];
+
+    account.transactions.unshift({
+
+        type: "in",
+
+        title: "Admin — Simulated deposit",
+
+        date: new Date().toLocaleDateString(
+            "en-GB",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
+        ),
+
+        amount: amount
+
+    });
+
+    saveAccount(account);
+
+    amountInput.value = "";
+
+    showMessage(
+        formatMoney(amount) +
+        " added to the simulated account."
+    );
+}
+
+
+function withdrawFunds() {
+
+    const amountInput = document.getElementById("amount");
+    const amount = Number(amountInput.value);
+
+    if (!amount || amount <= 0) {
+
+        showMessage(
+            "Enter a valid amount.",
+            "error"
+        );
+
+        return;
+    }
+
+    const account = getAccount();
+
+    const balance = Number(account.balance || 0);
+
+    if (amount > balance) {
+
+        showMessage(
+            "Withdrawal exceeds the simulated balance.",
+            "error"
+        );
+
+        return;
+    }
+
+    account.balance = balance - amount;
+
+    account.transactions =
+        account.transactions || [];
+
+    account.transactions.unshift({
+
+        type: "out",
+
+        title: "Admin — Simulated withdrawal",
+
+        date: new Date().toLocaleDateString(
+            "en-GB",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
+        ),
+
+        amount: amount
+
+    });
+
+    saveAccount(account);
+
+    amountInput.value = "";
+
+    showMessage(
+        formatMoney(amount) +
+        " withdrawn from the simulated account."
+    );
+}
+
+
+function resetAccount() {
+
+    if (!confirm(
+        "Reset this demo account to £0.00 and remove all transactions?"
+    )) {
+        return;
+    }
+
+    const account = getAccount();
+
+    account.balance = 0;
+    account.transactions = [];
+
+    saveAccount(account);
+
+    showMessage(
+        "Demo account reset to £0.00."
+    );
+}
+
+
+function clearTransactions() {
+
+    const account = getAccount();
+
+    account.transactions = [];
+
+    saveAccount(account);
+
+    showMessage(
+        "Transaction history cleared."
+    );
+}
+
+
+document.getElementById("profileForm")
+.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const account = getAccount();
+
+    account.name =
+        document.getElementById("customerName")
+        .value
+        .trim();
+
+    account.email =
+        document.getElementById("customerEmail")
+        .value
+        .trim()
+        .toLowerCase();
+
+    saveAccount(account);
+
+    const message =
+        document.getElementById("profileMessage");
+
+    message.textContent =
+        "Customer profile saved successfully.";
+
+    message.style.display = "block";
+
+    setTimeout(() => {
+        message.style.display = "none";
+    }, 2500);
+});
+
+
+function render() {
+
+    const account = getAccount();
+
+    const balance =
+        Number(account.balance || 0);
+
+    const transactions =
+        account.transactions || [];
+
+    document.getElementById("customerName").value =
+        account.name || "";
+
+    document.getElementById("customerEmail").value =
+        account.email || "";
+
+    document.getElementById("displayName").textContent =
+        account.name || "Customer";
+
+    document.getElementById("displayEmail").textContent =
+        account.email || "—";
+
+    document.getElementById("displayBalance").textContent =
+        formatMoney(balance);
+
+    document.getElementById("statBalance").textContent =
+        formatMoney(balance);
+
+    document.getElementById("displayTransactions").textContent =
+        transactions.length;
+
+    document.getElementById("statTransactions").textContent =
+        transactions.length;
+
+    const list =
+        document.getElementById("transactionList");
+
+    if (!transactions.length) {
+
+        list.innerHTML = `
+            <div style="
+                text-align:center;
+                padding:45px 20px;
+                color:#8b98a1;
+                font-size:12px;
+            ">
+                No simulated transactions yet.
+            </div>
+        `;
+
+        return;
+    }
+
+    list.innerHTML =
+        transactions.map(transaction => {
+
+            const isIncoming =
+                transaction.type === "in";
+
+            return `
+                <div class="transaction">
+
+                    <div class="tx-icon">
+                        ${isIncoming ? "+" : "−"}
+                    </div>
+
+                    <div class="tx-info">
+
+                        <b>${transaction.title}</b>
+
+                        <small>
+                            ${transaction.date}
+                        </small>
+
+                    </div>
+
+                    <div class="tx-amount ${
+                        isIncoming ? "in" : "out"
+                    }">
+
+                        ${
+                            isIncoming ? "+" : "−"
+                        }${formatMoney(transaction.amount)}
+
+                    </div>
+
+                </div>
+            `;
+
+        }).join("");
+}
+
+
+render();
+
+</script></body>
+            </html>
