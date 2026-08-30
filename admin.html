@@ -1,83 +1,256 @@
 <!doctype html>
 
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Admin · Nexora</title>
-    <link rel="stylesheet" href="/assets/style.css">
-</head><body class="adminbody"><div class="demo">DEMO PROTOTYPE · ADMIN AREA · NO REAL FUNDS</div><header>
-    <a class="brand" href="/">NEXORA<span>FINANCIAL</span></a>
-    <a class="btn ghost" href="/">Log out</a>
-</header><main class="dash"><div class="welcome">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin · Nexora Financial</title>
+    <link rel="stylesheet" href="./assets/style.css">
+</head><body class="dashboard-body"><div class="demo">
+    DEMO FINANCIAL PRODUCT · ADMIN AREA · SIMULATED DATA ONLY
+</div><header><a class="brand" href="./index.html">
+    NEXORA
+    <span>FINANCIAL</span>
+</a>
+
+<nav class="navlinks">
+    <a href="./dashboard.html">Customer view</a>
+    <a href="#customers">Customers</a>
+    <a href="#activity">Activity</a>
+    <a class="btn ghost" href="./index.html">Log out</a>
+</nav>
+
+<a class="btn ghost" href="./index.html">Log out</a>
+
+</header><main class="dash"><div class="dash-top">
+
     <div>
         <div class="eyebrow">ADMINISTRATION</div>
-        <h1>Overview</h1>
-        <p class="muted">Nexora Financial presentation dashboard.</p>
+
+        <h1>Good afternoon, Admin.</h1>
+
+        <p>
+            Monitor the Nexora demo platform at a glance.
+        </p>
     </div>
 
-    <span class="status">SYSTEM ACTIVE</span>
+    <div class="user-pill">
+        <div class="avatar">AD</div>
+        <span>Administrator</span>
+    </div>
+
 </div>
 
-<section class="stats">
-    <div>
+<section class="admin-stats">
+
+    <div class="stat">
         <small>Total customers</small>
-        <b>1,248</b>
+        <strong>1,248</strong>
+        <div class="positive">↑ 8.4% this month</div>
     </div>
 
-    <div>
+    <div class="stat">
         <small>Active accounts</small>
-        <b>1,106</b>
+        <strong>1,106</strong>
+        <div class="positive">↑ 5.2% this month</div>
     </div>
 
-    <div>
-        <small>Simulated balance</small>
-        <b>£8.4M</b>
+    <div class="stat">
+        <small>Simulated funds</small>
+        <strong>£8.4M</strong>
+        <div class="positive">↑ 3.8% this month</div>
     </div>
 
-    <div>
+    <div class="stat">
         <small>Transactions today</small>
-        <b>3,842</b>
+        <strong>3,842</strong>
+        <div class="positive">↑ 12.1% today</div>
     </div>
+
 </section>
 
-<section class="panel">
-    <div class="section-head">
-        <div>
-            <div class="eyebrow">CUSTOMERS</div>
-            <h2>Recent customers</h2>
+<section class="admin-grid">
+
+    <div class="dashboard-card" id="customers">
+
+        <div class="card-title">
+
+            <div>
+                <div class="eyebrow">CUSTOMER MANAGEMENT</div>
+                <h2>Recent customers</h2>
+            </div>
+
+            <a href="#">View all →</a>
+
         </div>
 
-        <input class="search" type="search" placeholder="Search">
+        <div class="table">
+
+            <div class="table-row">
+
+                <div class="customer-name">
+                    Alex Morgan
+                    <small>alex@example.com</small>
+                </div>
+
+                <div>
+                    <small>£12,480.50</small>
+                </div>
+
+                <div>
+                    <span class="badge">ACTIVE</span>
+                </div>
+
+            </div>
+
+            <div class="table-row">
+
+                <div class="customer-name">
+                    Jordan Williams
+                    <small>jordan@example.com</small>
+                </div>
+
+                <div>
+                    <small>£8,920.20</small>
+                </div>
+
+                <div>
+                    <span class="badge">ACTIVE</span>
+                </div>
+
+            </div>
+
+            <div class="table-row">
+
+                <div class="customer-name">
+                    Sam Carter
+                    <small>sam@example.com</small>
+                </div>
+
+                <div>
+                    <small>£4,210.75</small>
+                </div>
+
+                <div>
+                    <span class="badge review">REVIEW</span>
+                </div>
+
+            </div>
+
+            <div class="table-row">
+
+                <div class="customer-name">
+                    Taylor Brooks
+                    <small>taylor@example.com</small>
+                </div>
+
+                <div>
+                    <small>£16,780.40</small>
+                </div>
+
+                <div>
+                    <span class="badge">ACTIVE</span>
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
-    <div class="customer">
-        <div class="icon">A</div>
+    <div class="dashboard-card" id="activity">
+
+        <div class="eyebrow">SYSTEM ACTIVITY</div>
+
+        <h2>Today's overview</h2>
+
+        <div class="account-list">
+
+            <div>
+                <small>Transfers processed</small>
+                <b>1,284</b>
+            </div>
+
+            <div>
+                <small>New accounts</small>
+                <b>76</b>
+            </div>
+
+            <div>
+                <small>Pending reviews</small>
+                <b>18</b>
+            </div>
+
+            <div>
+                <small>System status</small>
+                <b class="in">● Operational</b>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section class="dashboard-card" style="margin-top:18px;">
+
+    <div class="card-title">
+
         <div>
+            <div class="eyebrow">RECENT ACTIVITY</div>
+            <h2>Platform transactions</h2>
+        </div>
+
+        <a href="#">View report →</a>
+
+    </div>
+
+    <div class="transaction">
+
+        <div class="tx-icon">A</div>
+
+        <div class="tx-info">
             <b>Alex Morgan</b>
-            <small>alex@example.com · Account 4821</small>
+            <small>Card purchase · Northstar Market</small>
         </div>
-        <span class="status">ACTIVE</span>
+
+        <div class="tx-amount out">
+            −£48.20
+        </div>
+
     </div>
 
-    <div class="customer">
-        <div class="icon">J</div>
-        <div>
+    <div class="transaction">
+
+        <div class="tx-icon">J</div>
+
+        <div class="tx-info">
             <b>Jordan Williams</b>
-            <small>jordan@example.com · Account 7319</small>
+            <small>Incoming transfer · Demo Salary</small>
         </div>
-        <span class="status">ACTIVE</span>
+
+        <div class="tx-amount in">
+            +£2,800.00
+        </div>
+
     </div>
 
-    <div class="customer">
-        <div class="icon">S</div>
-        <div>
+    <div class="transaction">
+
+        <div class="tx-icon">S</div>
+
+        <div class="tx-info">
             <b>Sam Carter</b>
-            <small>sam@example.com · Account 2094</small>
+            <small>Account transfer · Cloudline Services</small>
         </div>
-        <span class="warn">REVIEW</span>
+
+        <div class="tx-amount out">
+            −£120.00
+        </div>
+
     </div>
+
 </section>
 
 </main></body>
-          </html>
+                </html>
