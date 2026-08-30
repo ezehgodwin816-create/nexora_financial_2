@@ -17,17 +17,19 @@
     <a href="#transactions">Activity</a>
     <a href="#account">Account</a>
     <a href="./admin.html">Admin demo</a>
-    <a class="btn ghost" href="./index.html">Log out</a>
+    <a class="btn ghost" href="./index.html" onclick="logout()">Log out</a>
 </nav>
 
-<a class="btn ghost" href="./index.html">Log out</a>
+<a class="btn ghost" href="./index.html" onclick="logout()">Log out</a>
 
 </header><main class="dash"><div class="dash-top">
 
     <div>
         <div class="eyebrow">PERSONAL ACCOUNT</div>
 
-        <h1>Good afternoon, Alex.</h1>
+        <h1>
+            Good afternoon, <span id="userName">there</span>.
+        </h1>
 
         <p>
             Here's what's happening with your money today.
@@ -35,8 +37,8 @@
     </div>
 
     <div class="user-pill">
-        <div class="avatar">AM</div>
-        <span>Alex Morgan</span>
+        <div class="avatar" id="userAvatar">U</div>
+        <span id="userNameSmall">User</span>
     </div>
 
 </div>
@@ -78,12 +80,10 @@
     <div class="dashboard-card">
 
         <div class="card-title">
-
             <div>
                 <div class="eyebrow">QUICK ACTIONS</div>
                 <h2>Move money</h2>
             </div>
-
         </div>
 
         <div class="quick-grid">
@@ -169,7 +169,12 @@
 
             <div>
                 <small>Account holder</small>
-                <b>Alex Morgan</b>
+                <b id="accountName">User</b>
+            </div>
+
+            <div>
+                <small>Email address</small>
+                <b id="accountEmail">—</b>
             </div>
 
             <div>
@@ -179,7 +184,7 @@
 
             <div>
                 <small>Account type</small>
-                <b>Personal current account</b>
+                <b>Personal demo account</b>
             </div>
 
             <div>
@@ -198,5 +203,48 @@
 
 </section>
 
-</main></body>
-                </html>
+</main><script>
+
+const savedAccount = localStorage.getItem("nexoraAccount");
+
+if (!savedAccount) {
+
+    window.location.href = "./login.html";
+
+} else {
+
+    const account = JSON.parse(savedAccount);
+
+    const fullName = account.name || "User";
+
+    document.getElementById("userName").textContent =
+        fullName.split(" ")[0];
+
+    document.getElementById("userNameSmall").textContent =
+        fullName;
+
+    document.getElementById("accountName").textContent =
+        fullName;
+
+    document.getElementById("accountEmail").textContent =
+        account.email;
+
+    const initials = fullName
+        .split(" ")
+        .map(word => word.charAt(0))
+        .join("")
+        .substring(0, 2)
+        .toUpperCase();
+
+    document.getElementById("userAvatar").textContent =
+        initials;
+}
+
+function logout() {
+
+    localStorage.removeItem("nexoraLoggedIn");
+
+}
+
+</script></body>
+            </html>
