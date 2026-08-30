@@ -16,20 +16,16 @@
     <div>
         <div class="eyebrow">WELCOME BACK</div>
 
-        <h2>
-            Money management,
-            without the noise.
-        </h2>
+        <h2>Money management, without the noise.</h2>
 
         <p>
-            Explore the Nexora demo experience and see how a
-            modern banking dashboard could look and feel.
+            Sign in to your Nexora demo account and continue
+            exploring your personal dashboard.
         </p>
     </div>
 
     <p class="form-note">
-        This is a fictional presentation prototype.
-        No real accounts or financial transactions are connected.
+        Fictional prototype · No real banking services.
     </p>
 
 </section>
@@ -42,15 +38,14 @@
 
         <h1>Welcome back.</h1>
 
-        <p>
-            Enter your demo account details to continue.
-        </p>
+        <p>Enter the details you used to create your demo account.</p>
 
-        <form onsubmit="event.preventDefault(); window.location.href='./dashboard.html';">
+        <form id="loginForm">
 
             <label>
                 Email address
                 <input
+                    id="email"
                     type="email"
                     required
                     placeholder="you@example.com"
@@ -60,11 +55,27 @@
             <label>
                 Password
                 <input
+                    id="password"
                     type="password"
                     required
                     placeholder="••••••••"
                 >
             </label>
+
+            <div
+                id="error"
+                style="
+                    display:none;
+                    background:#fff0f1;
+                    color:#c3444d;
+                    padding:12px;
+                    border-radius:10px;
+                    font-size:12px;
+                    margin:15px 0;
+                "
+            >
+                Incorrect email or password.
+            </div>
 
             <button class="btn green full" type="submit">
                 Sign in →
@@ -89,5 +100,40 @@
 
 </section>
 
-</main></body>
-  </html>
+</main><script>
+document.getElementById("loginForm").addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const email = document.getElementById("email").value.trim().toLowerCase();
+    const password = document.getElementById("password").value;
+
+    const savedAccount = localStorage.getItem("nexoraAccount");
+
+    if (!savedAccount) {
+        document.getElementById("error").textContent =
+            "No demo account found. Please create an account first.";
+
+        document.getElementById("error").style.display = "block";
+        return;
+    }
+
+    const account = JSON.parse(savedAccount);
+
+    if (email === account.email && password === account.password) {
+
+        localStorage.setItem("nexoraLoggedIn", "true");
+
+        window.location.href = "./dashboard.html";
+
+    } else {
+
+        document.getElementById("error").textContent =
+            "Incorrect email or password.";
+
+        document.getElementById("error").style.display = "block";
+    }
+
+});
+</script></body>
+</html>
