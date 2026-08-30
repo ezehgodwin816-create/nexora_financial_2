@@ -1,2 +1,103 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Create account · Nexora</title><link rel="stylesheet" href="/assets/style.css"></head>
-<body><div class="demo">DEMO PROTOTYPE · NO REAL FUNDS</div><main class="auth"><a class="brand" href="/">NEXORA<span>FINANCIAL</span></a><div class="panel"><div class="eyebrow">GET STARTED</div><h1>Create account</h1><p class="muted">Create a presentation-only demo profile.</p><form onsubmit="event.preventDefault();location.href='/dashboard.html'"><label>Full name<input required placeholder="Alex Morgan"></label><label>Email<input type="email" required placeholder="alex@example.com"></label><label>Password<input type="password" minlength="8" required placeholder="At least 8 characters"></label><button class="btn full">Create demo account</button></form><p class="small">Already registered? <a href="/login.html">Sign in</a></p></div></main></body></html>
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Create account · Nexora Financial</title>
+    <link rel="stylesheet" href="./assets/style.css">
+</head><body><div class="demo">DEMO FINANCIAL PRODUCT · NO REAL FUNDS</div><main class="auth-page"><section class="auth-side">
+
+    <a class="brand" href="./index.html">
+        NEXORA
+        <span>FINANCIAL</span>
+    </a>
+
+    <div>
+        <div class="eyebrow">JOIN NEXORA</div>
+
+        <h2>
+            A cleaner way
+            to see your money.
+        </h2>
+
+        <p>
+            Create a fictional demo profile and explore the
+            Nexora banking experience from the inside.
+        </p>
+    </div>
+
+    <p class="form-note">
+        Demo only · No real bank account is created ·
+        No real money is handled.
+    </p>
+
+</section>
+
+<section class="auth-main">
+
+    <div class="auth-box">
+
+        <div class="eyebrow">GET STARTED</div>
+
+        <h1>Create your account.</h1>
+
+        <p>
+            Set up a demo profile in a few seconds.
+        </p>
+
+        <form onsubmit="event.preventDefault(); window.location.href='./dashboard.html';">
+
+            <label>
+                Full name
+                <input
+                    type="text"
+                    required
+                    placeholder="Alex Morgan"
+                >
+            </label>
+
+            <label>
+                Email address
+                <input
+                    type="email"
+                    required
+                    placeholder="alex@example.com"
+                >
+            </label>
+
+            <label>
+                Password
+                <input
+                    type="password"
+                    minlength="8"
+                    required
+                    placeholder="At least 8 characters"
+                >
+            </label>
+
+            <button class="btn green full" type="submit">
+                Create demo account →
+            </button>
+
+        </form>
+
+        <p class="auth-switch">
+            Already have a demo account?
+            <a class="form-link" href="./login.html">
+                Sign in
+            </a>
+        </p>
+
+        <p class="auth-switch">
+            <a class="form-link" href="./index.html">
+                ← Back to Nexora
+            </a>
+        </p>
+
+    </div>
+
+</section>
+
+</main></body>
+  </html>
