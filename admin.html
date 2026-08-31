@@ -1,264 +1,879 @@
 <!doctype html>
 
-<html lang="en">
-<head>
+<html lang="en"><head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Nexora Admin</title>
-    <link rel="stylesheet" href="./assets/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>Admin · Nexora Financial</title>
+
+<link rel="stylesheet" href="./assets/style.css">
+
 </head><body class="dashboard-body"><div class="demo">
-    NEXORA ADMIN · DEMO ONLY
-</div><header>
-    <a class="brand" href="./index.html">
-        NEXORA
-        <span>FINANCIAL</span>
+    ADMIN DEMO · ALL BALANCES ARE SIMULATED
+</div><header><a class="brand" href="./index.html">
+    NEXORA
+    <span>FINANCIAL</span>
+</a>
+
+<nav class="navlinks">
+
+    <a href="./dashboard.html">
+        Dashboard
     </a>
+
+    <a class="btn ghost"
+       href="./index.html"
+       onclick="logout(event)">
+        Log out
+    </a>
+
+</nav>
+
 </header><main class="dash"><div class="dash-top">
+
     <div>
-        <div class="eyebrow">NEXORA ADMINISTRATION</div>
-        <h1>Demo account management.</h1>
-        <p>Admin control panel.</p>
+
+        <div class="eyebrow">
+            NEXORA ADMINISTRATION
+        </div>
+
+        <h1>
+            Demo account management.
+        </h1>
+
+        <p>
+            Manage simulated customer balances.
+        </p>
+
     </div>
+
 </div>
 
-<div id="status"
-     class="dashboard-card"
-     style="margin-top:20px;">
-    Checking admin access...
-</div>
 
-<div id="users"
-     class="dashboard-card"
-     style="margin-top:20px; display:none;">
-</div>
+<!-- USERS -->
+
+<section class="dashboard-card">
+
+    <div class="eyebrow">
+        CUSTOMERS
+    </div>
+
+    <h2>
+        Demo users
+    </h2>
+
+    <input
+        id="search"
+        type="text"
+        placeholder="Search name or email..."
+        style="
+            width:100%;
+            box-sizing:border-box;
+            padding:14px;
+            margin:15px 0;
+            border:1px solid #dfe5e7;
+            border-radius:10px;
+            font-size:14px;
+        "
+    >
+
+    <div id="users">
+        Loading users...
+    </div>
+
+</section>
+
+
+<!-- EDITOR -->
+
+<section
+    id="editor"
+    class="dashboard-card"
+    style="
+        display:none;
+        margin-top:25px;
+    "
+>
+
+    <div class="eyebrow">
+        MANAGE ACCOUNT
+    </div>
+
+    <h2 id="customerName">
+        Customer
+    </h2>
+
+    <p id="customerEmail">
+        —
+    </p>
+
+
+    <div style="
+        background:#f3f6f6;
+        border-radius:14px;
+        padding:20px;
+        margin:20px 0;
+    ">
+
+        <small>
+            CURRENT BALANCE
+        </small>
+
+        <div
+            id="currentBalance"
+            style="
+                font-size:30px;
+                font-weight:700;
+                margin-top:8px;
+            "
+        >
+            £0.00
+        </div>
+
+    </div>
+
+
+    <label>
+        Amount
+
+        <input
+            id="amount"
+            type="number"
+            min="0.01"
+            step="0.01"
+            placeholder="100.00"
+            style="
+                width:100%;
+                box-sizing:border-box;
+                padding:14px;
+                margin-top:8px;
+                border:1px solid #dfe5e7;
+                border-radius:10px;
+                font-size:14px;
+            "
+        >
+
+    </label>
+
+
+    <label style="
+        display:block;
+        margin-top:15px;
+    ">
+
+        Description
+
+        <input
+            id="description"
+            type="text"
+            maxlength="100"
+            placeholder="Admin balance adjustment"
+            style="
+                width:100%;
+                box-sizing:border-box;
+                padding:14px;
+                margin-top:8px;
+                border:1px solid #dfe5e7;
+                border-radius:10px;
+                font-size:14px;
+            "
+        >
+
+    </label>
+
+
+    <div style="
+        display:flex;
+        gap:10px;
+        flex-wrap:wrap;
+        margin-top:20px;
+    ">
+
+        <button
+            id="addBtn"
+            class="btn green"
+            type="button"
+            onclick="changeBalance('add')"
+        >
+            + Add funds
+        </button>
+
+
+        <button
+            id="removeBtn"
+            class="btn"
+            type="button"
+            onclick="changeBalance('withdraw')"
+        >
+            − Deduct funds
+        </button>
+
+    </div>
+
+
+    <div
+        id="message"
+        style="
+            margin-top:15px;
+            font-size:13px;
+        "
+    ></div>
+
+</section>
 
 </main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
 
 const SUPABASE_URL =
     "https://krzxqmzvzgjmolepcnbg.supabase.co";
 
+
 const SUPABASE_KEY =
     "sb_publishable_YBTYFY_vqnZkncmCclQa8w_ZKB0Cyul";
 
 
-const statusBox =
-    document.getElementById("status");
-
-const usersBox =
-    document.getElementById("users");
-
-
-function show(message, good = false) {
-
-    statusBox.innerHTML = `
-        <h2 style="margin-bottom:10px;">
-            ${good ? "✓ " : "⚠ "}
-            ${message}
-        </h2>
-    `;
-
-}
-
-
-/* Check that Supabase loaded */
-
-if (!window.supabase) {
-
-    show(
-        "Supabase library did not load. Check your internet connection."
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
     );
 
-} else {
 
-    start();
+let users = [];
+let selectedUser = null;
 
-}
+
+/* -------------------------------
+   START
+-------------------------------- */
+
+start();
 
 
 async function start() {
 
-    try {
-
-        show("Supabase loaded. Checking your login...");
-
-
-        const client =
-            window.supabase.createClient(
-                SUPABASE_URL,
-                SUPABASE_KEY
-            );
+    const {
+        data,
+        error
+    } =
+        await supabaseClient.auth.getSession();
 
 
-        const {
-            data,
-            error
-        } =
-            await client.auth.getSession();
+    if (
+        error ||
+        !data.session
+    ) {
+
+        window.location.href =
+            "./login.html";
+
+        return;
+    }
 
 
-        if (error) {
+    /*
+       Check admin permission.
+    */
 
-            show(
-                "Login session error: " +
-                error.message
-            );
-
-            return;
-        }
-
-
-        if (!data.session) {
-
-            show(
-                "You are not signed in. Go to login.html and sign in with your admin account."
-            );
-
-            return;
-        }
-
-
-        const user =
-            data.session.user;
-
-
-        show(
-            "Signed in successfully. Checking admin permission..."
+    const {
+        data: admin,
+        error: adminError
+    } =
+        await supabaseClient.rpc(
+            "is_admin"
         );
 
 
-        const {
-            data: admin,
-            error: adminError
-        } =
-            await client.rpc(
-                "is_admin"
-            );
+    if (
+        adminError ||
+        admin !== true
+    ) {
 
+        document.querySelector(
+            "main"
+        ).innerHTML = `
 
-        if (adminError) {
+            <section class="dashboard-card">
 
-            show(
-                "Admin check failed: " +
-                adminError.message
-            );
+                <h2>
+                    Access denied
+                </h2>
 
-            return;
-        }
-
-
-        if (admin !== true) {
-
-            show(
-                "This account is NOT marked as an admin in Supabase."
-            );
-
-            return;
-        }
-
-
-        show(
-            "Admin access confirmed. Loading users...",
-            true
-        );
-
-
-        const {
-            data: profiles,
-            error: profileError
-        } =
-            await client
-                .from("profiles")
-                .select("*");
-
-
-        if (profileError) {
-
-            show(
-                "Admin access works, but loading profiles failed: " +
-                profileError.message
-            );
-
-            return;
-        }
-
-
-        usersBox.style.display =
-            "block";
-
-
-        if (!profiles || profiles.length === 0) {
-
-            usersBox.innerHTML = `
-                <h2>No profiles found</h2>
                 <p>
-                    Your profiles table currently contains no users.
+                    This account is not a Nexora administrator.
                 </p>
-            `;
 
-            return;
-        }
+                <a class="btn"
+                   href="./dashboard.html">
+                    Back to dashboard
+                </a>
 
+            </section>
 
-        usersBox.innerHTML = `
-            <div class="eyebrow">
-                CUSTOMERS
-            </div>
-
-            <h2>
-                Demo users
-            </h2>
-
-            ${profiles.map(profile => `
-
-                <div style="
-                    padding:18px 0;
-                    border-bottom:1px solid #e5e9ea;
-                ">
-
-                    <strong>
-                        ${profile.name || "Unnamed user"}
-                    </strong>
-
-                    <br>
-
-                    <small>
-                        ${profile.email || "No email"}
-                    </small>
-
-                    <br><br>
-
-                    <strong>
-                        £${Number(
-                            profile.balance || 0
-                        ).toFixed(2)}
-                    </strong>
-
-                </div>
-
-            `).join("")}
         `;
 
+        return;
+    }
 
-        statusBox.innerHTML = `
-            <h2>✓ Admin connected successfully</h2>
-            <p>
-                Your admin account can access the profiles table.
+
+    await loadUsers();
+
+}
+
+
+/* -------------------------------
+   LOAD USERS
+-------------------------------- */
+
+async function loadUsers() {
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("profiles")
+            .select(
+                "id,name,email,balance,is_admin"
+            )
+            .order(
+                "name",
+                {
+                    ascending:true
+                }
+            );
+
+
+    if (error) {
+
+        document.getElementById(
+            "users"
+        ).innerHTML = `
+            <p style="color:#c3444d;">
+                ${escapeHtml(error.message)}
             </p>
         `;
+
+        return;
+    }
+
+
+    users =
+        data || [];
+
+
+    displayUsers(
+        users
+    );
+
+}
+
+
+/* -------------------------------
+   DISPLAY USERS
+-------------------------------- */
+
+function displayUsers(list) {
+
+    const container =
+        document.getElementById(
+            "users"
+        );
+
+
+    if (!list.length) {
+
+        container.innerHTML = `
+            <p style="color:#8b98a1;">
+                No users found.
+            </p>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        list.map(user => {
+
+            const balance =
+                Number(
+                    user.balance || 0
+                );
+
+
+            return `
+
+                <button
+                    type="button"
+                    onclick="selectUser('${user.id}')"
+                    style="
+                        width:100%;
+                        display:flex;
+                        justify-content:space-between;
+                        align-items:center;
+                        gap:15px;
+                        padding:18px 5px;
+                        background:none;
+                        border:0;
+                        border-bottom:1px solid #edf0f1;
+                        text-align:left;
+                        cursor:pointer;
+                    "
+                >
+
+                    <div>
+
+                        <strong style="
+                            display:block;
+                            color:#101820;
+                        ">
+                            ${escapeHtml(
+                                user.name ||
+                                "Unnamed user"
+                            )}
+                        </strong>
+
+                        <small style="
+                            color:#8b98a1;
+                        ">
+                            ${escapeHtml(
+                                user.email ||
+                                "No email"
+                            )}
+                        </small>
+
+                    </div>
+
+
+                    <strong>
+                        £${balance.toLocaleString(
+                            "en-GB",
+                            {
+                                minimumFractionDigits:2,
+                                maximumFractionDigits:2
+                            }
+                        )}
+                    </strong>
+
+                </button>
+
+            `;
+
+        }).join("");
+
+}
+
+
+/* -------------------------------
+   SEARCH
+-------------------------------- */
+
+document.getElementById(
+    "search"
+).addEventListener(
+    "input",
+    function() {
+
+        const value =
+            this.value
+                .toLowerCase()
+                .trim();
+
+
+        const filtered =
+            users.filter(user => {
+
+                const name =
+                    String(
+                        user.name || ""
+                    ).toLowerCase();
+
+
+                const email =
+                    String(
+                        user.email || ""
+                    ).toLowerCase();
+
+
+                return (
+                    name.includes(value) ||
+                    email.includes(value)
+                );
+
+            });
+
+
+        displayUsers(
+            filtered
+        );
+
+    }
+);
+
+
+/* -------------------------------
+   SELECT USER
+-------------------------------- */
+
+function selectUser(id) {
+
+    selectedUser =
+        users.find(
+            user =>
+                user.id === id
+        );
+
+
+    if (!selectedUser) {
+        return;
+    }
+
+
+    document.getElementById(
+        "editor"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "customerName"
+    ).textContent =
+        selectedUser.name ||
+        "Unnamed user";
+
+
+    document.getElementById(
+        "customerEmail"
+    ).textContent =
+        selectedUser.email ||
+        "No email";
+
+
+    updateBalanceDisplay();
+
+
+    document.getElementById(
+        "message"
+    ).textContent =
+        "";
+
+
+    document.getElementById(
+        "amount"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "description"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "editor"
+    ).scrollIntoView({
+        behavior:"smooth"
+    });
+
+}
+
+
+/* -------------------------------
+   DISPLAY BALANCE
+-------------------------------- */
+
+function updateBalanceDisplay() {
+
+    const balance =
+        Number(
+            selectedUser.balance || 0
+        );
+
+
+    document.getElementById(
+        "currentBalance"
+    ).textContent =
+        "£" +
+        balance.toLocaleString(
+            "en-GB",
+            {
+                minimumFractionDigits:2,
+                maximumFractionDigits:2
+            }
+        );
+
+}
+
+
+/* -------------------------------
+   CHANGE BALANCE
+-------------------------------- */
+
+async function changeBalance(type) {
+
+    if (!selectedUser) {
+        return;
+    }
+
+
+    const amount =
+        Number(
+            document.getElementById(
+                "amount"
+            ).value
+        );
+
+
+    const description =
+        document.getElementById(
+            "description"
+        ).value.trim();
+
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+
+    if (
+        !Number.isFinite(amount) ||
+        amount <= 0
+    ) {
+
+        message.textContent =
+            "Enter a valid amount.";
+
+        message.style.color =
+            "#c3444d";
+
+        return;
+    }
+
+
+    const oldBalance =
+        Number(
+            selectedUser.balance || 0
+        );
+
+
+    let newBalance;
+
+
+    if (type === "add") {
+
+        newBalance =
+            oldBalance + amount;
+
+    } else {
+
+        if (amount > oldBalance) {
+
+            message.textContent =
+                "Cannot deduct more than the current balance.";
+
+            message.style.color =
+                "#c3444d";
+
+            return;
+        }
+
+
+        newBalance =
+            oldBalance - amount;
+
+    }
+
+
+    document.getElementById(
+        "addBtn"
+    ).disabled = true;
+
+
+    document.getElementById(
+        "removeBtn"
+    ).disabled = true;
+
+
+    message.textContent =
+        "Updating...";
+
+
+    message.style.color =
+        "#6f7c84";
+
+
+    try {
+
+        /*
+           UPDATE BALANCE
+        */
+
+        const {
+            error: updateError
+        } =
+            await supabaseClient
+                .from("profiles")
+                .update({
+                    balance:newBalance
+                })
+                .eq(
+                    "id",
+                    selectedUser.id
+                );
+
+
+        if (updateError) {
+            throw updateError;
+        }
+
+
+        /*
+           RECORD TRANSACTION
+        */
+
+        const {
+            error: transactionError
+        } =
+            await supabaseClient
+                .from("transactions")
+                .insert({
+
+                    user_id:
+                        selectedUser.id,
+
+                    type:
+                        type,
+
+                    amount:
+                        amount,
+
+                    description:
+                        description ||
+                        (
+                            type === "add"
+                                ? "Admin added demo funds"
+                                : "Admin deducted demo funds"
+                        )
+
+                });
+
+
+        if (transactionError) {
+            throw transactionError;
+        }
+
+
+        /*
+           UPDATE PAGE
+        */
+
+        selectedUser.balance =
+            newBalance;
+
+
+        updateBalanceDisplay();
+
+
+        displayUsers(
+            users
+        );
+
+
+        message.textContent =
+            type === "add"
+                ? "✓ Funds added successfully."
+                : "✓ Funds deducted successfully.";
+
+
+        message.style.color =
+            "#2f7d4a";
+
+
+        document.getElementById(
+            "amount"
+        ).value = "";
+
+
+        document.getElementById(
+            "description"
+        ).value = "";
 
 
     } catch (error) {
 
-        show(
-            "Unexpected error: " +
-            error.message
-        );
-
         console.error(error);
 
+
+        message.textContent =
+            "Error: " +
+            error.message;
+
+
+        message.style.color =
+            "#c3444d";
+
     }
+
+
+    document.getElementById(
+        "addBtn"
+    ).disabled = false;
+
+
+    document.getElementById(
+        "removeBtn"
+    ).disabled = false;
+
+}
+
+
+/* -------------------------------
+   LOGOUT
+-------------------------------- */
+
+async function logout(event) {
+
+    event.preventDefault();
+
+
+    await supabaseClient.auth.signOut();
+
+
+    window.location.href =
+        "./index.html";
+
+}
+
+
+/* -------------------------------
+   HTML SAFETY
+-------------------------------- */
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
 }
 
 </script></body>
-</html>
+            </html>
