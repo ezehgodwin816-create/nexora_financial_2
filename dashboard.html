@@ -1,26 +1,43 @@
 <!doctype html>
 
-<html lang="en">
-<head>
+<html lang="en"><head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard · Nexora Financial</title>
-    <link rel="stylesheet" href="./assets/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>Dashboard · Nexora Financial</title>
+
+<link rel="stylesheet" href="./assets/style.css">
+
 </head><body class="dashboard-body"><div class="demo">
     DEMO FINANCIAL PRODUCT · ALL BALANCES AND TRANSACTIONS ARE SIMULATED
 </div><header><a class="brand" href="./index.html">
     NEXORA
     <span>FINANCIAL</span>
-</a><nav class="navlinks">
-    <a href="#transactions">Activity</a>
-    <a href="#account">Account</a>
-    <a href="./admin.html">Admin demo</a><a class="btn ghost" href="./index.html" onclick="logout(event)">
-    Log out
 </a>
 
-</nav><a class="btn ghost" href="./index.html" onclick="logout(event)">
-    Log out
-</a></header><main class="dash"><div class="dash-top"><div>
+<nav class="navlinks">
+
+    <a href="#transactions">
+        Activity
+    </a>
+
+    <a href="#account">
+        Account
+    </a>
+
+    <a href="./admin.html">
+        Admin demo
+    </a>
+
+    <a
+        class="btn ghost"
+        href="./index.html"
+        onclick="logout(event)"
+    >
+        Log out
+    </a>
+
+</nav>
+
+</header><main class="dash"><div class="dash-top"><div>
 
     <div class="eyebrow">
         PERSONAL ACCOUNT
@@ -37,9 +54,13 @@
 
 </div>
 
+
 <div class="user-pill">
 
-    <div class="avatar" id="userAvatar">
+    <div
+        class="avatar"
+        id="userAvatar"
+    >
         U
     </div>
 
@@ -49,13 +70,16 @@
 
 </div>
 
-</div><!-- BALANCE --><section class="dash-grid"><div class="balance-panel">
+</div><section class="dash-grid"><div class="balance-panel">
 
     <div class="balance-label">
         TOTAL BALANCE
     </div>
 
-    <div class="balance-number" id="balanceAmount">
+    <div
+        class="balance-number"
+        id="balanceAmount"
+    >
         £0.00
     </div>
 
@@ -96,7 +120,10 @@
 
 </div>
 
-</section><!-- TRANSACTIONS --><section class="dashboard-columns"><div class="dashboard-card" id="transactions">
+</section><section class="dashboard-columns"><div
+    class="dashboard-card"
+    id="transactions"
+>
 
     <div class="card-title">
 
@@ -129,9 +156,10 @@
 </div>
 
 
-<!-- ACCOUNT -->
-
-<div class="dashboard-card" id="account">
+<div
+    class="dashboard-card"
+    id="account"
+>
 
     <div class="eyebrow">
         ACCOUNT
@@ -155,6 +183,7 @@
 
         </div>
 
+
         <div>
 
             <small>
@@ -167,17 +196,19 @@
 
         </div>
 
+
         <div>
 
             <small>
                 Account number
             </small>
 
-            <b id="accountNumber">
+            <b>
                 •••• 4821
             </b>
 
         </div>
+
 
         <div>
 
@@ -191,6 +222,7 @@
 
         </div>
 
+
         <div>
 
             <small>
@@ -202,6 +234,7 @@
             </b>
 
         </div>
+
 
         <div>
 
@@ -219,7 +252,7 @@
 
 </div>
 
-</section></main><!-- SUPABASE --><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="./supabase.js"></script><script>
+</section></main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="./supabase.js"></script><script>
 
 let currentUser = null;
 
@@ -230,201 +263,159 @@ let currentUser = null;
 
 async function loadDashboard() {
 
-    try {
-
-        const {
-            data: {
-                session
-            },
-            error
-        } = await supabaseClient.auth.getSession();
+    const {
+        data,
+        error
+    } =
+        await supabaseClient.auth.getSession();
 
 
-        if (error) {
-            throw error;
-        }
-
-
-        /*
-         * No authenticated session:
-         * send the visitor back to login.
-         */
-
-        if (!session || !session.user) {
-
-            window.location.href = "./login.html";
-
-            return;
-        }
-
-
-        currentUser = session.user;
-
-
-        /*
-         * USER INFORMATION
-         */
-
-        const metadata =
-            currentUser.user_metadata || {};
-
-
-        const fullName =
-            metadata.full_name ||
-            "User";
-
-
-        const email =
-            currentUser.email ||
-            "—";
-
-
-        /*
-         * Update name.
-         */
-
-        document.getElementById("userName").textContent =
-            fullName.split(" ")[0];
-
-
-        document.getElementById("userNameSmall").textContent =
-            fullName;
-
-
-        document.getElementById("accountName").textContent =
-            fullName;
-
-
-        document.getElementById("accountEmail").textContent =
-            email;
-
-
-        /*
-         * Generate initials.
-         */
-
-        const initials =
-            fullName
-                .split(" ")
-                .filter(Boolean)
-                .map(word => word.charAt(0))
-                .join("")
-                .substring(0, 2)
-                .toUpperCase();
-
-
-        document.getElementById("userAvatar").textContent =
-            initials || "U";
-
-
-        /*
-         * Load account profile.
-         */
-
-        await loadProfile();
-
-
-        /*
-         * Load transactions.
-         */
-
-        await loadTransactions();
-
-    } catch (error) {
-
-        console.error(
-            "Dashboard error:",
-            error
-        );
+    if (
+        error ||
+        !data.session ||
+        !data.session.user
+    ) {
 
         window.location.href =
             "./login.html";
 
-    }
-
-}
-
-
-/* ================================
-   LOAD PROFILE
-================================ */
-
-async function loadProfile() {
-
-    const {
-        data,
-        error
-    } = await supabaseClient
-        .from("profiles")
-        .select("*")
-        .eq("id", currentUser.id);
-
-
-    if (error) {
-
-        console.error(
-            "Profile loading error:",
-            error
-        );
-
         return;
+
     }
+
+
+    currentUser =
+        data.session.user;
 
 
     /*
-     * Supabase returns an array.
+     * Load the profile belonging to
+     * this authenticated user.
      */
 
+    const {
+        data: profiles,
+        error: profileError
+    } =
+        await supabaseClient
+            .from("profiles")
+            .select(
+                "id,name,email,balance"
+            )
+            .eq(
+                "id",
+                currentUser.id
+            );
+
+
+    if (profileError) {
+
+        console.error(
+            profileError
+        );
+
+        return;
+
+    }
+
+
     const profile =
-        data && data.length
-            ? data[0]
+        profiles && profiles.length
+            ? profiles[0]
             : null;
 
 
     if (!profile) {
 
-        console.warn(
-            "No profile found for this account."
+        console.error(
+            "No profile found."
         );
 
-        displayBalance(0);
-
         return;
+
     }
 
 
-    /*
-     * Read balance.
-     */
+    const name =
+        profile.name ||
+        "User";
+
+
+    const email =
+        profile.email ||
+        currentUser.email ||
+        "—";
+
 
     const balance =
-        Number(profile.balance || 0);
+        Number(
+            profile.balance || 0
+        );
 
+
+    /*
+     * DISPLAY USER
+     */
+
+    document.getElementById(
+        "userName"
+    ).textContent =
+        name.split(" ")[0];
+
+
+    document.getElementById(
+        "userNameSmall"
+    ).textContent =
+        name;
+
+
+    document.getElementById(
+        "accountName"
+    ).textContent =
+        name;
+
+
+    document.getElementById(
+        "accountEmail"
+    ).textContent =
+        email;
+
+
+    /*
+     * INITIALS
+     */
+
+    const initials =
+        name
+            .split(" ")
+            .filter(Boolean)
+            .map(
+                word =>
+                    word.charAt(0)
+            )
+            .join("")
+            .substring(0, 2)
+            .toUpperCase();
+
+
+    document.getElementById(
+        "userAvatar"
+    ).textContent =
+        initials || "U";
+
+
+    /*
+     * BALANCE
+     */
 
     displayBalance(balance);
 
 
     /*
-     * If the database contains an account number,
-     * display the last four digits.
+     * TRANSACTIONS
      */
 
-    if (profile.account_number) {
-
-        const accountNumber =
-            String(profile.account_number);
-
-
-        const lastFour =
-            accountNumber.slice(-4);
-
-
-        document.getElementById(
-            "accountNumber"
-        ).textContent =
-            "•••• " + lastFour;
-
-    }
+    loadTransactions();
 
 }
 
@@ -437,7 +428,7 @@ function displayBalance(balance) {
 
     const formatted =
         "£" +
-        Number(balance || 0).toLocaleString(
+        Number(balance).toLocaleString(
             "en-GB",
             {
                 minimumFractionDigits: 2,
@@ -472,261 +463,217 @@ async function loadTransactions() {
         );
 
 
-    /*
-     * Try to load the transactions table.
-     */
-
     const {
         data,
         error
-    } = await supabaseClient
-        .from("transactions")
-        .select(
-            "id, type, amount, description, created_at"
-        )
-        .eq(
-            "user_id",
-            currentUser.id
-        )
-        .order(
-            "created_at",
-            {
-                ascending: false
-            }
-        )
-        .limit(20);
+    } =
+        await supabaseClient
+            .from("transactions")
+            .select(
+                "id,type,amount,description,created_at"
+            )
+            .eq(
+                "user_id",
+                currentUser.id
+            )
+            .order(
+                "created_at",
+                {
+                    ascending:false
+                }
+            )
+            .limit(20);
 
-
-    /*
-     * If the transactions table hasn't been
-     * created yet, don't break the dashboard.
-     */
 
     if (error) {
 
-        console.warn(
-            "Transactions unavailable:",
-            error.message
-        );
+        container.innerHTML = `
 
-        showNoTransactions();
+            <div style="
+                text-align:center;
+                padding:40px 20px;
+                color:#8b98a1;
+            ">
+                No activity available yet.
+            </div>
+
+        `;
 
         return;
+
     }
 
 
-    if (!data || data.length === 0) {
+    if (
+        !data ||
+        data.length === 0
+    ) {
 
-        showNoTransactions();
+        container.innerHTML = `
 
-        return;
-    }
-
-
-    /*
-     * Display transactions.
-     */
-
-    container.innerHTML =
-        data.map(transaction => {
-
-            const amount =
-                Number(transaction.amount || 0);
-
-
-            const isCredit =
-                transaction.type === "add" ||
-                transaction.type === "credit";
-
-
-            const sign =
-                isCredit
-                    ? "+"
-                    : "-";
-
-
-            const formattedAmount =
-                sign +
-                "£" +
-                amount.toLocaleString(
-                    "en-GB",
-                    {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    }
-                );
-
-
-            const date =
-                transaction.created_at
-                    ? new Date(
-                        transaction.created_at
-                    ).toLocaleString(
-                        "en-GB",
-                        {
-                            dateStyle: "medium",
-                            timeStyle: "short"
-                        }
-                    )
-                    : "";
-
-
-            let title =
-                transaction.description;
-
-
-            if (!title) {
-
-                if (
-                    transaction.type === "add" ||
-                    transaction.type === "credit"
-                ) {
-
-                    title = "Demo money added";
-
-                } else if (
-                    transaction.type === "withdraw"
-                ) {
-
-                    title = "Demo withdrawal";
-
-                } else {
-
-                    title = "Demo transfer";
-
-                }
-
-            }
-
-
-            return `
+            <div style="
+                text-align:center;
+                padding:55px 20px;
+                color:#8b98a1;
+            ">
 
                 <div style="
-                    display:flex;
-                    justify-content:space-between;
-                    align-items:center;
-                    gap:15px;
-                    padding:18px 0;
-                    border-bottom:1px solid #edf0f1;
+                    width:55px;
+                    height:55px;
+                    border-radius:18px;
+                    background:#f0f3f4;
+                    display:grid;
+                    place-items:center;
+                    margin:0 auto 18px;
+                    font-size:24px;
                 ">
+                    —
+                </div>
 
-                    <div>
+                <strong style="
+                    display:block;
+                    color:#101820;
+                    font-size:15px;
+                    margin-bottom:7px;
+                ">
+                    No transactions yet
+                </strong>
+
+                <span style="font-size:12px;">
+                    Your demo transaction history
+                    will appear here.
+                </span>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        data.map(
+            transaction => {
+
+                const amount =
+                    Number(
+                        transaction.amount || 0
+                    );
+
+
+                const credit =
+                    transaction.type === "add" ||
+                    transaction.type === "credit";
+
+
+                const sign =
+                    credit
+                        ? "+"
+                        : "-";
+
+
+                const formatted =
+                    sign +
+                    "£" +
+                    amount.toLocaleString(
+                        "en-GB",
+                        {
+                            minimumFractionDigits:2,
+                            maximumFractionDigits:2
+                        }
+                    );
+
+
+                const date =
+                    transaction.created_at
+                        ? new Date(
+                            transaction.created_at
+                        ).toLocaleString(
+                            "en-GB",
+                            {
+                                dateStyle:"medium",
+                                timeStyle:"short"
+                            }
+                        )
+                        : "";
+
+
+                const title =
+                    transaction.description ||
+                    (
+                        credit
+                            ? "Demo money added"
+                            : "Demo transaction"
+                    );
+
+
+                return `
+
+                    <div style="
+                        display:flex;
+                        justify-content:space-between;
+                        align-items:center;
+                        gap:15px;
+                        padding:18px 0;
+                        border-bottom:1px solid #edf0f1;
+                    ">
+
+                        <div>
+
+                            <strong style="
+                                display:block;
+                                color:#101820;
+                                font-size:14px;
+                                margin-bottom:5px;
+                            ">
+                                ${escapeHtml(title)}
+                            </strong>
+
+                            <span style="
+                                color:#8b98a1;
+                                font-size:11px;
+                            ">
+                                ${escapeHtml(date)}
+                            </span>
+
+                        </div>
 
                         <strong style="
-                            display:block;
-                            color:#101820;
                             font-size:14px;
-                            margin-bottom:5px;
+                            white-space:nowrap;
                         ">
-                            ${escapeHtml(title)}
+                            ${formatted}
                         </strong>
-
-                        <span style="
-                            color:#8b98a1;
-                            font-size:11px;
-                        ">
-                            ${escapeHtml(date)}
-                        </span>
 
                     </div>
 
-                    <strong style="
-                        font-size:14px;
-                        white-space:nowrap;
-                    ">
-                        ${formattedAmount}
-                    </strong>
+                `;
 
-                </div>
-
-            `;
-
-        }).join("");
+            }
+        ).join("");
 
 }
 
 
 /* ================================
-   NO TRANSACTIONS
-================================ */
-
-function showNoTransactions() {
-
-    document.getElementById(
-        "transactionList"
-    ).innerHTML = `
-
-        <div style="
-            text-align:center;
-            padding:55px 20px;
-            color:#8b98a1;
-        ">
-
-            <div style="
-                width:55px;
-                height:55px;
-                border-radius:18px;
-                background:#f0f3f4;
-                display:grid;
-                place-items:center;
-                margin:0 auto 18px;
-                font-size:24px;
-            ">
-                —
-            </div>
-
-            <strong style="
-                display:block;
-                color:#101820;
-                font-size:15px;
-                margin-bottom:7px;
-            ">
-                No transactions yet
-            </strong>
-
-            <span style="font-size:12px;">
-                Your demo transaction history
-                will appear here.
-            </span>
-
-        </div>
-
-    `;
-
-}
-
-
-/* ================================
-   LOG OUT
+   LOGOUT
 ================================ */
 
 async function logout(event) {
 
     event.preventDefault();
 
-    try {
-
-        await supabaseClient.auth.signOut();
-
-    } catch (error) {
-
-        console.error(
-            "Logout error:",
-            error
-        );
-
-    }
-
+    await supabaseClient.auth.signOut();
 
     localStorage.removeItem(
         "nexoraLoggedIn"
     );
 
-
     localStorage.removeItem(
         "nexoraUserId"
     );
-
 
     window.location.href =
         "./index.html";
@@ -735,7 +682,7 @@ async function logout(event) {
 
 
 /* ================================
-   HTML ESCAPING
+   ESCAPE HTML
 ================================ */
 
 function escapeHtml(value) {
@@ -751,10 +698,10 @@ function escapeHtml(value) {
 
 
 /* ================================
-   START DASHBOARD
+   START
 ================================ */
 
 loadDashboard();
 
 </script></body>
-    </html>
+        </html>
