@@ -11,220 +11,261 @@
 </div><header><a class="brand" href="./index.html">
     NEXORA
     <span>FINANCIAL</span>
-</a><nav class="navlinks">
+</a>
+
+<nav class="navlinks">
     <a href="#transactions">Activity</a>
     <a href="#account">Account</a>
     <a href="./admin.html">Admin demo</a>
-    <a class="btn ghost" href="./index.html" onclick="logout(event)">Log out</a>
-</nav><a class="btn ghost" href="./index.html" onclick="logout(event)">Log out</a>
+    <a class="btn ghost" href="./index.html" onclick="logout(event)">
+        Log out
+    </a>
+</nav>
 
-</header><main class="dash"><div class="dash-top"><div>
-    <div class="eyebrow">PERSONAL ACCOUNT</div>
+<a class="btn ghost" href="./index.html" onclick="logout(event)">
+    Log out
+</a>
 
-    <h1>
-        Good afternoon, <span id="userName">there</span>.
-    </h1>
+</header><main class="dash"><div class="dash-top">
 
-    <p>
-        Here's what's happening with your money today.
-    </p>
-</div>
+    <div>
 
-<div class="user-pill">
-    <div class="avatar" id="userAvatar">U</div>
-    <span id="userNameSmall">User</span>
-</div>
-
-</div><section class="dash-grid"><div class="balance-panel">
-
-    <div class="balance-label">
-        TOTAL BALANCE
-    </div>
-
-    <div class="balance-number" id="balanceAmount">
-        £0.00
-    </div>
-
-    <div class="balance-meta">
-        Available balance · Demo account
-    </div>
-
-    <div class="balance-actions">
-
-        <button class="btn green" type="button" onclick="showAction('add')">
-            + Add money
-        </button>
-
-        <button class="btn" type="button" onclick="showAction('transfer')">
-            ↗ Transfer
-        </button>
-
-        <button class="btn" type="button" onclick="showAction('withdraw')">
-            − Withdraw
-        </button>
-
-    </div>
-
-</div>
-
-
-<div class="dashboard-card">
-
-    <div class="card-title">
-        <div>
-            <div class="eyebrow">QUICK ACTIONS</div>
-            <h2>Move money</h2>
+        <div class="eyebrow">
+            PERSONAL ACCOUNT
         </div>
+
+        <h1>
+            Good afternoon,
+            <span id="userName">there</span>.
+        </h1>
+
+        <p>
+            Here's what's happening with your money today.
+        </p>
+
     </div>
 
-    <div class="quick-grid">
 
-        <button class="quick-action" type="button" onclick="showAction('transfer')">
-            <strong>↗</strong>
-            <span>Transfer</span>
-        </button>
+    <div class="user-pill">
 
-        <button class="quick-action" type="button" onclick="showAction('add')">
-            <strong>＋</strong>
-            <span>Add money</span>
-        </button>
+        <div class="avatar" id="userAvatar">
+            U
+        </div>
 
-        <button class="quick-action" type="button" onclick="showAction('withdraw')">
-            <strong>−</strong>
-            <span>Withdraw</span>
-        </button>
+        <span id="userNameSmall">
+            User
+        </span>
 
     </div>
 
 </div>
 
-</section><section class="dashboard-card" id="actionPanel" style="display:none; margin-bottom:25px;"><div class="eyebrow" id="actionEyebrow">
-    DEMO ACTION
-</div>
 
-<h2 id="actionTitle">
-    Add money
-</h2>
+<!-- BALANCE -->
 
-<p id="actionDescription">
-    Enter a simulated amount.
-</p>
+<section class="dash-grid">
 
-<form id="moneyForm">
+    <div class="balance-panel">
 
-    <label>
-        Amount
-        <input
-            id="amount"
-            type="number"
-            min="0.01"
-            step="0.01"
-            required
-            placeholder="100.00"
-        >
-    </label>
+        <div class="balance-label">
+            TOTAL BALANCE
+        </div>
 
-    <label id="descriptionLabel">
-        Description
-        <input
-            id="description"
-            type="text"
-            maxlength="100"
-            placeholder="Demo transaction"
-        >
-    </label>
+        <div class="balance-number" id="balanceAmount">
+            £0.00
+        </div>
 
-    <div style="display:flex; gap:10px; margin-top:15px; flex-wrap:wrap;">
-
-        <button class="btn green" type="submit" id="actionButton">
-            Continue
-        </button>
-
-        <button class="btn" type="button" onclick="closeAction()">
-            Cancel
-        </button>
-
-    </div>
-
-    <p id="actionMessage" style="margin-top:15px;"></p>
-
-</form>
-
-</section><section class="dashboard-columns"><div class="dashboard-card" id="transactions">
-
-    <div class="card-title">
-
-        <div>
-            <div class="eyebrow">RECENT ACTIVITY</div>
-            <h2>Transactions</h2>
+        <div class="balance-meta">
+            Available balance · Demo account
         </div>
 
     </div>
 
-    <div id="transactionList">
 
-        <div style="
-            text-align:center;
-            padding:55px 20px;
-            color:#8b98a1;
+    <div class="dashboard-card">
+
+        <div class="card-title">
+
+            <div>
+
+                <div class="eyebrow">
+                    ACCOUNT STATUS
+                </div>
+
+                <h2>
+                    Your Nexora account
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <p style="
+            color:#6f7c84;
+            line-height:1.7;
+            font-size:13px;
         ">
-            Loading activity...
+            Your account balance and activity are managed
+            through the Nexora demo administration system.
+            This dashboard is view-only.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- TRANSACTIONS -->
+
+<section class="dashboard-columns">
+
+    <div class="dashboard-card" id="transactions">
+
+        <div class="card-title">
+
+            <div>
+
+                <div class="eyebrow">
+                    RECENT ACTIVITY
+                </div>
+
+                <h2>
+                    Transactions
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div id="transactionList">
+
+            <div style="
+                text-align:center;
+                padding:55px 20px;
+                color:#8b98a1;
+            ">
+                Loading activity...
+            </div>
+
         </div>
 
     </div>
 
-</div>
 
+    <!-- ACCOUNT -->
 
-<div class="dashboard-card" id="account">
+    <div class="dashboard-card" id="account">
 
-    <div class="eyebrow">ACCOUNT</div>
-
-    <h2>Account details</h2>
-
-    <div class="account-list">
-
-        <div>
-            <small>Account holder</small>
-            <b id="accountName">User</b>
+        <div class="eyebrow">
+            ACCOUNT
         </div>
 
-        <div>
-            <small>Email address</small>
-            <b id="accountEmail">—</b>
-        </div>
+        <h2>
+            Account details
+        </h2>
 
-        <div>
-            <small>Account number</small>
-            <b>•••• 4821</b>
-        </div>
 
-        <div>
-            <small>Account type</small>
-            <b>Personal demo account</b>
-        </div>
+        <div class="account-list">
 
-        <div>
-            <small>Balance</small>
-            <b id="accountBalance">£0.00</b>
-        </div>
+            <div>
 
-        <div>
-            <small>Status</small>
-            <b class="in">● Active</b>
+                <small>
+                    Account holder
+                </small>
+
+                <b id="accountName">
+                    User
+                </b>
+
+            </div>
+
+
+            <div>
+
+                <small>
+                    Email address
+                </small>
+
+                <b id="accountEmail">
+                    —
+                </b>
+
+            </div>
+
+
+            <div>
+
+                <small>
+                    Account number
+                </small>
+
+                <b>
+                    •••• 4821
+                </b>
+
+            </div>
+
+
+            <div>
+
+                <small>
+                    Account type
+                </small>
+
+                <b>
+                    Personal demo account
+                </b>
+
+            </div>
+
+
+            <div>
+
+                <small>
+                    Balance
+                </small>
+
+                <b id="accountBalance">
+                    £0.00
+                </b>
+
+            </div>
+
+
+            <div>
+
+                <small>
+                    Status
+                </small>
+
+                <b class="in">
+                    ● Active
+                </b>
+
+            </div>
+
         </div>
 
     </div>
 
-</div>
+</section>
 
-</section></main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+</main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
 
 const SUPABASE_URL =
     "https://krzxqmzvzgjmolepcnbg.supabase.co";
 
+
+/*
+  USE THE SAME SUPABASE PUBLISHABLE KEY
+  YOU USED IN register.html AND login.html.
+*/
+
 const SUPABASE_KEY =
     "sb_publishable_YBTYFY_vqnZkncmCclQa8w_ZKB0Cyul";
+
 
 const supabaseClient =
     window.supabase.createClient(
@@ -234,81 +275,110 @@ const supabaseClient =
 
 
 let currentUser = null;
-let currentProfile = null;
-let currentAction = null;
 
 
-/* -----------------------------
+/* --------------------------------
    LOAD DASHBOARD
------------------------------ */
+-------------------------------- */
 
 async function loadDashboard() {
 
     const {
         data: { session },
-        error: sessionError
+        error
     } = await supabaseClient.auth.getSession();
 
-    if (sessionError || !session || !session.user) {
 
-        window.location.href = "./login.html";
+    if (error || !session || !session.user) {
+
+        window.location.href =
+            "./login.html";
 
         return;
     }
 
-    currentUser = session.user;
+
+    currentUser =
+        session.user;
+
 
     const fullName =
         currentUser.user_metadata?.full_name ||
         "User";
+
 
     const email =
         currentUser.email ||
         "—";
 
 
-    /* User information */
+    /*
+      USER NAME
+    */
 
-    document.getElementById("userName").textContent =
+    document.getElementById(
+        "userName"
+    ).textContent =
         fullName.split(" ")[0];
 
-    document.getElementById("userNameSmall").textContent =
+
+    document.getElementById(
+        "userNameSmall"
+    ).textContent =
         fullName;
 
-    document.getElementById("accountName").textContent =
+
+    document.getElementById(
+        "accountName"
+    ).textContent =
         fullName;
 
-    document.getElementById("accountEmail").textContent =
+
+    document.getElementById(
+        "accountEmail"
+    ).textContent =
         email;
 
 
-    /* Initials */
+    /*
+      INITIALS
+    */
 
-    const initials = fullName
-        .split(" ")
-        .filter(Boolean)
-        .map(word => word.charAt(0))
-        .join("")
-        .substring(0, 2)
-        .toUpperCase();
+    const initials =
+        fullName
+            .split(" ")
+            .filter(Boolean)
+            .map(word => word.charAt(0))
+            .join("")
+            .substring(0, 2)
+            .toUpperCase();
 
-    document.getElementById("userAvatar").textContent =
+
+    document.getElementById(
+        "userAvatar"
+    ).textContent =
         initials;
 
 
-    /* Load profile */
+    /*
+      LOAD PROFILE
+    */
 
     await loadProfile();
 
-    /* Load transactions */
+
+    /*
+      LOAD TRANSACTIONS
+    */
 
     await loadTransactions();
+
 }
 
 
-/* -----------------------------
+/* --------------------------------
    LOAD PROFILE
------------------------------ */
+-------------------------------- */
 
 async function loadProfile() {
 
@@ -317,55 +387,86 @@ async function loadProfile() {
         error
     } = await supabaseClient
         .from("profiles")
-        .select("balance")
-        .eq("id", currentUser.id)
-        .single();
+        .select("id, balance")
+        .eq("id", currentUser.id);
 
 
     if (error) {
 
-        console.error("Profile error:", error);
-
-        document.getElementById("balanceAmount").textContent =
-            "£0.00";
+        console.error(
+            "Profile loading error:",
+            error
+        );
 
         return;
     }
 
 
-    currentProfile = data;
+    /*
+      Avoid .single()
+      so the dashboard doesn't fail
+      with a single-object coercion error.
+    */
 
-    updateBalanceDisplay(
-        Number(data.balance || 0)
-    );
+    const profile =
+        data && data.length
+            ? data[0]
+            : null;
+
+
+    if (!profile) {
+
+        console.error(
+            "No profile found for this user."
+        );
+
+        return;
+    }
+
+
+    const balance =
+        Number(profile.balance || 0);
+
+
+    displayBalance(balance);
+
 }
 
 
-/* -----------------------------
+/* --------------------------------
    DISPLAY BALANCE
------------------------------ */
+-------------------------------- */
 
-function updateBalanceDisplay(balance) {
+function displayBalance(balance) {
 
     const formatted =
         "£" +
-        balance.toLocaleString("en-GB", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        });
+        balance.toLocaleString(
+            "en-GB",
+            {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }
+        );
 
 
-    document.getElementById("balanceAmount").textContent =
+    document.getElementById(
+        "balanceAmount"
+    ).textContent =
         formatted;
 
-    document.getElementById("accountBalance").textContent =
+
+    document.getElementById(
+        "accountBalance"
+    ).textContent =
         formatted;
+
 }
 
 
-/* -----------------------------
-   TRANSACTIONS
------------------------------ */
+/* --------------------------------
+   LOAD TRANSACTIONS
+-------------------------------- */
 
 async function loadTransactions() {
 
@@ -374,27 +475,49 @@ async function loadTransactions() {
         error
     } = await supabaseClient
         .from("transactions")
-        .select("*")
-        .eq("user_id", currentUser.id)
-        .order("created_at", {
-            ascending: false
-        })
+        .select(
+            "id, type, amount, description, created_at"
+        )
+        .eq(
+            "user_id",
+            currentUser.id
+        )
+        .order(
+            "created_at",
+            {
+                ascending: false
+            }
+        )
         .limit(20);
 
 
     if (error) {
 
-        console.error("Transaction error:", error);
+        console.error(
+            "Transaction loading error:",
+            error
+        );
 
-        document.getElementById("transactionList").innerHTML =
-            "<p>Unable to load demo activity.</p>";
+        document.getElementById(
+            "transactionList"
+        ).innerHTML = `
+            <div style="
+                text-align:center;
+                padding:40px 20px;
+                color:#8b98a1;
+            ">
+                Unable to load demo activity.
+            </div>
+        `;
 
         return;
     }
 
 
     const container =
-        document.getElementById("transactionList");
+        document.getElementById(
+            "transactionList"
+        );
 
 
     if (!data || data.length === 0) {
@@ -429,7 +552,8 @@ async function loadTransactions() {
                 </strong>
 
                 <span style="font-size:12px;">
-                    Your demo transaction history will appear here.
+                    Your demo transaction history
+                    will appear here.
                 </span>
 
             </div>
@@ -439,434 +563,139 @@ async function loadTransactions() {
     }
 
 
-    container.innerHTML = data.map(transaction => {
+    container.innerHTML =
+        data.map(transaction => {
 
-        const amount =
-            Number(transaction.amount || 0);
-
-        const isCredit =
-            transaction.type === "add";
-
-        const sign =
-            isCredit ? "+" : "-";
-
-        const formattedAmount =
-            sign +
-            "£" +
-            amount.toLocaleString("en-GB", {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            });
+            const amount =
+                Number(
+                    transaction.amount || 0
+                );
 
 
-        const date =
-            transaction.created_at
-                ? new Date(transaction.created_at)
-                    .toLocaleString("en-GB", {
-                        dateStyle: "medium",
-                        timeStyle: "short"
-                    })
-                : "";
+            const isCredit =
+                transaction.type === "add";
 
 
-        const title =
-            transaction.description ||
-            (
-                transaction.type === "add"
-                    ? "Demo money added"
-                    : transaction.type === "withdraw"
-                        ? "Demo withdrawal"
-                        : "Demo transfer"
-            );
+            const sign =
+                isCredit
+                    ? "+"
+                    : "-";
 
 
-        return `
-            <div style="
-                display:flex;
-                justify-content:space-between;
-                align-items:center;
-                gap:15px;
-                padding:18px 0;
-                border-bottom:1px solid #edf0f1;
-            ">
+            const formattedAmount =
+                sign +
+                "£" +
+                amount.toLocaleString(
+                    "en-GB",
+                    {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    }
+                );
 
-                <div>
+
+            const date =
+                transaction.created_at
+                    ? new Date(
+                        transaction.created_at
+                    ).toLocaleString(
+                        "en-GB",
+                        {
+                            dateStyle: "medium",
+                            timeStyle: "short"
+                        }
+                    )
+                    : "";
+
+
+            const title =
+                transaction.description ||
+                (
+                    transaction.type === "add"
+                        ? "Demo money added"
+                        : transaction.type === "withdraw"
+                            ? "Demo withdrawal"
+                            : "Demo transfer"
+                );
+
+
+            return `
+                <div style="
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                    gap:15px;
+                    padding:18px 0;
+                    border-bottom:1px solid #edf0f1;
+                ">
+
+                    <div>
+
+                        <strong style="
+                            display:block;
+                            color:#101820;
+                            font-size:14px;
+                            margin-bottom:5px;
+                        ">
+                            ${escapeHtml(title)}
+                        </strong>
+
+                        <span style="
+                            color:#8b98a1;
+                            font-size:11px;
+                        ">
+                            ${escapeHtml(date)}
+                        </span>
+
+                    </div>
 
                     <strong style="
-                        display:block;
-                        color:#101820;
                         font-size:14px;
-                        margin-bottom:5px;
+                        white-space:nowrap;
                     ">
-                        ${escapeHtml(title)}
+                        ${formattedAmount}
                     </strong>
 
-                    <span style="
-                        color:#8b98a1;
-                        font-size:11px;
-                    ">
-                        ${date}
-                    </span>
-
                 </div>
+            `;
 
-                <strong style="
-                    font-size:14px;
-                    white-space:nowrap;
-                ">
-                    ${formattedAmount}
-                </strong>
+        }).join("");
 
-            </div>
-        `;
-
-    }).join("");
 }
 
 
-/* -----------------------------
-   ACTION PANEL
------------------------------ */
-
-function showAction(action) {
-
-    currentAction = action;
-
-    const panel =
-        document.getElementById("actionPanel");
-
-    const title =
-        document.getElementById("actionTitle");
-
-    const description =
-        document.getElementById("actionDescription");
-
-    const button =
-        document.getElementById("actionButton");
-
-    const message =
-        document.getElementById("actionMessage");
-
-
-    message.textContent = "";
-
-    document.getElementById("amount").value = "";
-
-    document.getElementById("description").value = "";
-
-
-    if (action === "add") {
-
-        title.textContent =
-            "Add demo money";
-
-        description.textContent =
-            "Add simulated funds to your Nexora demo balance.";
-
-        button.textContent =
-            "Add money";
-
-    }
-
-
-    if (action === "withdraw") {
-
-        title.textContent =
-            "Withdraw demo money";
-
-        description.textContent =
-            "Remove simulated funds from your Nexora demo balance.";
-
-        button.textContent =
-            "Withdraw";
-
-    }
-
-
-    if (action === "transfer") {
-
-        title.textContent =
-            "Transfer demo money";
-
-        description.textContent =
-            "Transfer simulated funds from your Nexora demo balance.";
-
-        button.textContent =
-            "Transfer";
-
-    }
-
-
-    panel.style.display = "block";
-
-    panel.scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-    });
-}
-
-
-function closeAction() {
-
-    currentAction = null;
-
-    document.getElementById("actionPanel").style.display =
-        "none";
-}
-
-
-/* -----------------------------
-   PROCESS ACTION
------------------------------ */
-
-document.getElementById("moneyForm")
-    .addEventListener("submit", async function(event) {
-
-        event.preventDefault();
-
-
-        if (!currentUser || !currentAction) {
-            return;
-        }
-
-
-        const amount =
-            Number(
-                document.getElementById("amount").value
-            );
-
-
-        const description =
-            document.getElementById("description").value.trim();
-
-
-        const message =
-            document.getElementById("actionMessage");
-
-        const button =
-            document.getElementById("actionButton");
-
-
-        if (!Number.isFinite(amount) || amount <= 0) {
-
-            message.textContent =
-                "Enter a valid amount.";
-
-            return;
-        }
-
-
-        button.disabled = true;
-        button.textContent = "Processing...";
-
-
-        try {
-
-            /* Get latest balance */
-
-            const {
-                data: profile,
-                error: profileError
-            } = await supabaseClient
-                .from("profiles")
-                .select("balance")
-                .eq("id", currentUser.id)
-                .single();
-
-
-            if (profileError) {
-                throw profileError;
-            }
-
-
-            const currentBalance =
-                Number(profile.balance || 0);
-
-
-            let newBalance =
-                currentBalance;
-
-
-            let transactionType =
-                currentAction;
-
-
-            let transactionDescription =
-                description;
-
-
-            /* ADD */
-
-            if (currentAction === "add") {
-
-                newBalance =
-                    currentBalance + amount;
-
-                if (!transactionDescription) {
-                    transactionDescription =
-                        "Demo money added";
-                }
-            }
-
-
-            /* WITHDRAW */
-
-            if (currentAction === "withdraw") {
-
-                if (amount > currentBalance) {
-
-                    throw new Error(
-                        "Insufficient demo balance."
-                    );
-                }
-
-                newBalance =
-                    currentBalance - amount;
-
-                if (!transactionDescription) {
-                    transactionDescription =
-                        "Demo withdrawal";
-                }
-            }
-
-
-            /* TRANSFER */
-
-            if (currentAction === "transfer") {
-
-                if (amount > currentBalance) {
-
-                    throw new Error(
-                        "Insufficient demo balance."
-                    );
-                }
-
-                newBalance =
-                    currentBalance - amount;
-
-                if (!transactionDescription) {
-                    transactionDescription =
-                        "Demo transfer";
-                }
-            }
-
-
-            /* Update balance */
-
-            const {
-                error: updateError
-            } = await supabaseClient
-                .from("profiles")
-                .update({
-                    balance: newBalance
-                })
-                .eq("id", currentUser.id);
-
-
-            if (updateError) {
-                throw updateError;
-            }
-
-
-            /* Record transaction */
-
-            const {
-                error: transactionError
-            } = await supabaseClient
-                .from("transactions")
-                .insert({
-                    user_id: currentUser.id,
-                    type: transactionType,
-                    amount: amount,
-                    description: transactionDescription
-                });
-
-
-            if (transactionError) {
-                throw transactionError;
-            }
-
-
-            /* Update screen */
-
-            currentProfile.balance =
-                newBalance;
-
-            updateBalanceDisplay(
-                newBalance
-            );
-
-
-            await loadTransactions();
-
-
-            message.textContent =
-                "Demo transaction completed successfully.";
-
-            message.style.color =
-                "#2f7d4a";
-
-
-            document.getElementById("amount").value =
-                "";
-
-            document.getElementById("description").value =
-                "";
-
-
-        } catch (error) {
-
-            console.error(error);
-
-            message.textContent =
-                error.message ||
-                "Unable to complete the demo transaction.";
-
-            message.style.color =
-                "#c3444d";
-
-        }
-
-
-        button.disabled = false;
-
-
-        if (currentAction === "add") {
-            button.textContent = "Add money";
-        }
-
-        if (currentAction === "withdraw") {
-            button.textContent = "Withdraw";
-        }
-
-        if (currentAction === "transfer") {
-            button.textContent = "Transfer";
-        }
-
-    });
-
-
-/* -----------------------------
-   LOGOUT
------------------------------ */
+/* --------------------------------
+   LOG OUT
+-------------------------------- */
 
 async function logout(event) {
 
     event.preventDefault();
 
+
     await supabaseClient.auth.signOut();
 
-    localStorage.removeItem("nexoraLoggedIn");
-    localStorage.removeItem("nexoraUserId");
+
+    localStorage.removeItem(
+        "nexoraLoggedIn"
+    );
+
+
+    localStorage.removeItem(
+        "nexoraUserId"
+    );
+
 
     window.location.href =
         "./index.html";
+
 }
 
 
-/* -----------------------------
-   HTML ESCAPE
------------------------------ */
+/* --------------------------------
+   SECURITY
+   Escape transaction text
+-------------------------------- */
 
 function escapeHtml(value) {
 
@@ -876,12 +705,13 @@ function escapeHtml(value) {
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
+
 }
 
 
-/* -----------------------------
+/* --------------------------------
    START
------------------------------ */
+-------------------------------- */
 
 loadDashboard();
 
