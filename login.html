@@ -6,134 +6,145 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Sign in · Nexora Financial</title>
     <link rel="stylesheet" href="./assets/style.css">
-</head><body><div class="demo">DEMO FINANCIAL PRODUCT · NO REAL FUNDS</div><main class="auth-page"><section class="auth-side">
+</head><body>
+<div class="demo">DEMO FINANCIAL PRODUCT · NO REAL FUNDS</div><main class="auth-page"><section class="auth-side"><a class="brand" href="./index.html">
+    NEXORA
+    <span>FINANCIAL</span>
+</a>
 
-    <a class="brand" href="./index.html">
-        NEXORA
-        <span>FINANCIAL</span>
-    </a>
+<div>
+    <div class="eyebrow">WELCOME BACK</div>
 
-    <div>
-        <div class="eyebrow">WELCOME BACK</div>
+    <h2>Money management, without the noise.</h2>
 
-        <h2>Money management, without the noise.</h2>
-
-        <p>
-            Sign in to your Nexora demo account and continue
-            exploring your personal dashboard.
-        </p>
-    </div>
-
-    <p class="form-note">
-        Fictional prototype · No real banking services.
+    <p>
+        Sign in to your Nexora demo account and continue
+        exploring your personal dashboard.
     </p>
+</div>
 
-</section>
+<p class="form-note">
+    Fictional prototype · No real banking services.
+</p>
 
-<section class="auth-main">
+</section><section class="auth-main"><div class="auth-box"><div class="eyebrow">SIGN IN</div>
 
-    <div class="auth-box">
+<h1>Welcome back.</h1>
 
-        <div class="eyebrow">SIGN IN</div>
+<p>Enter the details you used to create your demo account.</p>
 
-        <h1>Welcome back.</h1>
+<form id="loginForm">
 
-        <p>Enter the details you used to create your demo account.</p>
+    <label>
+        Email address
+        <input
+            id="email"
+            type="email"
+            required
+            placeholder="you@example.com"
+        >
+    </label>
 
-        <form id="loginForm">
+    <label>
+        Password
+        <input
+            id="password"
+            type="password"
+            required
+            placeholder="••••••••"
+        >
+    </label>
 
-            <label>
-                Email address
-                <input
-                    id="email"
-                    type="email"
-                    required
-                    placeholder="you@example.com"
-                >
-            </label>
+    <div
+        id="error"
+        style="
+            display:none;
+            background:#fff0f1;
+            color:#c3444d;
+            padding:12px;
+            border-radius:10px;
+            font-size:12px;
+            margin:15px 0;
+        "
+    ></div>
 
-            <label>
-                Password
-                <input
-                    id="password"
-                    type="password"
-                    required
-                    placeholder="••••••••"
-                >
-            </label>
+    <button class="btn green full" type="submit" id="loginButton">
+        Sign in →
+    </button>
 
-            <div
-                id="error"
-                style="
-                    display:none;
-                    background:#fff0f1;
-                    color:#c3444d;
-                    padding:12px;
-                    border-radius:10px;
-                    font-size:12px;
-                    margin:15px 0;
-                "
-            >
-                Incorrect email or password.
-            </div>
+</form>
 
-            <button class="btn green full" type="submit">
-                Sign in →
-            </button>
+<p class="auth-switch">
+    Don't have a demo account?
+    <a class="form-link" href="./register.html">
+        Create one
+    </a>
+</p>
 
-        </form>
+<p class="auth-switch">
+    <a class="form-link" href="./index.html">
+        ← Back to Nexora
+    </a>
+</p>
 
-        <p class="auth-switch">
-            Don't have a demo account?
-            <a class="form-link" href="./register.html">
-                Create one
-            </a>
-        </p>
+</div></section>
+</main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+const SUPABASE_URL = "https://krzxqmzvzgjmolepcnbg.supabase.co";
 
-        <p class="auth-switch">
-            <a class="form-link" href="./index.html">
-                ← Back to Nexora
-            </a>
-        </p>
+/*
+  PASTE THE SAME SUPABASE PUBLISHABLE KEY
+  YOU USED IN register.html.
+*/
+const SUPABASE_KEY = "sb_publishable_YBTYFY_vqnZkncmCclQa8w_ZKB0Cyul";
 
-    </div>
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
-</section>
-
-</main><script>
-document.getElementById("loginForm").addEventListener("submit", function(event) {
+document.getElementById("loginForm").addEventListener("submit", async function(event) {
 
     event.preventDefault();
 
     const email = document.getElementById("email").value.trim().toLowerCase();
     const password = document.getElementById("password").value;
 
-    const savedAccount = localStorage.getItem("nexoraAccount");
+    const errorBox = document.getElementById("error");
+    const button = document.getElementById("loginButton");
 
-    if (!savedAccount) {
-        document.getElementById("error").textContent =
-            "No demo account found. Please create an account first.";
+    errorBox.style.display = "none";
+    button.disabled = true;
+    button.textContent = "Signing in...";
 
-        document.getElementById("error").style.display = "block";
-        return;
-    }
+    try {
 
-    const account = JSON.parse(savedAccount);
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
+        });
 
-    if (email === account.email && password === account.password) {
+        if (error) {
+            throw error;
+        }
+
+        if (!data.user) {
+            throw new Error("Unable to sign in.");
+        }
 
         localStorage.setItem("nexoraLoggedIn", "true");
+        localStorage.setItem("nexoraUserId", data.user.id);
 
         window.location.href = "./dashboard.html";
 
-    } else {
+    } catch (error) {
 
-        document.getElementById("error").textContent =
-            "Incorrect email or password.";
+        errorBox.textContent = "Incorrect email or password.";
+        errorBox.style.display = "block";
 
-        document.getElementById("error").style.display = "block";
+        button.disabled = false;
+        button.textContent = "Sign in →";
     }
 
 });
 </script></body>
-</html>
+    </html>
