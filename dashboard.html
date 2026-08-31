@@ -11,374 +11,343 @@
 </div><header><a class="brand" href="./index.html">
     NEXORA
     <span>FINANCIAL</span>
-</a>
-
-<nav class="navlinks">
+</a><nav class="navlinks">
     <a href="#transactions">Activity</a>
     <a href="#account">Account</a>
-    <a href="./admin.html">Admin demo</a>
-    <a class="btn ghost" href="./index.html" onclick="logout(event)">
-        Log out
-    </a>
-</nav>
-
-<a class="btn ghost" href="./index.html" onclick="logout(event)">
+    <a href="./admin.html">Admin demo</a><a class="btn ghost" href="./index.html" onclick="logout(event)">
     Log out
 </a>
 
-</header><main class="dash"><div class="dash-top">
+</nav><a class="btn ghost" href="./index.html" onclick="logout(event)">
+    Log out
+</a></header><main class="dash"><div class="dash-top"><div>
 
-    <div>
+    <div class="eyebrow">
+        PERSONAL ACCOUNT
+    </div>
 
-        <div class="eyebrow">
-            PERSONAL ACCOUNT
+    <h1>
+        Good afternoon,
+        <span id="userName">there</span>.
+    </h1>
+
+    <p>
+        Here's what's happening with your money today.
+    </p>
+
+</div>
+
+<div class="user-pill">
+
+    <div class="avatar" id="userAvatar">
+        U
+    </div>
+
+    <span id="userNameSmall">
+        User
+    </span>
+
+</div>
+
+</div><!-- BALANCE --><section class="dash-grid"><div class="balance-panel">
+
+    <div class="balance-label">
+        TOTAL BALANCE
+    </div>
+
+    <div class="balance-number" id="balanceAmount">
+        £0.00
+    </div>
+
+    <div class="balance-meta">
+        Available balance · Demo account
+    </div>
+
+</div>
+
+
+<div class="dashboard-card">
+
+    <div class="card-title">
+
+        <div>
+
+            <div class="eyebrow">
+                ACCOUNT STATUS
+            </div>
+
+            <h2>
+                Your Nexora account
+            </h2>
+
         </div>
-
-        <h1>
-            Good afternoon,
-            <span id="userName">there</span>.
-        </h1>
-
-        <p>
-            Here's what's happening with your money today.
-        </p>
 
     </div>
 
+    <p style="
+        color:#6f7c84;
+        line-height:1.7;
+        font-size:13px;
+    ">
+        Your account balance and activity are managed
+        through the Nexora demo administration system.
+        This dashboard is view-only.
+    </p>
 
-    <div class="user-pill">
+</div>
 
-        <div class="avatar" id="userAvatar">
-            U
+</section><!-- TRANSACTIONS --><section class="dashboard-columns"><div class="dashboard-card" id="transactions">
+
+    <div class="card-title">
+
+        <div>
+
+            <div class="eyebrow">
+                RECENT ACTIVITY
+            </div>
+
+            <h2>
+                Transactions
+            </h2>
+
         </div>
 
-        <span id="userNameSmall">
-            User
-        </span>
+    </div>
+
+    <div id="transactionList">
+
+        <div style="
+            text-align:center;
+            padding:55px 20px;
+            color:#8b98a1;
+        ">
+            Loading activity...
+        </div>
 
     </div>
 
 </div>
 
 
-<!-- BALANCE -->
+<!-- ACCOUNT -->
 
-<section class="dash-grid">
+<div class="dashboard-card" id="account">
 
-    <div class="balance-panel">
-
-        <div class="balance-label">
-            TOTAL BALANCE
-        </div>
-
-        <div class="balance-number" id="balanceAmount">
-            £0.00
-        </div>
-
-        <div class="balance-meta">
-            Available balance · Demo account
-        </div>
-
+    <div class="eyebrow">
+        ACCOUNT
     </div>
 
+    <h2>
+        Account details
+    </h2>
 
-    <div class="dashboard-card">
+    <div class="account-list">
 
-        <div class="card-title">
+        <div>
 
-            <div>
+            <small>
+                Account holder
+            </small>
 
-                <div class="eyebrow">
-                    ACCOUNT STATUS
-                </div>
-
-                <h2>
-                    Your Nexora account
-                </h2>
-
-            </div>
-
-        </div>
-
-
-        <p style="
-            color:#6f7c84;
-            line-height:1.7;
-            font-size:13px;
-        ">
-            Your account balance and activity are managed
-            through the Nexora demo administration system.
-            This dashboard is view-only.
-        </p>
-
-    </div>
-
-</section>
-
-
-<!-- TRANSACTIONS -->
-
-<section class="dashboard-columns">
-
-    <div class="dashboard-card" id="transactions">
-
-        <div class="card-title">
-
-            <div>
-
-                <div class="eyebrow">
-                    RECENT ACTIVITY
-                </div>
-
-                <h2>
-                    Transactions
-                </h2>
-
-            </div>
+            <b id="accountName">
+                User
+            </b>
 
         </div>
 
+        <div>
 
-        <div id="transactionList">
+            <small>
+                Email address
+            </small>
 
-            <div style="
-                text-align:center;
-                padding:55px 20px;
-                color:#8b98a1;
-            ">
-                Loading activity...
-            </div>
+            <b id="accountEmail">
+                —
+            </b>
+
+        </div>
+
+        <div>
+
+            <small>
+                Account number
+            </small>
+
+            <b id="accountNumber">
+                •••• 4821
+            </b>
+
+        </div>
+
+        <div>
+
+            <small>
+                Account type
+            </small>
+
+            <b>
+                Personal demo account
+            </b>
+
+        </div>
+
+        <div>
+
+            <small>
+                Balance
+            </small>
+
+            <b id="accountBalance">
+                £0.00
+            </b>
+
+        </div>
+
+        <div>
+
+            <small>
+                Status
+            </small>
+
+            <b class="in">
+                ● Active
+            </b>
 
         </div>
 
     </div>
 
+</div>
 
-    <!-- ACCOUNT -->
-
-    <div class="dashboard-card" id="account">
-
-        <div class="eyebrow">
-            ACCOUNT
-        </div>
-
-        <h2>
-            Account details
-        </h2>
-
-
-        <div class="account-list">
-
-            <div>
-
-                <small>
-                    Account holder
-                </small>
-
-                <b id="accountName">
-                    User
-                </b>
-
-            </div>
-
-
-            <div>
-
-                <small>
-                    Email address
-                </small>
-
-                <b id="accountEmail">
-                    —
-                </b>
-
-            </div>
-
-
-            <div>
-
-                <small>
-                    Account number
-                </small>
-
-                <b>
-                    •••• 4821
-                </b>
-
-            </div>
-
-
-            <div>
-
-                <small>
-                    Account type
-                </small>
-
-                <b>
-                    Personal demo account
-                </b>
-
-            </div>
-
-
-            <div>
-
-                <small>
-                    Balance
-                </small>
-
-                <b id="accountBalance">
-                    £0.00
-                </b>
-
-            </div>
-
-
-            <div>
-
-                <small>
-                    Status
-                </small>
-
-                <b class="in">
-                    ● Active
-                </b>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-</main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
-
-const SUPABASE_URL =
-    "https://krzxqmzvzgjmolepcnbg.supabase.co";
-
-
-/*
-  USE THE SAME SUPABASE PUBLISHABLE KEY
-  YOU USED IN register.html AND login.html.
-*/
-
-const SUPABASE_KEY =
-    "sb_publishable_YBTYFY_vqnZkncmCclQa8w_ZKB0Cyul";
-
-
-const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
-
+</section></main><!-- SUPABASE --><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="./supabase.js"></script><script>
 
 let currentUser = null;
 
 
-/* --------------------------------
+/* ================================
    LOAD DASHBOARD
--------------------------------- */
+================================ */
 
 async function loadDashboard() {
 
-    const {
-        data: { session },
-        error
-    } = await supabaseClient.auth.getSession();
+    try {
+
+        const {
+            data: {
+                session
+            },
+            error
+        } = await supabaseClient.auth.getSession();
 
 
-    if (error || !session || !session.user) {
+        if (error) {
+            throw error;
+        }
+
+
+        /*
+         * No authenticated session:
+         * send the visitor back to login.
+         */
+
+        if (!session || !session.user) {
+
+            window.location.href = "./login.html";
+
+            return;
+        }
+
+
+        currentUser = session.user;
+
+
+        /*
+         * USER INFORMATION
+         */
+
+        const metadata =
+            currentUser.user_metadata || {};
+
+
+        const fullName =
+            metadata.full_name ||
+            "User";
+
+
+        const email =
+            currentUser.email ||
+            "—";
+
+
+        /*
+         * Update name.
+         */
+
+        document.getElementById("userName").textContent =
+            fullName.split(" ")[0];
+
+
+        document.getElementById("userNameSmall").textContent =
+            fullName;
+
+
+        document.getElementById("accountName").textContent =
+            fullName;
+
+
+        document.getElementById("accountEmail").textContent =
+            email;
+
+
+        /*
+         * Generate initials.
+         */
+
+        const initials =
+            fullName
+                .split(" ")
+                .filter(Boolean)
+                .map(word => word.charAt(0))
+                .join("")
+                .substring(0, 2)
+                .toUpperCase();
+
+
+        document.getElementById("userAvatar").textContent =
+            initials || "U";
+
+
+        /*
+         * Load account profile.
+         */
+
+        await loadProfile();
+
+
+        /*
+         * Load transactions.
+         */
+
+        await loadTransactions();
+
+    } catch (error) {
+
+        console.error(
+            "Dashboard error:",
+            error
+        );
 
         window.location.href =
             "./login.html";
 
-        return;
     }
-
-
-    currentUser =
-        session.user;
-
-
-    const fullName =
-        currentUser.user_metadata?.full_name ||
-        "User";
-
-
-    const email =
-        currentUser.email ||
-        "—";
-
-
-    /*
-      USER NAME
-    */
-
-    document.getElementById(
-        "userName"
-    ).textContent =
-        fullName.split(" ")[0];
-
-
-    document.getElementById(
-        "userNameSmall"
-    ).textContent =
-        fullName;
-
-
-    document.getElementById(
-        "accountName"
-    ).textContent =
-        fullName;
-
-
-    document.getElementById(
-        "accountEmail"
-    ).textContent =
-        email;
-
-
-    /*
-      INITIALS
-    */
-
-    const initials =
-        fullName
-            .split(" ")
-            .filter(Boolean)
-            .map(word => word.charAt(0))
-            .join("")
-            .substring(0, 2)
-            .toUpperCase();
-
-
-    document.getElementById(
-        "userAvatar"
-    ).textContent =
-        initials;
-
-
-    /*
-      LOAD PROFILE
-    */
-
-    await loadProfile();
-
-
-    /*
-      LOAD TRANSACTIONS
-    */
-
-    await loadTransactions();
 
 }
 
 
-/* --------------------------------
+/* ================================
    LOAD PROFILE
--------------------------------- */
+================================ */
 
 async function loadProfile() {
 
@@ -387,7 +356,7 @@ async function loadProfile() {
         error
     } = await supabaseClient
         .from("profiles")
-        .select("id, balance")
+        .select("*")
         .eq("id", currentUser.id);
 
 
@@ -403,10 +372,8 @@ async function loadProfile() {
 
 
     /*
-      Avoid .single()
-      so the dashboard doesn't fail
-      with a single-object coercion error.
-    */
+     * Supabase returns an array.
+     */
 
     const profile =
         data && data.length
@@ -416,13 +383,19 @@ async function loadProfile() {
 
     if (!profile) {
 
-        console.error(
-            "No profile found for this user."
+        console.warn(
+            "No profile found for this account."
         );
+
+        displayBalance(0);
 
         return;
     }
 
+
+    /*
+     * Read balance.
+     */
 
     const balance =
         Number(profile.balance || 0);
@@ -430,18 +403,41 @@ async function loadProfile() {
 
     displayBalance(balance);
 
+
+    /*
+     * If the database contains an account number,
+     * display the last four digits.
+     */
+
+    if (profile.account_number) {
+
+        const accountNumber =
+            String(profile.account_number);
+
+
+        const lastFour =
+            accountNumber.slice(-4);
+
+
+        document.getElementById(
+            "accountNumber"
+        ).textContent =
+            "•••• " + lastFour;
+
+    }
+
 }
 
 
-/* --------------------------------
+/* ================================
    DISPLAY BALANCE
--------------------------------- */
+================================ */
 
 function displayBalance(balance) {
 
     const formatted =
         "£" +
-        balance.toLocaleString(
+        Number(balance || 0).toLocaleString(
             "en-GB",
             {
                 minimumFractionDigits: 2,
@@ -464,11 +460,21 @@ function displayBalance(balance) {
 }
 
 
-/* --------------------------------
+/* ================================
    LOAD TRANSACTIONS
--------------------------------- */
+================================ */
 
 async function loadTransactions() {
+
+    const container =
+        document.getElementById(
+            "transactionList"
+        );
+
+
+    /*
+     * Try to load the transactions table.
+     */
 
     const {
         data,
@@ -491,89 +497,46 @@ async function loadTransactions() {
         .limit(20);
 
 
+    /*
+     * If the transactions table hasn't been
+     * created yet, don't break the dashboard.
+     */
+
     if (error) {
 
-        console.error(
-            "Transaction loading error:",
-            error
+        console.warn(
+            "Transactions unavailable:",
+            error.message
         );
 
-        document.getElementById(
-            "transactionList"
-        ).innerHTML = `
-            <div style="
-                text-align:center;
-                padding:40px 20px;
-                color:#8b98a1;
-            ">
-                Unable to load demo activity.
-            </div>
-        `;
+        showNoTransactions();
 
         return;
     }
-
-
-    const container =
-        document.getElementById(
-            "transactionList"
-        );
 
 
     if (!data || data.length === 0) {
 
-        container.innerHTML = `
-            <div style="
-                text-align:center;
-                padding:55px 20px;
-                color:#8b98a1;
-            ">
-
-                <div style="
-                    width:55px;
-                    height:55px;
-                    border-radius:18px;
-                    background:#f0f3f4;
-                    display:grid;
-                    place-items:center;
-                    margin:0 auto 18px;
-                    font-size:24px;
-                ">
-                    —
-                </div>
-
-                <strong style="
-                    display:block;
-                    color:#101820;
-                    font-size:15px;
-                    margin-bottom:7px;
-                ">
-                    No transactions yet
-                </strong>
-
-                <span style="font-size:12px;">
-                    Your demo transaction history
-                    will appear here.
-                </span>
-
-            </div>
-        `;
+        showNoTransactions();
 
         return;
     }
 
+
+    /*
+     * Display transactions.
+     */
 
     container.innerHTML =
         data.map(transaction => {
 
             const amount =
-                Number(
-                    transaction.amount || 0
-                );
+                Number(transaction.amount || 0);
 
 
             const isCredit =
-                transaction.type === "add";
+                transaction.type === "add" ||
+                transaction.type === "credit";
 
 
             const sign =
@@ -608,18 +571,36 @@ async function loadTransactions() {
                     : "";
 
 
-            const title =
-                transaction.description ||
-                (
-                    transaction.type === "add"
-                        ? "Demo money added"
-                        : transaction.type === "withdraw"
-                            ? "Demo withdrawal"
-                            : "Demo transfer"
-                );
+            let title =
+                transaction.description;
+
+
+            if (!title) {
+
+                if (
+                    transaction.type === "add" ||
+                    transaction.type === "credit"
+                ) {
+
+                    title = "Demo money added";
+
+                } else if (
+                    transaction.type === "withdraw"
+                ) {
+
+                    title = "Demo withdrawal";
+
+                } else {
+
+                    title = "Demo transfer";
+
+                }
+
+            }
 
 
             return `
+
                 <div style="
                     display:flex;
                     justify-content:space-between;
@@ -657,6 +638,7 @@ async function loadTransactions() {
                     </strong>
 
                 </div>
+
             `;
 
         }).join("");
@@ -664,16 +646,76 @@ async function loadTransactions() {
 }
 
 
-/* --------------------------------
+/* ================================
+   NO TRANSACTIONS
+================================ */
+
+function showNoTransactions() {
+
+    document.getElementById(
+        "transactionList"
+    ).innerHTML = `
+
+        <div style="
+            text-align:center;
+            padding:55px 20px;
+            color:#8b98a1;
+        ">
+
+            <div style="
+                width:55px;
+                height:55px;
+                border-radius:18px;
+                background:#f0f3f4;
+                display:grid;
+                place-items:center;
+                margin:0 auto 18px;
+                font-size:24px;
+            ">
+                —
+            </div>
+
+            <strong style="
+                display:block;
+                color:#101820;
+                font-size:15px;
+                margin-bottom:7px;
+            ">
+                No transactions yet
+            </strong>
+
+            <span style="font-size:12px;">
+                Your demo transaction history
+                will appear here.
+            </span>
+
+        </div>
+
+    `;
+
+}
+
+
+/* ================================
    LOG OUT
--------------------------------- */
+================================ */
 
 async function logout(event) {
 
     event.preventDefault();
 
+    try {
 
-    await supabaseClient.auth.signOut();
+        await supabaseClient.auth.signOut();
+
+    } catch (error) {
+
+        console.error(
+            "Logout error:",
+            error
+        );
+
+    }
 
 
     localStorage.removeItem(
@@ -692,10 +734,9 @@ async function logout(event) {
 }
 
 
-/* --------------------------------
-   SECURITY
-   Escape transaction text
--------------------------------- */
+/* ================================
+   HTML ESCAPING
+================================ */
 
 function escapeHtml(value) {
 
@@ -709,11 +750,11 @@ function escapeHtml(value) {
 }
 
 
-/* --------------------------------
-   START
--------------------------------- */
+/* ================================
+   START DASHBOARD
+================================ */
 
 loadDashboard();
 
 </script></body>
-            </html>
+    </html>
