@@ -4,7 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>Dashboard · Nexora Financial</title>
+
     <link rel="stylesheet" href="./assets/style.css">
 </head>
 
@@ -14,6 +16,7 @@
     NEXORA FINANCIAL · SIMULATED ACCOUNT
 </div>
 
+
 <header>
 
     <a class="brand" href="./index.html">
@@ -21,13 +24,20 @@
         <span>FINANCIAL</span>
     </a>
 
+
     <nav class="navlinks">
 
-        <a href="#transactions">Activity</a>
+        <a href="#transactions">
+            Activity
+        </a>
 
-        <a href="#account">Account</a>
+        <a href="#account">
+            Account
+        </a>
 
-        <a href="./admin.html">Admin</a>
+        <a href="./admin.html">
+            Admin
+        </a>
 
         <a
             class="btn ghost"
@@ -43,6 +53,11 @@
 
 
 <main class="dash">
+
+
+<!-- ==========================================
+     TOP
+========================================== -->
 
 <div class="dash-top">
 
@@ -83,9 +98,12 @@
 
 
 
-<!-- BALANCE -->
+<!-- ==========================================
+     BALANCE
+========================================== -->
 
 <section class="dash-grid">
+
 
     <div class="balance-panel">
 
@@ -107,6 +125,7 @@
     </div>
 
 
+
     <div class="dashboard-card">
 
         <div class="eyebrow">
@@ -122,9 +141,8 @@
             line-height:1.7;
             font-size:13px;
         ">
-            Your account information and simulated
-            activity are securely stored in your Nexora
-            database.
+            Your account information and activity are
+            securely stored in your Nexora account.
         </p>
 
     </div>
@@ -133,7 +151,9 @@
 
 
 
-<!-- SEND MONEY -->
+<!-- ==========================================
+     SEND MONEY
+========================================== -->
 
 <section
     class="dashboard-card"
@@ -160,7 +180,9 @@
 
     <form id="sendMoneyForm">
 
+
         <label>
+
             Recipient email
 
             <input
@@ -169,7 +191,9 @@
                 required
                 placeholder="recipient@example.com"
             >
+
         </label>
+
 
 
         <label style="
@@ -191,6 +215,7 @@
         </label>
 
 
+
         <label style="
             display:block;
             margin-top:15px;
@@ -208,6 +233,7 @@
         </label>
 
 
+
         <button
             class="btn green full"
             type="submit"
@@ -218,6 +244,7 @@
         </button>
 
 
+
         <div
             id="sendMoneyMessage"
             style="
@@ -226,13 +253,16 @@
             "
         ></div>
 
+
     </form>
 
 </section>
 
 
 
-<!-- TRANSACTIONS -->
+<!-- ==========================================
+     TRANSACTIONS
+========================================== -->
 
 <section
     class="dashboard-card"
@@ -272,7 +302,9 @@
 
 
 
-<!-- ACCOUNT -->
+<!-- ==========================================
+     ACCOUNT
+========================================== -->
 
 <section
     class="dashboard-card"
@@ -291,75 +323,116 @@
 
     <div class="account-list">
 
+
         <div>
-            <small>Account holder</small>
+
+            <small>
+                Account holder
+            </small>
 
             <b id="accountName">
                 User
             </b>
+
         </div>
 
 
+
         <div>
-            <small>Email address</small>
+
+            <small>
+                Email address
+            </small>
 
             <b id="accountEmail">
                 —
             </b>
+
         </div>
 
 
+
         <div>
-            <small>Account number</small>
+
+            <small>
+                Account number
+            </small>
 
             <b>
                 •••• 4821
             </b>
+
         </div>
 
 
+
         <div>
-            <small>Account type</small>
+
+            <small>
+                Account type
+            </small>
 
             <b>
                 Personal account
             </b>
+
         </div>
 
 
+
         <div>
-            <small>Balance</small>
+
+            <small>
+                Balance
+            </small>
 
             <b id="accountBalance">
                 £0.00
             </b>
+
         </div>
 
 
+
         <div>
-            <small>Status</small>
+
+            <small>
+                Status
+            </small>
 
             <b class="in">
                 ● Active
             </b>
+
         </div>
+
 
     </div>
 
 </section>
 
+
 </main>
+
 
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+
 <script>
+
+
+/* ==========================================
+   SUPABASE
+========================================== */
 
 const SUPABASE_URL =
     "https://krzxqmzvzgjmolepcnbg.supabase.co";
 
+
 const SUPABASE_KEY =
     "sb_publishable_YBTYFY_vqnZkncmCclQa8w_ZKB0Cyul";
+
 
 const supabaseClient =
     window.supabase.createClient(
@@ -369,7 +442,6 @@ const supabaseClient =
 
 
 let currentUser = null;
-
 
 
 /* ==========================================
@@ -385,6 +457,7 @@ loadDashboard();
 ========================================== */
 
 async function loadDashboard() {
+
 
     const {
         data,
@@ -448,7 +521,10 @@ async function loadDashboard() {
         fullName
             .split(" ")
             .filter(Boolean)
-            .map(word => word.charAt(0))
+            .map(
+                word =>
+                    word.charAt(0)
+            )
             .join("")
             .substring(0, 2)
             .toUpperCase();
@@ -476,6 +552,7 @@ async function loadDashboard() {
 
 async function loadProfile() {
 
+
     const {
         data,
         error
@@ -494,7 +571,7 @@ async function loadProfile() {
     if (error) {
 
         console.error(
-            "Profile error:",
+            "Profile loading error:",
             error
         );
 
@@ -534,6 +611,7 @@ async function loadProfile() {
 
 function displayBalance(balance) {
 
+
     const formatted =
         "£" +
         balance.toLocaleString(
@@ -570,6 +648,7 @@ document
         "submit",
         async function(event) {
 
+
             event.preventDefault();
 
 
@@ -591,6 +670,15 @@ document
                         )
                         .value
                 );
+
+
+            const description =
+                document
+                    .getElementById(
+                        "sendDescription"
+                    )
+                    .value
+                    .trim();
 
 
             const message =
@@ -624,6 +712,23 @@ document
             }
 
 
+            if (
+                recipientEmail ===
+                String(
+                    currentUser.email
+                ).toLowerCase()
+            ) {
+
+                message.textContent =
+                    "You cannot send money to yourself.";
+
+                message.style.color =
+                    "#c3444d";
+
+                return;
+            }
+
+
             button.disabled = true;
 
             button.textContent =
@@ -631,6 +736,12 @@ document
 
 
             try {
+
+
+                /*
+                   The send_money function handles
+                   the actual simulated transfer.
+                */
 
                 const {
                     error
@@ -650,6 +761,16 @@ document
                 if (error) {
                     throw error;
                 }
+
+
+                /*
+                   If the RPC succeeds,
+                   refresh the sender immediately.
+                */
+
+                await loadProfile();
+
+                await loadTransactions();
 
 
                 message.textContent =
@@ -674,14 +795,13 @@ document
                 ).value = "";
 
 
-                await loadProfile();
-
-                await loadTransactions();
-
-
             } catch (error) {
 
-                console.error(error);
+
+                console.error(
+                    "Send money error:",
+                    error
+                );
 
 
                 message.textContent =
@@ -710,6 +830,7 @@ document
 
 async function loadTransactions() {
 
+
     const {
         data,
         error
@@ -717,7 +838,7 @@ async function loadTransactions() {
         await supabaseClient
             .from("transactions")
             .select(
-                "id,type,amount,description,created_at,counterparty_id"
+                "id,user_id,type,amount,description,created_at"
             )
             .eq(
                 "user_id",
@@ -726,7 +847,7 @@ async function loadTransactions() {
             .order(
                 "created_at",
                 {
-                    ascending: false
+                    ascending:false
                 }
             )
             .limit(20);
@@ -741,7 +862,7 @@ async function loadTransactions() {
     if (error) {
 
         console.error(
-            "Transaction error:",
+            "Transaction loading error:",
             error
         );
 
@@ -792,87 +913,48 @@ async function loadTransactions() {
     }
 
 
-    const counterpartyIds =
-        data
-            .map(
-                transaction =>
-                    transaction.counterparty_id
-            )
-            .filter(Boolean);
-
-
-    let counterparties = [];
-
-
-    if (counterpartyIds.length) {
-
-        const {
-            data: profiles,
-            error: profileError
-        } =
-            await supabaseClient
-                .from("profiles")
-                .select(
-                    "id,name,email"
-                )
-                .in(
-                    "id",
-                    counterpartyIds
-                );
-
-
-        if (!profileError) {
-
-            counterparties =
-                profiles || [];
-
-        }
-
-    }
-
-
     container.innerHTML =
-        data.map(transaction => {
-
-            const amount =
-                Number(
-                    transaction.amount || 0
-                );
+        data.map(
+            transaction => {
 
 
-            const isCredit =
-                transaction.type === "add";
+                const amount =
+                    Number(
+                        transaction.amount || 0
+                    );
 
 
-            const counterparty =
-                counterparties.find(
-                    person =>
-                        person.id ===
-                        transaction.counterparty_id
-                );
+                /*
+                   "add" means money entering
+                   the account.
+
+                   Everything else is treated
+                   as money leaving.
+                */
+
+                const isCredit =
+                    transaction.type === "add";
 
 
-            let title;
-
-
-            if (counterparty) {
-
-                title =
+                const sign =
                     isCredit
-                        ? "Received from " +
-                          (
-                              counterparty.name ||
-                              counterparty.email
-                          )
-                        : "Sent to " +
-                          (
-                              counterparty.name ||
-                              counterparty.email
-                          );
+                        ? "+"
+                        : "-";
 
-            } else {
 
-                title =
+                const formattedAmount =
+                    sign +
+                    "£" +
+                    amount.toLocaleString(
+                        "en-GB",
+                        {
+                            minimumFractionDigits:2,
+                            maximumFractionDigits:2
+                        }
+                    );
+
+
+                const title =
                     transaction.description ||
                     (
                         isCredit
@@ -880,104 +962,71 @@ async function loadTransactions() {
                             : "Funds sent"
                     );
 
-            }
+
+                const date =
+                    transaction.created_at
+                        ? new Date(
+                            transaction.created_at
+                        ).toLocaleString(
+                            "en-GB",
+                            {
+                                dateStyle:"medium",
+                                timeStyle:"short"
+                            }
+                        )
+                        : "";
 
 
-            const description =
-                counterparty &&
-                counterparty.name &&
-                counterparty.email
-                    ? counterparty.email
-                    : transaction.description || "";
-
-
-            const sign =
-                isCredit
-                    ? "+"
-                    : "-";
-
-
-            const formattedAmount =
-                sign +
-                "£" +
-                amount.toLocaleString(
-                    "en-GB",
-                    {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    }
-                );
-
-
-            const date =
-                transaction.created_at
-                    ? new Date(
-                        transaction.created_at
-                    ).toLocaleString(
-                        "en-GB",
-                        {
-                            dateStyle: "medium",
-                            timeStyle: "short"
-                        }
-                    )
-                    : "";
-
-
-            return `
-
-                <div style="
-                    display:flex;
-                    justify-content:space-between;
-                    align-items:center;
-                    gap:15px;
-                    padding:18px 0;
-                    border-bottom:1px solid #edf0f1;
-                ">
+                return `
 
                     <div style="
-                        min-width:0;
+                        display:flex;
+                        justify-content:space-between;
+                        align-items:center;
+                        gap:15px;
+                        padding:18px 0;
+                        border-bottom:1px solid #edf0f1;
                     ">
 
-                        <strong style="
-                            display:block;
-                            color:#101820;
-                            font-size:14px;
-                            margin-bottom:5px;
+
+                        <div style="
+                            min-width:0;
                         ">
-                            ${escapeHtml(title)}
+
+                            <strong style="
+                                display:block;
+                                color:#101820;
+                                font-size:14px;
+                                margin-bottom:5px;
+                            ">
+                                ${escapeHtml(title)}
+                            </strong>
+
+
+                            <span style="
+                                color:#8b98a1;
+                                font-size:11px;
+                            ">
+                                ${escapeHtml(date)}
+                            </span>
+
+                        </div>
+
+
+                        <strong style="
+                            font-size:14px;
+                            white-space:nowrap;
+                        ">
+                            ${formattedAmount}
                         </strong>
 
-                        <span style="
-                            display:block;
-                            color:#8b98a1;
-                            font-size:11px;
-                            margin-bottom:4px;
-                        ">
-                            ${escapeHtml(description)}
-                        </span>
-
-                        <span style="
-                            color:#8b98a1;
-                            font-size:11px;
-                        ">
-                            ${escapeHtml(date)}
-                        </span>
 
                     </div>
 
+                `;
 
-                    <strong style="
-                        font-size:14px;
-                        white-space:nowrap;
-                    ">
-                        ${formattedAmount}
-                    </strong>
-
-                </div>
-
-            `;
-
-        }).join("");
+            }
+        ).join("");
 
 }
 
@@ -989,56 +1038,78 @@ async function loadTransactions() {
 
 function startRealtime() {
 
-    supabaseClient
-        .channel(
-            "nexora-account-" +
+
+    const channel =
+        supabaseClient.channel(
+            "nexora-user-" +
             currentUser.id
-        )
-
-        .on(
-            "postgres_changes",
-            {
-                event: "UPDATE",
-                schema: "public",
-                table: "profiles",
-                filter:
-                    "id=eq." +
-                    currentUser.id
-            },
-            async function() {
-
-                await loadProfile();
-
-            }
-        )
-
-        .on(
-            "postgres_changes",
-            {
-                event: "INSERT",
-                schema: "public",
-                table: "transactions",
-                filter:
-                    "user_id=eq." +
-                    currentUser.id
-            },
-            async function() {
-
-                await loadTransactions();
-
-            }
-        )
-
-        .subscribe(
-            function(status) {
-
-                console.log(
-                    "Realtime status:",
-                    status
-                );
-
-            }
         );
+
+
+    /*
+       Listen for changes to this user's
+       profile/balance.
+    */
+
+    channel.on(
+        "postgres_changes",
+        {
+            event:"UPDATE",
+            schema:"public",
+            table:"profiles",
+            filter:
+                "id=eq." +
+                currentUser.id
+        },
+        async function() {
+
+            console.log(
+                "Balance changed."
+            );
+
+            await loadProfile();
+
+        }
+    );
+
+
+    /*
+       Listen for new transactions
+       belonging to this user.
+    */
+
+    channel.on(
+        "postgres_changes",
+        {
+            event:"INSERT",
+            schema:"public",
+            table:"transactions",
+            filter:
+                "user_id=eq." +
+                currentUser.id
+        },
+        async function() {
+
+            console.log(
+                "New transaction."
+            );
+
+            await loadTransactions();
+
+        }
+    );
+
+
+    channel.subscribe(
+        function(status) {
+
+            console.log(
+                "Realtime status:",
+                status
+            );
+
+        }
+    );
 
 }
 
@@ -1050,38 +1121,8 @@ function startRealtime() {
 
 async function logout(event) {
 
+
     event.preventDefault();
 
 
-    await supabaseClient.auth.signOut();
-
-
-    localStorage.removeItem(
-        "nexoraLoggedIn"
-    );
-
-
-    localStorage.removeItem(
-        "nexoraUserId"
-    );
-
-
-    window.location.href =
-        "./index.html";
-
-}
-
-
-
-/* ==========================================
-   HTML SAFETY
-========================================== */
-
-function escapeHtml(value) {
-
-    return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
         
