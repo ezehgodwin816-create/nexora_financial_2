@@ -1,185 +1,291 @@
 <!doctype html>
-<html lang="en">
 
-<head>
+<html lang="en"><head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>Dashboard · Nexora Financial</title>
 
-    <title>Dashboard · Nexora Financial</title>
+<link rel="stylesheet" href="./assets/style.css">
 
-    <link rel="stylesheet" href="./assets/style.css">
-</head>
-
-<body class="dashboard-body">
-
-<div class="demo">
+</head><body class="dashboard-body"><div class="demo">
     NEXORA FINANCIAL · SIMULATED ACCOUNT
+</div><header><a class="brand" href="./index.html">
+    NEXORA
+    <span>FINANCIAL</span>
+</a>
+
+<nav class="navlinks">
+
+    <a href="#transactions">
+        Activity
+    </a>
+
+    <a href="#account">
+        Account
+    </a>
+
+    <a href="./admin.html">
+        Admin
+    </a>
+
+    <a
+        class="btn ghost"
+        href="./index.html"
+        onclick="logout(event)"
+    >
+        Log out
+    </a>
+
+</nav>
+
+</header><main class="dash"><!-- ==========================================
+     DASHBOARD HEADER
+========================================== --><div class="dash-top"><div>
+
+    <div class="eyebrow">
+        PERSONAL ACCOUNT
+    </div>
+
+    <h1>
+        Good afternoon,
+        <span id="userName">there</span>.
+    </h1>
+
+    <p>
+        Here's what's happening with your money today.
+    </p>
+
 </div>
 
 
-<header>
+<div class="user-pill">
 
-    <a class="brand" href="./index.html">
-        NEXORA
-        <span>FINANCIAL</span>
-    </a>
-
-
-    <nav class="navlinks">
-
-        <a href="#transactions">
-            Activity
-        </a>
-
-        <a href="#account">
-            Account
-        </a>
-
-        <a href="./admin.html">
-            Admin
-        </a>
-
-        <a
-            class="btn ghost"
-            href="./index.html"
-            onclick="logout(event)"
-        >
-            Log out
-        </a>
-
-    </nav>
-
-</header>
-
-
-<main class="dash">
-
-
-<!-- ==========================================
-     TOP
-========================================== -->
-
-<div class="dash-top">
-
-    <div>
-
-        <div class="eyebrow">
-            PERSONAL ACCOUNT
-        </div>
-
-        <h1>
-            Good afternoon,
-            <span id="userName">there</span>.
-        </h1>
-
-        <p>
-            Here's what's happening with your money today.
-        </p>
-
+    <div
+        class="avatar"
+        id="userAvatar"
+    >
+        U
     </div>
 
-
-    <div class="user-pill">
-
-        <div
-            class="avatar"
-            id="userAvatar"
-        >
-            U
-        </div>
-
+    <div class="user-pill-info">
         <span id="userNameSmall">
             User
         </span>
 
+        <small>
+            Personal account
+        </small>
     </div>
+
+    <div class="online-dot"></div>
 
 </div>
 
+</div><!-- ==========================================
+     BALANCE + ACCOUNT STATUS
+========================================== --><section class="dash-grid"><div class="balance-panel">
 
+    <div class="balance-decoration"></div>
 
-<!-- ==========================================
-     BALANCE
-========================================== -->
-
-<section class="dash-grid">
-
-
-    <div class="balance-panel">
+    <div class="balance-top-row">
 
         <div class="balance-label">
             TOTAL BALANCE
         </div>
 
-        <div
-            class="balance-number"
-            id="balanceAmount"
-        >
-            £0.00
-        </div>
-
-        <div class="balance-meta">
-            Available balance
+        <div class="balance-mini-badge">
+            ● Active
         </div>
 
     </div>
 
 
+    <div
+        class="balance-number"
+        id="balanceAmount"
+    >
+        £0.00
+    </div>
 
-    <div class="dashboard-card">
 
+    <div class="balance-meta">
+        Available balance
+    </div>
+
+
+    <div class="balance-footer">
+
+        <div class="balance-account">
+            <span>ACCOUNT</span>
+            <strong>•••• 4821</strong>
+        </div>
+
+        <div class="balance-symbol">
+            £
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<div class="dashboard-card account-status-card">
+
+    <div class="status-icon">
+        ✓
+    </div>
+
+    <div class="eyebrow">
+        ACCOUNT STATUS
+    </div>
+
+    <h2>
+        Your Nexora account
+    </h2>
+
+    <p>
+        Your account information and activity are securely
+        stored in your Nexora account.
+    </p>
+
+
+    <div class="status-row">
+
+        <span>
+            Account status
+        </span>
+
+        <strong class="in">
+            ● Active
+        </strong>
+
+    </div>
+
+
+    <div class="status-row">
+
+        <span>
+            Account type
+        </span>
+
+        <strong>
+            Personal
+        </strong>
+
+    </div>
+
+</div>
+
+</section><!-- ==========================================
+     QUICK ACTIONS
+========================================== --><section class="quick-section"><div class="section-heading">
+
+    <div>
         <div class="eyebrow">
-            ACCOUNT STATUS
+            QUICK ACTIONS
         </div>
 
         <h2>
-            Your Nexora account
+            Manage your account
+        </h2>
+    </div>
+
+</div>
+
+
+<div class="quick-grid">
+
+    <a
+        class="quick-action"
+        href="#sendMoneyForm"
+    >
+        <div class="quick-icon send-icon">
+            ↗
+        </div>
+
+        <strong>
+            Send
+        </strong>
+
+        <span>
+            Transfer funds
+        </span>
+    </a>
+
+
+    <a
+        class="quick-action"
+        href="#transactions"
+    >
+        <div class="quick-icon activity-icon">
+            ≋
+        </div>
+
+        <strong>
+            Activity
+        </strong>
+
+        <span>
+            View transactions
+        </span>
+    </a>
+
+
+    <a
+        class="quick-action"
+        href="#account"
+    >
+        <div class="quick-icon account-icon">
+            ◉
+        </div>
+
+        <strong>
+            Account
+        </strong>
+
+        <span>
+            View details
+        </span>
+    </a>
+
+</div>
+
+</section><!-- ==========================================
+     SEND MONEY
+========================================== --><section
+    class="dashboard-card send-card"
+    id="sendMoneyFormSection"
+><div class="send-header">
+
+    <div>
+
+        <div class="eyebrow">
+            SEND MONEY
+        </div>
+
+        <h2>
+            Send funds
         </h2>
 
-        <p style="
-            color:#6f7c84;
-            line-height:1.7;
-            font-size:13px;
-        ">
-            Your account information and activity are
-            securely stored in your Nexora account.
+        <p>
+            Send simulated funds to another Nexora account
+            using their email address.
         </p>
 
     </div>
 
-</section>
-
-
-
-<!-- ==========================================
-     SEND MONEY
-========================================== -->
-
-<section
-    class="dashboard-card"
-    style="margin-bottom:25px;"
->
-
-    <div class="eyebrow">
-        SEND MONEY
+    <div class="send-visual">
+        <div class="send-visual-arrow">
+            →
+        </div>
     </div>
 
-    <h2>
-        Send funds
-    </h2>
-
-    <p style="
-        color:#6f7c84;
-        line-height:1.7;
-        font-size:13px;
-    ">
-        Send simulated funds to another Nexora account
-        using their email address.
-    </p>
+</div>
 
 
-    <form id="sendMoneyForm">
+<form id="sendMoneyForm">
 
+    <div class="form-grid">
 
         <label>
 
@@ -195,232 +301,207 @@
         </label>
 
 
-
-        <label style="
-            display:block;
-            margin-top:15px;
-        ">
+        <label>
 
             Amount
 
-            <input
-                id="sendAmount"
-                type="number"
-                min="0.01"
-                step="0.01"
-                required
-                placeholder="100.00"
-            >
+            <div class="amount-input">
 
-        </label>
+                <span>
+                    £
+                </span>
 
+                <input
+                    id="sendAmount"
+                    type="number"
+                    min="0.01"
+                    step="0.01"
+                    required
+                    placeholder="100.00"
+                >
 
-
-        <label style="
-            display:block;
-            margin-top:15px;
-        ">
-
-            Description
-
-            <input
-                id="sendDescription"
-                type="text"
-                maxlength="100"
-                placeholder="Payment"
-            >
-
-        </label>
-
-
-
-        <button
-            class="btn green full"
-            type="submit"
-            id="sendMoneyButton"
-            style="margin-top:20px;"
-        >
-            Send money →
-        </button>
-
-
-
-        <div
-            id="sendMoneyMessage"
-            style="
-                margin-top:15px;
-                font-size:13px;
-            "
-        ></div>
-
-
-    </form>
-
-</section>
-
-
-
-<!-- ==========================================
-     TRANSACTIONS
-========================================== -->
-
-<section
-    class="dashboard-card"
-    id="transactions"
->
-
-    <div class="card-title">
-
-        <div>
-
-            <div class="eyebrow">
-                RECENT ACTIVITY
             </div>
 
-            <h2>
-                Transactions
-            </h2>
-
-        </div>
+        </label>
 
     </div>
 
 
-    <div id="transactionList">
+    <label>
 
-        <div style="
-            text-align:center;
-            padding:55px 20px;
-            color:#8b98a1;
-        ">
-            Loading activity...
+        Description
+
+        <input
+            id="sendDescription"
+            type="text"
+            maxlength="100"
+            placeholder="Payment"
+        >
+
+    </label>
+
+
+    <button
+        class="btn green full"
+        type="submit"
+        id="sendMoneyButton"
+    >
+        Send money →
+    </button>
+
+
+    <div
+        id="sendMoneyMessage"
+        class="send-message"
+    ></div>
+
+</form>
+
+</section><!-- ==========================================
+     TRANSACTIONS
+========================================== --><section
+    class="dashboard-card"
+    id="transactions"
+><div class="card-title">
+
+    <div>
+
+        <div class="eyebrow">
+            RECENT ACTIVITY
         </div>
+
+        <h2>
+            Transactions
+        </h2>
 
     </div>
 
-</section>
+    <div class="activity-badge">
+        LIVE
+    </div>
+
+</div>
 
 
+<div id="transactionList">
 
-<!-- ==========================================
+    <div class="empty-loading">
+        <div class="loading-circle"></div>
+        Loading activity...
+    </div>
+
+</div>
+
+</section><!-- ==========================================
      ACCOUNT
-========================================== -->
-
-<section
+========================================== --><section
     class="dashboard-card"
     id="account"
-    style="margin-top:25px;"
->
+><div class="account-header">
 
-    <div class="eyebrow">
-        ACCOUNT
-    </div>
+    <div>
 
-    <h2>
-        Account details
-    </h2>
-
-
-    <div class="account-list">
-
-
-        <div>
-
-            <small>
-                Account holder
-            </small>
-
-            <b id="accountName">
-                User
-            </b>
-
+        <div class="eyebrow">
+            ACCOUNT
         </div>
 
-
-
-        <div>
-
-            <small>
-                Email address
-            </small>
-
-            <b id="accountEmail">
-                —
-            </b>
-
-        </div>
-
-
-
-        <div>
-
-            <small>
-                Account number
-            </small>
-
-            <b>
-                •••• 4821
-            </b>
-
-        </div>
-
-
-
-        <div>
-
-            <small>
-                Account type
-            </small>
-
-            <b>
-                Personal account
-            </b>
-
-        </div>
-
-
-
-        <div>
-
-            <small>
-                Balance
-            </small>
-
-            <b id="accountBalance">
-                £0.00
-            </b>
-
-        </div>
-
-
-
-        <div>
-
-            <small>
-                Status
-            </small>
-
-            <b class="in">
-                ● Active
-            </b>
-
-        </div>
-
+        <h2>
+            Account details
+        </h2>
 
     </div>
 
-</section>
+    <div class="account-shield">
+        ✓
+    </div>
+
+</div>
 
 
-</main>
+<div class="account-list">
 
 
+    <div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        <small>
+            Account holder
+        </small>
+
+        <b id="accountName">
+            User
+        </b>
+
+    </div>
 
 
-<script>
+    <div>
 
+        <small>
+            Email address
+        </small>
+
+        <b id="accountEmail">
+            —
+        </b>
+
+    </div>
+
+
+    <div>
+
+        <small>
+            Account number
+        </small>
+
+        <b>
+            •••• 4821
+        </b>
+
+    </div>
+
+
+    <div>
+
+        <small>
+            Account type
+        </small>
+
+        <b>
+            Personal account
+        </b>
+
+    </div>
+
+
+    <div>
+
+        <small>
+            Balance
+        </small>
+
+        <b id="accountBalance">
+            £0.00
+        </b>
+
+    </div>
+
+
+    <div>
+
+        <small>
+            Status
+        </small>
+
+        <b class="in">
+            ● Active
+        </b>
+
+    </div>
+
+
+</div>
+
+</section></main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
 
 /* ==========================================
    SUPABASE
@@ -451,13 +532,11 @@ let currentUser = null;
 loadDashboard();
 
 
-
 /* ==========================================
    LOAD DASHBOARD
 ========================================== */
 
 async function loadDashboard() {
-
 
     const {
         data,
@@ -545,13 +624,11 @@ async function loadDashboard() {
 }
 
 
-
 /* ==========================================
    LOAD PROFILE
 ========================================== */
 
 async function loadProfile() {
-
 
     const {
         data,
@@ -604,13 +681,11 @@ async function loadProfile() {
 }
 
 
-
 /* ==========================================
    DISPLAY BALANCE
 ========================================== */
 
 function displayBalance(balance) {
-
 
     const formatted =
         "£" +
@@ -637,7 +712,6 @@ function displayBalance(balance) {
 }
 
 
-
 /* ==========================================
    SEND MONEY
 ========================================== */
@@ -647,7 +721,6 @@ document
     .addEventListener(
         "submit",
         async function(event) {
-
 
             event.preventDefault();
 
@@ -737,12 +810,6 @@ document
 
             try {
 
-
-                /*
-                   The send_money function handles
-                   the actual simulated transfer.
-                */
-
                 const {
                     error
                 } =
@@ -762,11 +829,6 @@ document
                     throw error;
                 }
 
-
-                /*
-                   If the RPC succeeds,
-                   refresh the sender immediately.
-                */
 
                 await loadProfile();
 
@@ -797,7 +859,6 @@ document
 
             } catch (error) {
 
-
                 console.error(
                     "Send money error:",
                     error
@@ -823,13 +884,11 @@ document
     );
 
 
-
 /* ==========================================
    LOAD TRANSACTIONS
 ========================================== */
 
 async function loadTransactions() {
-
 
     const {
         data,
@@ -917,20 +976,11 @@ async function loadTransactions() {
         data.map(
             transaction => {
 
-
                 const amount =
                     Number(
                         transaction.amount || 0
                     );
 
-
-                /*
-                   "add" means money entering
-                   the account.
-
-                   Everything else is treated
-                   as money leaving.
-                */
 
                 const isCredit =
                     transaction.type === "add";
@@ -977,49 +1027,55 @@ async function loadTransactions() {
                         : "";
 
 
+                const icon =
+                    isCredit
+                        ? "↓"
+                        : "↑";
+
+
+                const iconClass =
+                    isCredit
+                        ? "credit"
+                        : "debit";
+
+
+                const amountClass =
+                    isCredit
+                        ? "in"
+                        : "out";
+
+
                 return `
 
-                    <div style="
-                        display:flex;
-                        justify-content:space-between;
-                        align-items:center;
-                        gap:15px;
-                        padding:18px 0;
-                        border-bottom:1px solid #edf0f1;
-                    ">
+                    <div class="transaction">
 
-
-                        <div style="
-                            min-width:0;
+                        <div class="
+                            tx-icon
+                            ${iconClass}
                         ">
+                            ${icon}
+                        </div>
 
-                            <strong style="
-                                display:block;
-                                color:#101820;
-                                font-size:14px;
-                                margin-bottom:5px;
-                            ">
+
+                        <div class="tx-info">
+
+                            <b>
                                 ${escapeHtml(title)}
-                            </strong>
+                            </b>
 
-
-                            <span style="
-                                color:#8b98a1;
-                                font-size:11px;
-                            ">
+                            <small>
                                 ${escapeHtml(date)}
-                            </span>
+                            </small>
 
                         </div>
 
 
-                        <strong style="
-                            font-size:14px;
-                            white-space:nowrap;
+                        <strong class="
+                            tx-amount
+                            ${amountClass}
                         ">
                             ${formattedAmount}
                         </strong>
-
 
                     </div>
 
@@ -1031,13 +1087,11 @@ async function loadTransactions() {
 }
 
 
-
 /* ==========================================
    REALTIME
 ========================================== */
 
 function startRealtime() {
-
 
     const channel =
         supabaseClient.channel(
@@ -1045,11 +1099,6 @@ function startRealtime() {
             currentUser.id
         );
 
-
-    /*
-       Listen for changes to this user's
-       profile/balance.
-    */
 
     channel.on(
         "postgres_changes",
@@ -1072,11 +1121,6 @@ function startRealtime() {
         }
     );
 
-
-    /*
-       Listen for new transactions
-       belonging to this user.
-    */
 
     channel.on(
         "postgres_changes",
@@ -1114,7 +1158,6 @@ function startRealtime() {
 }
 
 
-
 /* ==========================================
    LOGOUT
 ========================================== */
@@ -1124,15 +1167,31 @@ async function logout(event) {
     event.preventDefault();
 
     try {
+
         await supabaseClient.auth.signOut();
+
     } catch (error) {
-        console.error("Logout error:", error);
+
+        console.error(
+            "Logout error:",
+            error
+        );
+
     }
 
-    localStorage.removeItem("nexoraLoggedIn");
-    localStorage.removeItem("nexoraUserId");
 
-    window.location.href = "./index.html";
+    localStorage.removeItem(
+        "nexoraLoggedIn"
+    );
+
+    localStorage.removeItem(
+        "nexoraUserId"
+    );
+
+
+    window.location.href =
+        "./index.html";
+
 }
 
 
@@ -1143,17 +1202,28 @@ async function logout(event) {
 function escapeHtml(value) {
 
     return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
 }
 
-</script>
-
-</body>
+</script></body>
 </html>
-
-
-        
