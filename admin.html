@@ -1,599 +1,1102 @@
 <!doctype html>
 
-<html lang="en">
-<head>
+<html lang="en"><head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin · Nexora Financial</title>
-    <link rel="stylesheet" href="./assets/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>Admin · Nexora Financial</title>
+
+<link rel="stylesheet" href="./assets/style.css">
+
 </head><body class="dashboard-body"><div class="demo">
-    DEMO FINANCIAL PRODUCT · ADMIN SIMULATION · NO REAL FUNDS
+    ADMIN DEMO · ALL BALANCES AND TRANSACTIONS ARE SIMULATED
 </div><header><a class="brand" href="./index.html">
     NEXORA
     <span>FINANCIAL</span>
 </a>
 
 <nav class="navlinks">
-    <a href="./dashboard.html">Customer view</a>
-    <a href="#customers">Customers</a>
-    <a href="#controls">Controls</a>
-    <a class="btn ghost" href="./index.html">Log out</a>
+
+    <a href="./dashboard.html">
+        Dashboard
+    </a>
+
+    <a class="btn ghost"
+       href="./index.html"
+       onclick="logout(event)">
+        Log out
+    </a>
+
 </nav>
 
-<a class="btn ghost" href="./index.html">Exit</a>
+<a class="btn ghost"
+   href="./index.html"
+   onclick="logout(event)">
+    Log out
+</a>
 
-</header><main class="dash"><div class="dash-top">
+</header><main class="dash"><!-- PAGE HEADER -->
+
+<div class="dash-top">
 
     <div>
-        <div class="eyebrow">ADMINISTRATION</div>
-        <h1>Admin control center.</h1>
+
+        <div class="eyebrow">
+            NEXORA ADMINISTRATION
+        </div>
+
+        <h1>
+            Demo account management.
+        </h1>
+
         <p>
-            Manage fictional customer profiles and simulate account activity.
+            Manage simulated customer balances and activity.
         </p>
+
     </div>
 
+
     <div class="user-pill">
-        <div class="avatar">AD</div>
-        <span>Administrator</span>
+
+        <div class="avatar">
+            A
+        </div>
+
+        <span>
+            Admin
+        </span>
+
     </div>
 
 </div>
 
-<section class="admin-stats">
 
-    <div class="stat">
-        <small>Demo customers</small>
-        <strong>1</strong>
-        <div class="positive">Prototype account</div>
-    </div>
+<!-- ACCESS ERROR -->
 
-    <div class="stat">
-        <small>Current balance</small>
-        <strong id="statBalance">£0.00</strong>
-        <div class="positive">Simulated</div>
-    </div>
+<div id="accessError"
+     class="dashboard-card"
+     style="display:none; margin-bottom:25px;">
 
-    <div class="stat">
-        <small>Transactions</small>
-        <strong id="statTransactions">0</strong>
-        <div class="positive">Demo activity</div>
-    </div>
+    <h2>
+        Access denied
+    </h2>
 
-    <div class="stat">
-        <small>System</small>
-        <strong>LIVE</strong>
-        <div class="positive">Simulation active</div>
-    </div>
+    <p>
+        This account does not have administrator permission.
+    </p>
 
-</section>
+    <a class="btn" href="./dashboard.html">
+        Back to dashboard
+    </a>
 
-<section class="admin-grid">
+</div>
 
-    <!-- CUSTOMER PROFILE -->
 
-    <div class="dashboard-card" id="customers">
+<!-- ADMIN CONTENT -->
 
-        <div class="card-title">
-            <div>
-                <div class="eyebrow">CUSTOMER PROFILE</div>
-                <h2>Edit demo customer</h2>
-            </div>
+<div id="adminContent"
+     style="display:none;">
+
+
+    <!-- SEARCH -->
+
+    <section class="dashboard-card"
+             style="margin-bottom:25px;">
+
+        <div class="eyebrow">
+            CUSTOMERS
         </div>
 
-        <form id="profileForm">
+        <h2>
+            Demo users
+        </h2>
 
-            <label>
-                Full name
-                <input id="customerName" type="text" required>
-            </label>
+        <p>
+            Select a customer to manage their simulated account.
+        </p>
 
-            <label>
-                Email address
-                <input id="customerEmail" type="email" required>
-            </label>
-
-            <button class="btn green full" type="submit">
-                Save profile
-            </button>
-
-        </form>
-
-        <div
-            id="profileMessage"
+        <input
+            id="searchInput"
+            type="text"
+            placeholder="Search by name or email..."
             style="
-                display:none;
-                margin-top:14px;
-                padding:12px;
+                width:100%;
+                box-sizing:border-box;
+                margin-top:15px;
+                padding:14px;
+                border:1px solid #dfe5e7;
                 border-radius:10px;
-                background:#e8f8f1;
-                color:#16815b;
-                font-size:12px;
-                font-weight:700;
+                font-size:14px;
             "
         >
-            Profile saved.
+
+    </section>
+
+
+    <!-- USERS -->
+
+    <section class="dashboard-card"
+             style="margin-bottom:25px;">
+
+        <div id="usersList">
+
+            <div style="
+                text-align:center;
+                padding:40px 20px;
+                color:#8b98a1;
+            ">
+                Loading customers...
+            </div>
+
         </div>
 
-    </div>
+    </section>
 
-    <!-- ACCOUNT CONTROLS -->
 
-    <div class="dashboard-card" id="controls">
+    <!-- SELECTED USER -->
 
-        <div class="eyebrow">ACCOUNT CONTROLS</div>
+    <section id="managementPanel"
+             class="dashboard-card"
+             style="
+                display:none;
+                margin-bottom:25px;
+             ">
 
-        <h2>Simulate activity</h2>
+        <div class="eyebrow">
+            SELECTED CUSTOMER
+        </div>
+
+        <h2 id="selectedName">
+            User
+        </h2>
+
+        <p id="selectedEmail">
+            —
+        </p>
+
+
+        <div style="
+            margin:25px 0;
+            padding:22px;
+            background:#f5f7f7;
+            border-radius:14px;
+        ">
+
+            <small style="
+                display:block;
+                color:#7c8990;
+                margin-bottom:8px;
+            ">
+                CURRENT SIMULATED BALANCE
+            </small>
+
+            <strong id="selectedBalance"
+                    style="
+                        display:block;
+                        font-size:30px;
+                        color:#101820;
+                    ">
+                £0.00
+            </strong>
+
+        </div>
+
+
+        <!-- AMOUNT -->
 
         <label>
             Amount
+
             <input
-                id="amount"
+                id="amountInput"
                 type="number"
                 min="0.01"
                 step="0.01"
                 placeholder="100.00"
+                style="
+                    width:100%;
+                    box-sizing:border-box;
+                    margin-top:8px;
+                    padding:14px;
+                    border:1px solid #dfe5e7;
+                    border-radius:10px;
+                    font-size:14px;
+                "
             >
+
         </label>
 
-        <button
-            class="btn green full"
-            onclick="addFunds()"
-            type="button"
-        >
-            + Add simulated funds
-        </button>
 
-        <button
-            class="btn full"
-            style="margin-top:10px;"
-            onclick="withdrawFunds()"
-            type="button"
-        >
-            − Simulate withdrawal
-        </button>
+        <!-- DESCRIPTION -->
 
-        <button
-            class="btn full"
-            style="margin-top:10px;background:#fff0f1;color:#c3444d;"
-            onclick="resetAccount()"
-            type="button"
-        >
-            Reset account
-        </button>
+        <label style="
+            display:block;
+            margin-top:15px;
+        ">
 
-        <div
-            id="actionMessage"
-            style="
-                display:none;
-                margin-top:14px;
-                padding:12px;
-                border-radius:10px;
-                font-size:12px;
-                font-weight:700;
-            "
-        ></div>
+            Description
 
-    </div>
+            <input
+                id="descriptionInput"
+                type="text"
+                maxlength="100"
+                placeholder="Admin adjustment"
+                style="
+                    width:100%;
+                    box-sizing:border-box;
+                    margin-top:8px;
+                    padding:14px;
+                    border:1px solid #dfe5e7;
+                    border-radius:10px;
+                    font-size:14px;
+                "
+            >
 
-</section>
+        </label>
 
-<!-- CUSTOMER INFORMATION -->
 
-<section class="dashboard-card" style="margin-top:18px;">
+        <!-- ACTION BUTTONS -->
 
-    <div class="card-title">
+        <div style="
+            display:flex;
+            gap:10px;
+            flex-wrap:wrap;
+            margin-top:20px;
+        ">
 
-        <div>
-            <div class="eyebrow">ACCOUNT OVERVIEW</div>
-            <h2 id="displayName">Customer</h2>
+            <button
+                class="btn green"
+                type="button"
+                id="addButton"
+                onclick="changeBalance('add')">
+                + Add funds
+            </button>
+
+
+            <button
+                class="btn"
+                type="button"
+                id="deductButton"
+                onclick="changeBalance('withdraw')">
+                − Deduct funds
+            </button>
+
+
+            <button
+                class="btn"
+                type="button"
+                onclick="closeManagement()">
+                Close
+            </button>
+
         </div>
 
-        <span class="badge">ACTIVE</span>
 
-    </div>
+        <p id="actionMessage"
+           style="margin-top:15px;">
+        </p>
 
-    <div class="account-list">
 
-        <div>
-            <small>Email</small>
-            <b id="displayEmail">—</b>
+    </section>
+
+
+    <!-- TRANSACTIONS -->
+
+    <section id="transactionsPanel"
+             class="dashboard-card"
+             style="display:none;">
+
+        <div class="eyebrow">
+            ACCOUNT ACTIVITY
         </div>
 
-        <div>
-            <small>Account number</small>
-            <b>•••• 4821</b>
+        <h2>
+            Recent transactions
+        </h2>
+
+        <div id="adminTransactions"
+             style="margin-top:15px;">
+
         </div>
 
-        <div>
-            <small>Simulated balance</small>
-            <b id="displayBalance">£0.00</b>
-        </div>
+    </section>
 
-        <div>
-            <small>Transaction count</small>
-            <b id="displayTransactions">0</b>
-        </div>
+</div>
 
-    </div>
+</main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
 
-</section>
 
-<!-- TRANSACTIONS -->
+/* --------------------------------
+   SUPABASE
+-------------------------------- */
 
-<section class="dashboard-card" style="margin-top:18px;">
+const SUPABASE_URL =
+    "https://krzxqmzvzgjmolepcnbg.supabase.co";
 
-    <div class="card-title">
 
-        <div>
-            <div class="eyebrow">SIMULATED ACTIVITY</div>
-            <h2>Transaction history</h2>
-        </div>
+/*
+   PASTE YOUR EXISTING
+   sb_publishable_... KEY HERE
+*/
 
-        <button
-            class="btn ghost"
-            onclick="clearTransactions()"
-            type="button"
-        >
-            Clear history
-        </button>
+const SUPABASE_KEY =
+    "sb_publishable_YBTYFY_vqnZkncmCclQa8w_ZKB0Cyul";
 
-    </div>
 
-    <div id="transactionList"></div>
-
-</section>
-
-</main><script>
-
-function getAccount() {
-
-    const saved = localStorage.getItem("nexoraAccount");
-
-    if (saved) {
-        return JSON.parse(saved);
-    }
-
-    const account = {
-        name: "Alex Morgan",
-        email: "alex@example.com",
-        password: "",
-        balance: 0,
-        transactions: []
-    };
-
-    localStorage.setItem(
-        "nexoraAccount",
-        JSON.stringify(account)
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
     );
 
-    return account;
-}
+
+let currentAdmin = null;
+let selectedUser = null;
+let allUsers = [];
 
 
-function saveAccount(account) {
+/* --------------------------------
+   START
+-------------------------------- */
 
-    localStorage.setItem(
-        "nexoraAccount",
-        JSON.stringify(account)
-    );
-
-    render();
-}
+loadAdmin();
 
 
-function formatMoney(amount) {
+/* --------------------------------
+   CHECK ADMIN
+-------------------------------- */
 
-    return "£" + Number(amount).toLocaleString(
-        "en-GB",
-        {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        }
-    );
-}
+async function loadAdmin() {
 
-
-function showMessage(message, type = "success") {
-
-    const box = document.getElementById("actionMessage");
-
-    box.textContent = message;
-    box.style.display = "block";
-
-    if (type === "error") {
-        box.style.background = "#fff0f1";
-        box.style.color = "#c3444d";
-    } else {
-        box.style.background = "#e8f8f1";
-        box.style.color = "#16815b";
-    }
-
-    setTimeout(() => {
-        box.style.display = "none";
-    }, 2500);
-}
+    const {
+        data: sessionData,
+        error: sessionError
+    } = await supabaseClient.auth.getSession();
 
 
-function addFunds() {
+    if (
+        sessionError ||
+        !sessionData ||
+        !sessionData.session
+    ) {
 
-    const amountInput = document.getElementById("amount");
-    const amount = Number(amountInput.value);
-
-    if (!amount || amount <= 0) {
-
-        showMessage(
-            "Enter a valid amount.",
-            "error"
-        );
+        window.location.href =
+            "./login.html";
 
         return;
     }
 
-    const account = getAccount();
 
-    account.balance =
-        Number(account.balance || 0) + amount;
+    currentAdmin =
+        sessionData.session.user;
 
-    account.transactions =
-        account.transactions || [];
 
-    account.transactions.unshift({
+    /*
+       Ask Supabase whether this account
+       is actually an administrator.
+    */
 
-        type: "in",
+    const {
+        data: adminResult,
+        error: adminError
+    } = await supabaseClient.rpc(
+        "is_admin"
+    );
 
-        title: "Admin — Simulated deposit",
 
-        date: new Date().toLocaleDateString(
-            "en-GB",
+    if (
+        adminError ||
+        adminResult !== true
+    ) {
+
+        document.getElementById(
+            "accessError"
+        ).style.display = "block";
+
+        return;
+    }
+
+
+    document.getElementById(
+        "adminContent"
+    ).style.display = "block";
+
+
+    await loadUsers();
+
+}
+
+
+/* --------------------------------
+   LOAD USERS
+-------------------------------- */
+
+async function loadUsers() {
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("profiles")
+        .select(
+            "id, name, email, balance, is_admin"
+        )
+        .order(
+            "name",
             {
-                day: "2-digit",
-                month: "short",
-                year: "numeric"
+                ascending: true
             }
-        ),
-
-        amount: amount
-
-    });
-
-    saveAccount(account);
-
-    amountInput.value = "";
-
-    showMessage(
-        formatMoney(amount) +
-        " added to the simulated account."
-    );
-}
-
-
-function withdrawFunds() {
-
-    const amountInput = document.getElementById("amount");
-    const amount = Number(amountInput.value);
-
-    if (!amount || amount <= 0) {
-
-        showMessage(
-            "Enter a valid amount.",
-            "error"
         );
 
-        return;
-    }
 
-    const account = getAccount();
+    if (error) {
 
-    const balance = Number(account.balance || 0);
+        console.error(error);
 
-    if (amount > balance) {
-
-        showMessage(
-            "Withdrawal exceeds the simulated balance.",
-            "error"
-        );
-
-        return;
-    }
-
-    account.balance = balance - amount;
-
-    account.transactions =
-        account.transactions || [];
-
-    account.transactions.unshift({
-
-        type: "out",
-
-        title: "Admin — Simulated withdrawal",
-
-        date: new Date().toLocaleDateString(
-            "en-GB",
-            {
-                day: "2-digit",
-                month: "short",
-                year: "numeric"
-            }
-        ),
-
-        amount: amount
-
-    });
-
-    saveAccount(account);
-
-    amountInput.value = "";
-
-    showMessage(
-        formatMoney(amount) +
-        " withdrawn from the simulated account."
-    );
-}
-
-
-function resetAccount() {
-
-    if (!confirm(
-        "Reset this demo account to £0.00 and remove all transactions?"
-    )) {
-        return;
-    }
-
-    const account = getAccount();
-
-    account.balance = 0;
-    account.transactions = [];
-
-    saveAccount(account);
-
-    showMessage(
-        "Demo account reset to £0.00."
-    );
-}
-
-
-function clearTransactions() {
-
-    const account = getAccount();
-
-    account.transactions = [];
-
-    saveAccount(account);
-
-    showMessage(
-        "Transaction history cleared."
-    );
-}
-
-
-document.getElementById("profileForm")
-.addEventListener("submit", function(event) {
-
-    event.preventDefault();
-
-    const account = getAccount();
-
-    account.name =
-        document.getElementById("customerName")
-        .value
-        .trim();
-
-    account.email =
-        document.getElementById("customerEmail")
-        .value
-        .trim()
-        .toLowerCase();
-
-    saveAccount(account);
-
-    const message =
-        document.getElementById("profileMessage");
-
-    message.textContent =
-        "Customer profile saved successfully.";
-
-    message.style.display = "block";
-
-    setTimeout(() => {
-        message.style.display = "none";
-    }, 2500);
-});
-
-
-function render() {
-
-    const account = getAccount();
-
-    const balance =
-        Number(account.balance || 0);
-
-    const transactions =
-        account.transactions || [];
-
-    document.getElementById("customerName").value =
-        account.name || "";
-
-    document.getElementById("customerEmail").value =
-        account.email || "";
-
-    document.getElementById("displayName").textContent =
-        account.name || "Customer";
-
-    document.getElementById("displayEmail").textContent =
-        account.email || "—";
-
-    document.getElementById("displayBalance").textContent =
-        formatMoney(balance);
-
-    document.getElementById("statBalance").textContent =
-        formatMoney(balance);
-
-    document.getElementById("displayTransactions").textContent =
-        transactions.length;
-
-    document.getElementById("statTransactions").textContent =
-        transactions.length;
-
-    const list =
-        document.getElementById("transactionList");
-
-    if (!transactions.length) {
-
-        list.innerHTML = `
+        document.getElementById(
+            "usersList"
+        ).innerHTML = `
             <div style="
-                text-align:center;
-                padding:45px 20px;
-                color:#8b98a1;
-                font-size:12px;
+                padding:30px;
+                color:#c3444d;
             ">
-                No simulated transactions yet.
+                Unable to load demo users.
+                Check the browser console for details.
             </div>
         `;
 
         return;
     }
 
-    list.innerHTML =
-        transactions.map(transaction => {
 
-            const isIncoming =
-                transaction.type === "in";
+    allUsers =
+        data || [];
 
-            return `
-                <div class="transaction">
 
-                    <div class="tx-icon">
-                        ${isIncoming ? "+" : "−"}
-                    </div>
+    renderUsers(
+        allUsers
+    );
 
-                    <div class="tx-info">
-
-                        <b>${transaction.title}</b>
-
-                        <small>
-                            ${transaction.date}
-                        </small>
-
-                    </div>
-
-                    <div class="tx-amount ${
-                        isIncoming ? "in" : "out"
-                    }">
-
-                        ${
-                            isIncoming ? "+" : "−"
-                        }${formatMoney(transaction.amount)}
-
-                    </div>
-
-                </div>
-            `;
-
-        }).join("");
 }
 
 
-render();
+/* --------------------------------
+   RENDER USERS
+-------------------------------- */
 
-</script></body>
-            </html>
+function renderUsers(users) {
+
+    const container =
+        document.getElementById(
+            "usersList"
+        );
+
+
+    if (!users.length) {
+
+        container.innerHTML = `
+            <div style="
+                text-align:center;
+                padding:40px;
+                color:#8b98a1;
+            ">
+                No demo users found.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        users.map(user => {
+
+            const balance =
+                Number(
+                    user.balance || 0
+                );
+
+
+            const formatted =
+                "£" +
+                balance.toLocaleString(
+                    "en-GB",
+                    {
+                        minimumFractionDigits:2,
+                        maximumFractionDigits:2
+                    }
+                );
+
+
+            const name =
+                user.name ||
+                "Unnamed user";
+
+
+            const email =
+                user.email ||
+                "No email";
+
+
+            return `
+
+                <button
+                    type="button"
+                    onclick="selectUser('${escapeJs(user.id)}')"
+                    style="
+                        width:100%;
+                        border:0;
+                        border-bottom:1px solid #edf0f1;
+                        background:transparent;
+                        padding:18px 5px;
+                        display:flex;
+                        justify-content:space-between;
+                        align-items:center;
+                        gap:15px;
+                        text-align:left;
+                        cursor:pointer;
+                    "
+                >
+
+                    <div>
+
+                        <strong style="
+                            display:block;
+                            color:#101820;
+                            font-size:14px;
+                            margin-bottom:5px;
+                        ">
+                            ${escapeHtml(name)}
+                        </strong>
+
+                        <span style="
+                            color:#8b98a1;
+                            font-size:11px;
+                        ">
+                            ${escapeHtml(email)}
+                        </span>
+
+                    </div>
+
+
+                    <strong style="
+                        white-space:nowrap;
+                        color:#101820;
+                    ">
+                        ${formatted}
+                    </strong>
+
+                </button>
+
+            `;
+
+        }).join("");
+
+}
+
+
+/* --------------------------------
+   SEARCH
+-------------------------------- */
+
+document.getElementById(
+    "searchInput"
+).addEventListener(
+    "input",
+    function() {
+
+        const search =
+            this.value
+                .trim()
+                .toLowerCase();
+
+
+        const filtered =
+            allUsers.filter(user => {
+
+                const name =
+                    String(
+                        user.name || ""
+                    ).toLowerCase();
+
+
+                const email =
+                    String(
+                        user.email || ""
+                    ).toLowerCase();
+
+
+                return (
+                    name.includes(search) ||
+                    email.includes(search)
+                );
+
+            });
+
+
+        renderUsers(
+            filtered
+        );
+
+    }
+);
+
+
+/* --------------------------------
+   SELECT USER
+-------------------------------- */
+
+async function selectUser(userId) {
+
+    selectedUser =
+        allUsers.find(
+            user => user.id === userId
+        );
+
+
+    if (!selectedUser) {
+        return;
+    }
+
+
+    document.getElementById(
+        "selectedName"
+    ).textContent =
+        selectedUser.name ||
+        "Unnamed user";
+
+
+    document.getElementById(
+        "selectedEmail"
+    ).textContent =
+        selectedUser.email ||
+        "No email";
+
+
+    updateSelectedBalance();
+
+
+    document.getElementById(
+        "managementPanel"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "transactionsPanel"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "actionMessage"
+    ).textContent =
+        "";
+
+
+    document.getElementById(
+        "amountInput"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "descriptionInput"
+    ).value =
+        "";
+
+
+    await loadUserTransactions();
+
+
+    document.getElementById(
+        "managementPanel"
+    ).scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+    });
+
+}
+
+
+/* --------------------------------
+   UPDATE SELECTED BALANCE
+-------------------------------- */
+
+function updateSelectedBalance() {
+
+    if (!selectedUser) {
+        return;
+    }
+
+
+    const balance =
+        Number(
+            selectedUser.balance || 0
+        );
+
+
+    document.getElementById(
+        "selectedBalance"
+    ).textContent =
+        "£" +
+        balance.toLocaleString(
+            "en-GB",
+            {
+                minimumFractionDigits:2,
+                maximumFractionDigits:2
+            }
+        );
+
+}
+
+
+/* --------------------------------
+   CHANGE BALANCE
+-------------------------------- */
+
+async function changeBalance(type) {
+
+    if (!selectedUser) {
+
+        return;
+    }
+
+
+    const amount =
+        Number(
+            document.getElementById(
+                "amountInput"
+            ).value
+        );
+
+
+    const description =
+        document.getElementById(
+            "descriptionInput"
+        ).value.trim();
+
+
+    const message =
+        document.getElementById(
+            "actionMessage"
+        );
+
+
+    const addButton =
+        document.getElementById(
+            "addButton"
+        );
+
+
+    const deductButton =
+        document.getElementById(
+            "deductButton"
+        );
+
+
+    if (
+        !Number.isFinite(amount) ||
+        amount <= 0
+    ) {
+
+        message.textContent =
+            "Enter a valid amount.";
+
+        message.style.color =
+            "#c3444d";
+
+        return;
+    }
+
+
+    const currentBalance =
+        Number(
+            selectedUser.balance || 0
+        );
+
+
+    let newBalance;
+
+
+    if (type === "add") {
+
+        newBalance =
+            currentBalance + amount;
+
+    } else {
+
+        if (amount > currentBalance) {
+
+            message.textContent =
+                "The user does not have enough simulated balance.";
+
+            message.style.color =
+                "#c3444d";
+
+            return;
+        }
+
+
+        newBalance =
+            currentBalance - amount;
+
+    }
+
+
+    addButton.disabled = true;
+    deductButton.disabled = true;
+
+
+    message.textContent =
+        "Updating demo account...";
+
+    message.style.color =
+        "#6f7c84";
+
+
+    try {
+
+        /*
+           Update selected user's balance.
+        */
+
+        const {
+            error: updateError
+        } = await supabaseClient
+            .from("profiles")
+            .update({
+                balance: newBalance
+            })
+            .eq(
+                "id",
+                selectedUser.id
+            );
+
+
+        if (updateError) {
+            throw updateError;
+        }
+
+
+        /*
+           Record the admin transaction.
+        */
+
+        const transactionDescription =
+            description ||
+            (
+                type === "add"
+                    ? "Admin added demo funds"
+                    : "Admin deducted demo funds"
+            );
+
+
+        const {
+            error: transactionError
+        } = await supabaseClient
+            .from("transactions")
+            .insert({
+                user_id: selectedUser.id,
+                type: type,
+                amount: amount,
+                description:
+                    transactionDescription
+            });
+
+
+        if (transactionError) {
+            throw transactionError;
+        }
+
+
+        /*
+           Update local information.
+        */
+
+        selectedUser.balance =
+            newBalance;
+
+
+        const index =
+            allUsers.findIndex(
+                user =>
+                    user.id === selectedUser.id
+            );
+
+
+        if (index !== -1) {
+
+            allUsers[index].balance =
+                newBalance;
+
+        }
+
+
+        updateSelectedBalance();
+
+
+        renderUsers(
+            getCurrentSearchResults()
+        );
+
+
+        await loadUserTransactions();
+
+
+        message.textContent =
+            type === "add"
+                ? "Demo funds added successfully."
+                : "Demo funds deducted successfully.";
+
+
+        message.style.color =
+            "#2f7d4a";
+
+
+        document.getElementById(
+            "amountInput"
+        ).value = "";
+
+
+        document.getElementById(
+            "descriptionInput"
+        ).value = "";
+
+
+    } catch (error) {
+
+        console.error(error);
+
+
+        message.textContent =
+            error.message ||
+            "Unable to update the demo account.";
+
+
+        message.style.color =
+            "#c3444d";
+
+    }
+
+
+    addButton.disabled = false;
+    deductButton.disabled = false;
+
+}
+
+
+/* --------------------------------
+   SEARCH RESULTS
+-------------------------------- */
+
+function getCurrentSearchResults() {
+
+    const search =
+        document.getElementById(
+            "searchInput"
+        ).value
+        .trim()
+        .toLowerCase();
+
+
+    if (!search) {
+        return allUsers;
+    }
+
+
+    return allUsers.filter(user => {
+
+        const name =
+            String(
+                user.name || ""
+            ).toLowerCase();
+
+
+        const email =
+            String(
+                user.email || ""
+            ).toLowerCase();
+
+
+        return (
+            name.includes(search) ||
+            email.includes(search)
+        );
+
+    });
+
+}
+
+
+/* --------------------------------
+   LOAD USER TRANSACTIONS
+-------------------------------- */
+
+async function loadUserTransactions() {
+
+    if (!selectedUser) {
+        return;
+    }
+
+
+    const container =
+        document.getElementById(
+            "adminTransactions"
+        );
+
+
+    container.innerHTML = `
+        <div style="
+            padding:30px;
+            text-align:center;
+            color:#8b98a1;
+        ">
+            Loading activity...
+        </div>
+    `;
+
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("transactions")
+        .select(
+            "id, type, amount, description, created_at"
+        )
+        .eq(
+            "user_id",
+            selectedUser.id
+        )
+        .order(
+            "created_at",
+            {
+                ascending:false
+            }
+        )
+        .limit(30);
+
+
+    if (error) {
+
+        console.error(error);
+
+        container.innerHTML = `
+            <p style="color:#c3444d;">
+                Unable to load transactions.
+            </p>
+        `;
+
+        return;
+    }
+
+
+    if (!data || !data.length) {
+
+        container.innerHTML = `
+            <div style="
+                padding:35px 10px;
+                text-align:center;
+                color:#8b98a1;
+            ">
+                No transactions for this user yet.
+ 
