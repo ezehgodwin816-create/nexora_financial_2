@@ -1,1101 +1,264 @@
 <!doctype html>
 
-<html lang="en"><head>
+<html lang="en">
+<head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1"><title>Admin · Nexora Financial</title>
-
-<link rel="stylesheet" href="./assets/style.css">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nexora Admin</title>
+    <link rel="stylesheet" href="./assets/style.css">
 </head><body class="dashboard-body"><div class="demo">
-    ADMIN DEMO · ALL BALANCES AND TRANSACTIONS ARE SIMULATED
-</div><header><a class="brand" href="./index.html">
-    NEXORA
-    <span>FINANCIAL</span>
-</a>
-
-<nav class="navlinks">
-
-    <a href="./dashboard.html">
-        Dashboard
+    NEXORA ADMIN · DEMO ONLY
+</div><header>
+    <a class="brand" href="./index.html">
+        NEXORA
+        <span>FINANCIAL</span>
     </a>
-
-    <a class="btn ghost"
-       href="./index.html"
-       onclick="logout(event)">
-        Log out
-    </a>
-
-</nav>
-
-<a class="btn ghost"
-   href="./index.html"
-   onclick="logout(event)">
-    Log out
-</a>
-
-</header><main class="dash"><!-- PAGE HEADER -->
-
-<div class="dash-top">
-
+</header><main class="dash"><div class="dash-top">
     <div>
-
-        <div class="eyebrow">
-            NEXORA ADMINISTRATION
-        </div>
-
-        <h1>
-            Demo account management.
-        </h1>
-
-        <p>
-            Manage simulated customer balances and activity.
-        </p>
-
+        <div class="eyebrow">NEXORA ADMINISTRATION</div>
+        <h1>Demo account management.</h1>
+        <p>Admin control panel.</p>
     </div>
-
-
-    <div class="user-pill">
-
-        <div class="avatar">
-            A
-        </div>
-
-        <span>
-            Admin
-        </span>
-
-    </div>
-
 </div>
 
-
-<!-- ACCESS ERROR -->
-
-<div id="accessError"
+<div id="status"
      class="dashboard-card"
-     style="display:none; margin-bottom:25px;">
-
-    <h2>
-        Access denied
-    </h2>
-
-    <p>
-        This account does not have administrator permission.
-    </p>
-
-    <a class="btn" href="./dashboard.html">
-        Back to dashboard
-    </a>
-
+     style="margin-top:20px;">
+    Checking admin access...
 </div>
 
-
-<!-- ADMIN CONTENT -->
-
-<div id="adminContent"
-     style="display:none;">
-
-
-    <!-- SEARCH -->
-
-    <section class="dashboard-card"
-             style="margin-bottom:25px;">
-
-        <div class="eyebrow">
-            CUSTOMERS
-        </div>
-
-        <h2>
-            Demo users
-        </h2>
-
-        <p>
-            Select a customer to manage their simulated account.
-        </p>
-
-        <input
-            id="searchInput"
-            type="text"
-            placeholder="Search by name or email..."
-            style="
-                width:100%;
-                box-sizing:border-box;
-                margin-top:15px;
-                padding:14px;
-                border:1px solid #dfe5e7;
-                border-radius:10px;
-                font-size:14px;
-            "
-        >
-
-    </section>
-
-
-    <!-- USERS -->
-
-    <section class="dashboard-card"
-             style="margin-bottom:25px;">
-
-        <div id="usersList">
-
-            <div style="
-                text-align:center;
-                padding:40px 20px;
-                color:#8b98a1;
-            ">
-                Loading customers...
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- SELECTED USER -->
-
-    <section id="managementPanel"
-             class="dashboard-card"
-             style="
-                display:none;
-                margin-bottom:25px;
-             ">
-
-        <div class="eyebrow">
-            SELECTED CUSTOMER
-        </div>
-
-        <h2 id="selectedName">
-            User
-        </h2>
-
-        <p id="selectedEmail">
-            —
-        </p>
-
-
-        <div style="
-            margin:25px 0;
-            padding:22px;
-            background:#f5f7f7;
-            border-radius:14px;
-        ">
-
-            <small style="
-                display:block;
-                color:#7c8990;
-                margin-bottom:8px;
-            ">
-                CURRENT SIMULATED BALANCE
-            </small>
-
-            <strong id="selectedBalance"
-                    style="
-                        display:block;
-                        font-size:30px;
-                        color:#101820;
-                    ">
-                £0.00
-            </strong>
-
-        </div>
-
-
-        <!-- AMOUNT -->
-
-        <label>
-            Amount
-
-            <input
-                id="amountInput"
-                type="number"
-                min="0.01"
-                step="0.01"
-                placeholder="100.00"
-                style="
-                    width:100%;
-                    box-sizing:border-box;
-                    margin-top:8px;
-                    padding:14px;
-                    border:1px solid #dfe5e7;
-                    border-radius:10px;
-                    font-size:14px;
-                "
-            >
-
-        </label>
-
-
-        <!-- DESCRIPTION -->
-
-        <label style="
-            display:block;
-            margin-top:15px;
-        ">
-
-            Description
-
-            <input
-                id="descriptionInput"
-                type="text"
-                maxlength="100"
-                placeholder="Admin adjustment"
-                style="
-                    width:100%;
-                    box-sizing:border-box;
-                    margin-top:8px;
-                    padding:14px;
-                    border:1px solid #dfe5e7;
-                    border-radius:10px;
-                    font-size:14px;
-                "
-            >
-
-        </label>
-
-
-        <!-- ACTION BUTTONS -->
-
-        <div style="
-            display:flex;
-            gap:10px;
-            flex-wrap:wrap;
-            margin-top:20px;
-        ">
-
-            <button
-                class="btn green"
-                type="button"
-                id="addButton"
-                onclick="changeBalance('add')">
-                + Add funds
-            </button>
-
-
-            <button
-                class="btn"
-                type="button"
-                id="deductButton"
-                onclick="changeBalance('withdraw')">
-                − Deduct funds
-            </button>
-
-
-            <button
-                class="btn"
-                type="button"
-                onclick="closeManagement()">
-                Close
-            </button>
-
-        </div>
-
-
-        <p id="actionMessage"
-           style="margin-top:15px;">
-        </p>
-
-
-    </section>
-
-
-    <!-- TRANSACTIONS -->
-
-    <section id="transactionsPanel"
-             class="dashboard-card"
-             style="display:none;">
-
-        <div class="eyebrow">
-            ACCOUNT ACTIVITY
-        </div>
-
-        <h2>
-            Recent transactions
-        </h2>
-
-        <div id="adminTransactions"
-             style="margin-top:15px;">
-
-        </div>
-
-    </section>
-
+<div id="users"
+     class="dashboard-card"
+     style="margin-top:20px; display:none;">
 </div>
 
 </main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
 
-
-/* --------------------------------
-   SUPABASE
--------------------------------- */
-
 const SUPABASE_URL =
     "https://krzxqmzvzgjmolepcnbg.supabase.co";
-
-
-/*
-   sb_publishable_YBTYFY_vqnZkncmCclQa8w_ZKB0Cyul
-*/
 
 const SUPABASE_KEY =
     "sb_publishable_YBTYFY_vqnZkncmCclQa8w_ZKB0Cyul";
 
 
-const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
+const statusBox =
+    document.getElementById("status");
+
+const usersBox =
+    document.getElementById("users");
+
+
+function show(message, good = false) {
+
+    statusBox.innerHTML = `
+        <h2 style="margin-bottom:10px;">
+            ${good ? "✓ " : "⚠ "}
+            ${message}
+        </h2>
+    `;
+
+}
+
+
+/* Check that Supabase loaded */
+
+if (!window.supabase) {
+
+    show(
+        "Supabase library did not load. Check your internet connection."
     );
 
+} else {
 
-let currentAdmin = null;
-let selectedUser = null;
-let allUsers = [];
-
-
-/* --------------------------------
-   START
--------------------------------- */
-
-loadAdmin();
-
-
-/* --------------------------------
-   CHECK ADMIN
--------------------------------- */
-
-async function loadAdmin() {
-
-    const {
-        data: sessionData,
-        error: sessionError
-    } = await supabaseClient.auth.getSession();
-
-
-    if (
-        sessionError ||
-        !sessionData ||
-        !sessionData.session
-    ) {
-
-        window.location.href =
-            "./login.html";
-
-        return;
-    }
-
-
-    currentAdmin =
-        sessionData.session.user;
-
-
-    /*
-       Ask Supabase whether this account
-       is actually an administrator.
-    */
-
-    const {
-        data: adminResult,
-        error: adminError
-    } = await supabaseClient.rpc(
-        "is_admin"
-    );
-
-
-    if (
-        adminError ||
-        adminResult !== true
-    ) {
-
-        document.getElementById(
-            "accessError"
-        ).style.display = "block";
-
-        return;
-    }
-
-
-    document.getElementById(
-        "adminContent"
-    ).style.display = "block";
-
-
-    await loadUsers();
+    start();
 
 }
 
 
-/* --------------------------------
-   LOAD USERS
--------------------------------- */
+async function start() {
 
-async function loadUsers() {
+    try {
 
-    const {
-        data,
-        error
-    } = await supabaseClient
-        .from("profiles")
-        .select(
-            "id, name, email, balance, is_admin"
-        )
-        .order(
-            "name",
-            {
-                ascending: true
-            }
-        );
+        show("Supabase loaded. Checking your login...");
 
 
-    if (error) {
+        const client =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_KEY
+            );
 
-        console.error(error);
 
-        document.getElementById(
-            "usersList"
-        ).innerHTML = `
-            <div style="
-                padding:30px;
-                color:#c3444d;
-            ">
-                Unable to load demo users.
-                Check the browser console for details.
-            </div>
-        `;
+        const {
+            data,
+            error
+        } =
+            await client.auth.getSession();
 
-        return;
-    }
 
+        if (error) {
 
-    allUsers =
-        data || [];
-
-
-    renderUsers(
-        allUsers
-    );
-
-}
-
-
-/* --------------------------------
-   RENDER USERS
--------------------------------- */
-
-function renderUsers(users) {
-
-    const container =
-        document.getElementById(
-            "usersList"
-        );
-
-
-    if (!users.length) {
-
-        container.innerHTML = `
-            <div style="
-                text-align:center;
-                padding:40px;
-                color:#8b98a1;
-            ">
-                No demo users found.
-            </div>
-        `;
-
-        return;
-    }
-
-
-    container.innerHTML =
-        users.map(user => {
-
-            const balance =
-                Number(
-                    user.balance || 0
-                );
-
-
-            const formatted =
-                "£" +
-                balance.toLocaleString(
-                    "en-GB",
-                    {
-                        minimumFractionDigits:2,
-                        maximumFractionDigits:2
-                    }
-                );
-
-
-            const name =
-                user.name ||
-                "Unnamed user";
-
-
-            const email =
-                user.email ||
-                "No email";
-
-
-            return `
-
-                <button
-                    type="button"
-                    onclick="selectUser('${escapeJs(user.id)}')"
-                    style="
-                        width:100%;
-                        border:0;
-                        border-bottom:1px solid #edf0f1;
-                        background:transparent;
-                        padding:18px 5px;
-                        display:flex;
-                        justify-content:space-between;
-                        align-items:center;
-                        gap:15px;
-                        text-align:left;
-                        cursor:pointer;
-                    "
-                >
-
-                    <div>
-
-                        <strong style="
-                            display:block;
-                            color:#101820;
-                            font-size:14px;
-                            margin-bottom:5px;
-                        ">
-                            ${escapeHtml(name)}
-                        </strong>
-
-                        <span style="
-                            color:#8b98a1;
-                            font-size:11px;
-                        ">
-                            ${escapeHtml(email)}
-                        </span>
-
-                    </div>
-
-
-                    <strong style="
-                        white-space:nowrap;
-                        color:#101820;
-                    ">
-                        ${formatted}
-                    </strong>
-
-                </button>
-
-            `;
-
-        }).join("");
-
-}
-
-
-/* --------------------------------
-   SEARCH
--------------------------------- */
-
-document.getElementById(
-    "searchInput"
-).addEventListener(
-    "input",
-    function() {
-
-        const search =
-            this.value
-                .trim()
-                .toLowerCase();
-
-
-        const filtered =
-            allUsers.filter(user => {
-
-                const name =
-                    String(
-                        user.name || ""
-                    ).toLowerCase();
-
-
-                const email =
-                    String(
-                        user.email || ""
-                    ).toLowerCase();
-
-
-                return (
-                    name.includes(search) ||
-                    email.includes(search)
-                );
-
-            });
-
-
-        renderUsers(
-            filtered
-        );
-
-    }
-);
-
-
-/* --------------------------------
-   SELECT USER
--------------------------------- */
-
-async function selectUser(userId) {
-
-    selectedUser =
-        allUsers.find(
-            user => user.id === userId
-        );
-
-
-    if (!selectedUser) {
-        return;
-    }
-
-
-    document.getElementById(
-        "selectedName"
-    ).textContent =
-        selectedUser.name ||
-        "Unnamed user";
-
-
-    document.getElementById(
-        "selectedEmail"
-    ).textContent =
-        selectedUser.email ||
-        "No email";
-
-
-    updateSelectedBalance();
-
-
-    document.getElementById(
-        "managementPanel"
-    ).style.display =
-        "block";
-
-
-    document.getElementById(
-        "transactionsPanel"
-    ).style.display =
-        "block";
-
-
-    document.getElementById(
-        "actionMessage"
-    ).textContent =
-        "";
-
-
-    document.getElementById(
-        "amountInput"
-    ).value =
-        "";
-
-
-    document.getElementById(
-        "descriptionInput"
-    ).value =
-        "";
-
-
-    await loadUserTransactions();
-
-
-    document.getElementById(
-        "managementPanel"
-    ).scrollIntoView({
-        behavior:"smooth",
-        block:"center"
-    });
-
-}
-
-
-/* --------------------------------
-   UPDATE SELECTED BALANCE
--------------------------------- */
-
-function updateSelectedBalance() {
-
-    if (!selectedUser) {
-        return;
-    }
-
-
-    const balance =
-        Number(
-            selectedUser.balance || 0
-        );
-
-
-    document.getElementById(
-        "selectedBalance"
-    ).textContent =
-        "£" +
-        balance.toLocaleString(
-            "en-GB",
-            {
-                minimumFractionDigits:2,
-                maximumFractionDigits:2
-            }
-        );
-
-}
-
-
-/* --------------------------------
-   CHANGE BALANCE
--------------------------------- */
-
-async function changeBalance(type) {
-
-    if (!selectedUser) {
-
-        return;
-    }
-
-
-    const amount =
-        Number(
-            document.getElementById(
-                "amountInput"
-            ).value
-        );
-
-
-    const description =
-        document.getElementById(
-            "descriptionInput"
-        ).value.trim();
-
-
-    const message =
-        document.getElementById(
-            "actionMessage"
-        );
-
-
-    const addButton =
-        document.getElementById(
-            "addButton"
-        );
-
-
-    const deductButton =
-        document.getElementById(
-            "deductButton"
-        );
-
-
-    if (
-        !Number.isFinite(amount) ||
-        amount <= 0
-    ) {
-
-        message.textContent =
-            "Enter a valid amount.";
-
-        message.style.color =
-            "#c3444d";
-
-        return;
-    }
-
-
-    const currentBalance =
-        Number(
-            selectedUser.balance || 0
-        );
-
-
-    let newBalance;
-
-
-    if (type === "add") {
-
-        newBalance =
-            currentBalance + amount;
-
-    } else {
-
-        if (amount > currentBalance) {
-
-            message.textContent =
-                "The user does not have enough simulated balance.";
-
-            message.style.color =
-                "#c3444d";
+            show(
+                "Login session error: " +
+                error.message
+            );
 
             return;
         }
 
 
-        newBalance =
-            currentBalance - amount;
+        if (!data.session) {
 
-    }
-
-
-    addButton.disabled = true;
-    deductButton.disabled = true;
-
-
-    message.textContent =
-        "Updating demo account...";
-
-    message.style.color =
-        "#6f7c84";
-
-
-    try {
-
-        /*
-           Update selected user's balance.
-        */
-
-        const {
-            error: updateError
-        } = await supabaseClient
-            .from("profiles")
-            .update({
-                balance: newBalance
-            })
-            .eq(
-                "id",
-                selectedUser.id
+            show(
+                "You are not signed in. Go to login.html and sign in with your admin account."
             );
 
-
-        if (updateError) {
-            throw updateError;
+            return;
         }
 
 
-        /*
-           Record the admin transaction.
-        */
-
-        const transactionDescription =
-            description ||
-            (
-                type === "add"
-                    ? "Admin added demo funds"
-                    : "Admin deducted demo funds"
-            );
+        const user =
+            data.session.user;
 
 
-        const {
-            error: transactionError
-        } = await supabaseClient
-            .from("transactions")
-            .insert({
-                user_id: selectedUser.id,
-                type: type,
-                amount: amount,
-                description:
-                    transactionDescription
-            });
-
-
-        if (transactionError) {
-            throw transactionError;
-        }
-
-
-        /*
-           Update local information.
-        */
-
-        selectedUser.balance =
-            newBalance;
-
-
-        const index =
-            allUsers.findIndex(
-                user =>
-                    user.id === selectedUser.id
-            );
-
-
-        if (index !== -1) {
-
-            allUsers[index].balance =
-                newBalance;
-
-        }
-
-
-        updateSelectedBalance();
-
-
-        renderUsers(
-            getCurrentSearchResults()
+        show(
+            "Signed in successfully. Checking admin permission..."
         );
 
 
-        await loadUserTransactions();
+        const {
+            data: admin,
+            error: adminError
+        } =
+            await client.rpc(
+                "is_admin"
+            );
 
 
-        message.textContent =
-            type === "add"
-                ? "Demo funds added successfully."
-                : "Demo funds deducted successfully.";
+        if (adminError) {
+
+            show(
+                "Admin check failed: " +
+                adminError.message
+            );
+
+            return;
+        }
 
 
-        message.style.color =
-            "#2f7d4a";
+        if (admin !== true) {
+
+            show(
+                "This account is NOT marked as an admin in Supabase."
+            );
+
+            return;
+        }
 
 
-        document.getElementById(
-            "amountInput"
-        ).value = "";
+        show(
+            "Admin access confirmed. Loading users...",
+            true
+        );
 
 
-        document.getElementById(
-            "descriptionInput"
-        ).value = "";
+        const {
+            data: profiles,
+            error: profileError
+        } =
+            await client
+                .from("profiles")
+                .select("*");
+
+
+        if (profileError) {
+
+            show(
+                "Admin access works, but loading profiles failed: " +
+                profileError.message
+            );
+
+            return;
+        }
+
+
+        usersBox.style.display =
+            "block";
+
+
+        if (!profiles || profiles.length === 0) {
+
+            usersBox.innerHTML = `
+                <h2>No profiles found</h2>
+                <p>
+                    Your profiles table currently contains no users.
+                </p>
+            `;
+
+            return;
+        }
+
+
+        usersBox.innerHTML = `
+            <div class="eyebrow">
+                CUSTOMERS
+            </div>
+
+            <h2>
+                Demo users
+            </h2>
+
+            ${profiles.map(profile => `
+
+                <div style="
+                    padding:18px 0;
+                    border-bottom:1px solid #e5e9ea;
+                ">
+
+                    <strong>
+                        ${profile.name || "Unnamed user"}
+                    </strong>
+
+                    <br>
+
+                    <small>
+                        ${profile.email || "No email"}
+                    </small>
+
+                    <br><br>
+
+                    <strong>
+                        £${Number(
+                            profile.balance || 0
+                        ).toFixed(2)}
+                    </strong>
+
+                </div>
+
+            `).join("")}
+        `;
+
+
+        statusBox.innerHTML = `
+            <h2>✓ Admin connected successfully</h2>
+            <p>
+                Your admin account can access the profiles table.
+            </p>
+        `;
 
 
     } catch (error) {
 
-        console.error(error);
-
-
-        message.textContent =
-            error.message ||
-            "Unable to update the demo account.";
-
-
-        message.style.color =
-            "#c3444d";
-
-    }
-
-
-    addButton.disabled = false;
-    deductButton.disabled = false;
-
-}
-
-
-/* --------------------------------
-   SEARCH RESULTS
--------------------------------- */
-
-function getCurrentSearchResults() {
-
-    const search =
-        document.getElementById(
-            "searchInput"
-        ).value
-        .trim()
-        .toLowerCase();
-
-
-    if (!search) {
-        return allUsers;
-    }
-
-
-    return allUsers.filter(user => {
-
-        const name =
-            String(
-                user.name || ""
-            ).toLowerCase();
-
-
-        const email =
-            String(
-                user.email || ""
-            ).toLowerCase();
-
-
-        return (
-            name.includes(search) ||
-            email.includes(search)
+        show(
+            "Unexpected error: " +
+            error.message
         );
-
-    });
-
-}
-
-
-/* --------------------------------
-   LOAD USER TRANSACTIONS
--------------------------------- */
-
-async function loadUserTransactions() {
-
-    if (!selectedUser) {
-        return;
-    }
-
-
-    const container =
-        document.getElementById(
-            "adminTransactions"
-        );
-
-
-    container.innerHTML = `
-        <div style="
-            padding:30px;
-            text-align:center;
-            color:#8b98a1;
-        ">
-            Loading activity...
-        </div>
-    `;
-
-
-    const {
-        data,
-        error
-    } = await supabaseClient
-        .from("transactions")
-        .select(
-            "id, type, amount, description, created_at"
-        )
-        .eq(
-            "user_id",
-            selectedUser.id
-        )
-        .order(
-            "created_at",
-            {
-                ascending:false
-            }
-        )
-        .limit(30);
-
-
-    if (error) {
 
         console.error(error);
 
-        container.innerHTML = `
-            <p style="color:#c3444d;">
-                Unable to load transactions.
-            </p>
-        `;
-
-        return;
     }
 
+}
 
-    if (!data || !data.length) {
-
-        container.innerHTML = `
-            <div style="
-                padding:35px 10px;
-                text-align:center;
-                color:#8b98a1;
-            ">
-                No transactions for this user yet.
- 
+</script></body>
+</html>
