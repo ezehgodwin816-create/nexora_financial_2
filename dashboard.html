@@ -4,9 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>Dashboard · Nexora Financial</title>
-
     <link rel="stylesheet" href="./assets/style.css">
 </head>
 
@@ -25,17 +23,11 @@
 
     <nav class="navlinks">
 
-        <a href="#transactions">
-            Activity
-        </a>
+        <a href="#transactions">Activity</a>
 
-        <a href="#account">
-            Account
-        </a>
+        <a href="#account">Account</a>
 
-        <a href="./admin.html">
-            Admin
-        </a>
+        <a href="./admin.html">Admin</a>
 
         <a
             class="btn ghost"
@@ -51,9 +43,6 @@
 
 
 <main class="dash">
-
-
-<!-- DASHBOARD HEADER -->
 
 <div class="dash-top">
 
@@ -302,105 +291,75 @@
 
     <div class="account-list">
 
-
         <div>
-
-            <small>
-                Account holder
-            </small>
+            <small>Account holder</small>
 
             <b id="accountName">
                 User
             </b>
-
         </div>
 
 
         <div>
-
-            <small>
-                Email address
-            </small>
+            <small>Email address</small>
 
             <b id="accountEmail">
                 —
             </b>
-
         </div>
 
 
         <div>
-
-            <small>
-                Account number
-            </small>
+            <small>Account number</small>
 
             <b>
                 •••• 4821
             </b>
-
         </div>
 
 
         <div>
-
-            <small>
-                Account type
-            </small>
+            <small>Account type</small>
 
             <b>
                 Personal account
             </b>
-
         </div>
 
 
         <div>
-
-            <small>
-                Balance
-            </small>
+            <small>Balance</small>
 
             <b id="accountBalance">
                 £0.00
             </b>
-
         </div>
 
 
         <div>
-
-            <small>
-                Status
-            </small>
+            <small>Status</small>
 
             <b class="in">
                 ● Active
             </b>
-
         </div>
 
     </div>
 
 </section>
 
-
 </main>
 
 
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 
 <script>
 
 const SUPABASE_URL =
     "https://krzxqmzvzgjmolepcnbg.supabase.co";
 
-
 const SUPABASE_KEY =
     "sb_publishable_YBTYFY_vqnZkncmCclQa8w_ZKB0Cyul";
-
 
 const supabaseClient =
     window.supabase.createClient(
@@ -504,6 +463,8 @@ async function loadDashboard() {
     await loadProfile();
 
     await loadTransactions();
+
+    startRealtime();
 
 }
 
@@ -672,7 +633,6 @@ document
             try {
 
                 const {
-                    data,
                     error
                 } =
                     await supabaseClient.rpc(
@@ -832,11 +792,6 @@ async function loadTransactions() {
     }
 
 
-    /*
-       Get the IDs of the other accounts
-       involved in the transactions.
-    */
-
     const counterpartyIds =
         data
             .map(
@@ -878,7 +833,6 @@ async function loadTransactions() {
 
     container.innerHTML =
         data.map(transaction => {
-
 
             const amount =
                 Number(
@@ -1030,6 +984,67 @@ async function loadTransactions() {
 
 
 /* ==========================================
+   REALTIME
+========================================== */
+
+function startRealtime() {
+
+    supabaseClient
+        .channel(
+            "nexora-account-" +
+            currentUser.id
+        )
+
+        .on(
+            "postgres_changes",
+            {
+                event: "UPDATE",
+                schema: "public",
+                table: "profiles",
+                filter:
+                    "id=eq." +
+                    currentUser.id
+            },
+            async function() {
+
+                await loadProfile();
+
+            }
+        )
+
+        .on(
+            "postgres_changes",
+            {
+                event: "INSERT",
+                schema: "public",
+                table: "transactions",
+                filter:
+                    "user_id=eq." +
+                    currentUser.id
+            },
+            async function() {
+
+                await loadTransactions();
+
+            }
+        )
+
+        .subscribe(
+            function(status) {
+
+                console.log(
+                    "Realtime status:",
+                    status
+                );
+
+            }
+        );
+
+}
+
+
+
+/* ==========================================
    LOGOUT
 ========================================== */
 
@@ -1069,11 +1084,4 @@ function escapeHtml(value) {
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-}
-
-</script>
-
-</body>
-    </html>
+        
