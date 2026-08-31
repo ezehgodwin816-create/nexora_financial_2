@@ -11,211 +11,218 @@
 </div><header><a class="brand" href="./index.html">
     NEXORA
     <span>FINANCIAL</span>
-</a>
-
-<nav class="navlinks">
+</a><nav class="navlinks">
     <a href="#transactions">Activity</a>
     <a href="#account">Account</a>
     <a href="./admin.html">Admin demo</a>
     <a class="btn ghost" href="./index.html" onclick="logout()">Log out</a>
-</nav>
+</nav><a class="btn ghost" href="./index.html" onclick="logout()">Log out</a>
 
-<a class="btn ghost" href="./index.html" onclick="logout()">Log out</a>
+</header><main class="dash"><div class="dash-top"><div>
+    <div class="eyebrow">PERSONAL ACCOUNT</div>
 
-</header><main class="dash"><div class="dash-top">
+    <h1>
+        Good afternoon, <span id="userName">there</span>.
+    </h1>
 
-    <div>
-        <div class="eyebrow">PERSONAL ACCOUNT</div>
+    <p>
+        Here's what's happening with your money today.
+    </p>
+</div>
 
-        <h1>
-            Good afternoon, <span id="userName">there</span>.
-        </h1>
+<div class="user-pill">
+    <div class="avatar" id="userAvatar">U</div>
+    <span id="userNameSmall">User</span>
+</div>
 
-        <p>
-            Here's what's happening with your money today.
-        </p>
+</div><section class="dash-grid"><div class="balance-panel">
+
+    <div class="balance-label">
+        TOTAL BALANCE
     </div>
 
-    <div class="user-pill">
-        <div class="avatar" id="userAvatar">U</div>
-        <span id="userNameSmall">User</span>
+    <div class="balance-number">
+        £0.00
+    </div>
+
+    <div class="balance-meta">
+        Available balance · Account ending 4821
+    </div>
+
+    <div class="balance-actions">
+
+        <a class="btn green" href="#transactions">
+            + Add money
+        </a>
+
+        <a class="btn" href="#transactions">
+            ↗ Transfer
+        </a>
+
+        <a class="btn" href="#transactions">
+            − Withdraw
+        </a>
+
     </div>
 
 </div>
 
-<section class="dash-grid">
+<div class="dashboard-card">
 
-    <div class="balance-panel">
-
-        <div class="balance-label">
-            TOTAL BALANCE
+    <div class="card-title">
+        <div>
+            <div class="eyebrow">QUICK ACTIONS</div>
+            <h2>Move money</h2>
         </div>
+    </div>
 
-        <div class="balance-number">
-            £0.00
-        </div>
+    <div class="quick-grid">
 
-        <div class="balance-meta">
-            Available balance · Account ending 4821
-        </div>
+        <a class="quick-action" href="#transactions">
+            <strong>↗</strong>
+            <span>Transfer</span>
+        </a>
 
-        <div class="balance-actions">
+        <a class="quick-action" href="#transactions">
+            <strong>＋</strong>
+            <span>Add money</span>
+        </a>
 
-            <a class="btn green" href="#transactions">
-                + Add money
-            </a>
-
-            <a class="btn" href="#transactions">
-                ↗ Transfer
-            </a>
-
-            <a class="btn" href="#transactions">
-                − Withdraw
-            </a>
-
-        </div>
+        <a class="quick-action" href="#transactions">
+            <strong>−</strong>
+            <span>Withdraw</span>
+        </a>
 
     </div>
 
-    <div class="dashboard-card">
+</div>
 
-        <div class="card-title">
-            <div>
-                <div class="eyebrow">QUICK ACTIONS</div>
-                <h2>Move money</h2>
-            </div>
+</section><section class="dashboard-columns"><div class="dashboard-card" id="transactions">
+
+    <div class="card-title">
+        <div>
+            <div class="eyebrow">RECENT ACTIVITY</div>
+            <h2>Transactions</h2>
         </div>
-
-        <div class="quick-grid">
-
-            <a class="quick-action" href="#transactions">
-                <strong>↗</strong>
-                <span>Transfer</span>
-            </a>
-
-            <a class="quick-action" href="#transactions">
-                <strong>＋</strong>
-                <span>Add money</span>
-            </a>
-
-            <a class="quick-action" href="#transactions">
-                <strong>−</strong>
-                <span>Withdraw</span>
-            </a>
-
-        </div>
-
     </div>
 
-</section>
-
-<section class="dashboard-columns">
-
-    <div class="dashboard-card" id="transactions">
-
-        <div class="card-title">
-
-            <div>
-                <div class="eyebrow">RECENT ACTIVITY</div>
-                <h2>Transactions</h2>
-            </div>
-
-        </div>
+    <div style="
+        text-align:center;
+        padding:55px 20px;
+        color:#8b98a1;
+    ">
 
         <div style="
-            text-align:center;
-            padding:55px 20px;
-            color:#8b98a1;
+            width:55px;
+            height:55px;
+            border-radius:18px;
+            background:#f0f3f4;
+            display:grid;
+            place-items:center;
+            margin:0 auto 18px;
+            font-size:24px;
         ">
+            —
+        </div>
 
-            <div style="
-                width:55px;
-                height:55px;
-                border-radius:18px;
-                background:#f0f3f4;
-                display:grid;
-                place-items:center;
-                margin:0 auto 18px;
-                font-size:24px;
-            ">
-                —
-            </div>
+        <strong style="
+            display:block;
+            color:#101820;
+            font-size:15px;
+            margin-bottom:7px;
+        ">
+            No transactions yet
+        </strong>
 
-            <strong style="
-                display:block;
-                color:#101820;
-                font-size:15px;
-                margin-bottom:7px;
-            ">
-                No transactions yet
-            </strong>
+        <span style="font-size:12px;">
+            Your transaction history will appear here
+            when activity is recorded.
+        </span>
 
-            <span style="font-size:12px;">
-                Your transaction history will appear here
-                when activity is recorded.
-            </span>
+    </div>
 
+</div>
+
+<div class="dashboard-card" id="account">
+
+    <div class="eyebrow">ACCOUNT</div>
+
+    <h2>Account details</h2>
+
+    <div class="account-list">
+
+        <div>
+            <small>Account holder</small>
+            <b id="accountName">User</b>
+        </div>
+
+        <div>
+            <small>Email address</small>
+            <b id="accountEmail">—</b>
+        </div>
+
+        <div>
+            <small>Account number</small>
+            <b>•••• 4821</b>
+        </div>
+
+        <div>
+            <small>Account type</small>
+            <b>Personal demo account</b>
+        </div>
+
+        <div>
+            <small>Balance</small>
+            <b>£0.00</b>
+        </div>
+
+        <div>
+            <small>Status</small>
+            <b class="in">● Active</b>
         </div>
 
     </div>
 
-    <div class="dashboard-card" id="account">
+</div>
 
-        <div class="eyebrow">ACCOUNT</div>
+</section></main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
 
-        <h2>Account details</h2>
+const SUPABASE_URL =
+    "https://krzxqmzvzgjmolepcnbg.supabase.co";
 
-        <div class="account-list">
+/*
+  USE THE SAME PUBLISHABLE KEY
+  YOU USED IN register.html AND login.html.
+*/
+const SUPABASE_KEY =
+    "sb_publishable_YBTYFY_vqnZkncmCclQa8w_ZKB0Cyul";
 
-            <div>
-                <small>Account holder</small>
-                <b id="accountName">User</b>
-            </div>
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
-            <div>
-                <small>Email address</small>
-                <b id="accountEmail">—</b>
-            </div>
+async function loadDashboard() {
 
-            <div>
-                <small>Account number</small>
-                <b>•••• 4821</b>
-            </div>
+    const {
+        data: { session },
+        error
+    } = await supabaseClient.auth.getSession();
 
-            <div>
-                <small>Account type</small>
-                <b>Personal demo account</b>
-            </div>
+    if (error || !session || !session.user) {
+        window.location.href = "./login.html";
+        return;
+    }
 
-            <div>
-                <small>Balance</small>
-                <b>£0.00</b>
-            </div>
+    const user = session.user;
 
-            <div>
-                <small>Status</small>
-                <b class="in">● Active</b>
-            </div>
+    const fullName =
+        user.user_metadata?.full_name ||
+        "User";
 
-        </div>
-
-    </div>
-
-</section>
-
-</main><script>
-
-const savedAccount = localStorage.getItem("nexoraAccount");
-
-if (!savedAccount) {
-
-    window.location.href = "./login.html";
-
-} else {
-
-    const account = JSON.parse(savedAccount);
-
-    const fullName = account.name || "User";
+    const email =
+        user.email ||
+        "—";
 
     document.getElementById("userName").textContent =
         fullName.split(" ")[0];
@@ -227,10 +234,11 @@ if (!savedAccount) {
         fullName;
 
     document.getElementById("accountEmail").textContent =
-        account.email;
+        email;
 
     const initials = fullName
         .split(" ")
+        .filter(Boolean)
         .map(word => word.charAt(0))
         .join("")
         .substring(0, 2)
@@ -240,11 +248,16 @@ if (!savedAccount) {
         initials;
 }
 
-function logout() {
+async function logout() {
 
-    localStorage.removeItem("nexoraLoggedIn");
+    event.preventDefault();
 
+    await supabaseClient.auth.signOut();
+
+    window.location.href = "./index.html";
 }
 
+loadDashboard();
+
 </script></body>
-            </html>
+    </html>
