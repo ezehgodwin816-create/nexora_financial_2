@@ -6,114 +6,90 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Create account · Nexora Financial</title>
     <link rel="stylesheet" href="./assets/style.css">
-</head><body>
-<div class="demo">DEMO FINANCIAL PRODUCT · NO REAL FUNDS</div><main class="auth-page"><section class="auth-side"><a class="brand" href="./index.html">
+</head><body><div class="demo">DEMO FINANCIAL PRODUCT · NO REAL FUNDS</div><main class="auth-page"><section class="auth-side"><a class="brand" href="./index.html">
     NEXORA
     <span>FINANCIAL</span>
-</a>
+</a><div>
+    <div class="eyebrow">JOIN NEXORA</div><h2>A cleaner way to see your money.</h2>
 
-<div>
-    <div class="eyebrow">JOIN NEXORA</div>
-    <h2>A cleaner way to see your money.</h2>
-    <p>
-        Create a fictional demo profile and explore the
-        Nexora banking experience.
-    </p>
-</div>
+<p>
+    Create a fictional demo profile and explore the
+    Nexora banking experience.
+</p>
 
-<p class="form-note">
+</div><p class="form-note">
     Demo only · No real bank account is created ·
     No real money is handled.
-</p>
+</p></section><section class="auth-main"><div class="auth-box"><div class="eyebrow">GET STARTED</div><h1>Create your account.</h1><p>Set up your demo profile in a few seconds.</p><form id="registerForm"><label>
+    Full name
+    <input
+        id="name"
+        type="text"
+        required
+        placeholder="Alex Morgan"
+    >
+</label>
 
-</section><section class="auth-main"><div class="auth-box"><div class="eyebrow">GET STARTED</div>
+<label>
+    Email address
+    <input
+        id="email"
+        type="email"
+        required
+        placeholder="alex@example.com"
+    >
+</label>
 
-<h1>Create your account.</h1>
+<label>
+    Password
+    <input
+        id="password"
+        type="password"
+        minlength="8"
+        required
+        placeholder="At least 8 characters"
+    >
+</label>
 
-<p>Set up your demo profile in a few seconds.</p>
+<button
+    class="btn green full"
+    type="submit"
+    id="registerButton"
+>
+    Create demo account →
+</button>
 
-<form id="registerForm">
-
-    <label>
-        Full name
-        <input
-            id="name"
-            type="text"
-            required
-            placeholder="Alex Morgan"
-        >
-    </label>
-
-    <label>
-        Email address
-        <input
-            id="email"
-            type="email"
-            required
-            placeholder="alex@example.com"
-        >
-    </label>
-
-    <label>
-        Password
-        <input
-            id="password"
-            type="password"
-            minlength="8"
-            required
-            placeholder="At least 8 characters"
-        >
-    </label>
-
-    <button class="btn green full" type="submit" id="registerButton">
-        Create demo account →
-    </button>
-
-</form>
-
-<p id="message" class="auth-switch"></p>
-
-<p class="auth-switch">
+</form><p id="message" class="auth-switch"></p><p class="auth-switch">
     Already have a demo account?
     <a class="form-link" href="./login.html">Sign in</a>
-</p>
-
-<p class="auth-switch">
+</p><p class="auth-switch">
     <a class="form-link" href="./index.html">
         ← Back to Nexora
     </a>
-</p>
+</p></div></section></main><!-- Supabase --><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="./supabase.js"></script><script>
 
-</div></section>
-</main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
-const SUPABASE_URL = "https://krzxqmzvzgjmolepcnbg.supabase.co";
+const registerForm = document.getElementById("registerForm");
+const message = document.getElementById("message");
+const button = document.getElementById("registerButton");
 
-/*
-  PASTE YOUR OWN SUPABASE PUBLISHABLE KEY BETWEEN THE QUOTES BELOW.
-  It should start with sb_publishable_
-*/
-const SUPABASE_KEY = "sb_publishable_YBTYFY_vqnZkncmCclQa8w_ZKB0Cyul";
-
-const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
-
-document.getElementById("registerForm").addEventListener("submit", async function(event) {
+registerForm.addEventListener("submit", async function(event) {
 
     event.preventDefault();
 
     const name = document.getElementById("name").value.trim();
     const email = document.getElementById("email").value.trim().toLowerCase();
     const password = document.getElementById("password").value;
-    const message = document.getElementById("message");
-    const button = document.getElementById("registerButton");
 
     message.textContent = "";
     button.disabled = true;
     button.textContent = "Creating account...";
 
     try {
+
+        /*
+         * STEP 1
+         * Create the Supabase authentication account.
+         */
 
         const { data, error } = await supabaseClient.auth.signUp({
             email: email,
@@ -133,18 +109,56 @@ document.getElementById("registerForm").addEventListener("submit", async functio
             throw new Error("Account could not be created.");
         }
 
+        /*
+         * STEP 2
+         * Create the user's profile.
+         */
+
+        const { error: profileError } = await supabaseClient
+            .from("profiles")
+            .insert({
+                id: data.user.id,
+                full_name: name,
+                email: email
+            });
+
+        if (profileError) {
+
+            console.error("Profile creation error:", profileError);
+
+            /*
+             * The authentication account exists even if
+             * the profile insert is blocked by a database policy.
+             */
+        }
+
+        /*
+         * STEP 3
+         * Remember the logged-in demo user.
+         */
+
         localStorage.setItem("nexoraLoggedIn", "true");
         localStorage.setItem("nexoraUserId", data.user.id);
+
+        /*
+         * STEP 4
+         * Continue to the dashboard.
+         */
 
         window.location.href = "./dashboard.html";
 
     } catch (error) {
 
+        console.error("Registration error:", error);
+
         message.textContent = error.message;
+
         button.disabled = false;
         button.textContent = "Create demo account →";
+
     }
 
 });
+
 </script></body>
 </html>
