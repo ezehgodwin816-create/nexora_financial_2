@@ -6,117 +6,145 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Create account · Nexora Financial</title>
     <link rel="stylesheet" href="./assets/style.css">
-</head><body><div class="demo">DEMO FINANCIAL PRODUCT · NO REAL FUNDS</div><main class="auth-page"><section class="auth-side">
+</head><body>
+<div class="demo">DEMO FINANCIAL PRODUCT · NO REAL FUNDS</div><main class="auth-page"><section class="auth-side"><a class="brand" href="./index.html">
+    NEXORA
+    <span>FINANCIAL</span>
+</a>
 
-    <a class="brand" href="./index.html">
-        NEXORA
-        <span>FINANCIAL</span>
-    </a>
-
-    <div>
-        <div class="eyebrow">JOIN NEXORA</div>
-        <h2>A cleaner way to see your money.</h2>
-        <p>
-            Create a fictional demo profile and explore the
-            Nexora banking experience.
-        </p>
-    </div>
-
-    <p class="form-note">
-        Demo only · No real bank account is created ·
-        No real money is handled.
+<div>
+    <div class="eyebrow">JOIN NEXORA</div>
+    <h2>A cleaner way to see your money.</h2>
+    <p>
+        Create a fictional demo profile and explore the
+        Nexora banking experience.
     </p>
+</div>
 
-</section>
+<p class="form-note">
+    Demo only · No real bank account is created ·
+    No real money is handled.
+</p>
 
-<section class="auth-main">
+</section><section class="auth-main"><div class="auth-box"><div class="eyebrow">GET STARTED</div>
 
-    <div class="auth-box">
+<h1>Create your account.</h1>
 
-        <div class="eyebrow">GET STARTED</div>
+<p>Set up your demo profile in a few seconds.</p>
 
-        <h1>Create your account.</h1>
+<form id="registerForm">
 
-        <p>Set up your demo profile in a few seconds.</p>
+    <label>
+        Full name
+        <input
+            id="name"
+            type="text"
+            required
+            placeholder="Alex Morgan"
+        >
+    </label>
 
-        <form id="registerForm">
+    <label>
+        Email address
+        <input
+            id="email"
+            type="email"
+            required
+            placeholder="alex@example.com"
+        >
+    </label>
 
-            <label>
-                Full name
-                <input
-                    id="name"
-                    type="text"
-                    required
-                    placeholder="Alex Morgan"
-                >
-            </label>
+    <label>
+        Password
+        <input
+            id="password"
+            type="password"
+            minlength="8"
+            required
+            placeholder="At least 8 characters"
+        >
+    </label>
 
-            <label>
-                Email address
-                <input
-                    id="email"
-                    type="email"
-                    required
-                    placeholder="alex@example.com"
-                >
-            </label>
+    <button class="btn green full" type="submit" id="registerButton">
+        Create demo account →
+    </button>
 
-            <label>
-                Password
-                <input
-                    id="password"
-                    type="password"
-                    minlength="8"
-                    required
-                    placeholder="At least 8 characters"
-                >
-            </label>
+</form>
 
-            <button class="btn green full" type="submit">
-                Create demo account →
-            </button>
+<p id="message" class="auth-switch"></p>
 
-        </form>
+<p class="auth-switch">
+    Already have a demo account?
+    <a class="form-link" href="./login.html">Sign in</a>
+</p>
 
-        <p class="auth-switch">
-            Already have a demo account?
-            <a class="form-link" href="./login.html">Sign in</a>
-        </p>
+<p class="auth-switch">
+    <a class="form-link" href="./index.html">
+        ← Back to Nexora
+    </a>
+</p>
 
-        <p class="auth-switch">
-            <a class="form-link" href="./index.html">
-                ← Back to Nexora
-            </a>
-        </p>
+</div></section>
+</main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+const SUPABASE_URL = "https://krzxqmzvzgjmolepcnbg.supabase.co";
 
-    </div>
+/*
+  PASTE YOUR OWN SUPABASE PUBLISHABLE KEY BETWEEN THE QUOTES BELOW.
+  It should start with sb_publishable_
+*/
+const SUPABASE_KEY = "sb_publishable_YBTYFY_vqnZkncmCclQa8w_ZKB0Cyul";
 
-</section>
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
-</main><script>
-document.getElementById("registerForm").addEventListener("submit", function(event) {
+document.getElementById("registerForm").addEventListener("submit", async function(event) {
 
     event.preventDefault();
 
     const name = document.getElementById("name").value.trim();
     const email = document.getElementById("email").value.trim().toLowerCase();
     const password = document.getElementById("password").value;
+    const message = document.getElementById("message");
+    const button = document.getElementById("registerButton");
 
-    if (!name || !email || !password) {
-        return;
+    message.textContent = "";
+    button.disabled = true;
+    button.textContent = "Creating account...";
+
+    try {
+
+        const { data, error } = await supabaseClient.auth.signUp({
+            email: email,
+            password: password,
+            options: {
+                data: {
+                    full_name: name
+                }
+            }
+        });
+
+        if (error) {
+            throw error;
+        }
+
+        if (!data.user) {
+            throw new Error("Account could not be created.");
+        }
+
+        localStorage.setItem("nexoraLoggedIn", "true");
+        localStorage.setItem("nexoraUserId", data.user.id);
+
+        window.location.href = "./dashboard.html";
+
+    } catch (error) {
+
+        message.textContent = error.message;
+        button.disabled = false;
+        button.textContent = "Create demo account →";
     }
 
-    const account = {
-        name: name,
-        email: email,
-        password: password
-    };
-
-    localStorage.setItem("nexoraAccount", JSON.stringify(account));
-
-    localStorage.setItem("nexoraLoggedIn", "true");
-
-    window.location.href = "./dashboard.html";
 });
 </script></body>
-    </html>
+</html>
