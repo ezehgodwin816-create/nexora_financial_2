@@ -15,8 +15,8 @@
     <a href="#transactions">Activity</a>
     <a href="#account">Account</a>
     <a href="./admin.html">Admin demo</a>
-    <a class="btn ghost" href="./index.html" onclick="logout()">Log out</a>
-</nav><a class="btn ghost" href="./index.html" onclick="logout()">Log out</a>
+    <a class="btn ghost" href="./index.html" onclick="logout(event)">Log out</a>
+</nav><a class="btn ghost" href="./index.html" onclick="logout(event)">Log out</a>
 
 </header><main class="dash"><div class="dash-top"><div>
     <div class="eyebrow">PERSONAL ACCOUNT</div>
@@ -41,7 +41,7 @@
         TOTAL BALANCE
     </div>
 
-    <div class="balance-number">
+    <div class="balance-number" id="balanceAmount">
         £0.00
     </div>
 
@@ -100,10 +100,12 @@
 </section><section class="dashboard-columns"><div class="dashboard-card" id="transactions">
 
     <div class="card-title">
+
         <div>
             <div class="eyebrow">RECENT ACTIVITY</div>
             <h2>Transactions</h2>
         </div>
+
     </div>
 
     <div style="
@@ -173,7 +175,7 @@
 
         <div>
             <small>Balance</small>
-            <b>£0.00</b>
+            <b id="accountBalance">£0.00</b>
         </div>
 
         <div>
@@ -191,7 +193,7 @@ const SUPABASE_URL =
     "https://krzxqmzvzgjmolepcnbg.supabase.co";
 
 /*
-  USE THE SAME PUBLISHABLE KEY
+  USE THE SAME SUPABASE PUBLISHABLE KEY
   YOU USED IN register.html AND login.html.
 */
 const SUPABASE_KEY =
@@ -202,14 +204,15 @@ const supabaseClient = window.supabase.createClient(
     SUPABASE_KEY
 );
 
+
 async function loadDashboard() {
 
     const {
         data: { session },
-        error
+        error: sessionError
     } = await supabaseClient.auth.getSession();
 
-    if (error || !session || !session.user) {
+    if (sessionError || !session || !session.user) {
         window.location.href = "./login.html";
         return;
     }
@@ -224,6 +227,40 @@ async function loadDashboard() {
         user.email ||
         "—";
 
+
+    /*
+      Get this user's profile from Supabase.
+    */
+
+    const {
+        data: profile,
+        error: profileError
+    } = await supabaseClient
+        .from("profiles")
+        .select("balance")
+        .eq("id", user.id)
+        .single();
+
+
+    if (profileError) {
+
+        console.error(
+            "Profile loading error:",
+            profileError
+        );
+
+        return;
+    }
+
+
+    const balance =
+        Number(profile.balance || 0);
+
+
+    /*
+      Display user information.
+    */
+
     document.getElementById("userName").textContent =
         fullName.split(" ")[0];
 
@@ -236,6 +273,30 @@ async function loadDashboard() {
     document.getElementById("accountEmail").textContent =
         email;
 
+
+    /*
+      Display balance from Supabase.
+    */
+
+    const formattedBalance =
+        "£" +
+        balance.toLocaleString("en-GB", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+
+
+    document.getElementById("balanceAmount").textContent =
+        formattedBalance;
+
+    document.getElementById("accountBalance").textContent =
+        formattedBalance;
+
+
+    /*
+      Create user initials.
+    */
+
     const initials = fullName
         .split(" ")
         .filter(Boolean)
@@ -244,18 +305,24 @@ async function loadDashboard() {
         .substring(0, 2)
         .toUpperCase();
 
+
     document.getElementById("userAvatar").textContent =
         initials;
 }
 
-async function logout() {
+
+async function logout(event) {
 
     event.preventDefault();
 
     await supabaseClient.auth.signOut();
 
+    localStorage.removeItem("nexoraLoggedIn");
+    localStorage.removeItem("nexoraUserId");
+
     window.location.href = "./index.html";
 }
+
 
 loadDashboard();
 
