@@ -1121,8 +1121,39 @@ function startRealtime() {
 
 async function logout(event) {
 
-
     event.preventDefault();
+
+    try {
+        await supabaseClient.auth.signOut();
+    } catch (error) {
+        console.error("Logout error:", error);
+    }
+
+    localStorage.removeItem("nexoraLoggedIn");
+    localStorage.removeItem("nexoraUserId");
+
+    window.location.href = "./index.html";
+}
+
+
+/* ==========================================
+   HTML SAFETY
+========================================== */
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+</script>
+
+</body>
+</html>
 
 
         
