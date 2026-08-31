@@ -16,7 +16,6 @@
     NEXORA FINANCIAL · SIMULATED ACCOUNT
 </div>
 
-
 <header>
 
     <a class="brand" href="./index.html">
@@ -246,142 +245,138 @@
 
 <!-- TRANSACTIONS -->
 
-<section class="dashboard-columns">
+<section
+    class="dashboard-card"
+    id="transactions"
+>
 
+    <div class="card-title">
 
-    <div
-        class="dashboard-card"
-        id="transactions"
-    >
+        <div>
 
-        <div class="card-title">
-
-            <div>
-
-                <div class="eyebrow">
-                    RECENT ACTIVITY
-                </div>
-
-                <h2>
-                    Transactions
-                </h2>
-
+            <div class="eyebrow">
+                RECENT ACTIVITY
             </div>
 
-        </div>
-
-
-        <div id="transactionList">
-
-            <div style="
-                text-align:center;
-                padding:55px 20px;
-                color:#8b98a1;
-            ">
-                Loading activity...
-            </div>
+            <h2>
+                Transactions
+            </h2>
 
         </div>
 
     </div>
 
 
+    <div id="transactionList">
 
-    <!-- ACCOUNT -->
-
-    <div
-        class="dashboard-card"
-        id="account"
-    >
-
-        <div class="eyebrow">
-            ACCOUNT
+        <div style="
+            text-align:center;
+            padding:55px 20px;
+            color:#8b98a1;
+        ">
+            Loading activity...
         </div>
 
-        <h2>
-            Account details
-        </h2>
+    </div>
+
+</section>
 
 
-        <div class="account-list">
+
+<!-- ACCOUNT -->
+
+<section
+    class="dashboard-card"
+    id="account"
+    style="margin-top:25px;"
+>
+
+    <div class="eyebrow">
+        ACCOUNT
+    </div>
+
+    <h2>
+        Account details
+    </h2>
 
 
-            <div>
-
-                <small>
-                    Account holder
-                </small>
-
-                <b id="accountName">
-                    User
-                </b>
-
-            </div>
+    <div class="account-list">
 
 
-            <div>
+        <div>
 
-                <small>
-                    Email address
-                </small>
+            <small>
+                Account holder
+            </small>
 
-                <b id="accountEmail">
-                    —
-                </b>
+            <b id="accountName">
+                User
+            </b>
 
-            </div>
-
-
-            <div>
-
-                <small>
-                    Account number
-                </small>
-
-                <b>
-                    •••• 4821
-                </b>
-
-            </div>
+        </div>
 
 
-            <div>
+        <div>
 
-                <small>
-                    Account type
-                </small>
+            <small>
+                Email address
+            </small>
 
-                <b>
-                    Personal account
-                </b>
+            <b id="accountEmail">
+                —
+            </b>
 
-            </div>
-
-
-            <div>
-
-                <small>
-                    Balance
-                </small>
-
-                <b id="accountBalance">
-                    £0.00
-                </b>
-
-            </div>
+        </div>
 
 
-            <div>
+        <div>
 
-                <small>
-                    Status
-                </small>
+            <small>
+                Account number
+            </small>
 
-                <b class="in">
-                    ● Active
-                </b>
+            <b>
+                •••• 4821
+            </b>
 
-            </div>
+        </div>
+
+
+        <div>
+
+            <small>
+                Account type
+            </small>
+
+            <b>
+                Personal account
+            </b>
+
+        </div>
+
+
+        <div>
+
+            <small>
+                Balance
+            </small>
+
+            <b id="accountBalance">
+                £0.00
+            </b>
+
+        </div>
+
+
+        <div>
+
+            <small>
+                Status
+            </small>
+
+            <b class="in">
+                ● Active
+            </b>
 
         </div>
 
@@ -389,11 +384,10 @@
 
 </section>
 
+
 </main>
 
 
-
-<!-- SUPABASE -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -420,6 +414,14 @@ let currentUser = null;
 
 
 /* ==========================================
+   START
+========================================== */
+
+loadDashboard();
+
+
+
+/* ==========================================
    LOAD DASHBOARD
 ========================================== */
 
@@ -428,7 +430,8 @@ async function loadDashboard() {
     const {
         data,
         error
-    } = await supabaseClient.auth.getSession();
+    } =
+        await supabaseClient.auth.getSession();
 
 
     if (
@@ -488,7 +491,7 @@ async function loadDashboard() {
             .filter(Boolean)
             .map(word => word.charAt(0))
             .join("")
-            .substring(0,2)
+            .substring(0, 2)
             .toUpperCase();
 
 
@@ -554,13 +557,11 @@ async function loadProfile() {
     }
 
 
-    const balance =
+    displayBalance(
         Number(
             profile.balance || 0
-        );
-
-
-    displayBalance(balance);
+        )
+    );
 
 }
 
@@ -577,8 +578,8 @@ function displayBalance(balance) {
         balance.toLocaleString(
             "en-GB",
             {
-                minimumFractionDigits:2,
-                maximumFractionDigits:2
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
             }
         );
 
@@ -629,15 +630,6 @@ document
                         )
                         .value
                 );
-
-
-            const description =
-                document
-                    .getElementById(
-                        "sendDescription"
-                    )
-                    .value
-                    .trim();
 
 
             const message =
@@ -701,31 +693,25 @@ document
 
 
                 message.textContent =
-                    "✓ Money sent successfully.";
+                    "✓ Transfer successful.";
 
                 message.style.color =
                     "#2f7d4a";
 
 
-                document
-                    .getElementById(
-                        "recipientEmail"
-                    )
-                    .value = "";
+                document.getElementById(
+                    "recipientEmail"
+                ).value = "";
 
 
-                document
-                    .getElementById(
-                        "sendAmount"
-                    )
-                    .value = "";
+                document.getElementById(
+                    "sendAmount"
+                ).value = "";
 
 
-                document
-                    .getElementById(
-                        "sendDescription"
-                    )
-                    .value = "";
+                document.getElementById(
+                    "sendDescription"
+                ).value = "";
 
 
                 await loadProfile();
@@ -771,7 +757,7 @@ async function loadTransactions() {
         await supabaseClient
             .from("transactions")
             .select(
-                "id,type,amount,description,created_at"
+                "id,type,amount,description,created_at,counterparty_id"
             )
             .eq(
                 "user_id",
@@ -780,7 +766,7 @@ async function loadTransactions() {
             .order(
                 "created_at",
                 {
-                    ascending:false
+                    ascending: false
                 }
             )
             .limit(20);
@@ -846,8 +832,53 @@ async function loadTransactions() {
     }
 
 
+    /*
+       Get the IDs of the other accounts
+       involved in the transactions.
+    */
+
+    const counterpartyIds =
+        data
+            .map(
+                transaction =>
+                    transaction.counterparty_id
+            )
+            .filter(Boolean);
+
+
+    let counterparties = [];
+
+
+    if (counterpartyIds.length) {
+
+        const {
+            data: profiles,
+            error: profileError
+        } =
+            await supabaseClient
+                .from("profiles")
+                .select(
+                    "id,name,email"
+                )
+                .in(
+                    "id",
+                    counterpartyIds
+                );
+
+
+        if (!profileError) {
+
+            counterparties =
+                profiles || [];
+
+        }
+
+    }
+
+
     container.innerHTML =
         data.map(transaction => {
+
 
             const amount =
                 Number(
@@ -857,6 +888,53 @@ async function loadTransactions() {
 
             const isCredit =
                 transaction.type === "add";
+
+
+            const counterparty =
+                counterparties.find(
+                    person =>
+                        person.id ===
+                        transaction.counterparty_id
+                );
+
+
+            let title;
+
+
+            if (counterparty) {
+
+                title =
+                    isCredit
+                        ? "Received from " +
+                          (
+                              counterparty.name ||
+                              counterparty.email
+                          )
+                        : "Sent to " +
+                          (
+                              counterparty.name ||
+                              counterparty.email
+                          );
+
+            } else {
+
+                title =
+                    transaction.description ||
+                    (
+                        isCredit
+                            ? "Funds received"
+                            : "Funds sent"
+                    );
+
+            }
+
+
+            const description =
+                counterparty &&
+                counterparty.name &&
+                counterparty.email
+                    ? counterparty.email
+                    : transaction.description || "";
 
 
             const sign =
@@ -871,8 +949,8 @@ async function loadTransactions() {
                 amount.toLocaleString(
                     "en-GB",
                     {
-                        minimumFractionDigits:2,
-                        maximumFractionDigits:2
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
                     }
                 );
 
@@ -884,20 +962,11 @@ async function loadTransactions() {
                     ).toLocaleString(
                         "en-GB",
                         {
-                            dateStyle:"medium",
-                            timeStyle:"short"
+                            dateStyle: "medium",
+                            timeStyle: "short"
                         }
                     )
                     : "";
-
-
-            const title =
-                transaction.description ||
-                (
-                    isCredit
-                        ? "Funds received"
-                        : "Funds sent"
-                );
 
 
             return `
@@ -911,7 +980,9 @@ async function loadTransactions() {
                     border-bottom:1px solid #edf0f1;
                 ">
 
-                    <div>
+                    <div style="
+                        min-width:0;
+                    ">
 
                         <strong style="
                             display:block;
@@ -921,6 +992,15 @@ async function loadTransactions() {
                         ">
                             ${escapeHtml(title)}
                         </strong>
+
+                        <span style="
+                            display:block;
+                            color:#8b98a1;
+                            font-size:11px;
+                            margin-bottom:4px;
+                        ">
+                            ${escapeHtml(description)}
+                        </span>
 
                         <span style="
                             color:#8b98a1;
@@ -985,23 +1065,15 @@ async function logout(event) {
 function escapeHtml(value) {
 
     return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 
 }
-
-
-
-/* ==========================================
-   START
-========================================== */
-
-loadDashboard();
 
 </script>
 
 </body>
-                </html>
+    </html>
