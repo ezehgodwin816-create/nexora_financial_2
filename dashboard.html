@@ -7,7 +7,7 @@
     <title>Dashboard · Nexora Financial</title>
     <link rel="stylesheet" href="./assets/style.css">
 </head><body class="dashboard-body"><div class="demo">
-    DEMO FINANCIAL PRODUCT · ALL BALANCES ARE SIMULATED
+    DEMO FINANCIAL PRODUCT · ALL BALANCES AND TRANSACTIONS ARE SIMULATED
 </div><header><a class="brand" href="./index.html">
     NEXORA
     <span>FINANCIAL</span>
@@ -46,26 +46,27 @@
     </div>
 
     <div class="balance-meta">
-        Available balance · Account ending 4821
+        Available balance · Demo account
     </div>
 
     <div class="balance-actions">
 
-        <a class="btn green" href="#transactions">
+        <button class="btn green" type="button" onclick="showAction('add')">
             + Add money
-        </a>
+        </button>
 
-        <a class="btn" href="#transactions">
+        <button class="btn" type="button" onclick="showAction('transfer')">
             ↗ Transfer
-        </a>
+        </button>
 
-        <a class="btn" href="#transactions">
+        <button class="btn" type="button" onclick="showAction('withdraw')">
             − Withdraw
-        </a>
+        </button>
 
     </div>
 
 </div>
+
 
 <div class="dashboard-card">
 
@@ -78,24 +79,76 @@
 
     <div class="quick-grid">
 
-        <a class="quick-action" href="#transactions">
+        <button class="quick-action" type="button" onclick="showAction('transfer')">
             <strong>↗</strong>
             <span>Transfer</span>
-        </a>
+        </button>
 
-        <a class="quick-action" href="#transactions">
+        <button class="quick-action" type="button" onclick="showAction('add')">
             <strong>＋</strong>
             <span>Add money</span>
-        </a>
+        </button>
 
-        <a class="quick-action" href="#transactions">
+        <button class="quick-action" type="button" onclick="showAction('withdraw')">
             <strong>−</strong>
             <span>Withdraw</span>
-        </a>
+        </button>
 
     </div>
 
 </div>
+
+</section><section class="dashboard-card" id="actionPanel" style="display:none; margin-bottom:25px;"><div class="eyebrow" id="actionEyebrow">
+    DEMO ACTION
+</div>
+
+<h2 id="actionTitle">
+    Add money
+</h2>
+
+<p id="actionDescription">
+    Enter a simulated amount.
+</p>
+
+<form id="moneyForm">
+
+    <label>
+        Amount
+        <input
+            id="amount"
+            type="number"
+            min="0.01"
+            step="0.01"
+            required
+            placeholder="100.00"
+        >
+    </label>
+
+    <label id="descriptionLabel">
+        Description
+        <input
+            id="description"
+            type="text"
+            maxlength="100"
+            placeholder="Demo transaction"
+        >
+    </label>
+
+    <div style="display:flex; gap:10px; margin-top:15px; flex-wrap:wrap;">
+
+        <button class="btn green" type="submit" id="actionButton">
+            Continue
+        </button>
+
+        <button class="btn" type="button" onclick="closeAction()">
+            Cancel
+        </button>
+
+    </div>
+
+    <p id="actionMessage" style="margin-top:15px;"></p>
+
+</form>
 
 </section><section class="dashboard-columns"><div class="dashboard-card" id="transactions">
 
@@ -108,42 +161,20 @@
 
     </div>
 
-    <div style="
-        text-align:center;
-        padding:55px 20px;
-        color:#8b98a1;
-    ">
+    <div id="transactionList">
 
         <div style="
-            width:55px;
-            height:55px;
-            border-radius:18px;
-            background:#f0f3f4;
-            display:grid;
-            place-items:center;
-            margin:0 auto 18px;
-            font-size:24px;
+            text-align:center;
+            padding:55px 20px;
+            color:#8b98a1;
         ">
-            —
+            Loading activity...
         </div>
-
-        <strong style="
-            display:block;
-            color:#101820;
-            font-size:15px;
-            margin-bottom:7px;
-        ">
-            No transactions yet
-        </strong>
-
-        <span style="font-size:12px;">
-            Your transaction history will appear here
-            when activity is recorded.
-        </span>
 
     </div>
 
 </div>
+
 
 <div class="dashboard-card" id="account">
 
@@ -192,18 +223,24 @@
 const SUPABASE_URL =
     "https://krzxqmzvzgjmolepcnbg.supabase.co";
 
-/*
-  USE THE SAME SUPABASE PUBLISHABLE KEY
-  YOU USED IN register.html AND login.html.
-*/
 const SUPABASE_KEY =
     "sb_publishable_YBTYFY_vqnZkncmCclQa8w_ZKB0Cyul";
 
-const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
+
+let currentUser = null;
+let currentProfile = null;
+let currentAction = null;
+
+
+/* -----------------------------
+   LOAD DASHBOARD
+----------------------------- */
 
 async function loadDashboard() {
 
@@ -213,53 +250,24 @@ async function loadDashboard() {
     } = await supabaseClient.auth.getSession();
 
     if (sessionError || !session || !session.user) {
+
         window.location.href = "./login.html";
+
         return;
     }
 
-    const user = session.user;
+    currentUser = session.user;
 
     const fullName =
-        user.user_metadata?.full_name ||
+        currentUser.user_metadata?.full_name ||
         "User";
 
     const email =
-        user.email ||
+        currentUser.email ||
         "—";
 
 
-    /*
-      Get this user's profile from Supabase.
-    */
-
-    const {
-        data: profile,
-        error: profileError
-    } = await supabaseClient
-        .from("profiles")
-        .select("balance")
-        .eq("id", user.id)
-        .single();
-
-
-    if (profileError) {
-
-        console.error(
-            "Profile loading error:",
-            profileError
-        );
-
-        return;
-    }
-
-
-    const balance =
-        Number(profile.balance || 0);
-
-
-    /*
-      Display user information.
-    */
+    /* User information */
 
     document.getElementById("userName").textContent =
         fullName.split(" ")[0];
@@ -274,28 +282,7 @@ async function loadDashboard() {
         email;
 
 
-    /*
-      Display balance from Supabase.
-    */
-
-    const formattedBalance =
-        "£" +
-        balance.toLocaleString("en-GB", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        });
-
-
-    document.getElementById("balanceAmount").textContent =
-        formattedBalance;
-
-    document.getElementById("accountBalance").textContent =
-        formattedBalance;
-
-
-    /*
-      Create user initials.
-    */
+    /* Initials */
 
     const initials = fullName
         .split(" ")
@@ -305,11 +292,563 @@ async function loadDashboard() {
         .substring(0, 2)
         .toUpperCase();
 
-
     document.getElementById("userAvatar").textContent =
         initials;
+
+
+    /* Load profile */
+
+    await loadProfile();
+
+    /* Load transactions */
+
+    await loadTransactions();
 }
 
+
+/* -----------------------------
+   LOAD PROFILE
+----------------------------- */
+
+async function loadProfile() {
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("profiles")
+        .select("balance")
+        .eq("id", currentUser.id)
+        .single();
+
+
+    if (error) {
+
+        console.error("Profile error:", error);
+
+        document.getElementById("balanceAmount").textContent =
+            "£0.00";
+
+        return;
+    }
+
+
+    currentProfile = data;
+
+    updateBalanceDisplay(
+        Number(data.balance || 0)
+    );
+}
+
+
+/* -----------------------------
+   DISPLAY BALANCE
+----------------------------- */
+
+function updateBalanceDisplay(balance) {
+
+    const formatted =
+        "£" +
+        balance.toLocaleString("en-GB", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+
+
+    document.getElementById("balanceAmount").textContent =
+        formatted;
+
+    document.getElementById("accountBalance").textContent =
+        formatted;
+}
+
+
+/* -----------------------------
+   TRANSACTIONS
+----------------------------- */
+
+async function loadTransactions() {
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("transactions")
+        .select("*")
+        .eq("user_id", currentUser.id)
+        .order("created_at", {
+            ascending: false
+        })
+        .limit(20);
+
+
+    if (error) {
+
+        console.error("Transaction error:", error);
+
+        document.getElementById("transactionList").innerHTML =
+            "<p>Unable to load demo activity.</p>";
+
+        return;
+    }
+
+
+    const container =
+        document.getElementById("transactionList");
+
+
+    if (!data || data.length === 0) {
+
+        container.innerHTML = `
+            <div style="
+                text-align:center;
+                padding:55px 20px;
+                color:#8b98a1;
+            ">
+
+                <div style="
+                    width:55px;
+                    height:55px;
+                    border-radius:18px;
+                    background:#f0f3f4;
+                    display:grid;
+                    place-items:center;
+                    margin:0 auto 18px;
+                    font-size:24px;
+                ">
+                    —
+                </div>
+
+                <strong style="
+                    display:block;
+                    color:#101820;
+                    font-size:15px;
+                    margin-bottom:7px;
+                ">
+                    No transactions yet
+                </strong>
+
+                <span style="font-size:12px;">
+                    Your demo transaction history will appear here.
+                </span>
+
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML = data.map(transaction => {
+
+        const amount =
+            Number(transaction.amount || 0);
+
+        const isCredit =
+            transaction.type === "add";
+
+        const sign =
+            isCredit ? "+" : "-";
+
+        const formattedAmount =
+            sign +
+            "£" +
+            amount.toLocaleString("en-GB", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+
+
+        const date =
+            transaction.created_at
+                ? new Date(transaction.created_at)
+                    .toLocaleString("en-GB", {
+                        dateStyle: "medium",
+                        timeStyle: "short"
+                    })
+                : "";
+
+
+        const title =
+            transaction.description ||
+            (
+                transaction.type === "add"
+                    ? "Demo money added"
+                    : transaction.type === "withdraw"
+                        ? "Demo withdrawal"
+                        : "Demo transfer"
+            );
+
+
+        return `
+            <div style="
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                gap:15px;
+                padding:18px 0;
+                border-bottom:1px solid #edf0f1;
+            ">
+
+                <div>
+
+                    <strong style="
+                        display:block;
+                        color:#101820;
+                        font-size:14px;
+                        margin-bottom:5px;
+                    ">
+                        ${escapeHtml(title)}
+                    </strong>
+
+                    <span style="
+                        color:#8b98a1;
+                        font-size:11px;
+                    ">
+                        ${date}
+                    </span>
+
+                </div>
+
+                <strong style="
+                    font-size:14px;
+                    white-space:nowrap;
+                ">
+                    ${formattedAmount}
+                </strong>
+
+            </div>
+        `;
+
+    }).join("");
+}
+
+
+/* -----------------------------
+   ACTION PANEL
+----------------------------- */
+
+function showAction(action) {
+
+    currentAction = action;
+
+    const panel =
+        document.getElementById("actionPanel");
+
+    const title =
+        document.getElementById("actionTitle");
+
+    const description =
+        document.getElementById("actionDescription");
+
+    const button =
+        document.getElementById("actionButton");
+
+    const message =
+        document.getElementById("actionMessage");
+
+
+    message.textContent = "";
+
+    document.getElementById("amount").value = "";
+
+    document.getElementById("description").value = "";
+
+
+    if (action === "add") {
+
+        title.textContent =
+            "Add demo money";
+
+        description.textContent =
+            "Add simulated funds to your Nexora demo balance.";
+
+        button.textContent =
+            "Add money";
+
+    }
+
+
+    if (action === "withdraw") {
+
+        title.textContent =
+            "Withdraw demo money";
+
+        description.textContent =
+            "Remove simulated funds from your Nexora demo balance.";
+
+        button.textContent =
+            "Withdraw";
+
+    }
+
+
+    if (action === "transfer") {
+
+        title.textContent =
+            "Transfer demo money";
+
+        description.textContent =
+            "Transfer simulated funds from your Nexora demo balance.";
+
+        button.textContent =
+            "Transfer";
+
+    }
+
+
+    panel.style.display = "block";
+
+    panel.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+}
+
+
+function closeAction() {
+
+    currentAction = null;
+
+    document.getElementById("actionPanel").style.display =
+        "none";
+}
+
+
+/* -----------------------------
+   PROCESS ACTION
+----------------------------- */
+
+document.getElementById("moneyForm")
+    .addEventListener("submit", async function(event) {
+
+        event.preventDefault();
+
+
+        if (!currentUser || !currentAction) {
+            return;
+        }
+
+
+        const amount =
+            Number(
+                document.getElementById("amount").value
+            );
+
+
+        const description =
+            document.getElementById("description").value.trim();
+
+
+        const message =
+            document.getElementById("actionMessage");
+
+        const button =
+            document.getElementById("actionButton");
+
+
+        if (!Number.isFinite(amount) || amount <= 0) {
+
+            message.textContent =
+                "Enter a valid amount.";
+
+            return;
+        }
+
+
+        button.disabled = true;
+        button.textContent = "Processing...";
+
+
+        try {
+
+            /* Get latest balance */
+
+            const {
+                data: profile,
+                error: profileError
+            } = await supabaseClient
+                .from("profiles")
+                .select("balance")
+                .eq("id", currentUser.id)
+                .single();
+
+
+            if (profileError) {
+                throw profileError;
+            }
+
+
+            const currentBalance =
+                Number(profile.balance || 0);
+
+
+            let newBalance =
+                currentBalance;
+
+
+            let transactionType =
+                currentAction;
+
+
+            let transactionDescription =
+                description;
+
+
+            /* ADD */
+
+            if (currentAction === "add") {
+
+                newBalance =
+                    currentBalance + amount;
+
+                if (!transactionDescription) {
+                    transactionDescription =
+                        "Demo money added";
+                }
+            }
+
+
+            /* WITHDRAW */
+
+            if (currentAction === "withdraw") {
+
+                if (amount > currentBalance) {
+
+                    throw new Error(
+                        "Insufficient demo balance."
+                    );
+                }
+
+                newBalance =
+                    currentBalance - amount;
+
+                if (!transactionDescription) {
+                    transactionDescription =
+                        "Demo withdrawal";
+                }
+            }
+
+
+            /* TRANSFER */
+
+            if (currentAction === "transfer") {
+
+                if (amount > currentBalance) {
+
+                    throw new Error(
+                        "Insufficient demo balance."
+                    );
+                }
+
+                newBalance =
+                    currentBalance - amount;
+
+                if (!transactionDescription) {
+                    transactionDescription =
+                        "Demo transfer";
+                }
+            }
+
+
+            /* Update balance */
+
+            const {
+                error: updateError
+            } = await supabaseClient
+                .from("profiles")
+                .update({
+                    balance: newBalance
+                })
+                .eq("id", currentUser.id);
+
+
+            if (updateError) {
+                throw updateError;
+            }
+
+
+            /* Record transaction */
+
+            const {
+                error: transactionError
+            } = await supabaseClient
+                .from("transactions")
+                .insert({
+                    user_id: currentUser.id,
+                    type: transactionType,
+                    amount: amount,
+                    description: transactionDescription
+                });
+
+
+            if (transactionError) {
+                throw transactionError;
+            }
+
+
+            /* Update screen */
+
+            currentProfile.balance =
+                newBalance;
+
+            updateBalanceDisplay(
+                newBalance
+            );
+
+
+            await loadTransactions();
+
+
+            message.textContent =
+                "Demo transaction completed successfully.";
+
+            message.style.color =
+                "#2f7d4a";
+
+
+            document.getElementById("amount").value =
+                "";
+
+            document.getElementById("description").value =
+                "";
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            message.textContent =
+                error.message ||
+                "Unable to complete the demo transaction.";
+
+            message.style.color =
+                "#c3444d";
+
+        }
+
+
+        button.disabled = false;
+
+
+        if (currentAction === "add") {
+            button.textContent = "Add money";
+        }
+
+        if (currentAction === "withdraw") {
+            button.textContent = "Withdraw";
+        }
+
+        if (currentAction === "transfer") {
+            button.textContent = "Transfer";
+        }
+
+    });
+
+
+/* -----------------------------
+   LOGOUT
+----------------------------- */
 
 async function logout(event) {
 
@@ -320,11 +859,31 @@ async function logout(event) {
     localStorage.removeItem("nexoraLoggedIn");
     localStorage.removeItem("nexoraUserId");
 
-    window.location.href = "./index.html";
+    window.location.href =
+        "./index.html";
 }
 
+
+/* -----------------------------
+   HTML ESCAPE
+----------------------------- */
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+/* -----------------------------
+   START
+----------------------------- */
 
 loadDashboard();
 
 </script></body>
-    </html>
+            </html>
