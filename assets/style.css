@@ -1144,3 +1144,502 @@ input:focus {
         display: none;
     }
 }
+/* ==========================================
+   NEXORA DASHBOARD VISUAL FINISH
+========================================== */
+
+/* USER PILL */
+
+.user-pill-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.user-pill-info span {
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.user-pill-info small {
+    color: var(--muted);
+    font-size: 9px;
+}
+
+.online-dot {
+    width: 7px;
+    height: 7px;
+    margin-left: 3px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 0 4px var(--green-soft);
+}
+
+
+/* BALANCE */
+
+.balance-top-row {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.balance-mini-badge {
+    padding: 6px 9px;
+    border-radius: 30px;
+    background: rgba(255,255,255,.08);
+    color: #a9e6cf;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .5px;
+}
+
+.balance-decoration {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    right: -125px;
+    bottom: -170px;
+    border: 1px solid rgba(255,255,255,.07);
+    border-radius: 50%;
+}
+
+.balance-footer {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 27px;
+}
+
+.balance-account {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.balance-account span {
+    color: #7f8d95;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 1.4px;
+}
+
+.balance-account strong {
+    color: #d7e0e4;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+.balance-symbol {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 12px;
+    color: rgba(255,255,255,.75);
+    font: 700 15px Manrope;
+}
+
+
+/* ACCOUNT STATUS */
+
+.account-status-card {
+    min-height: 240px;
+}
+
+.status-icon {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    background: var(--green-soft);
+    color: var(--green);
+    font-weight: 900;
+}
+
+.account-status-card h2 {
+    padding-right: 55px;
+}
+
+.account-status-card p {
+    color: var(--slate);
+    font-size: 13px;
+    line-height: 1.7;
+    margin-bottom: 22px;
+}
+
+.status-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 11px 0;
+    border-top: 1px solid #edf0f2;
+    font-size: 11px;
+}
+
+.status-row span {
+    color: var(--muted);
+}
+
+.status-row strong {
+    font-size: 11px;
+}
+
+
+/* QUICK ACTIONS */
+
+.quick-section {
+    margin-top: 28px;
+}
+
+.section-heading h2 {
+    font: 700 20px Manrope;
+    margin: 7px 0 18px;
+}
+
+.quick-grid {
+    margin-top: 0;
+}
+
+.quick-action {
+    position: relative;
+    overflow: hidden;
+    padding: 20px 14px;
+    background: rgba(255,255,255,.9);
+}
+
+.quick-icon {
+    width: 43px;
+    height: 43px;
+    margin: 0 auto 12px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    font-size: 18px;
+    font-weight: 800;
+    transition: .2s ease;
+}
+
+.send-icon {
+    background: var(--green-soft);
+    color: var(--green);
+}
+
+.activity-icon {
+    background: #eef2f4;
+    color: var(--ink);
+}
+
+.account-icon {
+    background: #fff5df;
+    color: #a46d17;
+}
+
+.quick-action:hover .quick-icon {
+    transform: scale(1.08);
+}
+
+
+/* SEND MONEY */
+
+.send-card {
+    margin-top: 18px;
+}
+
+.send-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 25px;
+}
+
+.send-header h2 {
+    margin-bottom: 8px;
+}
+
+.send-header p {
+    max-width: 570px;
+    color: var(--slate);
+    line-height: 1.65;
+    font-size: 13px;
+}
+
+.send-visual {
+    width: 70px;
+    height: 70px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 22px;
+    background:
+        linear-gradient(
+            145deg,
+            var(--green-soft),
+            #f5faf8
+        );
+}
+
+.send-visual-arrow {
+    width: 43px;
+    height: 43px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--green);
+    color: white;
+    font-size: 19px;
+    box-shadow: 0 10px 25px rgba(23,166,115,.2);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.amount-input {
+    position: relative;
+}
+
+.amount-input > span {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-42%);
+    color: var(--muted);
+    font-weight: 700;
+    z-index: 2;
+}
+
+.amount-input input {
+    padding-left: 34px;
+}
+
+.send-message {
+    min-height: 18px;
+    margin-top: 13px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+
+/* TRANSACTION LIVE BADGE */
+
+.activity-badge {
+    padding: 6px 9px;
+    border-radius: 30px;
+    background: var(--green-soft);
+    color: var(--green);
+    font-size: 8px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.activity-badge::before {
+    content: "●";
+    margin-right: 5px;
+    font-size: 7px;
+}
+
+
+/* LOADING */
+
+.empty-loading {
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.loading-circle {
+    width: 28px;
+    height: 28px;
+    border: 3px solid #e7edef;
+    border-top-color: var(--green);
+    border-radius: 50%;
+    animation: nexoraSpin .8s linear infinite;
+}
+
+@keyframes nexoraSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* TRANSACTION ROWS */
+
+.transaction {
+    border-bottom: 1px solid #edf0f2;
+    transition: .18s ease;
+}
+
+.transaction:hover {
+    padding-left: 7px;
+    padding-right: 7px;
+    background: #fbfcfc;
+}
+
+.tx-amount.in {
+    color: var(--green);
+}
+
+
+/* ACCOUNT HEADER */
+
+.account-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.account-header h2 {
+    margin-bottom: 0;
+}
+
+.account-shield {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    background: var(--green-soft);
+    color: var(--green);
+    font-weight: 900;
+}
+
+
+/* ACCOUNT LIST */
+
+.account-list {
+    margin-top: 8px;
+}
+
+.account-list div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.account-list small {
+    font-size: 10px;
+}
+
+.account-list b {
+    text-align: right;
+}
+
+
+/* BUTTON POLISH */
+
+.send-card .btn.green {
+    min-height: 48px;
+    border-radius: 14px;
+    margin-top: 8px;
+}
+
+.send-card .btn.green:disabled {
+    opacity: .65;
+    cursor: wait;
+    transform: none;
+}
+
+
+/* MOBILE DASHBOARD */
+
+@media (max-width: 650px) {
+
+    .user-pill-info {
+        display: none;
+    }
+
+    .user-pill {
+        padding: 7px;
+    }
+
+    .online-dot {
+        margin-left: 2px;
+    }
+
+    .balance-top-row {
+        align-items: flex-start;
+    }
+
+    .balance-mini-badge {
+        font-size: 8px;
+    }
+
+    .balance-footer {
+        margin-top: 25px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .send-header {
+        align-items: flex-start;
+    }
+
+    .send-visual {
+        width: 55px;
+        height: 55px;
+        border-radius: 17px;
+    }
+
+    .send-visual-arrow {
+        width: 35px;
+        height: 35px;
+    }
+
+    .account-list div {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 5px;
+        padding: 15px 0;
+    }
+
+    .account-list b {
+        text-align: left;
+    }
+
+}
+
+
+/* EXTRA SMALL PHONES */
+
+@media (max-width: 400px) {
+
+    .quick-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .quick-action:last-child {
+        grid-column: 1 / -1;
+    }
+
+    .balance-number {
+        font-size: 36px;
+    }
+
+    .balance-symbol {
+        display: none;
+    }
+
+    }
