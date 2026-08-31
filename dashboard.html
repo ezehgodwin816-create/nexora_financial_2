@@ -1,11 +1,104 @@
 <!doctype html>
 
-<html lang="en">
-<head>
+<html lang="en"><head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"><title>Dashboard · Nexora Financial</title>
 
 <link rel="stylesheet" href="./assets/style.css">
+
+<style>
+    .quick-actions {
+        display:grid;
+        grid-template-columns:repeat(3,1fr);
+        gap:12px;
+        margin-top:20px;
+    }
+
+    .quick-action {
+        border:1px solid #e4e9eb;
+        background:#fff;
+        border-radius:16px;
+        padding:20px 15px;
+        cursor:pointer;
+        text-align:center;
+        transition:.2s;
+    }
+
+    .quick-action:hover {
+        transform:translateY(-2px);
+        box-shadow:0 8px 25px rgba(16,24,32,.08);
+    }
+
+    .quick-icon {
+        width:42px;
+        height:42px;
+        margin:0 auto 10px;
+        border-radius:14px;
+        background:#eef5f1;
+        display:grid;
+        place-items:center;
+        font-size:20px;
+    }
+
+    .quick-action strong {
+        display:block;
+        color:#101820;
+        font-size:13px;
+    }
+
+    .quick-action span {
+        display:block;
+        margin-top:4px;
+        color:#8b98a1;
+        font-size:11px;
+    }
+
+    .balance-panel {
+        position:relative;
+        overflow:hidden;
+    }
+
+    .balance-panel::after {
+        content:"";
+        position:absolute;
+        width:180px;
+        height:180px;
+        border-radius:50%;
+        right:-80px;
+        top:-80px;
+        background:rgba(255,255,255,.08);
+    }
+
+    .welcome-card {
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        gap:20px;
+    }
+
+    .status-dot {
+        display:inline-flex;
+        align-items:center;
+        gap:6px;
+        color:#2f7d4a;
+        font-size:12px;
+        font-weight:600;
+    }
+
+    .status-dot::before {
+        content:"";
+        width:7px;
+        height:7px;
+        border-radius:50%;
+        background:#2f7d4a;
+    }
+
+    @media(max-width:700px) {
+        .quick-actions {
+            grid-template-columns:1fr;
+        }
+    }
+</style>
 
 </head><body class="dashboard-body"><header><a class="brand" href="./index.html">
     NEXORA
@@ -36,15 +129,9 @@
 
 </nav>
 
-<a
-    class="btn ghost"
-    href="./index.html"
-    onclick="logout(event)"
->
-    Log out
-</a>
+</header><main class="dash"><!-- WELCOME -->
 
-</header><main class="dash"><div class="dash-top">
+<div class="dash-top welcome-card">
 
     <div>
 
@@ -108,30 +195,108 @@
 
     <div class="dashboard-card">
 
-        <div class="card-title">
-
-            <div>
-
-                <div class="eyebrow">
-                    ACCOUNT STATUS
-                </div>
-
-                <h2>
-                    Your Nexora account
-                </h2>
-
-            </div>
-
+        <div class="eyebrow">
+            ACCOUNT STATUS
         </div>
+
+        <h2>
+            Account active
+        </h2>
 
         <p style="
             color:#6f7c84;
             line-height:1.7;
             font-size:13px;
         ">
-            Your account balance and activity are managed
-            securely through your Nexora account.
+            Your account is active and ready
+            for everyday money management.
         </p>
+
+        <div class="status-dot">
+            Active
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- QUICK ACTIONS -->
+
+<section>
+
+    <div class="eyebrow">
+        MONEY
+    </div>
+
+    <h2 style="margin-top:5px;">
+        Quick actions
+    </h2>
+
+
+    <div class="quick-actions">
+
+        <button
+            class="quick-action"
+            type="button"
+            onclick="showComingSoon('Send money')"
+        >
+
+            <div class="quick-icon">
+                ↑
+            </div>
+
+            <strong>
+                Send money
+            </strong>
+
+            <span>
+                Transfer funds
+            </span>
+
+        </button>
+
+
+        <button
+            class="quick-action"
+            type="button"
+            onclick="showComingSoon('Add money')"
+        >
+
+            <div class="quick-icon">
+                +
+            </div>
+
+            <strong>
+                Add money
+            </strong>
+
+            <span>
+                Fund your account
+            </span>
+
+        </button>
+
+
+        <button
+            class="quick-action"
+            type="button"
+            onclick="showComingSoon('Withdraw')"
+        >
+
+            <div class="quick-icon">
+                ↓
+            </div>
+
+            <strong>
+                Withdraw
+            </strong>
+
+            <span>
+                Move money out
+            </span>
+
+        </button>
 
     </div>
 
@@ -140,7 +305,10 @@
 
 <!-- TRANSACTIONS -->
 
-<section class="dashboard-columns">
+<section
+    class="dashboard-columns"
+    style="margin-top:30px;"
+>
 
     <div
         class="dashboard-card"
@@ -282,6 +450,7 @@
 
 </main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
 
+
 const SUPABASE_URL =
     "https://krzxqmzvzgjmolepcnbg.supabase.co";
 
@@ -368,11 +537,12 @@ async function loadDashboard() {
         fullName
             .split(" ")
             .filter(Boolean)
-            .map(word =>
-                word.charAt(0)
+            .map(
+                word =>
+                    word.charAt(0)
             )
             .join("")
-            .substring(0, 2)
+            .substring(0,2)
             .toUpperCase();
 
 
@@ -402,7 +572,7 @@ async function loadProfile() {
         await supabaseClient
             .from("profiles")
             .select(
-                "id, balance"
+                "id,balance"
             )
             .eq(
                 "id",
@@ -430,21 +600,17 @@ async function loadProfile() {
     if (!profile) {
 
         console.error(
-            "No profile found for this user."
+            "No profile found."
         );
 
         return;
     }
 
 
-    const balance =
+    displayBalance(
         Number(
             profile.balance || 0
-        );
-
-
-    displayBalance(
-        balance
+        )
     );
 
 }
@@ -461,8 +627,8 @@ function displayBalance(balance) {
         balance.toLocaleString(
             "en-GB",
             {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
+                minimumFractionDigits:2,
+                maximumFractionDigits:2
             }
         );
 
@@ -494,7 +660,7 @@ async function loadTransactions() {
         await supabaseClient
             .from("transactions")
             .select(
-                "id, type, amount, description, created_at"
+                "id,type,amount,description,created_at"
             )
             .eq(
                 "user_id",
@@ -503,23 +669,26 @@ async function loadTransactions() {
             .order(
                 "created_at",
                 {
-                    ascending: false
+                    ascending:false
                 }
             )
             .limit(20);
 
 
-    if (error) {
-
-        console.error(
-            "Transaction loading error:",
-            error
+    const container =
+        document.getElementById(
+            "transactionList"
         );
 
 
-        document.getElementById(
-            "transactionList"
-        ).innerHTML = `
+    if (error) {
+
+        console.error(
+            "Transaction error:",
+            error
+        );
+
+        container.innerHTML = `
             <div style="
                 text-align:center;
                 padding:40px 20px;
@@ -531,12 +700,6 @@ async function loadTransactions() {
 
         return;
     }
-
-
-    const container =
-        document.getElementById(
-            "transactionList"
-        );
 
 
     if (
@@ -689,6 +852,20 @@ async function loadTransactions() {
 
 
 /* --------------------------------
+   QUICK ACTION MESSAGE
+-------------------------------- */
+
+function showComingSoon(action) {
+
+    alert(
+        action +
+        " will be available in the next update."
+    );
+
+}
+
+
+/* --------------------------------
    LOG OUT
 -------------------------------- */
 
@@ -713,7 +890,7 @@ async function logout(event) {
 
 
 /* --------------------------------
-   SECURITY
+   HTML SAFETY
 -------------------------------- */
 
 function escapeHtml(value) {
@@ -750,4 +927,4 @@ function escapeHtml(value) {
 loadDashboard();
 
 </script></body>
-                </html>
+    </html>
