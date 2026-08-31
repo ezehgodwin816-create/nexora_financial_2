@@ -1,137 +1,62 @@
 <!doctype html>
+<html lang="en">
 
-<html lang="en"><head>
+<head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1"><title>Dashboard · Nexora Financial</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link rel="stylesheet" href="./assets/style.css">
+    <title>Dashboard · Nexora Financial</title>
 
-<style>
-    .quick-actions {
-        display:grid;
-        grid-template-columns:repeat(3,1fr);
-        gap:12px;
-        margin-top:20px;
-    }
+    <link rel="stylesheet" href="./assets/style.css">
+</head>
 
-    .quick-action {
-        border:1px solid #e4e9eb;
-        background:#fff;
-        border-radius:16px;
-        padding:20px 15px;
-        cursor:pointer;
-        text-align:center;
-        transition:.2s;
-    }
+<body class="dashboard-body">
 
-    .quick-action:hover {
-        transform:translateY(-2px);
-        box-shadow:0 8px 25px rgba(16,24,32,.08);
-    }
+<div class="demo">
+    NEXORA FINANCIAL · SIMULATED ACCOUNT
+</div>
 
-    .quick-icon {
-        width:42px;
-        height:42px;
-        margin:0 auto 10px;
-        border-radius:14px;
-        background:#eef5f1;
-        display:grid;
-        place-items:center;
-        font-size:20px;
-    }
 
-    .quick-action strong {
-        display:block;
-        color:#101820;
-        font-size:13px;
-    }
+<header>
 
-    .quick-action span {
-        display:block;
-        margin-top:4px;
-        color:#8b98a1;
-        font-size:11px;
-    }
-
-    .balance-panel {
-        position:relative;
-        overflow:hidden;
-    }
-
-    .balance-panel::after {
-        content:"";
-        position:absolute;
-        width:180px;
-        height:180px;
-        border-radius:50%;
-        right:-80px;
-        top:-80px;
-        background:rgba(255,255,255,.08);
-    }
-
-    .welcome-card {
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        gap:20px;
-    }
-
-    .status-dot {
-        display:inline-flex;
-        align-items:center;
-        gap:6px;
-        color:#2f7d4a;
-        font-size:12px;
-        font-weight:600;
-    }
-
-    .status-dot::before {
-        content:"";
-        width:7px;
-        height:7px;
-        border-radius:50%;
-        background:#2f7d4a;
-    }
-
-    @media(max-width:700px) {
-        .quick-actions {
-            grid-template-columns:1fr;
-        }
-    }
-</style>
-
-</head><body class="dashboard-body"><header><a class="brand" href="./index.html">
-    NEXORA
-    <span>FINANCIAL</span>
-</a>
-
-<nav class="navlinks">
-
-    <a href="#transactions">
-        Activity
+    <a class="brand" href="./index.html">
+        NEXORA
+        <span>FINANCIAL</span>
     </a>
 
-    <a href="#account">
-        Account
-    </a>
+    <nav class="navlinks">
 
-    <a href="./admin.html">
-        Admin
-    </a>
+        <a href="#transactions">
+            Activity
+        </a>
 
-    <a
-        class="btn ghost"
-        href="./index.html"
-        onclick="logout(event)"
-    >
-        Log out
-    </a>
+        <a href="#account">
+            Account
+        </a>
 
-</nav>
+        <a href="./admin.html">
+            Admin
+        </a>
 
-</header><main class="dash"><!-- WELCOME -->
+        <a
+            class="btn ghost"
+            href="./index.html"
+            onclick="logout(event)"
+        >
+            Log out
+        </a>
 
-<div class="dash-top welcome-card">
+    </nav>
+
+</header>
+
+
+<main class="dash">
+
+
+<!-- DASHBOARD HEADER -->
+
+<div class="dash-top">
 
     <div>
 
@@ -169,6 +94,7 @@
 </div>
 
 
+
 <!-- BALANCE -->
 
 <section class="dash-grid">
@@ -200,7 +126,7 @@
         </div>
 
         <h2>
-            Account active
+            Your Nexora account
         </h2>
 
         <p style="
@@ -208,107 +134,120 @@
             line-height:1.7;
             font-size:13px;
         ">
-            Your account is active and ready
-            for everyday money management.
+            Your account information and simulated
+            activity are securely stored in your Nexora
+            database.
         </p>
 
-        <div class="status-dot">
-            Active
-        </div>
-
     </div>
 
 </section>
 
 
-<!-- QUICK ACTIONS -->
 
-<section>
+<!-- SEND MONEY -->
+
+<section
+    class="dashboard-card"
+    style="margin-bottom:25px;"
+>
 
     <div class="eyebrow">
-        MONEY
+        SEND MONEY
     </div>
 
-    <h2 style="margin-top:5px;">
-        Quick actions
+    <h2>
+        Send funds
     </h2>
 
+    <p style="
+        color:#6f7c84;
+        line-height:1.7;
+        font-size:13px;
+    ">
+        Send simulated funds to another Nexora account
+        using their email address.
+    </p>
 
-    <div class="quick-actions">
+
+    <form id="sendMoneyForm">
+
+        <label>
+            Recipient email
+
+            <input
+                id="recipientEmail"
+                type="email"
+                required
+                placeholder="recipient@example.com"
+            >
+        </label>
+
+
+        <label style="
+            display:block;
+            margin-top:15px;
+        ">
+
+            Amount
+
+            <input
+                id="sendAmount"
+                type="number"
+                min="0.01"
+                step="0.01"
+                required
+                placeholder="100.00"
+            >
+
+        </label>
+
+
+        <label style="
+            display:block;
+            margin-top:15px;
+        ">
+
+            Description
+
+            <input
+                id="sendDescription"
+                type="text"
+                maxlength="100"
+                placeholder="Payment"
+            >
+
+        </label>
+
 
         <button
-            class="quick-action"
-            type="button"
-            onclick="showComingSoon('Send money')"
+            class="btn green full"
+            type="submit"
+            id="sendMoneyButton"
+            style="margin-top:20px;"
         >
-
-            <div class="quick-icon">
-                ↑
-            </div>
-
-            <strong>
-                Send money
-            </strong>
-
-            <span>
-                Transfer funds
-            </span>
-
+            Send money →
         </button>
 
 
-        <button
-            class="quick-action"
-            type="button"
-            onclick="showComingSoon('Add money')"
-        >
+        <div
+            id="sendMoneyMessage"
+            style="
+                margin-top:15px;
+                font-size:13px;
+            "
+        ></div>
 
-            <div class="quick-icon">
-                +
-            </div>
-
-            <strong>
-                Add money
-            </strong>
-
-            <span>
-                Fund your account
-            </span>
-
-        </button>
-
-
-        <button
-            class="quick-action"
-            type="button"
-            onclick="showComingSoon('Withdraw')"
-        >
-
-            <div class="quick-icon">
-                ↓
-            </div>
-
-            <strong>
-                Withdraw
-            </strong>
-
-            <span>
-                Move money out
-            </span>
-
-        </button>
-
-    </div>
+    </form>
 
 </section>
+
 
 
 <!-- TRANSACTIONS -->
 
-<section
-    class="dashboard-columns"
-    style="margin-top:30px;"
->
+<section class="dashboard-columns">
+
 
     <div
         class="dashboard-card"
@@ -347,6 +286,7 @@
     </div>
 
 
+
     <!-- ACCOUNT -->
 
     <div
@@ -364,6 +304,7 @@
 
 
         <div class="account-list">
+
 
             <div>
 
@@ -448,8 +389,16 @@
 
 </section>
 
-</main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+</main>
 
+
+
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<script>
 
 const SUPABASE_URL =
     "https://krzxqmzvzgjmolepcnbg.supabase.co";
@@ -469,23 +418,23 @@ const supabaseClient =
 let currentUser = null;
 
 
-/* --------------------------------
+
+/* ==========================================
    LOAD DASHBOARD
--------------------------------- */
+========================================== */
 
 async function loadDashboard() {
 
     const {
-        data: { session },
+        data,
         error
-    } =
-        await supabaseClient.auth.getSession();
+    } = await supabaseClient.auth.getSession();
 
 
     if (
         error ||
-        !session ||
-        !session.user
+        !data.session ||
+        !data.session.user
     ) {
 
         window.location.href =
@@ -496,7 +445,7 @@ async function loadDashboard() {
 
 
     currentUser =
-        session.user;
+        data.session.user;
 
 
     const fullName =
@@ -537,10 +486,7 @@ async function loadDashboard() {
         fullName
             .split(" ")
             .filter(Boolean)
-            .map(
-                word =>
-                    word.charAt(0)
-            )
+            .map(word => word.charAt(0))
             .join("")
             .substring(0,2)
             .toUpperCase();
@@ -559,9 +505,10 @@ async function loadDashboard() {
 }
 
 
-/* --------------------------------
+
+/* ==========================================
    LOAD PROFILE
--------------------------------- */
+========================================== */
 
 async function loadProfile() {
 
@@ -572,7 +519,7 @@ async function loadProfile() {
         await supabaseClient
             .from("profiles")
             .select(
-                "id,balance"
+                "id,name,email,balance"
             )
             .eq(
                 "id",
@@ -583,7 +530,7 @@ async function loadProfile() {
     if (error) {
 
         console.error(
-            "Profile loading error:",
+            "Profile error:",
             error
         );
 
@@ -607,18 +554,21 @@ async function loadProfile() {
     }
 
 
-    displayBalance(
+    const balance =
         Number(
             profile.balance || 0
-        )
-    );
+        );
+
+
+    displayBalance(balance);
 
 }
 
 
-/* --------------------------------
+
+/* ==========================================
    DISPLAY BALANCE
--------------------------------- */
+========================================== */
 
 function displayBalance(balance) {
 
@@ -647,9 +597,170 @@ function displayBalance(balance) {
 }
 
 
-/* --------------------------------
+
+/* ==========================================
+   SEND MONEY
+========================================== */
+
+document
+    .getElementById("sendMoneyForm")
+    .addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+
+            const recipientEmail =
+                document
+                    .getElementById(
+                        "recipientEmail"
+                    )
+                    .value
+                    .trim()
+                    .toLowerCase();
+
+
+            const amount =
+                Number(
+                    document
+                        .getElementById(
+                            "sendAmount"
+                        )
+                        .value
+                );
+
+
+            const description =
+                document
+                    .getElementById(
+                        "sendDescription"
+                    )
+                    .value
+                    .trim();
+
+
+            const message =
+                document.getElementById(
+                    "sendMoneyMessage"
+                );
+
+
+            const button =
+                document.getElementById(
+                    "sendMoneyButton"
+                );
+
+
+            message.textContent = "";
+
+
+            if (
+                !recipientEmail ||
+                !Number.isFinite(amount) ||
+                amount <= 0
+            ) {
+
+                message.textContent =
+                    "Enter a valid recipient and amount.";
+
+                message.style.color =
+                    "#c3444d";
+
+                return;
+            }
+
+
+            button.disabled = true;
+
+            button.textContent =
+                "Sending...";
+
+
+            try {
+
+                const {
+                    data,
+                    error
+                } =
+                    await supabaseClient.rpc(
+                        "send_money",
+                        {
+                            recipient_email:
+                                recipientEmail,
+
+                            transfer_amount:
+                                amount
+                        }
+                    );
+
+
+                if (error) {
+                    throw error;
+                }
+
+
+                message.textContent =
+                    "✓ Money sent successfully.";
+
+                message.style.color =
+                    "#2f7d4a";
+
+
+                document
+                    .getElementById(
+                        "recipientEmail"
+                    )
+                    .value = "";
+
+
+                document
+                    .getElementById(
+                        "sendAmount"
+                    )
+                    .value = "";
+
+
+                document
+                    .getElementById(
+                        "sendDescription"
+                    )
+                    .value = "";
+
+
+                await loadProfile();
+
+                await loadTransactions();
+
+
+            } catch (error) {
+
+                console.error(error);
+
+
+                message.textContent =
+                    error.message ||
+                    "Unable to complete transfer.";
+
+                message.style.color =
+                    "#c3444d";
+
+            }
+
+
+            button.disabled = false;
+
+            button.textContent =
+                "Send money →";
+
+        }
+    );
+
+
+
+/* ==========================================
    LOAD TRANSACTIONS
--------------------------------- */
+========================================== */
 
 async function loadTransactions() {
 
@@ -688,6 +799,7 @@ async function loadTransactions() {
             error
         );
 
+
         container.innerHTML = `
             <div style="
                 text-align:center;
@@ -714,19 +826,6 @@ async function loadTransactions() {
                 color:#8b98a1;
             ">
 
-                <div style="
-                    width:55px;
-                    height:55px;
-                    border-radius:18px;
-                    background:#f0f3f4;
-                    display:grid;
-                    place-items:center;
-                    margin:0 auto 18px;
-                    font-size:24px;
-                ">
-                    —
-                </div>
-
                 <strong style="
                     display:block;
                     color:#101820;
@@ -737,8 +836,7 @@ async function loadTransactions() {
                 </strong>
 
                 <span style="font-size:12px;">
-                    Your transaction history
-                    will appear here.
+                    Your activity will appear here.
                 </span>
 
             </div>
@@ -749,139 +847,129 @@ async function loadTransactions() {
 
 
     container.innerHTML =
-        data.map(
-            transaction => {
+        data.map(transaction => {
 
-                const amount =
-                    Number(
-                        transaction.amount || 0
-                    );
-
-
-                const isCredit =
-                    transaction.type === "add";
+            const amount =
+                Number(
+                    transaction.amount || 0
+                );
 
 
-                const sign =
-                    isCredit
-                        ? "+"
-                        : "-";
+            const isCredit =
+                transaction.type === "add";
 
 
-                const formattedAmount =
-                    sign +
-                    "£" +
-                    amount.toLocaleString(
+            const sign =
+                isCredit
+                    ? "+"
+                    : "-";
+
+
+            const formattedAmount =
+                sign +
+                "£" +
+                amount.toLocaleString(
+                    "en-GB",
+                    {
+                        minimumFractionDigits:2,
+                        maximumFractionDigits:2
+                    }
+                );
+
+
+            const date =
+                transaction.created_at
+                    ? new Date(
+                        transaction.created_at
+                    ).toLocaleString(
                         "en-GB",
                         {
-                            minimumFractionDigits:2,
-                            maximumFractionDigits:2
+                            dateStyle:"medium",
+                            timeStyle:"short"
                         }
-                    );
+                    )
+                    : "";
 
 
-                const date =
-                    transaction.created_at
-                        ? new Date(
-                            transaction.created_at
-                        ).toLocaleString(
-                            "en-GB",
-                            {
-                                dateStyle:"medium",
-                                timeStyle:"short"
-                            }
-                        )
-                        : "";
+            const title =
+                transaction.description ||
+                (
+                    isCredit
+                        ? "Funds received"
+                        : "Funds sent"
+                );
 
 
-                const title =
-                    transaction.description ||
-                    (
-                        transaction.type === "add"
-                            ? "Funds added"
-                            : transaction.type === "withdraw"
-                                ? "Withdrawal"
-                                : "Transfer"
-                    );
+            return `
 
+                <div style="
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                    gap:15px;
+                    padding:18px 0;
+                    border-bottom:1px solid #edf0f1;
+                ">
 
-                return `
-                    <div style="
-                        display:flex;
-                        justify-content:space-between;
-                        align-items:center;
-                        gap:15px;
-                        padding:18px 0;
-                        border-bottom:1px solid #edf0f1;
-                    ">
-
-                        <div>
-
-                            <strong style="
-                                display:block;
-                                color:#101820;
-                                font-size:14px;
-                                margin-bottom:5px;
-                            ">
-                                ${escapeHtml(title)}
-                            </strong>
-
-                            <span style="
-                                color:#8b98a1;
-                                font-size:11px;
-                            ">
-                                ${escapeHtml(date)}
-                            </span>
-
-                        </div>
+                    <div>
 
                         <strong style="
+                            display:block;
+                            color:#101820;
                             font-size:14px;
-                            white-space:nowrap;
+                            margin-bottom:5px;
                         ">
-                            ${formattedAmount}
+                            ${escapeHtml(title)}
                         </strong>
 
+                        <span style="
+                            color:#8b98a1;
+                            font-size:11px;
+                        ">
+                            ${escapeHtml(date)}
+                        </span>
+
                     </div>
-                `;
-
-            }
-        ).join("");
-
-}
 
 
-/* --------------------------------
-   QUICK ACTION MESSAGE
--------------------------------- */
+                    <strong style="
+                        font-size:14px;
+                        white-space:nowrap;
+                    ">
+                        ${formattedAmount}
+                    </strong>
 
-function showComingSoon(action) {
+                </div>
 
-    alert(
-        action +
-        " will be available in the next update."
-    );
+            `;
+
+        }).join("");
 
 }
 
 
-/* --------------------------------
-   LOG OUT
--------------------------------- */
+
+/* ==========================================
+   LOGOUT
+========================================== */
 
 async function logout(event) {
 
     event.preventDefault();
 
+
     await supabaseClient.auth.signOut();
+
 
     localStorage.removeItem(
         "nexoraLoggedIn"
     );
 
+
     localStorage.removeItem(
         "nexoraUserId"
     );
+
 
     window.location.href =
         "./index.html";
@@ -889,42 +977,31 @@ async function logout(event) {
 }
 
 
-/* --------------------------------
+
+/* ==========================================
    HTML SAFETY
--------------------------------- */
+========================================== */
 
 function escapeHtml(value) {
 
     return String(value)
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 
 }
 
 
-/* --------------------------------
+
+/* ==========================================
    START
--------------------------------- */
+========================================== */
 
 loadDashboard();
 
-</script></body>
-    </html>
+</script>
+
+</body>
+                </html>
