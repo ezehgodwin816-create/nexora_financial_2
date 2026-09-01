@@ -3,634 +3,302 @@
 
 <head>
 
-    <meta charset="utf-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1"
-    >
-
-    <title>Admin V1 · Nexora Financial</title>
-
-    <link
-        rel="stylesheet"
-        href="./assets/style.css"
-    >
-
-    <style>
-
-        /* ==========================================
-           ADMIN V1
-        ========================================== */
-
-        .admin-page {
-            max-width: 1200px;
-            margin: auto;
-            padding: 45px 5% 80px;
-        }
-
-
-        .version-badge {
-            display: inline-block;
-            padding: 7px 12px;
-            margin-bottom: 16px;
-            border-radius: 999px;
-            background: #101820;
-            color: white;
-            font-size: 11px;
-            font-weight: 800;
-            letter-spacing: 1px;
-        }
-
-
-        .admin-header {
-            margin-bottom: 30px;
-        }
-
-
-        .admin-header h1 {
-            font: 800 40px Manrope, sans-serif;
-            letter-spacing: -1.5px;
-            margin: 8px 0;
-        }
-
-
-        .admin-header p {
-            color: var(--slate);
-            line-height: 1.7;
-            max-width: 650px;
-        }
-
-
-        /* ==========================================
-           STATS
-        ========================================== */
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns:
-                repeat(4, minmax(0, 1fr));
-
-            gap: 15px;
-
-            margin-bottom: 25px;
-        }
-
-
-        .stat-card {
-            background: white;
-            border: 1px solid var(--line);
-            border-radius: 18px;
-            padding: 20px;
-
-            box-shadow:
-                0 10px 30px rgba(16,24,32,.035);
-        }
-
-
-        .stat-label {
-            color: var(--slate);
-            font-size: 12px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-
-        .stat-number {
-            font-size: 28px;
-            font-weight: 800;
-            letter-spacing: -1px;
-        }
-
-
-        /* ==========================================
-           TOOLBAR
-        ========================================== */
-
-        .toolbar {
-            background: white;
-            border: 1px solid var(--line);
-            border-radius: 20px;
-
-            padding: 18px;
-
-            display: grid;
-
-            grid-template-columns:
-                minmax(200px, 1fr)
-                170px
-                170px
-                auto;
-
-            gap: 12px;
-
-            margin-bottom: 25px;
-        }
-
-
-        .toolbar input,
-        .toolbar select {
-
-            width: 100%;
-
-            box-sizing: border-box;
-
-            padding: 13px 14px;
-
-            border: 1px solid #dfe5e8;
-
-            border-radius: 11px;
-
-            background: #fafbfc;
-
-            outline: none;
-
-            font: inherit;
-        }
-
-
-        .toolbar input:focus,
-        .toolbar select:focus {
-
-            border-color: var(--green);
-
-            box-shadow:
-                0 0 0 3px
-                rgba(23,166,115,.1);
-        }
-
-
-        /* ==========================================
-           TICKET LIST
-        ========================================== */
-
-        .tickets-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-
-        .ticket-card {
-
-            background: white;
-
-            border: 1px solid var(--line);
-
-            border-radius: 20px;
-
-            padding: 22px;
-
-            box-shadow:
-                0 10px 30px
-                rgba(16,24,32,.035);
-        }
-
-
-        .ticket-top {
-
-            display: flex;
-
-            justify-content: space-between;
-
-            align-items: flex-start;
-
-            gap: 15px;
-
-            margin-bottom: 14px;
-        }
-
-
-        .ticket-category {
-
-            font-size: 11px;
-
-            font-weight: 800;
-
-            letter-spacing: .7px;
-
-            color: var(--green);
-
-            text-transform: uppercase;
-
-            margin-bottom: 6px;
-        }
-
-
-        .ticket-subject {
-
-            font-size: 19px;
-
-            font-weight: 800;
-
-            letter-spacing: -.3px;
-
-            margin: 0;
-        }
-
-
-        .ticket-date {
-
-            color: var(--slate);
-
-            font-size: 11px;
-
-            white-space: nowrap;
-        }
-
-
-        /* ==========================================
-           STATUS
-        ========================================== */
-
-        .status-badge {
-
-            display: inline-block;
-
-            padding: 6px 10px;
-
-            border-radius: 999px;
-
-            font-size: 10px;
-
-            font-weight: 800;
-
-            letter-spacing: .5px;
-
-            margin-top: 10px;
-        }
-
-
-        .status-open {
-
-            background: #fff4e5;
-
-            color: #a45b00;
-        }
-
-
-        .status-progress {
-
-            background: #eef4ff;
-
-            color: #2858a6;
-        }
-
-
-        .status-resolved {
-
-            background: #effaf5;
-
-            color: #16805a;
-        }
-
-
-        /* ==========================================
-           TICKET BODY
-        ========================================== */
-
-        .ticket-message {
-
-            background: #f8fafb;
-
-            border-radius: 14px;
-
-            padding: 15px;
-
-            margin: 15px 0;
-
-            color: #344054;
-
-            font-size: 13px;
-
-            line-height: 1.7;
-
-            white-space: pre-wrap;
-
-            word-break: break-word;
-        }
-
-
-        .ticket-meta {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, minmax(0, 1fr));
-
-            gap: 10px;
-
-            margin-bottom: 18px;
-        }
-
-
-        .meta-box {
-
-            background: #fafbfc;
-
-            border: 1px solid #edf0f2;
-
-            border-radius: 12px;
-
-            padding: 12px;
-        }
-
-
-        .meta-label {
-
-            display: block;
-
-            color: #8b98a1;
-
-            font-size: 10px;
-
-            font-weight: 800;
-
-            text-transform: uppercase;
-
-            letter-spacing: .5px;
-
-            margin-bottom: 5px;
-        }
-
-
-        .meta-value {
-
-            color: #202a31;
-
-            font-size: 11px;
-
-            word-break: break-all;
-        }
-
-
-        /* ==========================================
-           ADMIN ACTIONS
-        ========================================== */
-
-        .admin-actions {
-
-            border-top: 1px solid #edf0f2;
-
-            padding-top: 18px;
-
-            display: grid;
-
-            grid-template-columns:
-                180px
-                1fr
-                auto;
-
-            gap: 12px;
-
-            align-items: end;
-        }
-
-
-        .action-group label {
-
-            display: block;
-
-            color: #66737d;
-
-            font-size: 11px;
-
-            font-weight: 800;
-
-            margin-bottom: 7px;
-        }
-
-
-        .action-group select,
-        .action-group textarea {
-
-            width: 100%;
-
-            box-sizing: border-box;
-
-            border: 1px solid #dfe5e8;
-
-            border-radius: 11px;
-
-            padding: 12px;
-
-            background: #fafbfc;
-
-            font: inherit;
-
-            outline: none;
-        }
-
-
-        .action-group textarea {
-
-            min-height: 45px;
-
-            resize: vertical;
-        }
-
-
-        .action-group select:focus,
-        .action-group textarea:focus {
-
-            border-color: var(--green);
-
-            box-shadow:
-                0 0 0 3px
-                rgba(23,166,115,.1);
-        }
-
-
-        /* ==========================================
-           EMPTY / LOADING
-        ========================================== */
-
-        .empty-box {
-
-            background: white;
-
-            border: 1px solid var(--line);
-
-            border-radius: 20px;
-
-            padding: 45px 25px;
-
-            text-align: center;
-
-            color: var(--slate);
-        }
-
-
-        .empty-box strong {
-
-            display: block;
-
-            color: var(--ink);
-
-            font-size: 17px;
-
-            margin-bottom: 7px;
-        }
-
-
-        .loading-box {
-
-            background: white;
-
-            border: 1px solid var(--line);
-
-            border-radius: 20px;
-
-            padding: 35px;
-
-            text-align: center;
-
-            color: var(--slate);
-
-            font-size: 13px;
-        }
-
-
-        /* ==========================================
-           MESSAGE
-        ========================================== */
-
-        .admin-message {
-
-            min-height: 20px;
-
-            margin-bottom: 18px;
-
-            font-size: 13px;
-
-            font-weight: 700;
-        }
-
-
-        .error-box {
-
-            display: none;
-
-            background: #fff5f5;
-
-            border: 1px solid #ffd5d5;
-
-            border-radius: 14px;
-
-            padding: 15px;
-
-            color: #b42318;
-
-            font-size: 12px;
-
-            line-height: 1.6;
-
-            word-break: break-word;
-
-            margin-bottom: 20px;
-        }
-
-
-        /* ==========================================
-           RESPONSIVE
-        ========================================== */
-
-        @media (max-width: 850px) {
-
-            .stats-grid {
-
-                grid-template-columns:
-                    repeat(2, minmax(0, 1fr));
-            }
-
-
-            .toolbar {
-
-                grid-template-columns:
-                    1fr 1fr;
-            }
-
-
-            .toolbar input {
-
-                grid-column:
-                    1 / -1;
-            }
-
-
-            .ticket-meta {
-
-                grid-template-columns:
-                    1fr;
-            }
-
-
-            .admin-actions {
-
-                grid-template-columns:
-                    1fr;
-            }
-
-        }
-
-
-        @media (max-width: 520px) {
-
-            .admin-page {
-
-                padding:
-                    35px 4% 60px;
-            }
-
-
-            .admin-header h1 {
-
-                font-size: 32px;
-            }
-
-
-            .stats-grid {
-
-                grid-template-columns:
-                    1fr 1fr;
-            }
-
-
-            .toolbar {
-
-                grid-template-columns:
-                    1fr;
-            }
-
-
-            .toolbar input {
-
-                grid-column:
-                    auto;
-            }
-
-
-            .ticket-top {
-
-                flex-direction: column;
-            }
-
-
-            .ticket-date {
-
-                white-space:
-                    normal;
-            }
-
-
-            .ticket-card {
-
-                padding: 18px;
-            }
-
-        }
-
-    </style>
+<meta charset="utf-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+>
+
+<title>Admin V2 · Nexora Financial</title>
+
+<link
+    rel="stylesheet"
+    href="./assets/style.css"
+>
+
+<style>
+
+.admin-page {
+    max-width:1200px;
+    margin:auto;
+    padding:45px 5% 80px;
+}
+
+.version-badge {
+    display:inline-block;
+    padding:7px 13px;
+    border-radius:999px;
+    background:#101820;
+    color:white;
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:1px;
+    margin-bottom:16px;
+}
+
+.admin-header {
+    margin-bottom:30px;
+}
+
+.admin-header h1 {
+    font:800 40px Manrope,sans-serif;
+    margin:8px 0;
+}
+
+.admin-header p {
+    color:var(--slate);
+    line-height:1.7;
+}
+
+.info-box {
+    background:#f5f8fa;
+    border:1px solid #dfe5e8;
+    border-radius:16px;
+    padding:15px;
+    margin-bottom:20px;
+    font-size:12px;
+    line-height:1.7;
+    word-break:break-word;
+}
+
+.success-box {
+    background:#effaf5;
+    border:1px solid #ccefe0;
+    color:#16805a;
+    border-radius:16px;
+    padding:15px;
+    margin-bottom:20px;
+    font-size:12px;
+}
+
+.error-box {
+    display:none;
+    background:#fff5f5;
+    border:1px solid #ffd5d5;
+    color:#b42318;
+    border-radius:16px;
+    padding:15px;
+    margin-bottom:20px;
+    font-size:12px;
+    line-height:1.7;
+    word-break:break-word;
+}
+
+.stats {
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.stat {
+    background:white;
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:20px;
+}
+
+.stat-label {
+    color:var(--slate);
+    font-size:11px;
+    font-weight:800;
+    margin-bottom:7px;
+}
+
+.stat-number {
+    font-size:28px;
+    font-weight:800;
+}
+
+.toolbar {
+    display:flex;
+    gap:12px;
+    margin-bottom:25px;
+    flex-wrap:wrap;
+}
+
+.toolbar input,
+.toolbar select {
+    padding:13px;
+    border:1px solid #dfe5e8;
+    border-radius:11px;
+    background:white;
+    font:inherit;
+    outline:none;
+}
+
+.toolbar input {
+    flex:1;
+    min-width:220px;
+}
+
+.tickets {
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+.ticket {
+    background:white;
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:23px;
+    box-shadow:0 10px 30px rgba(16,24,32,.035);
+}
+
+.ticket-head {
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    margin-bottom:15px;
+}
+
+.category {
+    color:var(--green);
+    font-size:11px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.7px;
+}
+
+.subject {
+    font-size:19px;
+    font-weight:800;
+    margin:5px 0 8px;
+}
+
+.date {
+    color:var(--slate);
+    font-size:11px;
+    white-space:nowrap;
+}
+
+.message {
+    background:#f8fafb;
+    border-radius:14px;
+    padding:16px;
+    font-size:13px;
+    line-height:1.7;
+    margin-bottom:15px;
+    white-space:pre-wrap;
+    word-break:break-word;
+}
+
+.meta {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.meta-item {
+    background:#fafbfc;
+    border:1px solid #edf0f2;
+    border-radius:12px;
+    padding:12px;
+}
+
+.meta-label {
+    display:block;
+    color:#8b98a1;
+    font-size:9px;
+    font-weight:800;
+    text-transform:uppercase;
+    margin-bottom:5px;
+}
+
+.meta-value {
+    font-size:11px;
+    word-break:break-all;
+}
+
+.actions {
+    border-top:1px solid #edf0f2;
+    padding-top:18px;
+    display:grid;
+    grid-template-columns:180px 1fr auto;
+    gap:12px;
+    align-items:end;
+}
+
+.actions label {
+    display:block;
+    color:#66737d;
+    font-size:10px;
+    font-weight:800;
+    margin-bottom:7px;
+}
+
+.actions select,
+.actions textarea {
+    width:100%;
+    box-sizing:border-box;
+    border:1px solid #dfe5e8;
+    border-radius:11px;
+    padding:12px;
+    background:#fafbfc;
+    font:inherit;
+}
+
+.actions textarea {
+    min-height:45px;
+    resize:vertical;
+}
+
+.empty {
+    background:white;
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:45px;
+    text-align:center;
+    color:var(--slate);
+}
+
+.empty strong {
+    display:block;
+    color:var(--ink);
+    margin-bottom:7px;
+    font-size:17px;
+}
+
+@media(max-width:850px) {
+
+    .stats {
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .actions {
+        grid-template-columns:1fr;
+    }
+
+    .meta {
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:520px) {
+
+    .admin-page {
+        padding:35px 4% 60px;
+    }
+
+    .admin-header h1 {
+        font-size:32px;
+    }
+
+    .ticket-head {
+        flex-direction:column;
+    }
+
+    .date {
+        white-space:normal;
+    }
+
+}
+
+</style>
 
 </head>
 
@@ -638,1543 +306,1144 @@
 <body class="dashboard-body">
 
 
-<!-- ==========================================
-     DEMO BAR
-========================================== -->
-
 <div class="demo">
 
-    NEXORA FINANCIAL · SIMULATED ACCOUNT
+NEXORA FINANCIAL · SIMULATED ACCOUNT
 
 </div>
 
 
-<!-- ==========================================
-     HEADER
-========================================== -->
-
 <header>
 
-    <a
-        class="brand"
-        href="./dashboard.html"
-    >
+<a
+    class="brand"
+    href="./dashboard.html"
+>
+    NEXORA
+    <span>FINANCIAL</span>
+</a>
 
-        NEXORA
-        <span>FINANCIAL</span>
+<nav class="navlinks">
 
-    </a>
+<a href="./dashboard.html">
+Dashboard
+</a>
 
+<a
+    class="btn ghost"
+    href="./index.html"
+    onclick="logout(event)"
+>
+Log out
+</a>
 
-    <nav class="navlinks">
-
-        <a
-            href="./dashboard.html"
-        >
-            Dashboard
-        </a>
-
-
-        <a
-            class="btn ghost"
-            href="./index.html"
-            onclick="logout(event)"
-        >
-            Log out
-        </a>
-
-    </nav>
+</nav>
 
 </header>
 
 
-<!-- ==========================================
-     MAIN
-========================================== -->
-
 <main class="admin-page">
 
 
-    <div class="admin-header">
+<div class="version-badge">
+ADMIN V2
+</div>
 
-        <div class="version-badge">
 
-            ADMIN V1
+<div class="admin-header">
 
-        </div>
+<div class="eyebrow">
+ADMINISTRATION
+</div>
 
+<h1>
+Support dashboard
+</h1>
 
-        <div class="eyebrow">
+<p>
+Review and manage customer complaints submitted
+through the Nexora support system.
+</p>
 
-            ADMINISTRATION
+</div>
 
-        </div>
 
+<div
+    id="successBox"
+    class="success-box"
+>
+Connecting to support system...
+</div>
 
-        <h1>
 
-            Support dashboard
+<div
+    id="errorBox"
+    class="error-box"
+></div>
 
-        </h1>
 
+<div
+    id="connectionInfo"
+    class="info-box"
+>
+Checking administrator access...
+</div>
 
-        <p>
 
-            Review customer complaints, update their
-            status and provide responses from the
-            Nexora support administration system.
+<section class="stats">
 
-        </p>
 
-    </div>
+<div class="stat">
 
+<div class="stat-label">
+TOTAL
+</div>
 
-    <!-- ========================================
-         MESSAGE
-    ========================================= -->
+<div
+    class="stat-number"
+    id="totalCount"
+>
+0
+</div>
 
-    <div
-        id="adminMessage"
-        class="admin-message"
-    ></div>
+</div>
 
 
-    <div
-        id="errorBox"
-        class="error-box"
-    ></div>
+<div class="stat">
 
+<div class="stat-label">
+OPEN
+</div>
 
-    <!-- ========================================
-         STATS
-    ========================================= -->
+<div
+    class="stat-number"
+    id="openCount"
+>
+0
+</div>
 
-    <section class="stats-grid">
+</div>
 
 
-        <div class="stat-card">
+<div class="stat">
 
-            <div class="stat-label">
+<div class="stat-label">
+IN PROGRESS
+</div>
 
-                TOTAL TICKETS
+<div
+    class="stat-number"
+    id="progressCount"
+>
+0
+</div>
 
-            </div>
+</div>
 
-            <div
-                class="stat-number"
-                id="totalCount"
-            >
-                0
-            </div>
 
-        </div>
+<div class="stat">
 
+<div class="stat-label">
+RESOLVED
+</div>
 
-        <div class="stat-card">
+<div
+    class="stat-number"
+    id="resolvedCount"
+>
+0
+</div>
 
-            <div class="stat-label">
+</div>
 
-                OPEN
 
-            </div>
+</section>
 
-            <div
-                class="stat-number"
-                id="openCount"
-            >
-                0
-            </div>
 
-        </div>
+<div class="toolbar">
 
+<input
+    id="search"
+    type="search"
+    placeholder="Search complaints..."
+>
 
-        <div class="stat-card">
 
-            <div class="stat-label">
+<select id="statusFilter">
 
-                IN PROGRESS
+<option value="all">
+All statuses
+</option>
 
-            </div>
+<option value="open">
+Open
+</option>
 
-            <div
-                class="stat-number"
-                id="progressCount"
-            >
-                0
-            </div>
+<option value="in progress">
+In Progress
+</option>
 
-        </div>
+<option value="resolved">
+Resolved
+</option>
 
+</select>
 
-        <div class="stat-card">
 
-            <div class="stat-label">
+<select id="categoryFilter">
 
-                RESOLVED
+<option value="all">
+All categories
+</option>
 
-            </div>
+<option value="transaction">
+Transaction
+</option>
 
-            <div
-                class="stat-number"
-                id="resolvedCount"
-            >
-                0
-            </div>
+<option value="account">
+Account
+</option>
 
-        </div>
+<option value="transfer">
+Transfer
+</option>
 
+<option value="balance">
+Balance
+</option>
 
-    </section>
+<option value="login">
+Login
+</option>
 
+<option value="other">
+Other
+</option>
 
-    <!-- ========================================
-         TOOLBAR
-    ========================================= -->
+</select>
 
-    <section class="toolbar">
 
+<button
+    class="btn green"
+    id="refresh"
+    type="button"
+>
+↻ Refresh
+</button>
 
-        <input
-            id="searchInput"
-            type="search"
-            placeholder="Search complaints..."
-        >
+</div>
 
 
-        <select id="statusFilter">
+<section
+    id="tickets"
+    class="tickets"
+>
 
-            <option value="All">
+<div class="empty">
+<strong>
+Loading tickets...
+</strong>
+Please wait.
+</div>
 
-                All statuses
-
-            </option>
-
-            <option value="Open">
-
-                Open
-
-            </option>
-
-            <option value="In Progress">
-
-                In Progress
-
-            </option>
-
-            <option value="Resolved">
-
-                Resolved
-
-            </option>
-
-        </select>
-
-
-        <select id="categoryFilter">
-
-            <option value="All">
-
-                All categories
-
-            </option>
-
-            <option value="Transaction">
-
-                Transaction
-
-            </option>
-
-            <option value="Account">
-
-                Account
-
-            </option>
-
-            <option value="Transfer">
-
-                Transfer
-
-            </option>
-
-            <option value="Balance">
-
-                Balance
-
-            </option>
-
-            <option value="Login">
-
-                Login
-
-            </option>
-
-            <option value="Other">
-
-                Other
-
-            </option>
-
-        </select>
-
-
-        <button
-            class="btn green"
-            id="refreshButton"
-            type="button"
-        >
-
-            ↻ Refresh
-
-        </button>
-
-
-    </section>
-
-
-    <!-- ========================================
-         TICKETS
-    ========================================= -->
-
-    <section
-        id="ticketsContainer"
-        class="tickets-container"
-    >
-
-        <div class="loading-box">
-
-            Loading support tickets...
-
-        </div>
-
-    </section>
+</section>
 
 
 </main>
 
-
-<!-- ==========================================
-     SUPABASE
-========================================== -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 
 <script>
 
-/* =================================================
+/* =====================================================
    NEXORA FINANCIAL
-   ADMIN V1
-================================================= */
+   ADMIN V2
+===================================================== */
 
-
-/* =================================================
-   SUPABASE CONNECTION
-================================================= */
 
 const SUPABASE_URL =
-    "https://krzxqmzvzgjmolepcnbg.supabase.co";
+"https://krzxqmzvzgjmolepcnbg.supabase.co";
 
 
 const SUPABASE_KEY =
-    "sb_publishable_YBTYFY_vqnZkncmCclQa8w_ZKB0Cyul";
+"sb_publishable_YBTYFY_vqnZkncmCclQa8w_ZKB0Cyul";
 
 
 const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
-
-/* =================================================
-   GLOBAL DATA
-================================================= */
 
 let currentUser = null;
 
-let allTickets = [];
+let tickets = [];
 
 
-/* =================================================
-   MESSAGE
-================================================= */
-
-function showMessage(
-    text,
-    color
-) {
-
-    const box =
-        document.getElementById(
-            "adminMessage"
-        );
-
-
-    box.textContent =
-        text;
-
-
-    box.style.color =
-        color || "#101820";
-
-}
-
-
-/* =================================================
-   ERROR
-================================================= */
-
-function showError(
-    error
-) {
-
-    const box =
-        document.getElementById(
-            "errorBox"
-        );
-
-
-    box.style.display =
-        "block";
-
-
-    box.textContent =
-        "ADMIN V1 ERROR: " +
-        (
-            error &&
-            error.message
-                ? error.message
-                : String(error)
-        );
-
-}
-
-
-/* =================================================
-   CLEAR ERROR
-================================================= */
-
-function clearError() {
-
-    const box =
-        document.getElementById(
-            "errorBox"
-        );
-
-
-    box.style.display =
-        "none";
-
-
-    box.textContent =
-        "";
-
-}
-
-
-/* =================================================
+/* =====================================================
    ESCAPE HTML
-================================================= */
+===================================================== */
 
-function escapeHtml(
-    value
+function esc(value) {
+
+if (
+    value === null ||
+    value === undefined
+) {
+    return "";
+}
+
+return String(value)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+   SHOW ERROR
+===================================================== */
+
+function showError(message) {
+
+const box =
+document.getElementById("errorBox");
+
+box.style.display =
+"block";
+
+box.textContent =
+"ADMIN V2 ERROR: " +
+message;
+
+}
+
+
+/* =====================================================
+   CHECK AUTH
+===================================================== */
+
+async function checkAuth() {
+
+const result =
+await supabaseClient
+.auth
+.getSession();
+
+
+if (result.error) {
+
+throw result.error;
+
+}
+
+
+if (
+!result.data ||
+!result.data.session ||
+!result.data.session.user
 ) {
 
-    if (
-        value === null ||
-        value === undefined
-    ) {
+window.location.href =
+"./login.html";
 
-        return "";
-
-    }
-
-
-    return String(value)
-
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-
-        .replace(
-            /</g,
-            "&lt;"
-        )
-
-        .replace(
-            />/g,
-            "&gt;"
-        )
-
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+return false;
 
 }
 
 
-/* =================================================
-   FORMAT DATE
-================================================= */
+currentUser =
+result.data.session.user;
 
-function formatDate(
-    value
+
+/* ---------------------------------------------
+   Get profile
+--------------------------------------------- */
+
+const profile =
+await supabaseClient
+.from("profiles")
+.select("is_admin")
+.eq("id",currentUser.id)
+.maybeSingle();
+
+
+if (profile.error) {
+
+throw new Error(
+"Profile check failed: " +
+profile.error.message
+);
+
+}
+
+
+if (
+!profile.data ||
+profile.data.is_admin !== true
 ) {
 
-    if (!value) {
-
-        return "Unknown date";
-
-    }
-
-
-    const date =
-        new Date(value);
-
-
-    if (
-        Number.isNaN(
-            date.getTime()
-        )
-    ) {
-
-        return String(value);
-
-    }
-
-
-    return date.toLocaleString(
-        undefined,
-        {
-            dateStyle: "medium",
-            timeStyle: "short"
-        }
-    );
+throw new Error(
+"Access denied. Your account is not marked as admin."
+);
 
 }
 
 
-/* =================================================
-   STATUS CLASS
-================================================= */
+document.getElementById(
+"connectionInfo"
+).textContent =
 
-function getStatusClass(
-    status
-) {
-
-    const normalized =
-        String(
-            status || ""
-        ).toLowerCase();
+"✓ ADMIN VERIFIED\n" +
+"User ID: " +
+currentUser.id;
 
 
-    if (
-        normalized === "resolved"
-    ) {
-
-        return "status-resolved";
-
-    }
-
-
-    if (
-        normalized === "in progress"
-    ) {
-
-        return "status-progress";
-
-    }
-
-
-    return "status-open";
+return true;
 
 }
 
 
-/* =================================================
-   CHECK ADMIN
-================================================= */
-
-async function checkAdmin() {
-
-
-    /* ---------------------------------------------
-       CHECK SESSION
-    --------------------------------------------- */
-
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-            .auth
-            .getSession();
-
-
-    if (error) {
-
-        throw error;
-
-    }
-
-
-    if (
-        !data ||
-        !data.session ||
-        !data.session.user
-    ) {
-
-        window.location.href =
-            "./login.html";
-
-        return false;
-
-    }
-
-
-    currentUser =
-        data.session.user;
-
-
-    /* ---------------------------------------------
-       CHECK PROFILE
-    --------------------------------------------- */
-
-    const profileResult =
-        await supabaseClient
-
-            .from("profiles")
-
-            .select(
-                "is_admin"
-            )
-
-            .eq(
-                "id",
-                currentUser.id
-            )
-
-            .single();
-
-
-    if (
-        profileResult.error
-    ) {
-
-        throw new Error(
-            "Unable to verify admin access: " +
-            profileResult.error.message
-        );
-
-    }
-
-
-    if (
-        !profileResult.data ||
-        profileResult.data.is_admin !== true
-    ) {
-
-        throw new Error(
-            "Access denied. This account is not an administrator."
-        );
-
-    }
-
-
-    return true;
-
-}
-
-
-/* =================================================
+/* =====================================================
    LOAD TICKETS
-================================================= */
+===================================================== */
 
 async function loadTickets() {
 
-    clearError();
+const container =
+document.getElementById("tickets");
 
 
-    const container =
-        document.getElementById(
-            "ticketsContainer"
-        );
+container.innerHTML =
+
+'<div class="empty">' +
+'<strong>Loading tickets...</strong>' +
+'Reading support_tickets from Supabase.' +
+'</div>';
 
 
-    container.innerHTML =
-
-        '<div class="loading-box">' +
-        'Loading support tickets...' +
-        '</div>';
+try {
 
 
-    try {
-
-
-        const result =
-            await supabaseClient
-
-                .from(
-                    "support_tickets"
-                )
-
-                .select(
-                    "id,user_id,category,subject,message,transaction_id,status,admin_response,created_at,updated_at"
-                )
-
-                .order(
-                    "created_at",
-                    {
-                        ascending: false
-                    }
-                );
-
-
-        if (result.error) {
-
-            throw result.error;
-
-        }
-
-
-        allTickets =
-            result.data || [];
-
-
-        updateStats();
-
-
-        renderTickets();
-
-
-        showMessage(
-            "✓ Support tickets loaded.",
-            "#17a673"
-        );
-
-
-    } catch (error) {
-
-
-        console.error(
-            "ADMIN V1 LOAD ERROR:",
-            error
-        );
-
-
-        container.innerHTML =
-
-            '<div class="empty-box">' +
-
-            '<strong>Unable to load tickets</strong>' +
-
-            'Please check the error message above.' +
-
-            '</div>';
-
-
-        showError(
-            error
-        );
-
+const result =
+await supabaseClient
+.from("support_tickets")
+.select("*")
+.order(
+    "created_at",
+    {
+        ascending:false
     }
+);
+
+
+if (result.error) {
+
+throw result.error;
 
 }
 
 
-/* =================================================
-   UPDATE STATS
-================================================= */
+tickets =
+result.data || [];
+
+
+console.log(
+"ADMIN V2 TICKETS:",
+tickets
+);
+
+
+document.getElementById(
+"successBox"
+).textContent =
+
+"✓ Support system connected. " +
+tickets.length +
+" ticket(s) found.";
+
+
+updateStats();
+
+render();
+
+
+} catch(error) {
+
+
+console.error(
+"ADMIN V2 LOAD ERROR:",
+error
+);
+
+
+showError(
+error.message ||
+String(error)
+);
+
+
+container.innerHTML =
+
+'<div class="empty">' +
+'<strong>Could not load tickets</strong>' +
+'See the ADMIN V2 ERROR above.' +
+'</div>';
+
+}
+
+}
+
+
+/* =====================================================
+   STATS
+===================================================== */
 
 function updateStats() {
 
+let open = 0;
 
-    const total =
-        allTickets.length;
+let progress = 0;
 
-
-    const open =
-        allTickets.filter(
-            ticket =>
-                String(
-                    ticket.status || ""
-                ).toLowerCase()
-                === "open"
-        ).length;
+let resolved = 0;
 
 
-    const progress =
-        allTickets.filter(
-            ticket =>
-                String(
-                    ticket.status || ""
-                ).toLowerCase()
-                === "in progress"
-        ).length;
+tickets.forEach(
+ticket => {
+
+const status =
+String(
+    ticket.status || "Open"
+)
+.toLowerCase();
 
 
-    const resolved =
-        allTickets.filter(
-            ticket =>
-                String(
-                    ticket.status || ""
-                ).toLowerCase()
-                === "resolved"
-        ).length;
+if (
+status === "open"
+) {
+    open++;
+}
 
 
-    document.getElementById(
-        "totalCount"
-    ).textContent =
-        total;
+if (
+status === "in progress"
+) {
+    progress++;
+}
 
 
-    document.getElementById(
-        "openCount"
-    ).textContent =
-        open;
+if (
+status === "resolved"
+) {
+    resolved++;
+}
+
+});
 
 
-    document.getElementById(
-        "progressCount"
-    ).textContent =
-        progress;
+document.getElementById(
+"totalCount"
+).textContent =
+tickets.length;
 
 
-    document.getElementById(
-        "resolvedCount"
-    ).textContent =
-        resolved;
+document.getElementById(
+"openCount"
+).textContent =
+open;
+
+
+document.getElementById(
+"progressCount"
+).textContent =
+progress;
+
+
+document.getElementById(
+"resolvedCount"
+).textContent =
+resolved;
 
 }
 
 
-/* =================================================
-   FILTER TICKETS
-================================================= */
+/* =====================================================
+   RENDER
+===================================================== */
 
-function getFilteredTickets() {
+function render() {
 
-
-    const search =
-        document.getElementById(
-            "searchInput"
-        ).value
-        .trim()
-        .toLowerCase();
+const container =
+document.getElementById("tickets");
 
 
-    const status =
-        document.getElementById(
-            "statusFilter"
-        ).value;
+const search =
+document.getElementById("search")
+.value
+.trim()
+.toLowerCase();
 
 
-    const category =
-        document.getElementById(
-            "categoryFilter"
-        ).value;
+const status =
+document.getElementById("statusFilter")
+.value
+.toLowerCase();
 
 
-    return allTickets.filter(
-        ticket => {
+const category =
+document.getElementById("categoryFilter")
+.value
+.toLowerCase();
 
 
-            const searchable = [
-
-                ticket.subject,
-
-                ticket.message,
-
-                ticket.category,
-
-                ticket.transaction_id,
-
-                ticket.user_id,
-
-                ticket.admin_response
-
-            ]
-
-                .filter(Boolean)
-
-                .join(" ")
-
-                .toLowerCase();
+const filtered =
+tickets.filter(
+ticket => {
 
 
-            const matchesSearch =
-                !search ||
-                searchable.includes(
-                    search
-                );
+const text = [
+
+ticket.id,
+
+ticket.user_id,
+
+ticket.category,
+
+ticket.subject,
+
+ticket.message,
+
+ticket.transaction_id,
+
+ticket.admin_response
+
+]
+.filter(Boolean)
+.join(" ")
+.toLowerCase();
 
 
-            const matchesStatus =
-                status === "All" ||
-                String(
-                    ticket.status || ""
-                ).toLowerCase()
-                === status.toLowerCase();
+const matchesSearch =
+!search ||
+text.includes(search);
 
 
-            const matchesCategory =
-                category === "All" ||
-                String(
-                    ticket.category || ""
-                ).toLowerCase()
-                === category.toLowerCase();
+const ticketStatus =
+String(
+ticket.status || "Open"
+)
+.toLowerCase();
 
 
-            return (
-                matchesSearch &&
-                matchesStatus &&
-                matchesCategory
-            );
-
-        }
-    );
-
-}
+const ticketCategory =
+String(
+ticket.category || ""
+)
+.toLowerCase();
 
 
-/* =================================================
-   RENDER TICKETS
-================================================= */
-
-function renderTickets() {
+const matchesStatus =
+status === "all" ||
+ticketStatus === status;
 
 
-    const container =
-        document.getElementById(
-            "ticketsContainer"
-        );
+const matchesCategory =
+category === "all" ||
+ticketCategory === category;
 
 
-    const tickets =
-        getFilteredTickets();
+return (
+matchesSearch &&
+matchesStatus &&
+matchesCategory
+);
+
+});
 
 
-    if (
-        tickets.length === 0
-    ) {
-
-        container.innerHTML =
-
-            '<div class="empty-box">' +
-
-            '<strong>No complaints found</strong>' +
-
-            'There are no support tickets matching your filters.' +
-
-            '</div>';
-
-
-        return;
-
-    }
-
-
-    container.innerHTML =
-        tickets
-            .map(
-                ticket =>
-                    createTicketHtml(
-                        ticket
-                    )
-            )
-            .join("");
-
-}
-
-
-/* =================================================
-   CREATE TICKET HTML
-================================================= */
-
-function createTicketHtml(
-    ticket
+if (
+filtered.length === 0
 ) {
 
+container.innerHTML =
 
-    const status =
-        ticket.status ||
-        "Open";
+'<div class="empty">' +
 
+'<strong>No complaints found</strong>' +
 
-    const statusClass =
-        getStatusClass(
-            status
-        );
+'No tickets match the current filters.' +
 
+'</div>';
 
-    const category =
-        ticket.category ||
-        "Other";
-
-
-    const adminResponse =
-        ticket.admin_response ||
-        "";
-
-
-    return `
-
-        <article
-            class="ticket-card"
-            id="ticket-${escapeHtml(ticket.id)}"
-        >
-
-            <div class="ticket-top">
-
-                <div>
-
-                    <div class="ticket-category">
-
-                        ${escapeHtml(category)}
-
-                    </div>
-
-
-                    <h2 class="ticket-subject">
-
-                        ${escapeHtml(ticket.subject)}
-
-                    </h2>
-
-
-                    <span
-                        class="status-badge ${statusClass}"
-                    >
-
-                        ${escapeHtml(status)}
-
-                    </span>
-
-                </div>
-
-
-                <div class="ticket-date">
-
-                    ${escapeHtml(
-                        formatDate(
-                            ticket.created_at
-                        )
-                    )}
-
-                </div>
-
-            </div>
-
-
-            <div class="ticket-message">
-
-                ${escapeHtml(ticket.message)}
-
-            </div>
-
-
-            <div class="ticket-meta">
-
-
-                <div class="meta-box">
-
-                    <span class="meta-label">
-
-                        Ticket ID
-
-                    </span>
-
-                    <span class="meta-value">
-
-                        ${escapeHtml(ticket.id)}
-
-                    </span>
-
-                </div>
-
-
-                <div class="meta-box">
-
-                    <span class="meta-label">
-
-                        Customer ID
-
-                    </span>
-
-                    <span class="meta-value">
-
-                        ${escapeHtml(ticket.user_id)}
-
-                    </span>
-
-                </div>
-
-
-                <div class="meta-box">
-
-                    <span class="meta-label">
-
-                        Transaction ID
-
-                    </span>
-
-                    <span class="meta-value">
-
-                        ${
-                            ticket.transaction_id
-                                ? escapeHtml(
-                                    ticket.transaction_id
-                                )
-                                : "Not provided"
-                        }
-
-                    </span>
-
-                </div>
-
-
-            </div>
-
-
-            <div class="admin-actions">
-
-
-                <div class="action-group">
-
-                    <label>
-
-                        STATUS
-
-                    </label>
-
-
-                    <select
-                        id="status-${escapeHtml(ticket.id)}"
-                    >
-
-                        <option
-                            value="Open"
-                            ${
-                                status === "Open"
-                                    ? "selected"
-                                    : ""
-                            }
-                        >
-
-                            Open
-
-                        </option>
-
-
-                        <option
-                            value="In Progress"
-                            ${
-                                status === "In Progress"
-                                    ? "selected"
-                                    : ""
-                            }
-                        >
-
-                            In Progress
-
-                        </option>
-
-
-                        <option
-                            value="Resolved"
-                            ${
-                                status === "Resolved"
-                                    ? "selected"
-                                    : ""
-                            }
-                        >
-
-                            Resolved
-
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <div class="action-group">
-
-                    <label>
-
-                        ADMIN RESPONSE
-
-                    </label>
-
-
-                    <textarea
-                        id="response-${escapeHtml(ticket.id)}"
-                        placeholder="Write a response to the customer..."
-                    >${escapeHtml(adminResponse)}</textarea>
-
-                </div>
-
-
-                <button
-                    type="button"
-                    class="btn green"
-                    onclick="saveTicket('${escapeJs(ticket.id)}')"
-                >
-
-                    Save
-
-                </button>
-
-
-            </div>
-
-        </article>
-
-    `;
+return;
 
 }
 
 
-/* =================================================
-   ESCAPE JAVASCRIPT STRING
-================================================= */
+container.innerHTML =
+filtered
+.map(ticket => ticketHtml(ticket))
+.join("");
 
-function escapeJs(
-    value
+}
+
+
+/* =====================================================
+   TICKET HTML
+===================================================== */
+
+function ticketHtml(ticket) {
+
+const status =
+ticket.status ||
+"Open";
+
+
+const response =
+ticket.admin_response ||
+"";
+
+
+return `
+
+<article class="ticket">
+
+<div class="ticket-head">
+
+<div>
+
+<div class="category">
+${esc(ticket.category || "Other")}
+</div>
+
+<div class="subject">
+${esc(ticket.subject || "No subject")}
+</div>
+
+</div>
+
+<div class="date">
+${formatDate(ticket.created_at)}
+</div>
+
+</div>
+
+
+<div class="message">
+${esc(ticket.message || "")}
+</div>
+
+
+<div class="meta">
+
+
+<div class="meta-item">
+
+<span class="meta-label">
+Ticket ID
+</span>
+
+<span class="meta-value">
+${esc(ticket.id)}
+</span>
+
+</div>
+
+
+<div class="meta-item">
+
+<span class="meta-label">
+Customer ID
+</span>
+
+<span class="meta-value">
+${esc(ticket.user_id)}
+</span>
+
+</div>
+
+
+<div class="meta-item">
+
+<span class="meta-label">
+Transaction ID
+</span>
+
+<span class="meta-value">
+
+${
+ticket.transaction_id
+?
+esc(ticket.transaction_id)
+:
+"Not provided"
+}
+
+</span>
+
+</div>
+
+
+</div>
+
+
+<div class="actions">
+
+
+<div>
+
+<label>
+STATUS
+</label>
+
+<select
+id="status-${esc(ticket.id)}"
+>
+
+<option
+value="Open"
+${status === "Open" ? "selected" : ""}
+>
+Open
+</option>
+
+<option
+value="In Progress"
+${status === "In Progress" ? "selected" : ""}
+>
+In Progress
+</option>
+
+<option
+value="Resolved"
+${status === "Resolved" ? "selected" : ""}
+>
+Resolved
+</option>
+
+</select>
+
+</div>
+
+
+<div>
+
+<label>
+ADMIN RESPONSE
+</label>
+
+<textarea
+id="response-${esc(ticket.id)}"
+placeholder="Write your response..."
+>${esc(response)}</textarea>
+
+</div>
+
+
+<button
+type="button"
+class="btn green"
+onclick="saveTicket('${jsEsc(ticket.id)}')"
+>
+Save
+</button>
+
+
+</div>
+
+</article>
+
+`;
+
+}
+
+
+/* =====================================================
+   DATE
+===================================================== */
+
+function formatDate(value) {
+
+if (!value) {
+return "Unknown date";
+}
+
+
+const date =
+new Date(value);
+
+
+if (
+Number.isNaN(
+date.getTime()
+)
 ) {
 
-    return String(
-        value || ""
-    )
-        .replace(
-            /\\/g,
-            "\\\\"
-        )
-        .replace(
-            /'/g,
-            "\\'"
-        )
-        .replace(
-            /\n/g,
-            "\\n"
-        )
-        .replace(
-            /\r/g,
-            "\\r"
-        );
+return String(value);
 
 }
 
 
-/* =================================================
+return date.toLocaleString(
+undefined,
+{
+    dateStyle:"medium",
+    timeStyle:"short"
+}
+);
+
+}
+
+
+/* =====================================================
+   JAVASCRIPT ESCAPE
+===================================================== */
+
+function jsEsc(value) {
+
+return String(value || "")
+.replace(/\\/g,"\\\\")
+.replace(/'/g,"\\'")
+.replace(/\n/g,"\\n")
+.replace(/\r/g,"\\r");
+
+}
+
+
+/* =====================================================
    SAVE TICKET
-================================================= */
+===================================================== */
 
 async function saveTicket(
-    ticketId
+ticketId
 ) {
 
 
-    clearError();
+const statusElement =
+document.getElementById(
+"status-" + ticketId
+);
 
 
-    const statusElement =
-        document.getElementById(
-            "status-" +
-            ticketId
-        );
+const responseElement =
+document.getElementById(
+"response-" + ticketId
+);
 
 
-    const responseElement =
-        document.getElementById(
-            "response-" +
-            ticketId
-        );
+if (
+!statusElement ||
+!responseElement
+) {
 
+showError(
+"Ticket controls could not be found."
+);
 
-    if (
-        !statusElement ||
-        !responseElement
-    ) {
-
-        showError(
-            new Error(
-                "Unable to find ticket controls."
-            )
-        );
-
-        return;
-
-    }
-
-
-    const newStatus =
-        statusElement.value;
-
-
-    const adminResponse =
-        responseElement.value.trim();
-
-
-    showMessage(
-        "Saving ticket...",
-        "#66737d"
-    );
-
-
-    try {
-
-
-        const result =
-            await supabaseClient
-
-                .from(
-                    "support_tickets"
-                )
-
-                .update({
-
-                    status:
-                        newStatus,
-
-                    admin_response:
-                        adminResponse,
-
-                    updated_at:
-                        new Date().toISOString()
-
-                })
-
-                .eq(
-                    "id",
-                    ticketId
-                );
-
-
-        if (result.error) {
-
-            throw result.error;
-
-        }
-
-
-        showMessage(
-            "✓ Ticket updated successfully.",
-            "#17a673"
-        );
-
-
-        await loadTickets();
-
-
-    } catch (error) {
-
-
-        console.error(
-            "ADMIN V1 SAVE ERROR:",
-            error
-        );
-
-
-        showError(
-            error
-        );
-
-
-        showMessage(
-            "Unable to save ticket.",
-            "#c3444d"
-        );
-
-    }
+return;
 
 }
 
 
-/* =================================================
-   FILTER EVENTS
-================================================= */
-
-document
-    .getElementById(
-        "searchInput"
-    )
-    .addEventListener(
-        "input",
-        renderTickets
-    );
+const newStatus =
+statusElement.value;
 
 
-document
-    .getElementById(
-        "statusFilter"
-    )
-    .addEventListener(
-        "change",
-        renderTickets
-    );
+const newResponse =
+responseElement.value.trim();
 
 
-document
-    .getElementById(
-        "categoryFilter"
-    )
-    .addEventListener(
-        "change",
-        renderTickets
-    );
+try {
 
 
-/* =================================================
-   REFRESH
-================================================= */
+const result =
+await supabaseClient
+.from("support_tickets")
+.update({
 
-document
-    .getElementById(
-        "refreshButton"
-    )
-    .addEventListener(
-        "click",
-        async function() {
+status:
+newStatus,
 
-            this.disabled =
-                true;
+admin_response:
+newResponse,
 
-            this.textContent =
-                "Refreshing...";
+updated_at:
+new Date().toISOString()
 
-
-            await loadTickets();
-
-
-            this.disabled =
-                false;
-
-            this.textContent =
-                "↻ Refresh";
-
-        }
-    );
+})
+.eq(
+"id",
+ticketId
+);
 
 
-/* =================================================
+if (result.error) {
+
+throw result.error;
+
+}
+
+
+document.getElementById(
+"successBox"
+).textContent =
+"✓ Ticket updated successfully.";
+
+
+await loadTickets();
+
+
+} catch(error) {
+
+
+console.error(
+"ADMIN V2 SAVE ERROR:",
+error
+);
+
+
+showError(
+error.message ||
+String(error)
+);
+
+}
+
+}
+
+
+/* =====================================================
+   EVENTS
+===================================================== */
+
+document.getElementById(
+"search"
+).addEventListener(
+"input",
+render
+);
+
+
+document.getElementById(
+"statusFilter"
+).addEventListener(
+"change",
+render
+);
+
+
+document.getElementById(
+"categoryFilter"
+).addEventListener(
+"change",
+render
+);
+
+
+document.getElementById(
+"refresh"
+).addEventListener(
+"click",
+async function() {
+
+this.disabled = true;
+
+this.textContent =
+"Refreshing...";
+
+
+await loadTickets();
+
+
+this.disabled = false;
+
+this.textContent =
+"↻ Refresh";
+
+}
+);
+
+
+/* =====================================================
    LOGOUT
-================================================= */
+===================================================== */
 
-async function logout(
-    event
-) {
+async function logout(event) {
 
-    event.preventDefault();
+event.preventDefault();
 
 
-    await supabaseClient
-        .auth
-        .signOut();
+await supabaseClient
+.auth
+.signOut();
 
 
-    window.location.href =
-        "./index.html";
+window.location.href =
+"./index.html";
 
 }
 
 
-/* =================================================
-   START ADMIN V1
-================================================= */
+/* =====================================================
+   START
+===================================================== */
 
-async function startAdmin() {
+async function start() {
 
-
-    console.log(
-        "======================================"
-    );
+try {
 
 
-    console.log(
-        "NEXORA ADMIN V1 LOADED"
-    );
+console.log(
+"NEXORA ADMIN V2 LOADED"
+);
 
 
-    console.log(
-        "======================================"
-    );
+const allowed =
+await checkAuth();
 
 
-    try {
+if (!allowed) {
+return;
+}
 
 
-        showMessage(
-            "Verifying administrator access...",
-            "#66737d"
-        );
+await loadTickets();
 
 
-        const allowed =
-            await checkAdmin();
+} catch(error) {
 
 
-        if (!allowed) {
-
-            return;
-
-        }
-
-
-        showMessage(
-            "✓ Administrator verified.",
-            "#17a673"
-        );
+console.error(
+"ADMIN V2 START ERROR:",
+error
+);
 
 
-        await loadTickets();
+showError(
+error.message ||
+String(error)
+);
 
 
-    } catch (error) {
+document.getElementById(
+"connectionInfo"
+).textContent =
+"Administrator verification failed.";
 
-
-        console.error(
-            "ADMIN V1 START ERROR:",
-            error
-        );
-
-
-        showError(
-            error
-        );
-
-
-        document
-            .getElementById(
-                "ticketsContainer"
-            )
-            .innerHTML =
-
-            '<div class="empty-box">' +
-
-            '<strong>Admin access unavailable</strong>' +
-
-            'You do not have permission to view this dashboard.' +
-
-            '</div>';
-
-    }
+}
 
 }
 
 
-startAdmin();
+start();
 
 </script>
-
 
 </body>
 
