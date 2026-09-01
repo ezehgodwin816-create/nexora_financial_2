@@ -5,11 +5,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Support · Nexora Financial</title>
+    <title>Support V4 · Nexora Financial</title>
 
     <link rel="stylesheet" href="./assets/style.css">
 
     <style>
+        .version-badge {
+            display: inline-block;
+            padding: 7px 12px;
+            margin-bottom: 18px;
+            border-radius: 999px;
+            background: #101820;
+            color: white;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
         .support-page {
             max-width: 850px;
             margin: auto;
@@ -135,7 +147,22 @@
             line-height: 1.6;
         }
 
+        .data-box {
+            display: none;
+            margin-top: 15px;
+            padding: 14px;
+            background: #f5f8fa;
+            border: 1px solid #dfe5e8;
+            border-radius: 12px;
+            color: #334155;
+            font-size: 11px;
+            line-height: 1.6;
+            word-break: break-word;
+            white-space: pre-wrap;
+        }
+
         @media (max-width: 520px) {
+
             .support-page {
                 padding: 35px 4% 60px;
             }
@@ -152,11 +179,13 @@
     </style>
 </head>
 
+
 <body class="dashboard-body">
 
 <div class="demo">
     NEXORA FINANCIAL · SIMULATED ACCOUNT
 </div>
+
 
 <header>
 
@@ -183,6 +212,7 @@
 
 </header>
 
+
 <main class="support-page">
 
     <a
@@ -192,7 +222,12 @@
         ← Back to dashboard
     </a>
 
+
     <div class="support-header">
+
+        <div class="version-badge">
+            SUPPORT V4
+        </div>
 
         <div class="eyebrow">
             CUSTOMER CARE
@@ -210,24 +245,34 @@
 
     </div>
 
+
     <section class="support-card">
 
         <div class="ticket-info">
+
             Your complaint will be securely attached to your
             Nexora account so it can be reviewed and resolved
             from the support administration dashboard.
+
         </div>
+
 
         <h2>
             Submit a complaint
         </h2>
 
+
         <form id="supportForm">
 
+
             <label>
+
                 Complaint category
 
-                <select id="category" required>
+                <select
+                    id="category"
+                    required
+                >
 
                     <option value="">
                         Select a category
@@ -258,10 +303,12 @@
                     </option>
 
                 </select>
+
             </label>
 
 
             <label>
+
                 Subject
 
                 <input
@@ -271,10 +318,12 @@
                     required
                     placeholder="Briefly describe the problem"
                 >
+
             </label>
 
 
             <label>
+
                 Complaint details
 
                 <textarea
@@ -283,10 +332,12 @@
                     required
                     placeholder="Tell us what happened..."
                 ></textarea>
+
             </label>
 
 
             <label>
+
                 Transaction ID
 
                 <span style="
@@ -302,6 +353,7 @@
                     maxlength="200"
                     placeholder="Enter transaction ID if applicable"
                 >
+
             </label>
 
 
@@ -327,11 +379,18 @@
 
 
             <div
+                id="dataBox"
+                class="data-box"
+            ></div>
+
+
+            <div
                 id="successBox"
                 class="success-box"
             >
                 Your complaint has been added to the support system.
             </div>
+
 
         </form>
 
@@ -342,11 +401,18 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+
 <script>
 
-/* ==========================================
+/* =====================================================
+   NEXORA FINANCIAL
+   SUPPORT V4
+   ===================================================== */
+
+
+/* =====================================================
    SUPABASE CONNECTION
-========================================== */
+   ===================================================== */
 
 const SUPABASE_URL =
     "https://krzxqmzvzgjmolepcnbg.supabase.co";
@@ -354,20 +420,25 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
     "sb_publishable_YBTYFY_vqnZkncmCclQa8w_ZKB0Cyul";
 
+
 const supabaseClient =
     window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
     );
 
+
 let currentUser = null;
 
 
-/* ==========================================
-   SHOW MESSAGE
-========================================== */
+/* =====================================================
+   MESSAGE HELPER
+   ===================================================== */
 
-function showMessage(text, color) {
+function showMessage(
+    text,
+    color
+) {
 
     const box =
         document.getElementById(
@@ -379,12 +450,13 @@ function showMessage(text, color) {
 
     box.style.color =
         color || "#101820";
+
 }
 
 
-/* ==========================================
+/* =====================================================
    CHECK LOGIN
-========================================== */
+   ===================================================== */
 
 async function checkUser() {
 
@@ -394,6 +466,7 @@ async function checkUser() {
     } =
         await supabaseClient.auth.getSession();
 
+
     if (error) {
 
         throw new Error(
@@ -402,6 +475,7 @@ async function checkUser() {
         );
 
     }
+
 
     if (
         !data ||
@@ -416,16 +490,19 @@ async function checkUser() {
 
     }
 
+
     currentUser =
         data.session.user;
 
+
     return true;
+
 }
 
 
-/* ==========================================
+/* =====================================================
    SUBMIT COMPLAINT
-========================================== */
+   ===================================================== */
 
 document
     .getElementById("supportForm")
@@ -435,20 +512,30 @@ document
 
             event.preventDefault();
 
+
             const button =
                 document.getElementById(
                     "submitSupport"
                 );
+
 
             const debug =
                 document.getElementById(
                     "debugBox"
                 );
 
+
             const success =
                 document.getElementById(
                     "successBox"
                 );
+
+
+            const dataBox =
+                document.getElementById(
+                    "dataBox"
+                );
+
 
             debug.style.display =
                 "none";
@@ -459,21 +546,34 @@ document
             success.style.display =
                 "none";
 
+            dataBox.style.display =
+                "none";
+
+            dataBox.textContent =
+                "";
+
+
+            /* =========================================
+               READ FORM
+            ========================================= */
 
             const category =
                 document.getElementById(
                     "category"
                 ).value;
 
+
             const subject =
                 document.getElementById(
                     "subject"
                 ).value.trim();
 
+
             const message =
                 document.getElementById(
                     "message"
                 ).value.trim();
+
 
             const transactionId =
                 document.getElementById(
@@ -506,9 +606,10 @@ document
 
             try {
 
-                /* ==========================
-                   CHECK AUTHENTICATION
-                ========================== */
+
+                /* =====================================
+                   CHECK AUTH
+                ===================================== */
 
                 const loggedIn =
                     await checkUser();
@@ -522,25 +623,40 @@ document
 
 
                 button.textContent =
-                    "Creating ticket...";
+                    "Generating ticket ID...";
 
 
-                /* ==========================
-                   GENERATE UUID LOCALLY
+                /* =====================================
+                   GENERATE ID IN BROWSER
                    
-                   IMPORTANT:
-                   We explicitly provide the
-                   ID instead of relying on
-                   PostgreSQL to generate it.
-                ========================== */
+                   THIS IS IMPORTANT.
+                   WE ARE NOT WAITING FOR SUPABASE
+                   TO GENERATE THE ID.
+                ===================================== */
 
-                const ticketId =
-                    crypto.randomUUID();
+                let ticketId;
 
 
-                /* ==========================
-                   COMPLETE TICKET DATA
-                ========================== */
+                if (
+                    typeof crypto !== "undefined" &&
+                    typeof crypto.randomUUID === "function"
+                ) {
+
+                    ticketId =
+                        crypto.randomUUID();
+
+                } else {
+
+                    throw new Error(
+                        "This browser does not support crypto.randomUUID()."
+                    );
+
+                }
+
+
+                /* =====================================
+                   CREATE COMPLETE DATA OBJECT
+                ===================================== */
 
                 const ticketData = {
 
@@ -569,19 +685,38 @@ document
                 };
 
 
+                /* =====================================
+                   SHOW EXACT DATA BEING SENT
+                ===================================== */
+
                 console.log(
-                    "NEXORA TICKET DATA:",
+                    "SUPPORT V4 DATA BEING SENT:",
                     ticketData
                 );
 
 
-                /* ==========================
-                   INSERT TICKET
-                ========================== */
+                dataBox.style.display =
+                    "block";
 
-                const {
-                    error
-                } =
+
+                dataBox.textContent =
+                    "SUPPORT V4 DATA BEING SENT TO SUPABASE:\n\n" +
+                    JSON.stringify(
+                        ticketData,
+                        null,
+                        2
+                    );
+
+
+                button.textContent =
+                    "Sending complaint...";
+
+
+                /* =====================================
+                   SEND TO SUPABASE
+                ===================================== */
+
+                const result =
                     await supabaseClient
                         .from(
                             "support_tickets"
@@ -591,10 +726,14 @@ document
                         );
 
 
+                const error =
+                    result.error;
+
+
                 if (error) {
 
                     console.error(
-                        "SUPABASE ERROR:",
+                        "SUPPORT V4 SUPABASE ERROR:",
                         error
                     );
 
@@ -603,9 +742,9 @@ document
                 }
 
 
-                /* ==========================
+                /* =====================================
                    SUCCESS
-                ========================== */
+                ===================================== */
 
                 showMessage(
                     "✓ Complaint submitted successfully.",
@@ -617,6 +756,10 @@ document
                     "block";
 
 
+                dataBox.style.display =
+                    "none";
+
+
                 document
                     .getElementById(
                         "supportForm"
@@ -626,8 +769,9 @@ document
 
             } catch (error) {
 
+
                 console.error(
-                    "NEXORA SUPPORT ERROR:",
+                    "SUPPORT V4 ERROR:",
                     error
                 );
 
@@ -643,7 +787,7 @@ document
 
 
                 debug.textContent =
-                    "Error: " +
+                    "SUPPORT V4 ERROR: " +
                     (
                         error &&
                         error.message
@@ -657,6 +801,7 @@ document
             button.disabled =
                 false;
 
+
             button.textContent =
                 "Submit complaint →";
 
@@ -664,15 +809,17 @@ document
     );
 
 
-/* ==========================================
+/* =====================================================
    LOGOUT
-========================================== */
+   ===================================================== */
 
 async function logout(event) {
 
     event.preventDefault();
 
+
     await supabaseClient.auth.signOut();
+
 
     window.location.href =
         "./index.html";
@@ -680,9 +827,26 @@ async function logout(event) {
 }
 
 
-/* ==========================================
-   START
-========================================== */
+/* =====================================================
+   START SUPPORT V4
+   ===================================================== */
+
+console.log(
+    "======================================"
+);
+
+console.log(
+    "NEXORA SUPPORT V4 LOADED"
+);
+
+console.log(
+    "This is the new support.html file."
+);
+
+console.log(
+    "======================================"
+);
+
 
 checkUser();
 
