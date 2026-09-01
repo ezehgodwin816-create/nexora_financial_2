@@ -1,45 +1,69 @@
 <!doctype html>
+<html lang="en">
 
-<html lang="en"><head><meta charset="utf-8">
+<head>
+    <meta charset="utf-8">
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1"
->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
 
-<title>Admin · Nexora Financial</title>
+    <title>Admin · Nexora Financial</title>
 
-<link
-    rel="stylesheet"
-    href="./assets/style.css"
->
+    <link
+        rel="stylesheet"
+        href="./assets/style.css"
+    >
+</head>
 
-</head><body class="dashboard-body"><header><a
-    class="brand"
-    href="./index.html"
->
-    NEXORA
-    <span>FINANCIAL</span>
-</a>
+<body class="dashboard-body">
 
+<div class="demo">
+    NEXORA FINANCIAL · SIMULATED ACCOUNT
+</div>
 
-<nav class="navlinks">
-
-    <a href="./dashboard.html">
-        Dashboard
-    </a>
+<header>
 
     <a
-        class="btn ghost"
+        class="brand"
         href="./index.html"
-        onclick="logout(event)"
     >
-        Log out
+        NEXORA
+        <span>FINANCIAL</span>
     </a>
 
-</nav>
+    <nav class="navlinks">
 
-</header><main class="dash"><div class="dash-top">
+        <a href="./dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="#support">
+            Support
+        </a>
+
+        <a
+            class="btn ghost"
+            href="./index.html"
+            onclick="logout(event)"
+        >
+            Log out
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="dash">
+
+
+<!-- ==========================================
+     ADMIN HEADER
+========================================== -->
+
+<div class="dash-top">
 
     <div>
 
@@ -52,7 +76,7 @@
         </h1>
 
         <p>
-            Manage customer accounts and balances.
+            Manage customer accounts, balances and support requests.
         </p>
 
     </div>
@@ -60,9 +84,448 @@
 </div>
 
 
-<!-- USERS -->
+<!-- ==========================================
+     ADMIN STATS
+========================================== -->
 
-<section class="dashboard-card">
+<section class="admin-stats">
+
+    <div class="stat">
+
+        <small>
+            CUSTOMERS
+        </small>
+
+        <strong id="customerCount">
+            0
+        </strong>
+
+        <div class="positive">
+            Registered accounts
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <small>
+            OPEN TICKETS
+        </small>
+
+        <strong id="openTicketCount">
+            0
+        </strong>
+
+        <div class="positive">
+            Need attention
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <small>
+            IN REVIEW
+        </small>
+
+        <strong id="reviewTicketCount">
+            0
+        </strong>
+
+        <div class="positive">
+            Being handled
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <small>
+            RESOLVED
+        </small>
+
+        <strong id="resolvedTicketCount">
+            0
+        </strong>
+
+        <div class="positive">
+            Completed requests
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==========================================
+     SUPPORT TICKETS
+========================================== -->
+
+<section
+    class="dashboard-card"
+    id="support"
+    style="margin-top:25px;"
+>
+
+    <div class="card-title">
+
+        <div>
+
+            <div class="eyebrow">
+                CUSTOMER CARE
+            </div>
+
+            <h2>
+                Complaints & support
+            </h2>
+
+        </div>
+
+        <div
+            class="activity-badge"
+            id="supportStatus"
+        >
+            LIVE
+        </div>
+
+    </div>
+
+
+    <p style="
+        color:#64727d;
+        font-size:13px;
+        line-height:1.7;
+        margin-top:-8px;
+    ">
+        Customer complaints submitted through the Support page
+        appear here for review and resolution.
+    </p>
+
+
+    <!-- FILTERS -->
+
+    <div style="
+        display:grid;
+        grid-template-columns:1fr 180px;
+        gap:12px;
+        margin-top:20px;
+    ">
+
+        <input
+            id="ticketSearch"
+            type="text"
+            placeholder="Search complaints..."
+            style="
+                width:100%;
+                box-sizing:border-box;
+                padding:14px;
+                border:1px solid #dfe5e7;
+                border-radius:12px;
+                font-size:14px;
+            "
+        >
+
+
+        <select
+            id="ticketFilter"
+            style="
+                width:100%;
+                box-sizing:border-box;
+                padding:14px;
+                border:1px solid #dfe5e7;
+                border-radius:12px;
+                background:white;
+                font-size:14px;
+            "
+        >
+
+            <option value="All">
+                All tickets
+            </option>
+
+            <option value="Open">
+                Open
+            </option>
+
+            <option value="In Review">
+                In Review
+            </option>
+
+            <option value="Resolved">
+                Resolved
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <div
+        id="tickets"
+        style="margin-top:20px;"
+    >
+
+        <div class="empty-loading">
+
+            <div class="loading-circle"></div>
+
+            Loading support tickets...
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==========================================
+     TICKET EDITOR
+========================================== -->
+
+<section
+    id="ticketEditor"
+    class="dashboard-card"
+    style="
+        display:none;
+        margin-top:20px;
+    "
+>
+
+    <div class="card-title">
+
+        <div>
+
+            <div class="eyebrow">
+                SUPPORT REQUEST
+            </div>
+
+            <h2 id="ticketSubject">
+                Complaint
+            </h2>
+
+        </div>
+
+        <div
+            id="ticketBadge"
+            class="badge"
+        >
+            OPEN
+        </div>
+
+    </div>
+
+
+    <div style="
+        background:#f5f7f8;
+        border-radius:16px;
+        padding:18px;
+        margin-top:20px;
+    ">
+
+        <small style="
+            color:#8b98a1;
+            display:block;
+            font-size:10px;
+        ">
+            CUSTOMER
+        </small>
+
+        <strong
+            id="ticketCustomer"
+            style="
+                display:block;
+                margin-top:5px;
+            "
+        >
+            —
+        </strong>
+
+        <span
+            id="ticketEmail"
+            style="
+                display:block;
+                margin-top:4px;
+                color:#64727d;
+                font-size:12px;
+            "
+        >
+            —
+        </span>
+
+    </div>
+
+
+    <div style="
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:15px;
+        margin-top:18px;
+    ">
+
+        <div>
+
+            <small style="color:#8b98a1;">
+                CATEGORY
+            </small>
+
+            <strong
+                id="ticketCategory"
+                style="
+                    display:block;
+                    margin-top:5px;
+                "
+            >
+                —
+            </strong>
+
+        </div>
+
+
+        <div>
+
+            <small style="color:#8b98a1;">
+                SUBMITTED
+            </small>
+
+            <strong
+                id="ticketDate"
+                style="
+                    display:block;
+                    margin-top:5px;
+                "
+            >
+                —
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div style="
+        margin-top:20px;
+    ">
+
+        <small style="
+            color:#8b98a1;
+            font-size:10px;
+        ">
+            CUSTOMER MESSAGE
+        </small>
+
+        <div
+            id="ticketMessage"
+            style="
+                margin-top:8px;
+                padding:17px;
+                background:#fff;
+                border:1px solid #e6ebee;
+                border-radius:14px;
+                color:#101820;
+                font-size:13px;
+                line-height:1.7;
+                white-space:pre-wrap;
+            "
+        >
+            —
+        </div>
+
+    </div>
+
+
+    <label style="
+        display:block;
+        margin-top:20px;
+    ">
+
+        ADMIN RESPONSE
+
+        <textarea
+            id="adminResponse"
+            rows="5"
+            maxlength="2000"
+            placeholder="Write your response to the customer..."
+            style="
+                width:100%;
+                box-sizing:border-box;
+                resize:vertical;
+                padding:14px;
+                margin-top:8px;
+                border:1px solid #dfe5e7;
+                border-radius:12px;
+                background:#fafbfc;
+                outline:none;
+                font:inherit;
+                line-height:1.6;
+            "
+        ></textarea>
+
+    </label>
+
+
+    <div style="
+        display:flex;
+        gap:10px;
+        flex-wrap:wrap;
+        margin-top:15px;
+    ">
+
+        <button
+            id="reviewBtn"
+            class="btn"
+            type="button"
+            onclick="updateTicketStatus('In Review')"
+        >
+            Put In Review
+        </button>
+
+
+        <button
+            id="resolveBtn"
+            class="btn green"
+            type="button"
+            onclick="updateTicketStatus('Resolved')"
+        >
+            Resolve Complaint
+        </button>
+
+    </div>
+
+
+    <button
+        id="saveResponseBtn"
+        class="btn light"
+        type="button"
+        onclick="saveResponseOnly()"
+        style="margin-top:10px;"
+    >
+        Save response
+    </button>
+
+
+    <div
+        id="ticketMessageResult"
+        style="
+            margin-top:15px;
+            font-size:13px;
+            font-weight:700;
+        "
+    ></div>
+
+</section>
+
+
+<!-- ==========================================
+     CUSTOMERS
+========================================== -->
+
+<section
+    class="dashboard-card"
+    style="margin-top:25px;"
+>
 
     <div class="eyebrow">
         CUSTOMERS
@@ -96,7 +559,9 @@
 </section>
 
 
-<!-- EDITOR -->
+<!-- ==========================================
+     ACCOUNT EDITOR
+========================================== -->
 
 <section
     id="editor"
@@ -172,12 +637,10 @@
     </label>
 
 
-    <label
-        style="
-            display:block;
-            margin-top:15px;
-        "
-    >
+    <label style="
+        display:block;
+        margin-top:15px;
+    ">
 
         Description
 
@@ -207,7 +670,6 @@
         margin-top:20px;
     ">
 
-
         <button
             id="addBtn"
             class="btn green"
@@ -227,7 +689,6 @@
             − Deduct funds
         </button>
 
-
     </div>
 
 
@@ -239,19 +700,24 @@
         "
     ></div>
 
-
 </section>
 
-</main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+</main>
 
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+/* ==========================================
+   SUPABASE
+========================================== */
 
 const SUPABASE_URL =
     "https://krzxqmzvzgjmolepcnbg.supabase.co";
 
-
 const SUPABASE_KEY =
     "sb_publishable_YBTYFY_vqnZkncmCclQa8w_ZKB0Cyul";
-
 
 const supabaseClient =
     window.supabase.createClient(
@@ -261,13 +727,15 @@ const supabaseClient =
 
 
 let users = [];
-
 let selectedUser = null;
 
+let tickets = [];
+let selectedTicket = null;
 
-/* --------------------------------
+
+/* ==========================================
    START
--------------------------------- */
+========================================== */
 
 start();
 
@@ -341,12 +809,14 @@ async function start() {
 
     await loadUsers();
 
+    await loadTickets();
+
 }
 
 
-/* --------------------------------
+/* ==========================================
    LOAD USERS
--------------------------------- */
+========================================== */
 
 async function loadUsers() {
 
@@ -373,12 +843,8 @@ async function loadUsers() {
             "users"
         ).innerHTML = `
 
-            <p style="
-                color:#c3444d;
-            ">
-                ${escapeHtml(
-                    error.message
-                )}
+            <p style="color:#c3444d;">
+                ${escapeHtml(error.message)}
             </p>
 
         `;
@@ -392,32 +858,32 @@ async function loadUsers() {
         data || [];
 
 
-    displayUsers(
-        users
-    );
+    document.getElementById(
+        "customerCount"
+    ).textContent =
+        users.length;
+
+
+    displayUsers(users);
 
 }
 
 
-/* --------------------------------
+/* ==========================================
    DISPLAY USERS
--------------------------------- */
+========================================== */
 
 function displayUsers(list) {
 
     const container =
-        document.getElementById(
-            "users"
-        );
+        document.getElementById("users");
 
 
     if (!list.length) {
 
         container.innerHTML = `
 
-            <p style="
-                color:#8b98a1;
-            ">
+            <p style="color:#8b98a1;">
                 No accounts found.
             </p>
 
@@ -483,7 +949,6 @@ function displayUsers(list) {
 
 
                         <strong>
-
                             £${balance.toLocaleString(
                                 "en-GB",
                                 {
@@ -491,7 +956,6 @@ function displayUsers(list) {
                                     maximumFractionDigits:2
                                 }
                             )}
-
                         </strong>
 
                     </button>
@@ -504,9 +968,9 @@ function displayUsers(list) {
 }
 
 
-/* --------------------------------
-   SEARCH
--------------------------------- */
+/* ==========================================
+   CUSTOMER SEARCH
+========================================== */
 
 document.getElementById(
     "search"
@@ -545,17 +1009,15 @@ document.getElementById(
             );
 
 
-        displayUsers(
-            filtered
-        );
+        displayUsers(filtered);
 
     }
 );
 
 
-/* --------------------------------
-   SELECT USER
--------------------------------- */
+/* ==========================================
+   SELECT CUSTOMER
+========================================== */
 
 function selectUser(id) {
 
@@ -621,9 +1083,9 @@ function selectUser(id) {
 }
 
 
-/* --------------------------------
-   DISPLAY BALANCE
--------------------------------- */
+/* ==========================================
+   BALANCE DISPLAY
+========================================== */
 
 function updateBalanceDisplay() {
 
@@ -648,9 +1110,9 @@ function updateBalanceDisplay() {
 }
 
 
-/* --------------------------------
+/* ==========================================
    CHANGE BALANCE
--------------------------------- */
+========================================== */
 
 async function changeBalance(type) {
 
@@ -812,10 +1274,7 @@ async function changeBalance(type) {
 
         updateBalanceDisplay();
 
-
-        displayUsers(
-            users
-        );
+        displayUsers(users);
 
 
         message.textContent =
@@ -842,9 +1301,7 @@ async function changeBalance(type) {
 
     } catch (error) {
 
-        console.error(
-            error
-        );
+        console.error(error);
 
 
         message.textContent =
@@ -872,9 +1329,826 @@ async function changeBalance(type) {
 }
 
 
-/* --------------------------------
+/* ==========================================
+   LOAD SUPPORT TICKETS
+========================================== */
+
+async function loadTickets() {
+
+    const container =
+        document.getElementById("tickets");
+
+
+    container.innerHTML = `
+
+        <div class="empty-loading">
+
+            <div class="loading-circle"></div>
+
+            Loading support tickets...
+
+        </div>
+
+    `;
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("support_tickets")
+            .select(`
+                id,
+                user_id,
+                category,
+                subject,
+                message,
+                transaction_id,
+                status,
+                admin_response,
+                created_at,
+                updated_at
+            `)
+            .order(
+                "created_at",
+                {
+                    ascending:false
+                }
+            );
+
+
+    if (error) {
+
+        console.error(
+            "Support ticket error:",
+            error
+        );
+
+
+        container.innerHTML = `
+
+            <div style="
+                padding:25px;
+                text-align:center;
+                color:#c3444d;
+            ">
+                Unable to load complaints.<br>
+                <small>
+                    ${escapeHtml(error.message)}
+                </small>
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    tickets =
+        data || [];
+
+
+    updateTicketStats();
+
+    displayTickets(tickets);
+
+}
+
+
+/* ==========================================
+   TICKET STATS
+========================================== */
+
+function updateTicketStats() {
+
+    const open =
+        tickets.filter(
+            ticket =>
+                ticket.status === "Open"
+        ).length;
+
+
+    const review =
+        tickets.filter(
+            ticket =>
+                ticket.status === "In Review"
+        ).length;
+
+
+    const resolved =
+        tickets.filter(
+            ticket =>
+                ticket.status === "Resolved"
+        ).length;
+
+
+    document.getElementById(
+        "openTicketCount"
+    ).textContent =
+        open;
+
+
+    document.getElementById(
+        "reviewTicketCount"
+    ).textContent =
+        review;
+
+
+    document.getElementById(
+        "resolvedTicketCount"
+    ).textContent =
+        resolved;
+
+}
+
+
+/* ==========================================
+   DISPLAY TICKETS
+========================================== */
+
+function displayTickets(list) {
+
+    const container =
+        document.getElementById("tickets");
+
+
+    if (!list.length) {
+
+        container.innerHTML = `
+
+            <div style="
+                text-align:center;
+                padding:50px 20px;
+                color:#8b98a1;
+            ">
+
+                <strong style="
+                    display:block;
+                    color:#101820;
+                    margin-bottom:7px;
+                ">
+                    No complaints found
+                </strong>
+
+                <span style="font-size:12px;">
+                    Customer support requests will appear here.
+                </span>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        list.map(
+            ticket => {
+
+                const statusClass =
+                    ticket.status === "Resolved"
+                        ? "resolved"
+                        : ticket.status === "In Review"
+                            ? "review"
+                            : "";
+
+
+                const date =
+                    ticket.created_at
+                        ? new Date(
+                            ticket.created_at
+                        ).toLocaleString(
+                            "en-GB",
+                            {
+                                dateStyle:"medium",
+                                timeStyle:"short"
+                            }
+                        )
+                        : "";
+
+
+                return `
+
+                    <button
+                        type="button"
+                        onclick="selectTicket('${ticket.id}')"
+                        style="
+                            width:100%;
+                            text-align:left;
+                            border:0;
+                            border-bottom:1px solid #edf0f2;
+                            background:white;
+                            padding:18px 5px;
+                            cursor:pointer;
+                        "
+                    >
+
+                        <div style="
+                            display:flex;
+                            justify-content:space-between;
+                            align-items:flex-start;
+                            gap:15px;
+                        ">
+
+                            <div style="
+                                min-width:0;
+                            ">
+
+                                <strong style="
+                                    display:block;
+                                    color:#101820;
+                                    font-size:14px;
+                                ">
+                                    ${escapeHtml(
+                                        ticket.subject ||
+                                        "Untitled complaint"
+                                    )}
+                                </strong>
+
+
+                                <small style="
+                                    display:block;
+                                    color:#8b98a1;
+                                    margin-top:5px;
+                                ">
+                                    ${escapeHtml(
+                                        ticket.category ||
+                                        "Other"
+                                    )}
+                                    ·
+                                    ${escapeHtml(
+                                        date
+                                    )}
+                                </small>
+
+                            </div>
+
+
+                            <span class="
+                                badge
+                                ${statusClass}
+                            "
+                            style="
+                                flex-shrink:0;
+                            ">
+                                ${escapeHtml(
+                                    ticket.status
+                                ).toUpperCase()}
+                            </span>
+
+                        </div>
+
+
+                        <div style="
+                            color:#64727d;
+                            font-size:12px;
+                            margin-top:10px;
+                            line-height:1.5;
+                            overflow:hidden;
+                            text-overflow:ellipsis;
+                            white-space:nowrap;
+                        ">
+                            ${escapeHtml(
+                                ticket.message || ""
+                            )}
+                        </div>
+
+                    </button>
+
+                `;
+
+            }
+        ).join("");
+
+}
+
+
+/* ==========================================
+   TICKET SEARCH
+========================================== */
+
+function filterTickets() {
+
+    const search =
+        document.getElementById(
+            "ticketSearch"
+        )
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    const status =
+        document.getElementById(
+            "ticketFilter"
+        ).value;
+
+
+    const filtered =
+        tickets.filter(
+            ticket => {
+
+                const text =
+                    (
+                        String(ticket.subject || "") +
+                        " " +
+                        String(ticket.message || "") +
+                        " " +
+                        String(ticket.category || "")
+                    ).toLowerCase();
+
+
+                const matchesSearch =
+                    !search ||
+                    text.includes(search);
+
+
+                const matchesStatus =
+                    status === "All" ||
+                    ticket.status === status;
+
+
+                return (
+                    matchesSearch &&
+                    matchesStatus
+                );
+
+            }
+        );
+
+
+    displayTickets(filtered);
+
+}
+
+
+document.getElementById(
+    "ticketSearch"
+).addEventListener(
+    "input",
+    filterTickets
+);
+
+
+document.getElementById(
+    "ticketFilter"
+).addEventListener(
+    "change",
+    filterTickets
+);
+
+
+/* ==========================================
+   SELECT TICKET
+========================================== */
+
+function selectTicket(id) {
+
+    selectedTicket =
+        tickets.find(
+            ticket =>
+                ticket.id === id
+        );
+
+
+    if (!selectedTicket) {
+        return;
+    }
+
+
+    document.getElementById(
+        "ticketEditor"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "ticketSubject"
+    ).textContent =
+        selectedTicket.subject ||
+        "Complaint";
+
+
+    document.getElementById(
+        "ticketCustomer"
+    ).textContent =
+        "Customer ID: " +
+        selectedTicket.user_id;
+
+
+    document.getElementById(
+        "ticketEmail"
+    ).textContent =
+        "Customer information linked to this account";
+
+
+    document.getElementById(
+        "ticketCategory"
+    ).textContent =
+        selectedTicket.category ||
+        "Other";
+
+
+    document.getElementById(
+        "ticketDate"
+    ).textContent =
+        selectedTicket.created_at
+            ? new Date(
+                selectedTicket.created_at
+            ).toLocaleString(
+                "en-GB",
+                {
+                    dateStyle:"medium",
+                    timeStyle:"short"
+                }
+            )
+            : "—";
+
+
+    document.getElementById(
+        "ticketMessage"
+    ).textContent =
+        selectedTicket.message ||
+        "No message";
+
+
+    document.getElementById(
+        "adminResponse"
+    ).value =
+        selectedTicket.admin_response ||
+        "";
+
+
+    updateTicketBadge();
+
+    updateTicketButtons();
+
+
+    document.getElementById(
+        "ticketMessageResult"
+    ).textContent =
+        "";
+
+
+    document.getElementById(
+        "ticketEditor"
+    ).scrollIntoView({
+        behavior:"smooth"
+    });
+
+}
+
+
+/* ==========================================
+   TICKET BADGE
+========================================== */
+
+function updateTicketBadge() {
+
+    const badge =
+        document.getElementById(
+            "ticketBadge"
+        );
+
+
+    badge.textContent =
+        String(
+            selectedTicket.status
+        ).toUpperCase();
+
+
+    badge.className =
+        "badge";
+
+
+    if (
+        selectedTicket.status ===
+        "In Review"
+    ) {
+
+        badge.classList.add(
+            "review"
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   TICKET BUTTONS
+========================================== */
+
+function updateTicketButtons() {
+
+    const reviewBtn =
+        document.getElementById(
+            "reviewBtn"
+        );
+
+
+    const resolveBtn =
+        document.getElementById(
+            "resolveBtn"
+        );
+
+
+    if (
+        selectedTicket.status ===
+        "Resolved"
+    ) {
+
+        reviewBtn.style.display =
+            "none";
+
+        resolveBtn.style.display =
+            "none";
+
+    } else {
+
+        reviewBtn.style.display =
+            "inline-flex";
+
+        resolveBtn.style.display =
+            "inline-flex";
+
+    }
+
+}
+
+
+/* ==========================================
+   UPDATE TICKET STATUS
+========================================== */
+
+async function updateTicketStatus(status) {
+
+    if (!selectedTicket) {
+        return;
+    }
+
+
+    const response =
+        document.getElementById(
+            "adminResponse"
+        )
+        .value
+        .trim();
+
+
+    const result =
+        document.getElementById(
+            "ticketMessageResult"
+        );
+
+
+    const reviewBtn =
+        document.getElementById(
+            "reviewBtn"
+        );
+
+
+    const resolveBtn =
+        document.getElementById(
+            "resolveBtn"
+        );
+
+
+    reviewBtn.disabled =
+        true;
+
+    resolveBtn.disabled =
+        true;
+
+
+    result.textContent =
+        "Saving...";
+
+
+    result.style.color =
+        "#6f7c84";
+
+
+    try {
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from("support_tickets")
+                .update({
+
+                    status:
+                        status,
+
+                    admin_response:
+                        response ||
+                        null,
+
+                    updated_at:
+                        new Date().toISOString()
+
+                })
+                .eq(
+                    "id",
+                    selectedTicket.id
+                );
+
+
+        if (error) {
+            throw error;
+        }
+
+
+        selectedTicket.status =
+            status;
+
+
+        selectedTicket.admin_response =
+            response ||
+            null;
+
+
+        selectedTicket.updated_at =
+            new Date().toISOString();
+
+
+        updateTicketBadge();
+
+        updateTicketButtons();
+
+        updateTicketStats();
+
+        filterTickets();
+
+
+        result.textContent =
+            status === "Resolved"
+                ? "✓ Complaint resolved successfully."
+                : "✓ Complaint moved to In Review.";
+
+
+        result.style.color =
+            "#2f7d4a";
+
+
+    } catch (error) {
+
+        console.error(
+            "Ticket update error:",
+            error
+        );
+
+
+        result.textContent =
+            "Error: " +
+            error.message;
+
+
+        result.style.color =
+            "#c3444d";
+
+    }
+
+
+    reviewBtn.disabled =
+        false;
+
+    resolveBtn.disabled =
+        false;
+
+}
+
+
+/* ==========================================
+   SAVE RESPONSE ONLY
+========================================== */
+
+async function saveResponseOnly() {
+
+    if (!selectedTicket) {
+        return;
+    }
+
+
+    const response =
+        document.getElementById(
+            "adminResponse"
+        )
+        .value
+        .trim();
+
+
+    const result =
+        document.getElementById(
+            "ticketMessageResult"
+        );
+
+
+    result.textContent =
+        "Saving...";
+
+
+    result.style.color =
+        "#6f7c84";
+
+
+    try {
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from("support_tickets")
+                .update({
+
+                    admin_response:
+                        response ||
+                        null,
+
+                    updated_at:
+                        new Date().toISOString()
+
+                })
+                .eq(
+                    "id",
+                    selectedTicket.id
+                );
+
+
+        if (error) {
+            throw error;
+        }
+
+
+        selectedTicket.admin_response =
+            response ||
+            null;
+
+
+        result.textContent =
+            "✓ Response saved.";
+
+
+        result.style.color =
+            "#2f7d4a";
+
+
+    } catch (error) {
+
+        console.error(
+            error
+        );
+
+
+        result.textContent =
+            "Error: " +
+            error.message;
+
+
+        result.style.color =
+            "#c3444d";
+
+    }
+
+}
+
+
+/* ==========================================
+   REALTIME SUPPORT UPDATES
+========================================== */
+
+const supportChannel =
+    supabaseClient.channel(
+        "nexora-admin-support"
+    );
+
+
+supportChannel.on(
+    "postgres_changes",
+    {
+        event:"*",
+        schema:"public",
+        table:"support_tickets"
+    },
+    async function() {
+
+        await loadTickets();
+
+    }
+);
+
+
+supportChannel.subscribe();
+
+
+/* ==========================================
    LOGOUT
--------------------------------- */
+========================================== */
 
 async function logout(event) {
 
@@ -890,9 +2164,9 @@ async function logout(event) {
 }
 
 
-/* --------------------------------
+/* ==========================================
    HTML SAFETY
--------------------------------- */
+========================================== */
 
 function escapeHtml(value) {
 
@@ -920,4 +2194,7 @@ function escapeHtml(value) {
 
 }
 
-</script></body></html>
+</script>
+
+</body>
+</html>
