@@ -1,48 +1,157 @@
 <!doctype html>
-
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1"><title>Sign in · Nexora Financial</title>
 
-<link rel="stylesheet" href="./assets/style.css">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
 
-</head><body><main class="auth-page"><section class="auth-side">
+    <title>Login · Nexora Financial</title>
 
-    <a class="brand" href="./index.html">
+    <link
+        rel="stylesheet"
+        href="./assets/style.css"
+    >
+
+    <style>
+
+        .login-page {
+            max-width: 480px;
+            margin: auto;
+            padding: 70px 5%;
+        }
+
+        .login-card {
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 12px 35px rgba(16,24,32,.05);
+        }
+
+        .login-card h1 {
+            font: 800 34px Manrope, sans-serif;
+            letter-spacing: -1px;
+            margin: 10px 0;
+        }
+
+        .login-card p {
+            color: var(--slate);
+            line-height: 1.6;
+        }
+
+        .login-card label {
+            display: block;
+            margin-top: 18px;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .login-card input {
+            width: 100%;
+            box-sizing: border-box;
+            display: block;
+            margin-top: 8px;
+            padding: 14px;
+            border: 1px solid #dfe5e8;
+            border-radius: 12px;
+            background: #fafbfc;
+            outline: none;
+            font: inherit;
+        }
+
+        .login-card input:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(23,166,115,.1);
+        }
+
+        .login-message {
+            min-height: 20px;
+            margin-top: 15px;
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 1.6;
+        }
+
+        .diagnostic {
+            margin-top: 25px;
+            padding: 18px;
+            border-radius: 15px;
+            background: #101820;
+            color: #fff;
+            font-family: monospace;
+            font-size: 11px;
+            line-height: 1.7;
+            word-break: break-word;
+        }
+
+        .diagnostic-title {
+            color: #7ee2b8;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .diagnostic-row {
+            margin: 6px 0;
+        }
+
+        .diagnostic-label {
+            color: #9daab2;
+        }
+
+        .status-ok {
+            color: #7ee2b8;
+        }
+
+        .status-error {
+            color: #ff8d96;
+        }
+
+        .status-warning {
+            color: #ffd479;
+        }
+
+        .small-note {
+            margin-top: 15px;
+            font-size: 11px;
+            color: #8b98a1;
+            line-height: 1.6;
+        }
+
+    </style>
+
+</head>
+
+
+<body class="dashboard-body">
+
+<div class="demo">
+    NEXORA FINANCIAL · SIMULATED ACCOUNT
+</div>
+
+
+<header>
+
+    <a
+        class="brand"
+        href="./index.html"
+    >
         NEXORA
         <span>FINANCIAL</span>
     </a>
 
-    <div>
+</header>
+
+
+<main class="login-page">
+
+    <section class="login-card">
 
         <div class="eyebrow">
-            WELCOME BACK
-        </div>
-
-        <h2>
-            Money management, without the noise.
-        </h2>
-
-        <p>
-            Sign in to your Nexora account and continue
-            managing your money from one clear dashboard.
-        </p>
-
-    </div>
-
-    <p class="form-note">
-        Secure account access.
-    </p>
-
-</section>
-
-<section class="auth-main">
-
-    <div class="auth-box">
-
-        <div class="eyebrow">
-            SIGN IN
+            SECURE ACCESS
         </div>
 
         <h1>
@@ -50,96 +159,508 @@
         </h1>
 
         <p>
-            Enter the details you used to create your account.
+            Sign in to access your Nexora account.
         </p>
+
 
         <form id="loginForm">
 
             <label>
-                Email address
+
+                Email
 
                 <input
                     id="email"
                     type="email"
+                    autocomplete="email"
                     required
                     placeholder="you@example.com"
                 >
+
             </label>
 
+
             <label>
+
                 Password
 
                 <input
                     id="password"
                     type="password"
+                    autocomplete="current-password"
                     required
-                    placeholder="••••••••"
+                    placeholder="Your password"
                 >
+
             </label>
 
-            <div
-                id="error"
-                style="
-                    display:none;
-                    background:#fff0f1;
-                    color:#c3444d;
-                    padding:12px;
-                    border-radius:10px;
-                    font-size:12px;
-                    margin:15px 0;
-                "
-            ></div>
 
             <button
-                class="btn green full"
-                type="submit"
                 id="loginButton"
+                type="submit"
+                class="btn green full"
+                style="margin-top:22px;"
             >
-                Sign in →
+                Log in →
             </button>
+
+
+            <div
+                id="loginMessage"
+                class="login-message"
+            ></div>
 
         </form>
 
-        <p class="auth-switch">
-            Don't have an account?
 
-            <a
-                class="form-link"
-                href="./register.html"
-            >
-                Create one
-            </a>
-        </p>
+        <!-- ==========================================
+             DIAGNOSTIC INFORMATION
+        =========================================== -->
 
-        <p class="auth-switch">
-            <a
-                class="form-link"
-                href="./index.html"
-            >
-                ← Back to Nexora
-            </a>
-        </p>
+        <div class="diagnostic">
 
-    </div>
+            <div class="diagnostic-title">
+                NEXORA CONNECTION DIAGNOSTIC
+            </div>
 
-</section>
 
-</main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+            <div class="diagnostic-row">
+
+                <span class="diagnostic-label">
+                    Supabase URL:
+                </span>
+
+                <span id="diagUrl">
+                    Checking...
+                </span>
+
+            </div>
+
+
+            <div class="diagnostic-row">
+
+                <span class="diagnostic-label">
+                    Supabase client:
+                </span>
+
+                <span id="diagClient">
+                    Checking...
+                </span>
+
+            </div>
+
+
+            <div class="diagnostic-row">
+
+                <span class="diagnostic-label">
+                    Session:
+                </span>
+
+                <span id="diagSession">
+                    Checking...
+                </span>
+
+            </div>
+
+
+            <div class="diagnostic-row">
+
+                <span class="diagnostic-label">
+                    Auth user:
+                </span>
+
+                <span id="diagUser">
+                    Checking...
+                </span>
+
+            </div>
+
+
+            <div class="diagnostic-row">
+
+                <span class="diagnostic-label">
+                    User ID:
+                </span>
+
+                <span id="diagUserId">
+                    Checking...
+                </span>
+
+            </div>
+
+
+            <div class="diagnostic-row">
+
+                <span class="diagnostic-label">
+                    Auth email:
+                </span>
+
+                <span id="diagEmail">
+                    Checking...
+                </span>
+
+            </div>
+
+
+            <div class="diagnostic-row">
+
+                <span class="diagnostic-label">
+                    Profiles table:
+                </span>
+
+                <span id="diagProfiles">
+                    Checking...
+                </span>
+
+            </div>
+
+
+            <div class="diagnostic-row">
+
+                <span class="diagnostic-label">
+                    Support tickets table:
+                </span>
+
+                <span id="diagTickets">
+                    Checking...
+                </span>
+
+            </div>
+
+
+            <div class="diagnostic-row">
+
+                <span class="diagnostic-label">
+                    Overall:
+                </span>
+
+                <span id="diagOverall">
+                    Checking...
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="small-note">
+            Diagnostic information is displayed only to help
+            troubleshoot this Nexora demo installation.
+        </div>
+
+    </section>
+
+</main>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<script>
+
+/* ==========================================
+   SUPABASE CONFIGURATION
+========================================== */
 
 const SUPABASE_URL =
     "https://krzxqmzvzgjmolepcnbg.supabase.co";
 
+
 const SUPABASE_KEY =
     "sb_publishable_YBTYFY_vqnZkncmCclQa8w_ZKB0Cyul";
 
-const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
-supabaseClient.auth.getSession().then(function(result) {
-    console.log("CURRENT SUPABASE SESSION:", result);
-});
+
+/* ==========================================
+   CREATE SUPABASE CLIENT
+========================================== */
+
+let supabaseClient = null;
+
+
+try {
+
+    supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+
+    document.getElementById(
+        "diagClient"
+    ).innerHTML =
+        '<span class="status-ok">✓ Created</span>';
+
+} catch (error) {
+
+    document.getElementById(
+        "diagClient"
+    ).innerHTML =
+        '<span class="status-error">✗ ' +
+        escapeHtml(error.message) +
+        '</span>';
+
+}
+
+
+/* ==========================================
+   SHOW URL
+========================================== */
+
+document.getElementById(
+    "diagUrl"
+).textContent =
+    SUPABASE_URL;
+
+
+/* ==========================================
+   GET CURRENT SESSION
+========================================== */
+
+async function checkSession() {
+
+    if (!supabaseClient) {
+        return null;
+    }
+
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient.auth.getSession();
+
+
+        if (error) {
+
+            document.getElementById(
+                "diagSession"
+            ).innerHTML =
+                '<span class="status-error">✗ ' +
+                escapeHtml(error.message) +
+                '</span>';
+
+            return null;
+
+        }
+
+
+        if (
+            data &&
+            data.session &&
+            data.session.user
+        ) {
+
+            const user =
+                data.session.user;
+
+
+            document.getElementById(
+                "diagSession"
+            ).innerHTML =
+                '<span class="status-ok">✓ Active</span>';
+
+
+            document.getElementById(
+                "diagUser"
+            ).innerHTML =
+                '<span class="status-ok">✓ Found</span>';
+
+
+            document.getElementById(
+                "diagUserId"
+            ).textContent =
+                user.id;
+
+
+            document.getElementById(
+                "diagEmail"
+            ).textContent =
+                user.email ||
+                "No email";
+
+
+            return user;
+
+        }
+
+
+        document.getElementById(
+            "diagSession"
+        ).innerHTML =
+            '<span class="status-warning">⚠ No active session</span>';
+
+
+        document.getElementById(
+            "diagUser"
+        ).innerHTML =
+            '<span class="status-warning">⚠ Not logged in</span>';
+
+
+        document.getElementById(
+            "diagUserId"
+        ).textContent =
+            "—";
+
+
+        document.getElementById(
+            "diagEmail"
+        ).textContent =
+            "—";
+
+
+        return null;
+
+    } catch (error) {
+
+        document.getElementById(
+            "diagSession"
+        ).innerHTML =
+            '<span class="status-error">✗ Error</span>';
+
+        return null;
+
+    }
+
+}
+
+
+/* ==========================================
+   CHECK DATABASE TABLES
+========================================== */
+
+async function checkDatabase() {
+
+    if (!supabaseClient) {
+        return;
+    }
+
+
+    /*
+     * Check profiles.
+     */
+
+    try {
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from("profiles")
+                .select("id")
+                .limit(1);
+
+
+        if (!error) {
+
+            document.getElementById(
+                "diagProfiles"
+            ).innerHTML =
+                '<span class="status-ok">✓ Accessible</span>';
+
+        } else {
+
+            document.getElementById(
+                "diagProfiles"
+            ).innerHTML =
+                '<span class="status-error">✗ ' +
+                escapeHtml(error.message) +
+                '</span>';
+
+        }
+
+    } catch (error) {
+
+        document.getElementById(
+            "diagProfiles"
+        ).innerHTML =
+            '<span class="status-error">✗ Error</span>';
+
+    }
+
+
+    /*
+     * Check support_tickets.
+     */
+
+    try {
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from("support_tickets")
+                .select("id")
+                .limit(1);
+
+
+        if (!error) {
+
+            document.getElementById(
+                "diagTickets"
+            ).innerHTML =
+                '<span class="status-ok">✓ Accessible</span>';
+
+        } else {
+
+            document.getElementById(
+                "diagTickets"
+            ).innerHTML =
+                '<span class="status-error">✗ ' +
+                escapeHtml(error.message) +
+                '</span>';
+
+        }
+
+    } catch (error) {
+
+        document.getElementById(
+            "diagTickets"
+        ).innerHTML =
+            '<span class="status-error">✗ Error</span>';
+
+    }
+
+}
+
+
+/* ==========================================
+   UPDATE OVERALL STATUS
+========================================== */
+
+async function updateOverall() {
+
+    const user =
+        await checkSession();
+
+
+    await checkDatabase();
+
+
+    if (user) {
+
+        document.getElementById(
+            "diagOverall"
+        ).innerHTML =
+            '<span class="status-ok">✓ Authentication working</span>';
+
+    } else {
+
+        document.getElementById(
+            "diagOverall"
+        ).innerHTML =
+            '<span class="status-warning">⚠ Please log in</span>';
+
+    }
+
+}
+
+
+/* ==========================================
+   LOGIN
+========================================== */
 
 document
     .getElementById("loginForm")
@@ -154,8 +675,7 @@ document
                 document
                     .getElementById("email")
                     .value
-                    .trim()
-                    .toLowerCase();
+                    .trim();
 
 
             const password =
@@ -164,21 +684,41 @@ document
                     .value;
 
 
-            const errorBox =
-                document
-                    .getElementById("error");
-
-
             const button =
-                document
-                    .getElementById("loginButton");
+                document.getElementById(
+                    "loginButton"
+                );
 
 
-            errorBox.style.display =
-                "none";
+            const message =
+                document.getElementById(
+                    "loginMessage"
+                );
 
 
-            button.disabled = true;
+            message.textContent =
+                "";
+
+
+            if (
+                !email ||
+                !password
+            ) {
+
+                message.textContent =
+                    "Enter your email and password.";
+
+                message.style.color =
+                    "#c3444d";
+
+                return;
+
+            }
+
+
+            button.disabled =
+                true;
+
 
             button.textContent =
                 "Signing in...";
@@ -190,14 +730,13 @@ document
                     data,
                     error
                 } =
-                    await supabaseClient.auth
-                        .signInWithPassword({
+                    await supabaseClient.auth.signInWithPassword({
+                        email:
+                            email,
 
-                            email: email,
-
-                            password: password
-
-                        });
+                        password:
+                            password
+                    });
 
 
                 if (error) {
@@ -205,49 +744,121 @@ document
                 }
 
 
-                if (!data.user) {
+                if (
+                    !data ||
+                    !data.user
+                ) {
 
                     throw new Error(
-                        "Unable to sign in."
+                        "Supabase login returned no user."
                     );
 
                 }
 
 
-                localStorage.setItem(
-                    "nexoraLoggedIn",
-                    "true"
+                message.textContent =
+                    "✓ Logged in successfully. User ID: " +
+                    data.user.id;
+
+                message.style.color =
+                    "#17a673";
+
+
+                /*
+                 * Refresh diagnostics after login.
+                 */
+
+                await updateOverall();
+
+
+                /*
+                 * Give the session a moment to persist.
+                 */
+
+                setTimeout(
+                    function() {
+
+                        window.location.href =
+                            "./dashboard.html";
+
+                    },
+                    1200
                 );
-
-
-                localStorage.setItem(
-                    "nexoraUserId",
-                    data.user.id
-                );
-
-
-                window.location.href =
-                    "./dashboard.html";
 
 
             } catch (error) {
 
-                errorBox.textContent =
-                    "Incorrect email or password.";
+                console.error(
+                    "LOGIN ERROR:",
+                    error
+                );
 
-                errorBox.style.display =
-                    "block";
+
+                message.textContent =
+                    "Login failed: " +
+                    (
+                        error.message ||
+                        String(error)
+                    );
+
+                message.style.color =
+                    "#c3444d";
 
 
-                button.disabled = false;
-
-                button.textContent =
-                    "Sign in →";
+                await updateOverall();
 
             }
+
+
+            button.disabled =
+                false;
+
+
+            button.textContent =
+                "Log in →";
 
         }
     );
 
-</script></body>
+
+/* ==========================================
+   HTML ESCAPE
+========================================== */
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* ==========================================
+   START DIAGNOSTICS
+========================================== */
+
+updateOverall();
+
+</script>
+
+</body>
 </html>
