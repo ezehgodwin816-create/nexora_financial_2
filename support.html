@@ -135,18 +135,6 @@
             line-height: 1.6;
         }
 
-        .diagnostic-box {
-            display: none;
-            margin-top: 15px;
-            padding: 14px;
-            background: #f5f7f9;
-            border: 1px solid #dce2e6;
-            border-radius: 12px;
-            font-size: 11px;
-            line-height: 1.6;
-            word-break: break-all;
-        }
-
         @media (max-width: 520px) {
             .support-page {
                 padding: 35px 4% 60px;
@@ -270,7 +258,6 @@
                     </option>
 
                 </select>
-
             </label>
 
 
@@ -284,7 +271,6 @@
                     required
                     placeholder="Briefly describe the problem"
                 >
-
             </label>
 
 
@@ -297,7 +283,6 @@
                     required
                     placeholder="Tell us what happened..."
                 ></textarea>
-
             </label>
 
 
@@ -317,7 +302,6 @@
                     maxlength="200"
                     placeholder="Enter transaction ID if applicable"
                 >
-
             </label>
 
 
@@ -343,12 +327,6 @@
 
 
             <div
-                id="diagnosticBox"
-                class="diagnostic-box"
-            ></div>
-
-
-            <div
                 id="successBox"
                 class="success-box"
             >
@@ -367,7 +345,7 @@
 <script>
 
 /* ==========================================
-   SUPABASE
+   SUPABASE CONNECTION
 ========================================== */
 
 const SUPABASE_URL =
@@ -382,12 +360,11 @@ const supabaseClient =
         SUPABASE_KEY
     );
 
-
 let currentUser = null;
 
 
 /* ==========================================
-   MESSAGE
+   SHOW MESSAGE
 ========================================== */
 
 function showMessage(text, color) {
@@ -417,7 +394,6 @@ async function checkUser() {
     } =
         await supabaseClient.auth.getSession();
 
-
     if (error) {
 
         throw new Error(
@@ -426,7 +402,6 @@ async function checkUser() {
         );
 
     }
-
 
     if (
         !data ||
@@ -441,13 +416,10 @@ async function checkUser() {
 
     }
 
-
     currentUser =
         data.session.user;
 
-
     return true;
-
 }
 
 
@@ -463,41 +435,25 @@ document
 
             event.preventDefault();
 
-
             const button =
                 document.getElementById(
                     "submitSupport"
                 );
-
 
             const debug =
                 document.getElementById(
                     "debugBox"
                 );
 
-
-            const diagnostic =
-                document.getElementById(
-                    "diagnosticBox"
-                );
-
-
             const success =
                 document.getElementById(
                     "successBox"
                 );
 
-
             debug.style.display =
                 "none";
 
             debug.textContent =
-                "";
-
-            diagnostic.style.display =
-                "none";
-
-            diagnostic.textContent =
                 "";
 
             success.style.display =
@@ -509,18 +465,15 @@ document
                     "category"
                 ).value;
 
-
             const subject =
                 document.getElementById(
                     "subject"
                 ).value.trim();
 
-
             const message =
                 document.getElementById(
                     "message"
                 ).value.trim();
-
 
             const transactionId =
                 document.getElementById(
@@ -554,7 +507,7 @@ document
             try {
 
                 /* ==========================
-                   AUTH
+                   CHECK AUTHENTICATION
                 ========================== */
 
                 const loggedIn =
@@ -568,14 +521,31 @@ document
                 }
 
 
-                /* ==========================
-                   DATA TO SEND
+                button.textContent =
+                    "Creating ticket...";
 
+
+                /* ==========================
+                   GENERATE UUID LOCALLY
+                   
                    IMPORTANT:
-                   There is NO id here.
+                   We explicitly provide the
+                   ID instead of relying on
+                   PostgreSQL to generate it.
+                ========================== */
+
+                const ticketId =
+                    crypto.randomUUID();
+
+
+                /* ==========================
+                   COMPLETE TICKET DATA
                 ========================== */
 
                 const ticketData = {
+
+                    id:
+                        ticketId,
 
                     user_id:
                         currentUser.id,
@@ -599,52 +569,14 @@ document
                 };
 
 
-                /* ==========================
-                   SHOW EXACT DATA
-                ========================== */
-
-                const diagnosticText =
-                    JSON.stringify(
-                        ticketData,
-                        null,
-                        2
-                    );
-
-
-                diagnostic.style.display =
-                    "block";
-
-
-                diagnostic.textContent =
-                    "DATA BEING SENT TO SUPABASE:\n\n" +
-                    diagnosticText;
-
-
                 console.log(
-                    "DATA BEING SENT:",
+                    "NEXORA TICKET DATA:",
                     ticketData
                 );
 
 
-                /*
-                 * TEMPORARY DIAGNOSTIC POPUP
-                 *
-                 * This lets us confirm that
-                 * the browser is not sending id.
-                 */
-
-                alert(
-                    "DATA BEING SENT TO SUPABASE:\n\n" +
-                    diagnosticText
-                );
-
-
-                button.textContent =
-                    "Submitting...";
-
-
                 /* ==========================
-                   DIRECT INSERT
+                   INSERT TICKET
                 ========================== */
 
                 const {
@@ -659,14 +591,10 @@ document
                         );
 
 
-                /* ==========================
-                   ERROR
-                ========================== */
-
                 if (error) {
 
                     console.error(
-                        "SUPABASE INSERT ERROR:",
+                        "SUPABASE ERROR:",
                         error
                     );
 
@@ -744,9 +672,7 @@ async function logout(event) {
 
     event.preventDefault();
 
-
     await supabaseClient.auth.signOut();
-
 
     window.location.href =
         "./index.html";
