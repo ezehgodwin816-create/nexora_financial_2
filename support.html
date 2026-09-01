@@ -135,6 +135,18 @@
             line-height: 1.6;
         }
 
+        .diagnostic-box {
+            display: none;
+            margin-top: 15px;
+            padding: 14px;
+            background: #f5f7f9;
+            border: 1px solid #dce2e6;
+            border-radius: 12px;
+            font-size: 11px;
+            line-height: 1.6;
+            word-break: break-all;
+        }
+
         @media (max-width: 520px) {
             .support-page {
                 padding: 35px 4% 60px;
@@ -227,10 +239,7 @@
             <label>
                 Complaint category
 
-                <select
-                    id="category"
-                    required
-                >
+                <select id="category" required>
 
                     <option value="">
                         Select a category
@@ -334,6 +343,12 @@
 
 
             <div
+                id="diagnosticBox"
+                class="diagnostic-box"
+            ></div>
+
+
+            <div
                 id="successBox"
                 class="success-box"
             >
@@ -352,7 +367,7 @@
 <script>
 
 /* ==========================================
-   SUPABASE CONNECTION
+   SUPABASE
 ========================================== */
 
 const SUPABASE_URL =
@@ -372,20 +387,20 @@ let currentUser = null;
 
 
 /* ==========================================
-   SHOW MESSAGE
+   MESSAGE
 ========================================== */
 
 function showMessage(text, color) {
 
-    const status =
+    const box =
         document.getElementById(
             "supportMessage"
         );
 
-    status.textContent =
+    box.textContent =
         text;
 
-    status.style.color =
+    box.style.color =
         color || "#101820";
 }
 
@@ -431,12 +446,6 @@ async function checkUser() {
         data.session.user;
 
 
-    console.log(
-        "NEXORA LOGGED-IN USER:",
-        currentUser.id
-    );
-
-
     return true;
 
 }
@@ -460,10 +469,18 @@ document
                     "submitSupport"
                 );
 
+
             const debug =
                 document.getElementById(
                     "debugBox"
                 );
+
+
+            const diagnostic =
+                document.getElementById(
+                    "diagnosticBox"
+                );
+
 
             const success =
                 document.getElementById(
@@ -475,6 +492,12 @@ document
                 "none";
 
             debug.textContent =
+                "";
+
+            diagnostic.style.display =
+                "none";
+
+            diagnostic.textContent =
                 "";
 
             success.style.display =
@@ -505,8 +528,6 @@ document
                 ).value.trim();
 
 
-            /* REQUIRED FIELDS */
-
             if (
                 !category ||
                 !subject ||
@@ -533,7 +554,7 @@ document
             try {
 
                 /* ==========================
-                   CHECK CURRENT SESSION
+                   AUTH
                 ========================== */
 
                 const loggedIn =
@@ -547,19 +568,12 @@ document
                 }
 
 
-                button.textContent =
-                    "Submitting...";
-
-
                 /* ==========================
-                   IMPORTANT
+                   DATA TO SEND
 
-                   We DO NOT send an "id".
-
-                   Supabase/PostgreSQL will
-                   generate the UUID automatically.
+                   IMPORTANT:
+                   There is NO id here.
                 ========================== */
-
 
                 const ticketData = {
 
@@ -585,19 +599,52 @@ document
                 };
 
 
+                /* ==========================
+                   SHOW EXACT DATA
+                ========================== */
+
+                const diagnosticText =
+                    JSON.stringify(
+                        ticketData,
+                        null,
+                        2
+                    );
+
+
+                diagnostic.style.display =
+                    "block";
+
+
+                diagnostic.textContent =
+                    "DATA BEING SENT TO SUPABASE:\n\n" +
+                    diagnosticText;
+
+
                 console.log(
-                    "NEXORA TICKET DATA:",
+                    "DATA BEING SENT:",
                     ticketData
                 );
 
 
+                /*
+                 * TEMPORARY DIAGNOSTIC POPUP
+                 *
+                 * This lets us confirm that
+                 * the browser is not sending id.
+                 */
+
+                alert(
+                    "DATA BEING SENT TO SUPABASE:\n\n" +
+                    diagnosticText
+                );
+
+
+                button.textContent =
+                    "Submitting...";
+
+
                 /* ==========================
                    DIRECT INSERT
-
-                   NO RPC
-                   NO FUNCTION
-                   NO SELECT
-                   NO ID
                 ========================== */
 
                 const {
@@ -612,12 +659,14 @@ document
                         );
 
 
-                /* DATABASE ERROR */
+                /* ==========================
+                   ERROR
+                ========================== */
 
                 if (error) {
 
                     console.error(
-                        "SUPABASE ERROR:",
+                        "SUPABASE INSERT ERROR:",
                         error
                     );
 
@@ -629,11 +678,6 @@ document
                 /* ==========================
                    SUCCESS
                 ========================== */
-
-                console.log(
-                    "NEXORA SUPPORT TICKET CREATED"
-                );
-
 
                 showMessage(
                     "✓ Complaint submitted successfully.",
