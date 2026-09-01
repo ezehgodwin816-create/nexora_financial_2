@@ -57,9 +57,9 @@
         .support-card textarea {
             width: 100%;
             display: block;
+            box-sizing: border-box;
             margin-top: 8px;
             padding: 14px 15px;
-            box-sizing: border-box;
             border: 1px solid #dfe5e8;
             border-radius: 12px;
             background: #fafbfc;
@@ -113,14 +113,26 @@
         .debug-box {
             display: none;
             margin-top: 15px;
-            padding: 12px;
+            padding: 14px;
             background: #fff5f5;
             border: 1px solid #ffd5d5;
-            border-radius: 10px;
+            border-radius: 12px;
             color: #b42318;
-            font-size: 11px;
-            line-height: 1.5;
+            font-size: 12px;
+            line-height: 1.6;
             word-break: break-word;
+        }
+
+        .success-box {
+            display: none;
+            margin-top: 15px;
+            padding: 14px;
+            background: #effaf5;
+            border: 1px solid #ccefe0;
+            border-radius: 12px;
+            color: #16805a;
+            font-size: 12px;
+            line-height: 1.6;
         }
 
         @media (max-width: 520px) {
@@ -249,6 +261,7 @@
                 </select>
             </label>
 
+
             <label>
                 Subject
 
@@ -261,6 +274,7 @@
                 >
             </label>
 
+
             <label>
                 Complaint details
 
@@ -272,8 +286,10 @@
                 ></textarea>
             </label>
 
+
             <label>
                 Transaction ID
+
                 <span style="
                     color:#8b98a1;
                     font-weight:400;
@@ -289,6 +305,7 @@
                 >
             </label>
 
+
             <button
                 type="submit"
                 class="btn green full"
@@ -297,15 +314,25 @@
                 Submit complaint →
             </button>
 
+
             <div
                 id="supportMessage"
                 class="support-message"
             ></div>
 
+
             <div
                 id="debugBox"
                 class="debug-box"
             ></div>
+
+
+            <div
+                id="successBox"
+                class="success-box"
+            >
+                Your complaint has been added to the support system.
+            </div>
 
         </form>
 
@@ -313,9 +340,14 @@
 
 </main>
 
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
+
+/* ==========================================
+   SUPABASE
+========================================== */
 
 const SUPABASE_URL =
     "https://krzxqmzvzgjmolepcnbg.supabase.co";
@@ -329,25 +361,31 @@ const supabaseClient =
         SUPABASE_KEY
     );
 
+
 let currentUser = null;
 
 
 /* ==========================================
-   SHOW MESSAGE
+   MESSAGE
 ========================================== */
 
 function showMessage(text, color) {
 
-    const status =
-        document.getElementById("supportMessage");
+    const box =
+        document.getElementById(
+            "supportMessage"
+        );
 
-    status.textContent = text;
-    status.style.color = color || "#101820";
+    box.textContent =
+        text;
+
+    box.style.color =
+        color || "#101820";
 }
 
 
 /* ==========================================
-   CHECK LOGIN
+   CHECK USER
 ========================================== */
 
 async function checkUser() {
@@ -358,15 +396,16 @@ async function checkUser() {
     } =
         await supabaseClient.auth.getSession();
 
+
     if (error) {
 
-        showMessage(
-            "Authentication error: " + error.message,
-            "#c3444d"
+        throw new Error(
+            "Session error: " +
+            error.message
         );
 
-        return false;
     }
+
 
     if (
         !data ||
@@ -374,46 +413,25 @@ async function checkUser() {
         !data.session.user
     ) {
 
-        showMessage(
-            "Your session has expired. Redirecting to login...",
-            "#c3444d"
-        );
-
-        setTimeout(function() {
-            window.location.href = "./login.html";
-        }, 1200);
+        window.location.href =
+            "./login.html";
 
         return false;
+
     }
+
 
     currentUser =
         data.session.user;
-console.log(
-    "SESSION USER ID:",
-    currentUser.id
-);
 
-const {
-    data: authCheck,
-    error: authCheckError
-} =
-    await supabaseClient.auth.getUser();
 
-console.log(
-    "SUPABASE AUTH USER:",
-    authCheck?.user?.id
-);
-
-console.log(
-    "SUPABASE AUTH ERROR:",
-    authCheckError
-);
     return true;
+
 }
 
 
 /* ==========================================
-   SUBMIT COMPLAINT
+   SUBMIT
 ========================================== */
 
 document
@@ -424,41 +442,55 @@ document
 
             event.preventDefault();
 
-            const category =
-                document
-                    .getElementById("category")
-                    .value;
-
-            const subject =
-                document
-                    .getElementById("subject")
-                    .value
-                    .trim();
-
-            const message =
-                document
-                    .getElementById("message")
-                    .value
-                    .trim();
-
-            const transactionId =
-                document
-                    .getElementById("transactionId")
-                    .value
-                    .trim();
 
             const button =
-                document
-                    .getElementById("submitSupport");
+                document.getElementById(
+                    "submitSupport"
+                );
+
 
             const debug =
-                document
-                    .getElementById("debugBox");
+                document.getElementById(
+                    "debugBox"
+                );
 
-            debug.style.display = "none";
-            debug.textContent = "";
 
-            showMessage("", "#101820");
+            const success =
+                document.getElementById(
+                    "successBox"
+                );
+
+
+            debug.style.display =
+                "none";
+
+            success.style.display =
+                "none";
+
+
+            const category =
+                document.getElementById(
+                    "category"
+                ).value;
+
+
+            const subject =
+                document.getElementById(
+                    "subject"
+                ).value.trim();
+
+
+            const message =
+                document.getElementById(
+                    "message"
+                ).value.trim();
+
+
+            const transactionId =
+                document.getElementById(
+                    "transactionId"
+                ).value.trim();
+
 
             if (
                 !category ||
@@ -472,32 +504,36 @@ document
                 );
 
                 return;
+
             }
 
-            button.disabled = true;
-            button.textContent = "Checking session...";
+
+            button.disabled =
+                true;
+
+            button.textContent =
+                "Checking login...";
+
 
             try {
 
-                /* CHECK AUTH */
+                /* ==========================
+                   AUTHENTICATION
+                ========================== */
 
                 const loggedIn =
                     await checkUser();
 
+
                 if (!loggedIn) {
 
-                    button.disabled = false;
-                    button.textContent =
-                        "Submit complaint →";
-
                     return;
+
                 }
 
 
-                /* SHOW EXACT USER BEING USED */
-
                 console.log(
-                    "NEXORA SUPPORT USER:",
+                    "NEXORA AUTH USER:",
                     currentUser.id
                 );
 
@@ -506,20 +542,23 @@ document
                     "Submitting...";
 
 
-                /*
-                 * DIRECT INSERT
-                 *
-                 * IMPORTANT:
-                 * There is NO RPC/function call here.
-                 */
+                /* ==========================
+                   DIRECT DATABASE INSERT
+
+                   NO RPC
+                   NO FUNCTION
+                   NO SELECT
+                ========================== */
 
                 const {
-                    data,
                     error
                 } =
                     await supabaseClient
-                        .from("support_tickets")
+                        .from(
+                            "support_tickets"
+                        )
                         .insert({
+
                             user_id:
                                 currentUser.id,
 
@@ -538,31 +577,49 @@ document
 
                             status:
                                 "Open"
-                        })
-                        .select()
-                        .single();
 
+                        });
+
+
+                /* ==========================
+                   DATABASE ERROR
+                ========================== */
 
                 if (error) {
 
+                    console.error(
+                        "SUPABASE INSERT ERROR:",
+                        error
+                    );
+
                     throw error;
+
                 }
 
 
+                /* ==========================
+                   SUCCESS
+                ========================== */
+
                 console.log(
-                    "NEXORA SUPPORT TICKET CREATED:",
-                    data
+                    "SUPPORT TICKET CREATED"
                 );
 
 
                 showMessage(
-                    "✓ Complaint submitted successfully. Your ticket has been sent to customer support.",
+                    "✓ Complaint submitted successfully.",
                     "#17a673"
                 );
 
 
+                success.style.display =
+                    "block";
+
+
                 document
-                    .getElementById("supportForm")
+                    .getElementById(
+                        "supportForm"
+                    )
                     .reset();
 
 
@@ -583,6 +640,7 @@ document
                 debug.style.display =
                     "block";
 
+
                 debug.textContent =
                     "Error: " +
                     (
@@ -595,7 +653,8 @@ document
             }
 
 
-            button.disabled = false;
+            button.disabled =
+                false;
 
             button.textContent =
                 "Submit complaint →";
@@ -616,6 +675,7 @@ async function logout(event) {
 
     window.location.href =
         "./index.html";
+
 }
 
 
