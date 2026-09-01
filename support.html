@@ -338,10 +338,15 @@ async function checkUser() {
     }
 
 
-    currentUser =
-        data.session.user;
+    currentUser = data.session.user;
 
-    return true;
+document.getElementById("supportMessage").textContent =
+    "Logged in successfully. User ID: " + currentUser.id;
+
+document.getElementById("supportMessage").style.color =
+    "#17a673";
+
+return true;
 }
 
 
