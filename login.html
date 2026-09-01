@@ -2,126 +2,127 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1"
-    >
+<meta charset="utf-8">
 
-    <title>Login · Nexora Financial</title>
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+>
 
-    <link
-        rel="stylesheet"
-        href="./assets/style.css"
-    >
+<title>Login · Nexora Financial</title>
 
-    <style>
+<link
+    rel="stylesheet"
+    href="./assets/style.css"
+>
 
-        .login-page {
-            max-width: 480px;
-            margin: auto;
-            padding: 70px 5%;
-        }
+<style>
 
-        .login-card {
-            background: white;
-            border: 1px solid var(--line);
-            border-radius: 25px;
-            padding: 30px;
-            box-shadow: 0 12px 35px rgba(16,24,32,.05);
-        }
+.login-page {
+    max-width: 480px;
+    margin: auto;
+    padding: 70px 5%;
+}
 
-        .login-card h1 {
-            font: 800 34px Manrope, sans-serif;
-            letter-spacing: -1px;
-            margin: 10px 0;
-        }
+.login-card {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 25px;
+    padding: 30px;
+    box-shadow: 0 12px 35px rgba(16,24,32,.05);
+}
 
-        .login-card p {
-            color: var(--slate);
-            line-height: 1.6;
-        }
+.login-card h1 {
+    font: 800 34px Manrope, sans-serif;
+    letter-spacing: -1px;
+    margin: 10px 0;
+}
 
-        .login-card label {
-            display: block;
-            margin-top: 18px;
-            font-weight: 700;
-            font-size: 13px;
-        }
+.login-card p {
+    color: var(--slate);
+    line-height: 1.6;
+}
 
-        .login-card input {
-            width: 100%;
-            box-sizing: border-box;
-            display: block;
-            margin-top: 8px;
-            padding: 14px;
-            border: 1px solid #dfe5e8;
-            border-radius: 12px;
-            background: #fafbfc;
-            outline: none;
-            font: inherit;
-        }
+.login-card label {
+    display: block;
+    margin-top: 18px;
+    font-weight: 700;
+    font-size: 13px;
+}
 
-        .login-card input:focus {
-            border-color: var(--green);
-            box-shadow: 0 0 0 3px rgba(23,166,115,.1);
-        }
+.login-card input {
+    width: 100%;
+    box-sizing: border-box;
+    display: block;
+    margin-top: 8px;
+    padding: 14px;
+    border: 1px solid #dfe5e8;
+    border-radius: 12px;
+    background: #fafbfc;
+    outline: none;
+    font: inherit;
+}
 
-        .login-message {
-            min-height: 20px;
-            margin-top: 15px;
-            font-size: 13px;
-            font-weight: 700;
-            line-height: 1.6;
-        }
+.login-card input:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(23,166,115,.1);
+}
 
-        .diagnostic {
-            margin-top: 25px;
-            padding: 18px;
-            border-radius: 15px;
-            background: #101820;
-            color: #fff;
-            font-family: monospace;
-            font-size: 11px;
-            line-height: 1.7;
-            word-break: break-word;
-        }
+.login-message {
+    min-height: 20px;
+    margin-top: 15px;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.6;
+}
 
-        .diagnostic-title {
-            color: #7ee2b8;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
+.diagnostic {
+    margin-top: 25px;
+    padding: 18px;
+    border-radius: 15px;
+    background: #101820;
+    color: #fff;
+    font-family: monospace;
+    font-size: 11px;
+    line-height: 1.7;
+    word-break: break-word;
+}
 
-        .diagnostic-row {
-            margin: 6px 0;
-        }
+.diagnostic-title {
+    color: #7ee2b8;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
 
-        .diagnostic-label {
-            color: #9daab2;
-        }
+.diagnostic-row {
+    margin: 6px 0;
+}
 
-        .status-ok {
-            color: #7ee2b8;
-        }
+.diagnostic-label {
+    color: #9daab2;
+}
 
-        .status-error {
-            color: #ff8d96;
-        }
+.status-ok {
+    color: #7ee2b8;
+}
 
-        .status-warning {
-            color: #ffd479;
-        }
+.status-error {
+    color: #ff8d96;
+}
 
-        .small-note {
-            margin-top: 15px;
-            font-size: 11px;
-            color: #8b98a1;
-            line-height: 1.6;
-        }
+.status-warning {
+    color: #ffd479;
+}
 
-    </style>
+.small-note {
+    margin-top: 15px;
+    font-size: 11px;
+    color: #8b98a1;
+    line-height: 1.6;
+}
+
+</style>
 
 </head>
 
@@ -135,220 +136,229 @@
 
 <header>
 
-    <a
-        class="brand"
-        href="./index.html"
-    >
-        NEXORA
-        <span>FINANCIAL</span>
-    </a>
+<a
+    class="brand"
+    href="./index.html"
+>
+    NEXORA
+    <span>FINANCIAL</span>
+</a>
 
 </header>
 
 
 <main class="login-page">
 
-    <section class="login-card">
+<section class="login-card">
 
-        <div class="eyebrow">
-            SECURE ACCESS
-        </div>
+<div class="eyebrow">
+    SECURE ACCESS
+</div>
 
-        <h1>
-            Welcome back.
-        </h1>
+<h1>
+    Welcome back.
+</h1>
 
-        <p>
-            Sign in to access your Nexora account.
-        </p>
+<p>
+    Sign in to access your Nexora account.
+</p>
 
 
-        <form id="loginForm">
+<form id="loginForm">
 
-            <label>
+<label>
 
-                Email
+    Email
 
-                <input
-                    id="email"
-                    type="email"
-                    autocomplete="email"
-                    required
-                    placeholder="you@example.com"
-                >
+    <input
+        id="email"
+        type="email"
+        autocomplete="email"
+        required
+        placeholder="you@example.com"
+    >
 
-            </label>
+</label>
 
 
-            <label>
+<label>
 
-                Password
+    Password
 
-                <input
-                    id="password"
-                    type="password"
-                    autocomplete="current-password"
-                    required
-                    placeholder="Your password"
-                >
+    <input
+        id="password"
+        type="password"
+        autocomplete="current-password"
+        required
+        placeholder="Your password"
+    >
 
-            </label>
+</label>
 
 
-            <button
-                id="loginButton"
-                type="submit"
-                class="btn green full"
-                style="margin-top:22px;"
-            >
-                Log in →
-            </button>
+<button
+    id="loginButton"
+    type="submit"
+    class="btn green full"
+    style="margin-top:22px;"
+>
+    Log in →
+</button>
 
 
-            <div
-                id="loginMessage"
-                class="login-message"
-            ></div>
+<div
+    id="loginMessage"
+    class="login-message"
+></div>
 
-        </form>
+</form>
 
 
-        <!-- ==========================================
-             DIAGNOSTIC INFORMATION
-        =========================================== -->
+<div class="diagnostic">
 
-        <div class="diagnostic">
+<div class="diagnostic-title">
+    NEXORA CONNECTION DIAGNOSTIC
+</div>
 
-            <div class="diagnostic-title">
-                NEXORA CONNECTION DIAGNOSTIC
-            </div>
 
+<div class="diagnostic-row">
 
-            <div class="diagnostic-row">
+<span class="diagnostic-label">
+    Supabase URL:
+</span>
 
-                <span class="diagnostic-label">
-                    Supabase URL:
-                </span>
+<span id="diagUrl">
+    Checking...
+</span>
 
-                <span id="diagUrl">
-                    Checking...
-                </span>
+</div>
 
-            </div>
 
+<div class="diagnostic-row">
 
-            <div class="diagnostic-row">
+<span class="diagnostic-label">
+    Supabase client:
+</span>
 
-                <span class="diagnostic-label">
-                    Supabase client:
-                </span>
+<span id="diagClient">
+    Checking...
+</span>
 
-                <span id="diagClient">
-                    Checking...
-                </span>
+</div>
 
-            </div>
 
+<div class="diagnostic-row">
 
-            <div class="diagnostic-row">
+<span class="diagnostic-label">
+    Session:
+</span>
 
-                <span class="diagnostic-label">
-                    Session:
-                </span>
+<span id="diagSession">
+    Checking...
+</span>
 
-                <span id="diagSession">
-                    Checking...
-                </span>
+</div>
 
-            </div>
 
+<div class="diagnostic-row">
 
-            <div class="diagnostic-row">
+<span class="diagnostic-label">
+    Auth user:
+</span>
 
-                <span class="diagnostic-label">
-                    Auth user:
-                </span>
+<span id="diagUser">
+    Checking...
+</span>
 
-                <span id="diagUser">
-                    Checking...
-                </span>
+</div>
 
-            </div>
 
+<div class="diagnostic-row">
 
-            <div class="diagnostic-row">
+<span class="diagnostic-label">
+    User ID:
+</span>
 
-                <span class="diagnostic-label">
-                    User ID:
-                </span>
+<span id="diagUserId">
+    Checking...
+</span>
 
-                <span id="diagUserId">
-                    Checking...
-                </span>
+</div>
 
-            </div>
 
+<div class="diagnostic-row">
 
-            <div class="diagnostic-row">
+<span class="diagnostic-label">
+    Auth email:
+</span>
 
-                <span class="diagnostic-label">
-                    Auth email:
-                </span>
+<span id="diagEmail">
+    Checking...
+</span>
 
-                <span id="diagEmail">
-                    Checking...
-                </span>
+</div>
 
-            </div>
 
+<div class="diagnostic-row">
 
-            <div class="diagnostic-row">
+<span class="diagnostic-label">
+    Profiles table:
+</span>
 
-                <span class="diagnostic-label">
-                    Profiles table:
-                </span>
+<span id="diagProfiles">
+    Checking...
+</span>
 
-                <span id="diagProfiles">
-                    Checking...
-                </span>
+</div>
 
-            </div>
 
+<div class="diagnostic-row">
 
-            <div class="diagnostic-row">
+<span class="diagnostic-label">
+    Support tickets table:
+</span>
 
-                <span class="diagnostic-label">
-                    Support tickets table:
-                </span>
+<span id="diagTickets">
+    Checking...
+</span>
 
-                <span id="diagTickets">
-                    Checking...
-                </span>
+</div>
 
-            </div>
 
+<div class="diagnostic-row">
 
-            <div class="diagnostic-row">
+<span class="diagnostic-label">
+    Admin status:
+</span>
 
-                <span class="diagnostic-label">
-                    Overall:
-                </span>
+<span id="diagAdmin">
+    Checking...
+</span>
 
-                <span id="diagOverall">
-                    Checking...
-                </span>
+</div>
 
-            </div>
 
-        </div>
+<div class="diagnostic-row">
 
+<span class="diagnostic-label">
+    Overall:
+</span>
 
-        <div class="small-note">
-            Diagnostic information is displayed only to help
-            troubleshoot this Nexora demo installation.
-        </div>
+<span id="diagOverall">
+    Checking...
+</span>
 
-    </section>
+</div>
+
+</div>
+
+
+<div class="small-note">
+    Diagnostic information is displayed only to help
+    troubleshoot this Nexora demo installation.
+</div>
+
+</section>
 
 </main>
 
@@ -363,11 +373,11 @@
 ========================================== */
 
 const SUPABASE_URL =
-    "https://krzxqmzvzgjmolepcnbg.supabase.co";
+    "https://enstgbpcgkdnwhhlsnhh.supabase.co";
 
 
 const SUPABASE_KEY =
-    "sb_publishable_YBTYFY_vqnZkncmCclQa8w_ZKB0Cyul";
+    "sb_publishable_0ecSKgmH9JIzdX9_3j5Kww_aNdNr_qT";
 
 
 /* ==========================================
@@ -538,9 +548,9 @@ async function checkDatabase() {
     }
 
 
-    /*
-     * Check profiles.
-     */
+    /* ------------------------------------------
+       Check profiles
+    ------------------------------------------ */
 
     try {
 
@@ -581,9 +591,9 @@ async function checkDatabase() {
     }
 
 
-    /*
-     * Check support_tickets.
-     */
+    /* ------------------------------------------
+       Check support_tickets
+    ------------------------------------------ */
 
     try {
 
@@ -627,6 +637,87 @@ async function checkDatabase() {
 
 
 /* ==========================================
+   CHECK ADMIN STATUS
+========================================== */
+
+async function checkAdminStatus(user) {
+
+    if (!supabaseClient || !user) {
+
+        document.getElementById(
+            "diagAdmin"
+        ).innerHTML =
+            '<span class="status-warning">⚠ Not checked</span>';
+
+        return false;
+
+    }
+
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("profiles")
+                .select("is_admin")
+                .eq("id", user.id)
+                .maybeSingle();
+
+
+        if (error) {
+
+            document.getElementById(
+                "diagAdmin"
+            ).innerHTML =
+                '<span class="status-error">✗ ' +
+                escapeHtml(error.message) +
+                '</span>';
+
+            return false;
+
+        }
+
+
+        if (
+            data &&
+            data.is_admin === true
+        ) {
+
+            document.getElementById(
+                "diagAdmin"
+            ).innerHTML =
+                '<span class="status-ok">✓ ADMIN</span>';
+
+            return true;
+
+        }
+
+
+        document.getElementById(
+            "diagAdmin"
+        ).innerHTML =
+            '<span class="status-warning">⚠ Regular user</span>';
+
+        return false;
+
+    } catch (error) {
+
+        document.getElementById(
+            "diagAdmin"
+        ).innerHTML =
+            '<span class="status-error">✗ Error</span>';
+
+        return false;
+
+    }
+
+}
+
+
+/* ==========================================
    UPDATE OVERALL STATUS
 ========================================== */
 
@@ -640,6 +731,9 @@ async function updateOverall() {
 
 
     if (user) {
+
+        await checkAdminStatus(user);
+
 
         document.getElementById(
             "diagOverall"
@@ -696,8 +790,7 @@ document
                 );
 
 
-            message.textContent =
-                "";
+            message.textContent = "";
 
 
             if (
@@ -726,16 +819,22 @@ document
 
             try {
 
+                /* ------------------------------------------
+                   Sign in
+                ------------------------------------------ */
+
                 const {
                     data,
                     error
                 } =
                     await supabaseClient.auth.signInWithPassword({
+
                         email:
                             email,
 
                         password:
                             password
+
                     });
 
 
@@ -756,34 +855,126 @@ document
                 }
 
 
-                message.textContent =
-                    "✓ Logged in successfully. User ID: " +
+                /* ------------------------------------------
+                   Check profile/admin status
+                ------------------------------------------ */
+
+                const profile =
+                    await supabaseClient
+                        .from("profiles")
+                        .select("is_admin")
+                        .eq("id", data.user.id)
+                        .maybeSingle();
+
+
+                if (profile.error) {
+
+                    throw new Error(
+                        "Could not check admin status: " +
+                        profile.error.message
+                    );
+
+                }
+
+
+                const isAdmin =
+                    profile.data &&
+                    profile.data.is_admin === true;
+
+
+                /* ------------------------------------------
+                   Update diagnostic
+                ------------------------------------------ */
+
+                document.getElementById(
+                    "diagSession"
+                ).innerHTML =
+                    '<span class="status-ok">✓ Active</span>';
+
+
+                document.getElementById(
+                    "diagUser"
+                ).innerHTML =
+                    '<span class="status-ok">✓ Found</span>';
+
+
+                document.getElementById(
+                    "diagUserId"
+                ).textContent =
                     data.user.id;
 
-                message.style.color =
-                    "#17a673";
+
+                document.getElementById(
+                    "diagEmail"
+                ).textContent =
+                    data.user.email ||
+                    "No email";
 
 
-                /*
-                 * Refresh diagnostics after login.
-                 */
+                if (isAdmin) {
 
-                await updateOverall();
+                    document.getElementById(
+                        "diagAdmin"
+                    ).innerHTML =
+                        '<span class="status-ok">✓ ADMIN</span>';
 
 
-                /*
-                 * Give the session a moment to persist.
-                 */
+                    document.getElementById(
+                        "diagOverall"
+                    ).innerHTML =
+                        '<span class="status-ok">✓ Admin access confirmed</span>';
 
-                setTimeout(
-                    function() {
 
-                        window.location.href =
-                            "./dashboard.html";
+                    message.textContent =
+                        "✓ Admin verified. Opening Admin V3...";
 
-                    },
-                    1200
-                );
+                    message.style.color =
+                        "#17a673";
+
+
+                    setTimeout(
+                        function() {
+
+                            window.location.href =
+                                "./admin.html";
+
+                        },
+                        700
+                    );
+
+
+                } else {
+
+                    document.getElementById(
+                        "diagAdmin"
+                    ).innerHTML =
+                        '<span class="status-warning">⚠ Regular user</span>';
+
+
+                    document.getElementById(
+                        "diagOverall"
+                    ).innerHTML =
+                        '<span class="status-ok">✓ Login successful</span>';
+
+
+                    message.textContent =
+                        "✓ Logged in successfully. Opening dashboard...";
+
+                    message.style.color =
+                        "#17a673";
+
+
+                    setTimeout(
+                        function() {
+
+                            window.location.href =
+                                "./dashboard.html";
+
+                        },
+                        700
+                    );
+
+                }
 
 
             } catch (error) {
