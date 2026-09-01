@@ -1,298 +1,352 @@
 <!doctype html>
+<html lang="en">
 
-<html lang="en"><head>
+<head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1"><title>Support · Nexora Financial</title>
 
-<link rel="stylesheet" href="./assets/style.css">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
 
-<style>
-    .support-page {
-        max-width: 850px;
-        margin: auto;
-        padding: 55px 5% 80px;
-    }
+    <title>Support · Nexora Financial</title>
 
-    .support-header {
-        margin-bottom: 30px;
-    }
+    <link rel="stylesheet" href="./assets/style.css">
 
-    .support-header h1 {
-        font: 800 40px Manrope, sans-serif;
-        letter-spacing: -1.5px;
-        margin: 10px 0;
-    }
+    <style>
 
-    .support-header p {
-        color: var(--slate);
-        line-height: 1.7;
-        max-width: 600px;
-    }
-
-    .support-card {
-        background: white;
-        border: 1px solid var(--line);
-        border-radius: 25px;
-        padding: 28px;
-        box-shadow: 0 12px 35px rgba(16,24,32,.045);
-    }
-
-    .support-card h2 {
-        font: 700 21px Manrope, sans-serif;
-        margin: 8px 0 22px;
-    }
-
-    .support-card label {
-        margin: 17px 0;
-    }
-
-    .support-card select,
-    .support-card textarea {
-        width: 100%;
-        display: block;
-        margin-top: 8px;
-        padding: 14px 15px;
-        border: 1px solid #dfe5e8;
-        border-radius: 12px;
-        background: #fafbfc;
-        outline: none;
-        font: inherit;
-    }
-
-    .support-card select:focus,
-    .support-card textarea:focus {
-        border-color: var(--green);
-        box-shadow: 0 0 0 3px rgba(23,166,115,.1);
-    }
-
-    .support-card textarea {
-        min-height: 150px;
-        resize: vertical;
-    }
-
-    .support-message {
-        min-height: 20px;
-        margin-top: 14px;
-        font-size: 12px;
-        font-weight: 700;
-    }
-
-    .back-link {
-        display: inline-block;
-        margin-bottom: 25px;
-        color: var(--slate);
-        text-decoration: none;
-        font-size: 13px;
-        font-weight: 700;
-    }
-
-    .back-link:hover {
-        color: var(--ink);
-    }
-
-    .ticket-info {
-        background: var(--green-soft);
-        color: var(--green);
-        border-radius: 15px;
-        padding: 14px 16px;
-        font-size: 12px;
-        line-height: 1.6;
-        margin-bottom: 22px;
-    }
-
-    @media (max-width: 520px) {
         .support-page {
-            padding: 35px 4% 60px;
+            max-width: 850px;
+            margin: auto;
+            padding: 55px 5% 80px;
         }
 
-        .support-card {
-            padding: 22px;
-            border-radius: 21px;
+        .support-header {
+            margin-bottom: 30px;
         }
 
         .support-header h1 {
-            font-size: 32px;
+            font: 800 40px Manrope, sans-serif;
+            letter-spacing: -1.5px;
+            margin: 10px 0;
         }
-    }
-</style>
 
-</head><body class="dashboard-body"><div class="demo">
+        .support-header p {
+            color: var(--slate);
+            line-height: 1.7;
+            max-width: 600px;
+        }
+
+        .support-card {
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: 25px;
+            padding: 28px;
+            box-shadow: 0 12px 35px rgba(16,24,32,.045);
+        }
+
+        .support-card h2 {
+            font: 700 21px Manrope, sans-serif;
+            margin: 8px 0 22px;
+        }
+
+        .support-card label {
+            display: block;
+            margin: 17px 0;
+        }
+
+        .support-card input,
+        .support-card select,
+        .support-card textarea {
+            width: 100%;
+            display: block;
+            box-sizing: border-box;
+            margin-top: 8px;
+            padding: 14px 15px;
+            border: 1px solid #dfe5e8;
+            border-radius: 12px;
+            background: #fafbfc;
+            outline: none;
+            font: inherit;
+        }
+
+        .support-card input:focus,
+        .support-card select:focus,
+        .support-card textarea:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(23,166,115,.1);
+        }
+
+        .support-card textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .support-message {
+            min-height: 20px;
+            margin-top: 14px;
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 1.6;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 25px;
+            color: var(--slate);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .back-link:hover {
+            color: var(--ink);
+        }
+
+        .ticket-info {
+            background: var(--green-soft);
+            color: var(--green);
+            border-radius: 15px;
+            padding: 14px 16px;
+            font-size: 12px;
+            line-height: 1.6;
+            margin-bottom: 22px;
+        }
+
+        @media (max-width: 520px) {
+
+            .support-page {
+                padding: 35px 4% 60px;
+            }
+
+            .support-card {
+                padding: 22px;
+                border-radius: 21px;
+            }
+
+            .support-header h1 {
+                font-size: 32px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body class="dashboard-body">
+
+
+<div class="demo">
     NEXORA FINANCIAL · SIMULATED ACCOUNT
-</div><header><a class="brand" href="./dashboard.html">
-    NEXORA
-    <span>FINANCIAL</span>
-</a>
-
-<nav class="navlinks">
-
-    <a href="./dashboard.html">
-        Dashboard
-    </a>
-
-    <a
-        class="btn ghost"
-        href="./index.html"
-        onclick="logout(event)"
-    >
-        Log out
-    </a>
-
-</nav>
-
-</header><main class="support-page"><a
-    class="back-link"
-    href="./dashboard.html"
->
-    ← Back to dashboard
-</a>
-
-
-<div class="support-header">
-
-    <div class="eyebrow">
-        CUSTOMER CARE
-    </div>
-
-    <h1>
-        How can we help?
-    </h1>
-
-    <p>
-        Report a transaction, account issue, transfer problem,
-        balance concern or anything else that needs attention.
-        Your complaint will be sent to Nexora customer support.
-    </p>
-
 </div>
 
 
-<section class="support-card">
+<header>
 
-    <div class="ticket-info">
-        Your complaint will be securely attached to your
-        Nexora account so it can be reviewed and resolved
-        from the support administration dashboard.
+    <a
+        class="brand"
+        href="./dashboard.html"
+    >
+        NEXORA
+        <span>FINANCIAL</span>
+    </a>
+
+
+    <nav class="navlinks">
+
+        <a href="./dashboard.html">
+            Dashboard
+        </a>
+
+        <a
+            class="btn ghost"
+            href="./index.html"
+            onclick="logout(event)"
+        >
+            Log out
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="support-page">
+
+
+    <a
+        class="back-link"
+        href="./dashboard.html"
+    >
+        ← Back to dashboard
+    </a>
+
+
+    <div class="support-header">
+
+        <div class="eyebrow">
+            CUSTOMER CARE
+        </div>
+
+        <h1>
+            How can we help?
+        </h1>
+
+        <p>
+            Report a transaction, account issue, transfer problem,
+            balance concern or anything else that needs attention.
+            Your complaint will be sent to Nexora customer support.
+        </p>
+
     </div>
 
 
-    <h2>
-        Submit a complaint
-    </h2>
+    <section class="support-card">
 
 
-    <form id="supportForm">
+        <div class="ticket-info">
+
+            Your complaint will be securely attached to your
+            Nexora account so it can be reviewed and resolved
+            from the support administration dashboard.
+
+        </div>
 
 
-        <label>
+        <h2>
+            Submit a complaint
+        </h2>
 
-            Complaint category
 
-            <select
-                id="category"
-                required
+        <form id="supportForm">
+
+
+            <label>
+
+                Complaint category
+
+                <select
+                    id="category"
+                    required
+                >
+
+                    <option value="">
+                        Select a category
+                    </option>
+
+                    <option value="Transaction">
+                        Transaction
+                    </option>
+
+                    <option value="Account">
+                        Account
+                    </option>
+
+                    <option value="Transfer">
+                        Transfer
+                    </option>
+
+                    <option value="Balance">
+                        Balance
+                    </option>
+
+                    <option value="Login">
+                        Login
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+
+            </label>
+
+
+            <label>
+
+                Subject
+
+                <input
+                    id="subject"
+                    type="text"
+                    maxlength="120"
+                    required
+                    placeholder="Briefly describe the problem"
+                >
+
+            </label>
+
+
+            <label>
+
+                Complaint details
+
+                <textarea
+                    id="message"
+                    maxlength="2000"
+                    required
+                    placeholder="Tell us what happened..."
+                ></textarea>
+
+            </label>
+
+
+            <label>
+
+                Transaction ID
+
+                <span style="
+                    color:#8b98a1;
+                    font-weight:400;
+                ">
+                    (optional)
+                </span>
+
+                <input
+                    id="transactionId"
+                    type="text"
+                    maxlength="200"
+                    placeholder="Enter transaction ID if applicable"
+                >
+
+            </label>
+
+
+            <button
+                type="submit"
+                class="btn green full"
+                id="submitSupport"
             >
-
-                <option value="">
-                    Select a category
-                </option>
-
-                <option value="Transaction">
-                    Transaction
-                </option>
-
-                <option value="Account">
-                    Account
-                </option>
-
-                <option value="Transfer">
-                    Transfer
-                </option>
-
-                <option value="Balance">
-                    Balance
-                </option>
-
-                <option value="Login">
-                    Login
-                </option>
-
-                <option value="Other">
-                    Other
-                </option>
-
-            </select>
-
-        </label>
+                Submit complaint →
+            </button>
 
 
-        <label>
-
-            Subject
-
-            <input
-                id="subject"
-                type="text"
-                maxlength="120"
-                required
-                placeholder="Briefly describe the problem"
-            >
-
-        </label>
+            <div
+                id="supportMessage"
+                class="support-message"
+            ></div>
 
 
-        <label>
-
-            Complaint details
-
-            <textarea
-                id="message"
-                maxlength="2000"
-                required
-                placeholder="Tell us what happened..."
-            ></textarea>
-
-        </label>
+        </form>
 
 
-        <label>
-
-            Transaction ID
-            <span style="
-                color:#8b98a1;
-                font-weight:400;
-            ">
-                (optional)
-            </span>
-
-            <input
-                id="transactionId"
-                type="text"
-                placeholder="Enter transaction ID if applicable"
-            >
-
-        </label>
+    </section>
 
 
-        <button
-            type="submit"
-            class="btn green full"
-            id="submitSupport"
-        >
-            Submit complaint →
-        </button>
+</main>
 
 
-        <div
-            id="supportMessage"
-            class="support-message"
-        ></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 
-    </form>
+<script>
 
-</section>
-
-</main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+/* ==========================================
+   SUPABASE
+========================================== */
 
 const SUPABASE_URL =
     "https://krzxqmzvzgjmolepcnbg.supabase.co";
@@ -313,37 +367,91 @@ let currentUser = null;
 
 
 /* ==========================================
-   CHECK LOGIN
+   GET AUTHENTICATED USER
 ========================================== */
 
-const loggedIn = await checkUser();
+async function checkUser() {
 
-if (!loggedIn) {
-    return;
+    const {
+        data,
+        error
+    } =
+        await supabaseClient.auth.getSession();
+
+
+    if (error) {
+
+        console.error(
+            "Session error:",
+            error
+        );
+
+        return false;
+    }
+
+
+    if (
+        !data ||
+        !data.session ||
+        !data.session.user
+    ) {
+
+        console.log(
+            "No active session."
+        );
+
+        return false;
+    }
+
+
+    currentUser =
+        data.session.user;
+
+
+    console.log(
+        "AUTH SESSION USER ID:",
+        currentUser.id
+    );
+
+
+    console.log(
+        "AUTH SESSION EMAIL:",
+        currentUser.email
+    );
+
+
+    return true;
+
 }
 
-console.log("INSERT USER ID:", currentUser.id);
 
-const {
-    data,
-    error
-} = await supabaseClient
-    .from("support_tickets")
-    .insert({
-        user_id: currentUser.id,
-        category: category,
-        subject: subject,
-        message: message,
-        transaction_id: transactionId || null,
-        status: "Open"
-    })
-    .select()
-    .single();
+/* ==========================================
+   CHECK USER ON PAGE LOAD
+========================================== */
 
-if (error) {
-    console.error("SUPABASE INSERT ERROR:", error);
-    throw error;
+async function startSupportPage() {
+
+    const loggedIn =
+        await checkUser();
+
+
+    if (!loggedIn) {
+
+        window.location.href =
+            "./login.html";
+
+        return;
+    }
+
+
+    console.log(
+        "Support page authenticated successfully."
+    );
+
 }
+
+
+startSupportPage();
 
 
 /* ==========================================
@@ -396,8 +504,13 @@ document
                     .getElementById("supportMessage");
 
 
-            status.textContent = "";
+            status.textContent =
+                "";
 
+
+            /* ==========================================
+               VALIDATION
+            ========================================== */
 
             if (
                 !category ||
@@ -412,10 +525,13 @@ document
                     "#c3444d";
 
                 return;
+
             }
 
 
-            button.disabled = true;
+            button.disabled =
+                true;
+
 
             button.textContent =
                 "Submitting...";
@@ -423,34 +539,76 @@ document
 
             try {
 
-                /* Make sure the user is logged in */
+
+                /* ==========================================
+                   GET FRESH AUTHENTICATED SESSION
+                ========================================== */
 
                 const {
-    data: {
-        user
-    },
-    error: sessionError
-} = await supabaseClient.auth.getUser();
-
-if (sessionError || !user) {
-
-    status.textContent =
-        "Your login session has expired. Please log in again.";
-
-    status.style.color =
-        "#c3444d";
-
-    button.disabled = false;
-    button.textContent =
-        "Submit complaint →";
-
-    return;
-}
-
-currentUser = user;
+                    data: sessionData,
+                    error: sessionError
+                } =
+                    await supabaseClient.auth.getSession();
 
 
-                /* Insert complaint */
+                if (sessionError) {
+
+                    throw sessionError;
+
+                }
+
+
+                if (
+                    !sessionData ||
+                    !sessionData.session ||
+                    !sessionData.session.user
+                ) {
+
+                    status.textContent =
+                        "Your login session has expired. Please log in again.";
+
+                    status.style.color =
+                        "#c3444d";
+
+                    window.location.href =
+                        "./login.html";
+
+                    return;
+
+                }
+
+
+                currentUser =
+                    sessionData.session.user;
+
+
+                const userId =
+                    currentUser.id;
+
+
+                console.log(
+                    "INSERT USER ID:",
+                    userId
+                );
+
+
+                console.log(
+                    "INSERT DATA:",
+                    {
+                        user_id:userId,
+                        category:category,
+                        subject:subject,
+                        message:message,
+                        transaction_id:
+                            transactionId || null,
+                        status:"Open"
+                    }
+                );
+
+
+                /* ==========================================
+                   INSERT COMPLAINT
+                ========================================== */
 
                 const {
                     data,
@@ -458,41 +616,53 @@ currentUser = user;
                 } =
                     await supabaseClient
                         .from("support_tickets")
-                        .insert([
-                            {
-                                user_id:
-                                    currentUser.id,
+                        .insert({
 
-                                category:
-                                    category,
+                            user_id:
+                                userId,
 
-                                subject:
-                                    subject,
+                            category:
+                                category,
 
-                                message:
-                                    message,
+                            subject:
+                                subject,
 
-                                transaction_id:
-                                    transactionId || null,
+                            message:
+                                message,
 
-                                status:
-                                    "Open"
-                            }
-                        ])
+                            transaction_id:
+                                transactionId ||
+                                null,
+
+                            status:
+                                "Open"
+
+                        })
                         .select()
                         .single();
 
 
                 if (error) {
+
+                    console.error(
+                        "SUPABASE INSERT ERROR:",
+                        error
+                    );
+
                     throw error;
+
                 }
 
 
                 console.log(
-                    "Support ticket created:",
+                    "SUPPORT TICKET CREATED:",
                     data
                 );
 
+
+                /* ==========================================
+                   SUCCESS
+                ========================================== */
 
                 status.textContent =
                     "✓ Complaint submitted successfully. Your ticket has been sent to customer support.";
@@ -508,8 +678,9 @@ currentUser = user;
 
             } catch (error) {
 
+
                 console.error(
-                    "Support ticket error:",
+                    "SUPPORT TICKET ERROR:",
                     error
                 );
 
@@ -521,13 +692,17 @@ currentUser = user;
                 status.style.color =
                     "#c3444d";
 
+
             }
 
 
-            button.disabled = false;
+            button.disabled =
+                false;
+
 
             button.textContent =
                 "Submit complaint →";
+
 
         }
     );
@@ -541,18 +716,49 @@ async function logout(event) {
 
     event.preventDefault();
 
+
     await supabaseClient.auth.signOut();
+
 
     window.location.href =
         "./index.html";
+
 }
 
 
 /* ==========================================
-   START
+   AUTH STATE LISTENER
 ========================================== */
 
-checkUser();
+supabaseClient.auth.onAuthStateChange(
+    function(event, session) {
 
-</script></body>
+        console.log(
+            "AUTH STATE:",
+            event
+        );
+
+
+        if (
+            session &&
+            session.user
+        ) {
+
+            currentUser =
+                session.user;
+
+            console.log(
+                "CURRENT AUTH USER:",
+                currentUser.id
+            );
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
 </html>
