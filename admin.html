@@ -569,14 +569,16 @@ Please wait.
 
 /* =====================================================
    SUPABASE CONNECTION
+   IMPORTANT:
+   THIS MUST MATCH LOGIN.HTML
 ===================================================== */
 
 const SUPABASE_URL =
-"https://enstgbpcgkdnwhhlsnhh.supabase.co";
+"https://krzxqmzvzgjmolepcnbg.supabase.co";
 
 
 const SUPABASE_KEY =
-"sb_publishable_0ecSKgmH9JIzdX9_3j5Kww_aNdNr_qT";
+"sb_publishable_YBTYFY_vqnZkncmCclQa8w_ZKB0Cyul";
 
 
 const supabaseClient =
@@ -738,15 +740,6 @@ container.innerHTML =
 
 try {
 
-
-/*
-   IMPORTANT:
-
-   We are NOT reading support_tickets directly.
-
-   The admin RPC function runs with SECURITY DEFINER
-   and verifies the administrator UUID.
-*/
 
 const result =
 await supabaseClient
@@ -1275,11 +1268,6 @@ responseElement.value.trim();
 
 try {
 
-
-/*
-   Use the SECURITY DEFINER admin function
-   instead of direct UPDATE.
-*/
 
 const result =
 await supabaseClient
