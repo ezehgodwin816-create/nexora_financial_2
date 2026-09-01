@@ -316,37 +316,33 @@ let currentUser = null;
    CHECK LOGIN
 ========================================== */
 
-async function checkUser() {
+const loggedIn = await checkUser();
 
-    const {
-        data,
-        error
-    } =
-        await supabaseClient.auth.getSession();
+if (!loggedIn) {
+    return;
+}
 
+console.log("INSERT USER ID:", currentUser.id);
 
-    if (
-        error ||
-        !data.session ||
-        !data.session.user
-    ) {
+const {
+    data,
+    error
+} = await supabaseClient
+    .from("support_tickets")
+    .insert({
+        user_id: currentUser.id,
+        category: category,
+        subject: subject,
+        message: message,
+        transaction_id: transactionId || null,
+        status: "Open"
+    })
+    .select()
+    .single();
 
-        window.location.href =
-            "./login.html";
-
-        return false;
-    }
-
-
-    currentUser = data.session.user;
-
-document.getElementById("supportMessage").textContent =
-    "Logged in successfully. User ID: " + currentUser.id;
-
-document.getElementById("supportMessage").style.color =
-    "#17a673";
-
-return true;
+if (error) {
+    console.error("SUPABASE INSERT ERROR:", error);
+    throw error;
 }
 
 
