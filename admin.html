@@ -10,7 +10,7 @@
     content="width=device-width, initial-scale=1"
 >
 
-<title>Admin V2 · Nexora Financial</title>
+<title>Admin V3 · Nexora Financial</title>
 
 <link
     rel="stylesheet"
@@ -60,6 +60,7 @@
     font-size:12px;
     line-height:1.7;
     word-break:break-word;
+    white-space:pre-wrap;
 }
 
 .success-box {
@@ -346,7 +347,7 @@ Log out
 
 
 <div class="version-badge">
-ADMIN V2
+ADMIN V3
 </div>
 
 
@@ -540,10 +541,13 @@ Other
 >
 
 <div class="empty">
+
 <strong>
 Loading tickets...
 </strong>
+
 Please wait.
+
 </div>
 
 </section>
@@ -559,7 +563,7 @@ Please wait.
 
 /* =====================================================
    NEXORA FINANCIAL
-   ADMIN V2
+   ADMIN V3
 ===================================================== */
 
 
@@ -619,7 +623,7 @@ box.style.display =
 "block";
 
 box.textContent =
-"ADMIN V2 ERROR: " +
+"ADMIN V3 ERROR: " +
 message;
 
 }
@@ -663,7 +667,7 @@ result.data.session.user;
 
 
 /* ---------------------------------------------
-   Get profile
+   Check admin profile
 --------------------------------------------- */
 
 const profile =
@@ -724,22 +728,26 @@ container.innerHTML =
 
 '<div class="empty">' +
 '<strong>Loading tickets...</strong>' +
-'Reading support_tickets from Supabase.' +
+'Reading support tickets...' +
 '</div>';
 
 
 try {
 
 
+/*
+   IMPORTANT:
+
+   We are NOT reading support_tickets directly.
+
+   The admin RPC function runs with SECURITY DEFINER
+   and verifies the administrator UUID.
+*/
+
 const result =
 await supabaseClient
-.from("support_tickets")
-.select("*")
-.order(
-    "created_at",
-    {
-        ascending:false
-    }
+.rpc(
+    "admin_get_support_tickets"
 );
 
 
@@ -755,7 +763,7 @@ result.data || [];
 
 
 console.log(
-"ADMIN V2 TICKETS:",
+"ADMIN V3 TICKETS:",
 tickets
 );
 
@@ -778,7 +786,7 @@ render();
 
 
 console.error(
-"ADMIN V2 LOAD ERROR:",
+"ADMIN V3 LOAD ERROR:",
 error
 );
 
@@ -793,7 +801,7 @@ container.innerHTML =
 
 '<div class="empty">' +
 '<strong>Could not load tickets</strong>' +
-'See the ADMIN V2 ERROR above.' +
+'See the ADMIN V3 ERROR above.' +
 '</div>';
 
 }
@@ -1108,21 +1116,21 @@ id="status-${esc(ticket.id)}"
 
 <option
 value="Open"
-${status === "Open" ? "selected" : ""}
+${status.toLowerCase() === "open" ? "selected" : ""}
 >
 Open
 </option>
 
 <option
 value="In Progress"
-${status === "In Progress" ? "selected" : ""}
+${status.toLowerCase() === "in progress" ? "selected" : ""}
 >
 In Progress
 </option>
 
 <option
 value="Resolved"
-${status === "Resolved" ? "selected" : ""}
+${status.toLowerCase() === "resolved" ? "selected" : ""}
 >
 Resolved
 </option>
@@ -1171,7 +1179,9 @@ Save
 function formatDate(value) {
 
 if (!value) {
+
 return "Unknown date";
+
 }
 
 
@@ -1262,24 +1272,20 @@ responseElement.value.trim();
 try {
 
 
+/*
+   Use the SECURITY DEFINER admin function
+   instead of direct UPDATE.
+*/
+
 const result =
 await supabaseClient
-.from("support_tickets")
-.update({
-
-status:
-newStatus,
-
-admin_response:
-newResponse,
-
-updated_at:
-new Date().toISOString()
-
-})
-.eq(
-"id",
-ticketId
+.rpc(
+    "admin_update_support_ticket",
+    {
+        p_ticket_id: ticketId,
+        p_status: newStatus,
+        p_admin_response: newResponse
+    }
 );
 
 
@@ -1288,6 +1294,12 @@ if (result.error) {
 throw result.error;
 
 }
+
+
+document.getElementById(
+"errorBox"
+).style.display =
+"none";
 
 
 document.getElementById(
@@ -1303,7 +1315,7 @@ await loadTickets();
 
 
 console.error(
-"ADMIN V2 SAVE ERROR:",
+"ADMIN V3 SAVE ERROR:",
 error
 );
 
@@ -1400,7 +1412,7 @@ try {
 
 
 console.log(
-"NEXORA ADMIN V2 LOADED"
+"NEXORA ADMIN V3 LOADED"
 );
 
 
@@ -1420,7 +1432,7 @@ await loadTickets();
 
 
 console.error(
-"ADMIN V2 START ERROR:",
+"ADMIN V3 START ERROR:",
 error
 );
 
