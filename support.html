@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="utf-8">
 
     <meta
@@ -56,8 +57,6 @@
         .support-card label {
             display: block;
             margin: 17px 0;
-            font-weight: 700;
-            font-size: 13px;
         }
 
         .support-card input,
@@ -65,9 +64,9 @@
         .support-card textarea {
             width: 100%;
             display: block;
+            box-sizing: border-box;
             margin-top: 8px;
             padding: 14px 15px;
-            box-sizing: border-box;
             border: 1px solid #dfe5e8;
             border-radius: 12px;
             background: #fafbfc;
@@ -93,7 +92,6 @@
             font-size: 13px;
             font-weight: 700;
             line-height: 1.6;
-            word-break: break-word;
         }
 
         .back-link {
@@ -119,16 +117,20 @@
             margin-bottom: 22px;
         }
 
-        .debug-box {
-            display: none;
-            margin-top: 15px;
-            padding: 12px;
-            border-radius: 10px;
-            background: #fff4f4;
+        .submit-success {
+            background: #eefaf5;
+            border: 1px solid #bfe9d6;
+            color: #16845c;
+            border-radius: 12px;
+            padding: 12px 14px;
+        }
+
+        .submit-error {
+            background: #fff3f3;
+            border: 1px solid #f0c5c5;
             color: #c3444d;
-            font-size: 11px;
-            line-height: 1.5;
-            word-break: break-word;
+            border-radius: 12px;
+            padding: 12px 14px;
         }
 
         @media (max-width: 520px) {
@@ -195,176 +197,176 @@
 <main class="support-page">
 
 
-<a
-    class="back-link"
-    href="./dashboard.html"
->
-    ← Back to dashboard
-</a>
+    <a
+        class="back-link"
+        href="./dashboard.html"
+    >
+        ← Back to dashboard
+    </a>
 
 
-<div class="support-header">
+    <div class="support-header">
 
-    <div class="eyebrow">
-        CUSTOMER CARE
-    </div>
-
-
-    <h1>
-        How can we help?
-    </h1>
+        <div class="eyebrow">
+            CUSTOMER CARE
+        </div>
 
 
-    <p>
-        Report a transaction, account issue, transfer problem,
-        balance concern or anything else that needs attention.
-        Your complaint will be sent to Nexora customer support.
-    </p>
-
-</div>
+        <h1>
+            How can we help?
+        </h1>
 
 
-<section class="support-card">
-
-
-    <div class="ticket-info">
-
-        Your complaint will be securely attached to your
-        Nexora account so it can be reviewed and resolved
-        from the support administration dashboard.
+        <p>
+            Report a transaction, account issue, transfer problem,
+            balance concern or anything else that needs attention.
+            Your complaint will be sent to Nexora customer support.
+        </p>
 
     </div>
 
 
-    <h2>
-        Submit a complaint
-    </h2>
+    <section class="support-card">
 
 
-    <form id="supportForm">
+        <div class="ticket-info">
+
+            Your complaint will be securely attached to your
+            Nexora account so it can be reviewed and resolved
+            from the support administration dashboard.
+
+        </div>
 
 
-        <label>
-
-            Complaint category
-
-
-            <select
-                id="category"
-                required
-            >
-
-                <option value="">
-                    Select a category
-                </option>
-
-                <option value="Transaction">
-                    Transaction
-                </option>
-
-                <option value="Account">
-                    Account
-                </option>
-
-                <option value="Transfer">
-                    Transfer
-                </option>
-
-                <option value="Balance">
-                    Balance
-                </option>
-
-                <option value="Login">
-                    Login
-                </option>
-
-                <option value="Other">
-                    Other
-                </option>
-
-            </select>
-
-        </label>
+        <h2>
+            Submit a complaint
+        </h2>
 
 
-        <label>
-
-            Subject
-
-
-            <input
-                id="subject"
-                type="text"
-                maxlength="120"
-                required
-                placeholder="Briefly describe the problem"
-            >
-
-        </label>
-
-
-        <label>
-
-            Complaint details
-
-
-            <textarea
-                id="message"
-                maxlength="2000"
-                required
-                placeholder="Tell us what happened..."
-            ></textarea>
-
-        </label>
-
-
-        <label>
-
-            Transaction ID
-
-            <span style="
-                color:#8b98a1;
-                font-weight:400;
-            ">
-                (optional)
-            </span>
-
-
-            <input
-                id="transactionId"
-                type="text"
-                maxlength="200"
-                placeholder="Enter transaction ID if applicable"
-            >
-
-        </label>
-
-
-        <button
-            type="submit"
-            class="btn green full"
-            id="submitSupport"
+        <form
+            id="supportForm"
+            novalidate
         >
-            Submit complaint →
-        </button>
 
 
-        <div
-            id="supportMessage"
-            class="support-message"
-        ></div>
+            <label>
+
+                Complaint category
 
 
-        <div
-            id="debugBox"
-            class="debug-box"
-        ></div>
+                <select
+                    id="category"
+                    required
+                >
+
+                    <option value="">
+                        Select a category
+                    </option>
+
+                    <option value="Transaction">
+                        Transaction
+                    </option>
+
+                    <option value="Account">
+                        Account
+                    </option>
+
+                    <option value="Transfer">
+                        Transfer
+                    </option>
+
+                    <option value="Balance">
+                        Balance
+                    </option>
+
+                    <option value="Login">
+                        Login
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+
+            </label>
 
 
-    </form>
+            <label>
+
+                Subject
 
 
-</section>
+                <input
+                    id="subject"
+                    type="text"
+                    maxlength="120"
+                    required
+                    autocomplete="off"
+                    placeholder="Briefly describe the problem"
+                >
+
+            </label>
+
+
+            <label>
+
+                Complaint details
+
+
+                <textarea
+                    id="message"
+                    maxlength="2000"
+                    required
+                    placeholder="Tell us what happened..."
+                ></textarea>
+
+            </label>
+
+
+            <label>
+
+                Transaction ID
+
+                <span style="
+                    color:#8b98a1;
+                    font-weight:400;
+                ">
+                    (optional)
+                </span>
+
+
+                <input
+                    id="transactionId"
+                    type="text"
+                    maxlength="200"
+                    autocomplete="off"
+                    placeholder="Enter transaction ID if applicable"
+                >
+
+            </label>
+
+
+            <button
+                type="submit"
+                class="btn green full"
+                id="submitSupport"
+            >
+                Submit complaint →
+            </button>
+
+
+            <div
+                id="supportMessage"
+                class="support-message"
+                aria-live="polite"
+            ></div>
+
+
+        </form>
+
+
+    </section>
 
 
 </main>
@@ -400,108 +402,139 @@ let currentUser = null;
 
 
 /* ==========================================
-   CHECK LOGGED-IN USER
+   ELEMENTS
 ========================================== */
 
 
-async function checkUser() {
+const supportForm =
+    document.getElementById(
+        "supportForm"
+    );
+
+
+const submitButton =
+    document.getElementById(
+        "submitSupport"
+    );
+
+
+const supportMessage =
+    document.getElementById(
+        "supportMessage"
+    );
+
+
+/* ==========================================
+   SHOW MESSAGE
+========================================== */
+
+
+function showMessage(
+    text,
+    type
+) {
+
+    supportMessage.textContent =
+        text;
+
+
+    supportMessage.className =
+        "support-message";
+
+
+    if (type === "success") {
+
+        supportMessage.classList.add(
+            "submit-success"
+        );
+
+    }
+
+
+    if (type === "error") {
+
+        supportMessage.classList.add(
+            "submit-error"
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   GET LOGGED-IN USER
+========================================== */
+
+
+async function getCurrentUser() {
 
     const {
         data,
         error
     } =
-        await supabaseClient.auth.getSession();
-
-
-    console.log(
-        "SESSION:",
-        data
-    );
+        await supabaseClient.auth.getUser();
 
 
     if (error) {
 
-        console.error(
-            "SESSION ERROR:",
-            error
-        );
-
-        showError(
-            "Unable to check your login session.",
+        throw new Error(
+            "Unable to verify your login: " +
             error.message
         );
-
-        return false;
 
     }
 
 
     if (
         !data ||
-        !data.session ||
-        !data.session.user
+        !data.user
     ) {
 
-        window.location.href =
-            "./login.html";
-
-        return false;
+        throw new Error(
+            "Your login session has expired. Please log in again."
+        );
 
     }
 
 
     currentUser =
-        data.session.user;
+        data.user;
 
 
     console.log(
-        "LOGGED-IN USER:",
+        "Logged in successfully. User ID:",
         currentUser.id
     );
 
 
-    return true;
+    return currentUser;
 
 }
 
 
 /* ==========================================
-   SHOW ERROR
+   CHECK LOGIN WHEN PAGE OPENS
 ========================================== */
 
 
-function showError(
-    message,
-    details = ""
-) {
+async function checkUser() {
 
-    const status =
-        document.getElementById(
-            "supportMessage"
+    try {
+
+        await getCurrentUser();
+
+    } catch (error) {
+
+        console.error(
+            "Login check:",
+            error
         );
 
-
-    const debug =
-        document.getElementById(
-            "debugBox"
+        showMessage(
+            error.message,
+            "error"
         );
-
-
-    status.textContent =
-        "✕ " + message;
-
-
-    status.style.color =
-        "#c3444d";
-
-
-    if (details) {
-
-        debug.textContent =
-            details;
-
-        debug.style.display =
-            "block";
 
     }
 
@@ -513,13 +546,40 @@ function showError(
 ========================================== */
 
 
-document
-    .getElementById("supportForm")
-    .addEventListener(
-        "submit",
-        async function(event) {
+supportForm.addEventListener(
+    "submit",
+    async function(event) {
 
-            event.preventDefault();
+        /*
+         Prevent normal HTML form submission.
+         This stops the page from refreshing
+         and clearing everything.
+        */
+
+        event.preventDefault();
+        event.stopPropagation();
+
+
+        showMessage(
+            "Submitting your complaint...",
+            "normal"
+        );
+
+
+        submitButton.disabled =
+            true;
+
+
+        submitButton.textContent =
+            "Submitting...";
+
+
+        try {
+
+
+            /* ----------------------------------
+               GET VALUES
+            ---------------------------------- */
 
 
             const category =
@@ -550,220 +610,196 @@ document
                     .trim();
 
 
-            const button =
-                document
-                    .getElementById("submitSupport");
-
-
-            const status =
-                document
-                    .getElementById("supportMessage");
-
-
-            const debug =
-                document
-                    .getElementById("debugBox");
-
-
-            status.textContent =
-                "";
-
-
-            debug.textContent =
-                "";
-
-
-            debug.style.display =
-                "none";
-
-
             /* ----------------------------------
                VALIDATION
             ---------------------------------- */
 
 
-            if (
-                !category ||
-                !subject ||
-                !message
-            ) {
+            if (!category) {
 
-                status.textContent =
-                    "Please complete all required fields.";
-
-                status.style.color =
-                    "#c3444d";
-
-                return;
+                throw new Error(
+                    "Please select a complaint category."
+                );
 
             }
 
 
-            button.disabled =
-                true;
+            if (!subject) {
 
-
-            button.textContent =
-                "Submitting...";
-
-
-            try {
-
-
-                /* ----------------------------------
-                   CHECK LOGIN
-                ---------------------------------- */
-
-
-                const loggedIn =
-                    await checkUser();
-
-
-                if (!loggedIn) {
-
-                    return;
-
-                }
-
-
-                console.log(
-                    "Submitting ticket for:",
-                    currentUser.id
+                throw new Error(
+                    "Please enter a subject."
                 );
 
-
-                /* ----------------------------------
-                   CREATE SUPPORT TICKET
-                ---------------------------------- */
+            }
 
 
-                const ticket =
-                    {
+            if (!message) {
 
-                        user_id:
-                            currentUser.id,
-
-                        category:
-                            category,
-
-                        subject:
-                            subject,
-
-                        message:
-                            message,
-
-                        transaction_id:
-                            transactionId ||
-                            null,
-
-                        status:
-                            "Open"
-
-                    };
-
-
-                console.log(
-                    "TICKET DATA:",
-                    ticket
+                throw new Error(
+                    "Please enter your complaint details."
                 );
 
-
-                const {
-                    data,
-                    error
-                } =
-                    await supabaseClient
-                        .from("support_tickets")
-                        .insert(ticket)
-                        .select()
-                        .single();
+            }
 
 
-                console.log(
-                    "SUPABASE RESPONSE:",
-                    {
-                        data,
-                        error
-                    }
+            /* ----------------------------------
+               CHECK LOGIN
+            ---------------------------------- */
+
+
+            const user =
+                await getCurrentUser();
+
+
+            console.log(
+                "Submitting for user:",
+                user.id
+            );
+
+
+            /* ----------------------------------
+               PREPARE TICKET
+            ---------------------------------- */
+
+
+            const ticket = {
+
+                user_id:
+                    user.id,
+
+                category:
+                    category,
+
+                subject:
+                    subject,
+
+                message:
+                    message,
+
+                transaction_id:
+                    transactionId ||
+                    null,
+
+                status:
+                    "Open"
+
+            };
+
+
+            console.log(
+                "Ticket data:",
+                ticket
+            );
+
+
+            /* ----------------------------------
+               INSERT TICKET
+            ---------------------------------- */
+
+
+            const {
+                data,
+                error
+            } =
+                await supabaseClient
+                    .from(
+                        "support_tickets"
+                    )
+                    .insert(
+                        ticket
+                    )
+                    .select()
+                    .single();
+
+
+            console.log(
+                "Supabase response:",
+                data,
+                error
+            );
+
+
+            /* ----------------------------------
+               DATABASE ERROR
+            ---------------------------------- */
+
+
+            if (error) {
+
+                throw new Error(
+                    error.message
                 );
 
-
-                if (error) {
-
-                    throw error;
-
-                }
+            }
 
 
-                /* ----------------------------------
-                   SUCCESS
-                ---------------------------------- */
+            /* ----------------------------------
+               SUCCESS
+            ---------------------------------- */
 
 
-                status.textContent =
-                    "✓ Complaint submitted successfully. Your ticket has been sent to customer support.";
+            showMessage(
+                "✓ Complaint submitted successfully. Your ticket has been sent to customer support.",
+                "success"
+            );
 
 
-                status.style.color =
-                    "#17a673";
+            submitButton.textContent =
+                "Complaint submitted ✓";
 
 
-                if (data && data.id) {
-
-                    debug.textContent =
-                        "Ticket ID: " +
-                        data.id;
-
-                    debug.style.display =
-                        "block";
-
-                    debug.style.background =
-                        "#f1fbf7";
-
-                    debug.style.color =
-                        "#2f7d4a";
-
-                }
+            /*
+             IMPORTANT:
+             We intentionally DO NOT reset
+             the form. Your information stays
+             visible after submission.
+            */
 
 
-                /*
-                   IMPORTANT:
-                   DO NOT RESET THE FORM.
-                   The information remains visible
-                   after successful submission.
-                */
+            setTimeout(
+                function() {
+
+                    submitButton.disabled =
+                        false;
+
+                    submitButton.textContent =
+                        "Submit complaint →";
+
+                },
+                2500
+            );
 
 
-            } catch (error) {
+        } catch (error) {
 
 
-                console.error(
-                    "SUPPORT TICKET ERROR:",
-                    error
-                );
+            console.error(
+                "Support ticket submission error:",
+                error
+            );
 
 
-                showError(
-                    "Unable to submit your complaint.",
+            showMessage(
+                "✕ " +
+                (
                     error.message ||
-                    String(error)
-                );
+                    "Unable to submit complaint."
+                ),
+                "error"
+            );
 
 
-            } finally {
+            submitButton.disabled =
+                false;
 
 
-                button.disabled =
-                    false;
-
-
-                button.textContent =
-                    "Submit complaint →";
-
-            }
+            submitButton.textContent =
+                "Submit complaint →";
 
         }
-    );
+
+    }
+);
 
 
 /* ==========================================
@@ -776,7 +812,18 @@ async function logout(event) {
     event.preventDefault();
 
 
-    await supabaseClient.auth.signOut();
+    try {
+
+        await supabaseClient.auth.signOut();
+
+    } catch (error) {
+
+        console.error(
+            "Logout error:",
+            error
+        );
+
+    }
 
 
     window.location.href =
@@ -786,7 +833,7 @@ async function logout(event) {
 
 
 /* ==========================================
-   START PAGE
+   START
 ========================================== */
 
 
