@@ -1,263 +1,306 @@
 <!doctype html>
-<html lang="en">
 
-<head>
+<html lang="en"><head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>Support · Nexora Financial</title>
 
-    <title>Customer Care · Nexora Financial</title>
+<link rel="stylesheet" href="./assets/style.css">
 
-    <link rel="stylesheet" href="./assets/style.css">
-</head>
+<style>
+    .support-page {
+        max-width: 850px;
+        margin: auto;
+        padding: 55px 5% 80px;
+    }
 
-<body class="dashboard-body">
+    .support-header {
+        margin-bottom: 30px;
+    }
 
-<div class="demo">
-    NEXORA FINANCIAL · CUSTOMER CARE
-</div>
+    .support-header h1 {
+        font: 800 40px Manrope, sans-serif;
+        letter-spacing: -1.5px;
+        margin: 10px 0;
+    }
 
-<header>
+    .support-header p {
+        color: var(--slate);
+        line-height: 1.7;
+        max-width: 600px;
+    }
 
-    <a class="brand" href="./index.html">
-        NEXORA
-        <span>FINANCIAL</span>
+    .support-card {
+        background: white;
+        border: 1px solid var(--line);
+        border-radius: 25px;
+        padding: 28px;
+        box-shadow: 0 12px 35px rgba(16,24,32,.045);
+    }
+
+    .support-card h2 {
+        font: 700 21px Manrope, sans-serif;
+        margin: 8px 0 22px;
+    }
+
+    .support-card label {
+        margin: 17px 0;
+    }
+
+    .support-card select,
+    .support-card textarea {
+        width: 100%;
+        display: block;
+        margin-top: 8px;
+        padding: 14px 15px;
+        border: 1px solid #dfe5e8;
+        border-radius: 12px;
+        background: #fafbfc;
+        outline: none;
+        font: inherit;
+    }
+
+    .support-card select:focus,
+    .support-card textarea:focus {
+        border-color: var(--green);
+        box-shadow: 0 0 0 3px rgba(23,166,115,.1);
+    }
+
+    .support-card textarea {
+        min-height: 150px;
+        resize: vertical;
+    }
+
+    .support-message {
+        min-height: 20px;
+        margin-top: 14px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .back-link {
+        display: inline-block;
+        margin-bottom: 25px;
+        color: var(--slate);
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .back-link:hover {
+        color: var(--ink);
+    }
+
+    .ticket-info {
+        background: var(--green-soft);
+        color: var(--green);
+        border-radius: 15px;
+        padding: 14px 16px;
+        font-size: 12px;
+        line-height: 1.6;
+        margin-bottom: 22px;
+    }
+
+    @media (max-width: 520px) {
+        .support-page {
+            padding: 35px 4% 60px;
+        }
+
+        .support-card {
+            padding: 22px;
+            border-radius: 21px;
+        }
+
+        .support-header h1 {
+            font-size: 32px;
+        }
+    }
+</style>
+
+</head><body class="dashboard-body"><div class="demo">
+    NEXORA FINANCIAL · SIMULATED ACCOUNT
+</div><header><a class="brand" href="./dashboard.html">
+    NEXORA
+    <span>FINANCIAL</span>
+</a>
+
+<nav class="navlinks">
+
+    <a href="./dashboard.html">
+        Dashboard
     </a>
 
-    <nav class="navlinks">
+    <a
+        class="btn ghost"
+        href="./index.html"
+        onclick="logout(event)"
+    >
+        Log out
+    </a>
 
-        <a href="./dashboard.html">
-            Dashboard
-        </a>
+</nav>
 
-        <a href="./admin.html">
-            Admin
-        </a>
-
-        <a
-            class="btn ghost"
-            href="./index.html"
-            onclick="logout(event)"
-        >
-            Log out
-        </a>
-
-    </nav>
-
-</header>
+</header><main class="support-page"><a
+    class="back-link"
+    href="./dashboard.html"
+>
+    ← Back to dashboard
+</a>
 
 
-<main class="dash">
+<div class="support-header">
 
-    <!-- PAGE HEADER -->
+    <div class="eyebrow">
+        CUSTOMER CARE
+    </div>
 
-    <div class="dash-top">
+    <h1>
+        How can we help?
+    </h1>
 
-        <div>
+    <p>
+        Report a transaction, account issue, transfer problem,
+        balance concern or anything else that needs attention.
+        Your complaint will be sent to Nexora customer support.
+    </p>
 
-            <div class="eyebrow">
-                CUSTOMER CARE
-            </div>
+</div>
 
-            <h1>
-                How can we help?
-            </h1>
 
-            <p>
-                Report a problem or contact Nexora support.
-            </p>
+<section class="support-card">
 
-        </div>
-
+    <div class="ticket-info">
+        Your complaint will be securely attached to your
+        Nexora account so it can be reviewed and resolved
+        from the support administration dashboard.
     </div>
 
 
-    <!-- SUPPORT FORM -->
-
-    <section
-        class="dashboard-card"
-        style="margin-top:28px;"
-    >
-
-        <div class="eyebrow">
-            CONTACT SUPPORT
-        </div>
-
-        <h2>
-            Submit a complaint
-        </h2>
-
-        <p style="
-            color:#64727d;
-            line-height:1.7;
-            font-size:13px;
-        ">
-            Tell us what happened and our support team will
-            review your complaint.
-        </p>
+    <h2>
+        Submit a complaint
+    </h2>
 
 
-        <form id="supportForm">
-
-            <label>
-
-                What is the issue?
-
-                <select
-                    id="category"
-                    required
-                >
-
-                    <option value="">
-                        Select a category
-                    </option>
-
-                    <option value="Transaction">
-                        Transaction
-                    </option>
-
-                    <option value="Account">
-                        Account
-                    </option>
-
-                    <option value="Transfer">
-                        Transfer
-                    </option>
-
-                    <option value="Balance">
-                        Balance
-                    </option>
-
-                    <option value="Login">
-                        Login
-                    </option>
-
-                    <option value="Other">
-                        Other
-                    </option>
-
-                </select>
-
-            </label>
+    <form id="supportForm">
 
 
-            <label>
+        <label>
 
-                Subject
+            Complaint category
 
-                <input
-                    id="subject"
-                    type="text"
-                    maxlength="120"
-                    required
-                    placeholder="e.g. I don't recognize this transaction"
-                >
-
-            </label>
-
-
-            <label>
-
-                Transaction ID
-                <span style="
-                    color:#8b98a1;
-                    font-weight:400;
-                ">
-                    (optional)
-                </span>
-
-                <input
-                    id="transactionId"
-                    type="text"
-                    placeholder="Enter transaction ID if applicable"
-                >
-
-            </label>
-
-
-            <label>
-
-                Tell us what happened
-
-                <textarea
-                    id="message"
-                    maxlength="2000"
-                    required
-                    placeholder="Please explain the problem..."
-                ></textarea>
-
-            </label>
-
-
-            <button
-                class="btn green full"
-                type="submit"
-                id="submitButton"
+            <select
+                id="category"
+                required
             >
-                Submit complaint →
-            </button>
+
+                <option value="">
+                    Select a category
+                </option>
+
+                <option value="Transaction">
+                    Transaction
+                </option>
+
+                <option value="Account">
+                    Account
+                </option>
+
+                <option value="Transfer">
+                    Transfer
+                </option>
+
+                <option value="Balance">
+                    Balance
+                </option>
+
+                <option value="Login">
+                    Login
+                </option>
+
+                <option value="Other">
+                    Other
+                </option>
+
+            </select>
+
+        </label>
 
 
-            <div
-                id="formMessage"
-                class="send-message"
-            ></div>
+        <label>
 
-        </form>
+            Subject
 
-    </section>
+            <input
+                id="subject"
+                type="text"
+                maxlength="120"
+                required
+                placeholder="Briefly describe the problem"
+            >
 
-
-    <!-- MY COMPLAINTS -->
-
-    <section
-        class="dashboard-card"
-        style="margin-top:25px;"
-    >
-
-        <div class="card-title">
-
-            <div>
-
-                <div class="eyebrow">
-                    SUPPORT HISTORY
-                </div>
-
-                <h2>
-                    My complaints
-                </h2>
-
-            </div>
-
-            <div class="activity-badge">
-                LIVE
-            </div>
-
-        </div>
+        </label>
 
 
-        <div id="complaintsList">
+        <label>
 
-            <div class="empty-loading">
-                Loading complaints...
-            </div>
+            Complaint details
 
-        </div>
+            <textarea
+                id="message"
+                maxlength="2000"
+                required
+                placeholder="Tell us what happened..."
+            ></textarea>
 
-    </section>
-
-</main>
-
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        </label>
 
 
-<script>
+        <label>
+
+            Transaction ID
+            <span style="
+                color:#8b98a1;
+                font-weight:400;
+            ">
+                (optional)
+            </span>
+
+            <input
+                id="transactionId"
+                type="text"
+                placeholder="Enter transaction ID if applicable"
+            >
+
+        </label>
+
+
+        <button
+            type="submit"
+            class="btn green full"
+            id="submitSupport"
+        >
+            Submit complaint →
+        </button>
+
+
+        <div
+            id="supportMessage"
+            class="support-message"
+        ></div>
+
+
+    </form>
+
+</section>
+
+</main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
 
 const SUPABASE_URL =
     "https://krzxqmzvzgjmolepcnbg.supabase.co";
 
+
 const SUPABASE_KEY =
     "sb_publishable_YBTYFY_vqnZkncmCclQa8w_ZKB0Cyul";
+
 
 const supabaseClient =
     window.supabase.createClient(
@@ -270,13 +313,10 @@ let currentUser = null;
 
 
 /* ==========================================
-   START
+   CHECK LOGIN
 ========================================== */
 
-loadSupportPage();
-
-
-async function loadSupportPage() {
+async function checkUser() {
 
     const {
         data,
@@ -294,16 +334,14 @@ async function loadSupportPage() {
         window.location.href =
             "./login.html";
 
-        return;
+        return false;
     }
 
 
     currentUser =
         data.session.user;
 
-
-    await loadComplaints();
-
+    return true;
 }
 
 
@@ -333,13 +371,6 @@ document
                     .trim();
 
 
-            const transactionId =
-                document
-                    .getElementById("transactionId")
-                    .value
-                    .trim();
-
-
             const message =
                 document
                     .getElementById("message")
@@ -347,17 +378,24 @@ document
                     .trim();
 
 
+            const transactionId =
+                document
+                    .getElementById("transactionId")
+                    .value
+                    .trim();
+
+
             const button =
                 document
-                    .getElementById("submitButton");
+                    .getElementById("submitSupport");
 
 
-            const formMessage =
+            const status =
                 document
-                    .getElementById("formMessage");
+                    .getElementById("supportMessage");
 
 
-            formMessage.textContent = "";
+            status.textContent = "";
 
 
             if (
@@ -366,11 +404,11 @@ document
                 !message
             ) {
 
-                formMessage.textContent =
+                status.textContent =
                     "Please complete all required fields.";
 
-                formMessage.style.color =
-                    "#df5b61";
+                status.style.color =
+                    "#c3444d";
 
                 return;
             }
@@ -384,30 +422,48 @@ document
 
             try {
 
+                /* Make sure the user is logged in */
+
+                const loggedIn =
+                    await checkUser();
+
+
+                if (!loggedIn) {
+                    return;
+                }
+
+
+                /* Insert complaint */
+
                 const {
+                    data,
                     error
                 } =
                     await supabaseClient
-                        .from("customer_complaints")
-                        .insert({
+                        .from("support_tickets")
+                        .insert([
+                            {
+                                user_id:
+                                    currentUser.id,
 
-                            user_id:
-                                currentUser.id,
+                                category:
+                                    category,
 
-                            category:
-                                category,
+                                subject:
+                                    subject,
 
-                            subject:
-                                subject,
+                                message:
+                                    message,
 
-                            message:
-                                message,
+                                transaction_id:
+                                    transactionId || null,
 
-                            transaction_id:
-                                transactionId ||
-                                null
-
-                        });
+                                status:
+                                    "Open"
+                            }
+                        ])
+                        .select()
+                        .single();
 
 
                 if (error) {
@@ -415,10 +471,16 @@ document
                 }
 
 
-                formMessage.textContent =
-                    "✓ Complaint submitted successfully.";
+                console.log(
+                    "Support ticket created:",
+                    data
+                );
 
-                formMessage.style.color =
+
+                status.textContent =
+                    "✓ Complaint submitted successfully. Your ticket has been sent to customer support.";
+
+                status.style.color =
                     "#17a673";
 
 
@@ -427,23 +489,20 @@ document
                     .reset();
 
 
-                await loadComplaints();
-
-
             } catch (error) {
 
                 console.error(
-                    "Complaint error:",
+                    "Support ticket error:",
                     error
                 );
 
 
-                formMessage.textContent =
+                status.textContent =
                     error.message ||
-                    "Unable to submit complaint.";
+                    "Unable to submit your complaint.";
 
-                formMessage.style.color =
-                    "#df5b61";
+                status.style.color =
+                    "#c3444d";
 
             }
 
@@ -458,283 +517,6 @@ document
 
 
 /* ==========================================
-   LOAD MY COMPLAINTS
-========================================== */
-
-async function loadComplaints() {
-
-    const container =
-        document.getElementById(
-            "complaintsList"
-        );
-
-
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-            .from("customer_complaints")
-            .select(
-                "id,category,subject,message,transaction_id,status,admin_response,created_at"
-            )
-            .eq(
-                "user_id",
-                currentUser.id
-            )
-            .order(
-                "created_at",
-                {
-                    ascending:false
-                }
-            );
-
-
-    if (error) {
-
-        console.error(
-            "Complaint loading error:",
-            error
-        );
-
-
-        container.innerHTML = `
-            <div class="empty-loading">
-                Unable to load your complaints.
-            </div>
-        `;
-
-        return;
-    }
-
-
-    if (
-        !data ||
-        data.length === 0
-    ) {
-
-        container.innerHTML = `
-            <div class="empty-loading">
-
-                <strong style="
-                    color:#101820;
-                    font-size:15px;
-                ">
-                    No complaints yet
-                </strong>
-
-                <span>
-                    Your support requests will appear here.
-                </span>
-
-            </div>
-        `;
-
-        return;
-    }
-
-
-    container.innerHTML =
-        data.map(
-            complaint => {
-
-
-                const date =
-                    complaint.created_at
-                        ? new Date(
-                            complaint.created_at
-                        ).toLocaleString(
-                            "en-GB",
-                            {
-                                dateStyle:"medium",
-                                timeStyle:"short"
-                            }
-                        )
-                        : "";
-
-
-                let statusClass =
-                    "";
-
-
-                if (
-                    complaint.status ===
-                    "Resolved"
-                ) {
-
-                    statusClass =
-                        "resolved";
-
-                } else if (
-                    complaint.status ===
-                    "In Review"
-                ) {
-
-                    statusClass =
-                        "review";
-
-                }
-
-
-                return `
-
-                    <div style="
-                        padding:20px 0;
-                        border-bottom:1px solid #edf0f2;
-                    ">
-
-                        <div style="
-                            display:flex;
-                            justify-content:space-between;
-                            gap:15px;
-                            align-items:flex-start;
-                        ">
-
-                            <div>
-
-                                <div style="
-                                    color:#8b98a1;
-                                    font-size:9px;
-                                    font-weight:800;
-                                    letter-spacing:1px;
-                                    text-transform:uppercase;
-                                ">
-                                    ${escapeHtml(
-                                        complaint.category
-                                    )}
-                                </div>
-
-                                <strong style="
-                                    display:block;
-                                    margin-top:6px;
-                                    font-size:14px;
-                                ">
-                                    ${escapeHtml(
-                                        complaint.subject
-                                    )}
-                                </strong>
-
-                            </div>
-
-
-                            <span class="
-                                complaint-status
-                                ${statusClass}
-                            ">
-                                ${escapeHtml(
-                                    complaint.status
-                                )}
-                            </span>
-
-                        </div>
-
-
-                        <p style="
-                            color:#64727d;
-                            font-size:12px;
-                            line-height:1.7;
-                            margin:12px 0 7px;
-                        ">
-                            ${escapeHtml(
-                                complaint.message
-                            )}
-                        </p>
-
-
-                        <small style="
-                            color:#8b98a1;
-                            font-size:10px;
-                        ">
-                            ${escapeHtml(date)}
-                        </small>
-
-
-                        ${
-                            complaint.transaction_id
-                            ?
-                            `
-                            <div style="
-                                margin-top:10px;
-                                padding:9px 11px;
-                                background:#f5f7f8;
-                                border-radius:10px;
-                                font-size:10px;
-                                color:#64727d;
-                            ">
-                                Transaction:
-                                ${escapeHtml(
-                                    complaint.transaction_id
-                                )}
-                            </div>
-                            `
-                            :
-                            ""
-                        }
-
-
-                        ${
-                            complaint.admin_response
-                            ?
-                            `
-                            <div style="
-                                margin-top:14px;
-                                padding:14px;
-                                background:#e8f8f1;
-                                border-radius:13px;
-                            ">
-
-                                <strong style="
-                                    display:block;
-                                    font-size:11px;
-                                    color:#17a673;
-                                    margin-bottom:5px;
-                                ">
-                                    NEXORA SUPPORT
-                                </strong>
-
-                                <span style="
-                                    color:#34434c;
-                                    font-size:12px;
-                                    line-height:1.6;
-                                ">
-                                    ${escapeHtml(
-                                        complaint.admin_response
-                                    )}
-                                </span>
-
-                            </div>
-                            `
-                            :
-                            ""
-                        }
-
-                    </div>
-
-                `;
-
-            }
-        ).join("");
-
-}
-
-
-/* ==========================================
-   HTML SAFETY
-========================================== */
-
-function escapeHtml(value) {
-
-    return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-}
-
-
-/* ==========================================
    LOGOUT
 ========================================== */
 
@@ -742,37 +524,18 @@ async function logout(event) {
 
     event.preventDefault();
 
-    try {
-
-        await supabaseClient
-            .auth
-            .signOut();
-
-    } catch (error) {
-
-        console.error(
-            "Logout error:",
-            error
-        );
-
-    }
-
-
-    localStorage.removeItem(
-        "nexoraLoggedIn"
-    );
-
-    localStorage.removeItem(
-        "nexoraUserId"
-    );
-
+    await supabaseClient.auth.signOut();
 
     window.location.href =
         "./index.html";
-
 }
 
-</script>
 
-</body>
-  </html>
+/* ==========================================
+   START
+========================================== */
+
+checkUser();
+
+</script></body>
+</html>
