@@ -1643,3 +1643,52 @@ input:focus {
     }
 
     }
+/* ==========================================
+   CUSTOMER SUPPORT
+========================================== */
+
+.support-icon {
+    background: #eef2f4;
+    color: var(--ink);
+}
+
+.support-notice {
+    margin-top: 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.support-notice-icon {
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 16px;
+    background: var(--green-soft);
+    color: var(--green);
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.support-notice h2 {
+    margin: 8px 0;
+    font: 700 20px Manrope;
+}
+
+.support-notice p {
+    max-width: 700px;
+    color: var(--slate);
+    font-size: 13px;
+    line-height: 1.7;
+    margin: 0 0 18px;
+}
+
+@media (max-width: 650px) {
+
+    .support-notice {
+        flex-direction: column;
+    }
+
+}
