@@ -429,13 +429,29 @@ document
 
                 /* Make sure the user is logged in */
 
-                const loggedIn =
-                    await checkUser();
+                const {
+    data: {
+        user
+    },
+    error: sessionError
+} = await supabaseClient.auth.getUser();
 
+if (sessionError || !user) {
 
-                if (!loggedIn) {
-                    return;
-                }
+    status.textContent =
+        "Your login session has expired. Please log in again.";
+
+    status.style.color =
+        "#c3444d";
+
+    button.disabled = false;
+    button.textContent =
+        "Submit complaint →";
+
+    return;
+}
+
+currentUser = user;
 
 
                 /* Insert complaint */
