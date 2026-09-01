@@ -231,6 +231,7 @@
                     id="category"
                     required
                 >
+
                     <option value="">
                         Select a category
                     </option>
@@ -258,7 +259,9 @@
                     <option value="Other">
                         Other
                     </option>
+
                 </select>
+
             </label>
 
 
@@ -272,6 +275,7 @@
                     required
                     placeholder="Briefly describe the problem"
                 >
+
             </label>
 
 
@@ -284,6 +288,7 @@
                     required
                     placeholder="Tell us what happened..."
                 ></textarea>
+
             </label>
 
 
@@ -303,6 +308,7 @@
                     maxlength="200"
                     placeholder="Enter transaction ID if applicable"
                 >
+
             </label>
 
 
@@ -346,7 +352,7 @@
 <script>
 
 /* ==========================================
-   SUPABASE
+   SUPABASE CONNECTION
 ========================================== */
 
 const SUPABASE_URL =
@@ -366,26 +372,26 @@ let currentUser = null;
 
 
 /* ==========================================
-   MESSAGE
+   SHOW MESSAGE
 ========================================== */
 
 function showMessage(text, color) {
 
-    const box =
+    const status =
         document.getElementById(
             "supportMessage"
         );
 
-    box.textContent =
+    status.textContent =
         text;
 
-    box.style.color =
+    status.style.color =
         color || "#101820";
 }
 
 
 /* ==========================================
-   CHECK USER
+   CHECK LOGIN
 ========================================== */
 
 async function checkUser() {
@@ -425,13 +431,19 @@ async function checkUser() {
         data.session.user;
 
 
+    console.log(
+        "NEXORA LOGGED-IN USER:",
+        currentUser.id
+    );
+
+
     return true;
 
 }
 
 
 /* ==========================================
-   SUBMIT
+   SUBMIT COMPLAINT
 ========================================== */
 
 document
@@ -448,12 +460,10 @@ document
                     "submitSupport"
                 );
 
-
             const debug =
                 document.getElementById(
                     "debugBox"
                 );
-
 
             const success =
                 document.getElementById(
@@ -463,6 +473,9 @@ document
 
             debug.style.display =
                 "none";
+
+            debug.textContent =
+                "";
 
             success.style.display =
                 "none";
@@ -492,6 +505,8 @@ document
                 ).value.trim();
 
 
+            /* REQUIRED FIELDS */
+
             if (
                 !category ||
                 !subject ||
@@ -518,7 +533,7 @@ document
             try {
 
                 /* ==========================
-                   AUTHENTICATION
+                   CHECK CURRENT SESSION
                 ========================== */
 
                 const loggedIn =
@@ -532,22 +547,57 @@ document
                 }
 
 
-                console.log(
-                    "NEXORA AUTH USER:",
-                    currentUser.id
-                );
-
-
                 button.textContent =
                     "Submitting...";
 
 
                 /* ==========================
-                   DIRECT DATABASE INSERT
+                   IMPORTANT
+
+                   We DO NOT send an "id".
+
+                   Supabase/PostgreSQL will
+                   generate the UUID automatically.
+                ========================== */
+
+
+                const ticketData = {
+
+                    user_id:
+                        currentUser.id,
+
+                    category:
+                        category,
+
+                    subject:
+                        subject,
+
+                    message:
+                        message,
+
+                    transaction_id:
+                        transactionId ||
+                        null,
+
+                    status:
+                        "Open"
+
+                };
+
+
+                console.log(
+                    "NEXORA TICKET DATA:",
+                    ticketData
+                );
+
+
+                /* ==========================
+                   DIRECT INSERT
 
                    NO RPC
                    NO FUNCTION
                    NO SELECT
+                   NO ID
                 ========================== */
 
                 const {
@@ -557,38 +607,17 @@ document
                         .from(
                             "support_tickets"
                         )
-                        .insert({
-
-                            user_id:
-                                currentUser.id,
-
-                            category:
-                                category,
-
-                            subject:
-                                subject,
-
-                            message:
-                                message,
-
-                            transaction_id:
-                                transactionId ||
-                                null,
-
-                            status:
-                                "Open"
-
-                        });
+                        .insert(
+                            ticketData
+                        );
 
 
-                /* ==========================
-                   DATABASE ERROR
-                ========================== */
+                /* DATABASE ERROR */
 
                 if (error) {
 
                     console.error(
-                        "SUPABASE INSERT ERROR:",
+                        "SUPABASE ERROR:",
                         error
                     );
 
@@ -602,7 +631,7 @@ document
                 ========================== */
 
                 console.log(
-                    "SUPPORT TICKET CREATED"
+                    "NEXORA SUPPORT TICKET CREATED"
                 );
 
 
@@ -671,7 +700,9 @@ async function logout(event) {
 
     event.preventDefault();
 
+
     await supabaseClient.auth.signOut();
+
 
     window.location.href =
         "./index.html";
