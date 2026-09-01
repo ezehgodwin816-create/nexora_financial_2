@@ -388,7 +388,26 @@ async function checkUser() {
 
     currentUser =
         data.session.user;
+console.log(
+    "SESSION USER ID:",
+    currentUser.id
+);
 
+const {
+    data: authCheck,
+    error: authCheckError
+} =
+    await supabaseClient.auth.getUser();
+
+console.log(
+    "SUPABASE AUTH USER:",
+    authCheck?.user?.id
+);
+
+console.log(
+    "SUPABASE AUTH ERROR:",
+    authCheckError
+);
     return true;
 }
 
