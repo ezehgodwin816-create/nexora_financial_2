@@ -2,23 +2,14 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Support · Nexora Financial</title>
 
-    <link
-        rel="stylesheet"
-        href="./assets/style.css"
-    >
+    <link rel="stylesheet" href="./assets/style.css">
 
     <style>
-
         .support-page {
             max-width: 850px;
             margin: auto;
@@ -89,7 +80,7 @@
         .support-message {
             min-height: 20px;
             margin-top: 14px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
             line-height: 1.6;
         }
@@ -117,24 +108,19 @@
             margin-bottom: 22px;
         }
 
-        .submit-success {
-            background: #eefaf5;
-            border: 1px solid #bfe9d6;
-            color: #16845c;
-            border-radius: 12px;
-            padding: 12px 14px;
-        }
-
-        .submit-error {
+        .debug-box {
+            display: none;
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 10px;
             background: #fff3f3;
-            border: 1px solid #f0c5c5;
             color: #c3444d;
-            border-radius: 12px;
-            padding: 12px 14px;
+            font-size: 11px;
+            line-height: 1.5;
+            word-break: break-word;
         }
 
         @media (max-width: 520px) {
-
             .support-page {
                 padding: 35px 4% 60px;
             }
@@ -147,39 +133,28 @@
             .support-header h1 {
                 font-size: 32px;
             }
-
         }
-
     </style>
-
 </head>
 
-
 <body class="dashboard-body">
-
 
 <div class="demo">
     NEXORA FINANCIAL · SIMULATED ACCOUNT
 </div>
 
-
 <header>
 
-    <a
-        class="brand"
-        href="./dashboard.html"
-    >
+    <a class="brand" href="./dashboard.html">
         NEXORA
         <span>FINANCIAL</span>
     </a>
-
 
     <nav class="navlinks">
 
         <a href="./dashboard.html">
             Dashboard
         </a>
-
 
         <a
             class="btn ghost"
@@ -193,9 +168,7 @@
 
 </header>
 
-
 <main class="support-page">
-
 
     <a
         class="back-link"
@@ -204,18 +177,15 @@
         ← Back to dashboard
     </a>
 
-
     <div class="support-header">
 
         <div class="eyebrow">
             CUSTOMER CARE
         </div>
 
-
         <h1>
             How can we help?
         </h1>
-
 
         <p>
             Report a transaction, account issue, transfer problem,
@@ -225,40 +195,27 @@
 
     </div>
 
-
     <section class="support-card">
 
-
         <div class="ticket-info">
-
-            Your complaint will be securely attached to your
-            Nexora account so it can be reviewed and resolved
-            from the support administration dashboard.
-
+            Your complaint will be attached to your Nexora account
+            so it can be reviewed by customer support.
         </div>
-
 
         <h2>
             Submit a complaint
         </h2>
 
-
-        <form
-            id="supportForm"
-            novalidate
-        >
-
+        <form id="supportForm">
 
             <label>
 
                 Complaint category
 
-
                 <select
                     id="category"
                     required
                 >
-
                     <option value="">
                         Select a category
                     </option>
@@ -286,33 +243,27 @@
                     <option value="Other">
                         Other
                     </option>
-
                 </select>
 
             </label>
 
-
             <label>
 
                 Subject
-
 
                 <input
                     id="subject"
                     type="text"
                     maxlength="120"
                     required
-                    autocomplete="off"
                     placeholder="Briefly describe the problem"
                 >
 
             </label>
 
-
             <label>
 
                 Complaint details
-
 
                 <textarea
                     id="message"
@@ -322,7 +273,6 @@
                 ></textarea>
 
             </label>
-
 
             <label>
 
@@ -335,17 +285,14 @@
                     (optional)
                 </span>
 
-
                 <input
                     id="transactionId"
                     type="text"
                     maxlength="200"
-                    autocomplete="off"
                     placeholder="Enter transaction ID if applicable"
                 >
 
             </label>
-
 
             <button
                 type="submit"
@@ -355,41 +302,31 @@
                 Submit complaint →
             </button>
 
-
             <div
                 id="supportMessage"
                 class="support-message"
-                aria-live="polite"
             ></div>
 
+            <div
+                id="debugBox"
+                class="debug-box"
+            ></div>
 
         </form>
 
-
     </section>
-
 
 </main>
 
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-
 <script>
-
-
-/* ==========================================
-   SUPABASE
-========================================== */
-
 
 const SUPABASE_URL =
     "https://krzxqmzvzgjmolepcnbg.supabase.co";
 
-
 const SUPABASE_KEY =
     "sb_publishable_YBTYFY_vqnZkncmCclQa8w_ZKB0Cyul";
-
 
 const supabaseClient =
     window.supabase.createClient(
@@ -398,76 +335,24 @@ const supabaseClient =
     );
 
 
-let currentUser = null;
+const form =
+    document.getElementById("supportForm");
+
+const button =
+    document.getElementById("submitSupport");
+
+const status =
+    document.getElementById("supportMessage");
+
+const debugBox =
+    document.getElementById("debugBox");
 
 
 /* ==========================================
-   ELEMENTS
+   CHECK AUTHENTICATED USER
 ========================================== */
 
-
-const supportForm =
-    document.getElementById(
-        "supportForm"
-    );
-
-
-const submitButton =
-    document.getElementById(
-        "submitSupport"
-    );
-
-
-const supportMessage =
-    document.getElementById(
-        "supportMessage"
-    );
-
-
-/* ==========================================
-   SHOW MESSAGE
-========================================== */
-
-
-function showMessage(
-    text,
-    type
-) {
-
-    supportMessage.textContent =
-        text;
-
-
-    supportMessage.className =
-        "support-message";
-
-
-    if (type === "success") {
-
-        supportMessage.classList.add(
-            "submit-success"
-        );
-
-    }
-
-
-    if (type === "error") {
-
-        supportMessage.classList.add(
-            "submit-error"
-        );
-
-    }
-
-}
-
-
-/* ==========================================
-   GET LOGGED-IN USER
-========================================== */
-
-
-async function getCurrentUser() {
+async function getLoggedInUser() {
 
     const {
         data,
@@ -479,7 +364,7 @@ async function getCurrentUser() {
     if (error) {
 
         throw new Error(
-            "Unable to verify your login: " +
+            "Authentication error: " +
             error.message
         );
 
@@ -492,51 +377,13 @@ async function getCurrentUser() {
     ) {
 
         throw new Error(
-            "Your login session has expired. Please log in again."
+            "You are not logged in. Please log out and log in again."
         );
 
     }
 
 
-    currentUser =
-        data.user;
-
-
-    console.log(
-        "Logged in successfully. User ID:",
-        currentUser.id
-    );
-
-
-    return currentUser;
-
-}
-
-
-/* ==========================================
-   CHECK LOGIN WHEN PAGE OPENS
-========================================== */
-
-
-async function checkUser() {
-
-    try {
-
-        await getCurrentUser();
-
-    } catch (error) {
-
-        console.error(
-            "Login check:",
-            error
-        );
-
-        showMessage(
-            error.message,
-            "error"
-        );
-
-    }
+    return data.user;
 
 }
 
@@ -545,122 +392,91 @@ async function checkUser() {
    SUBMIT COMPLAINT
 ========================================== */
 
-
-supportForm.addEventListener(
+form.addEventListener(
     "submit",
     async function(event) {
 
-        /*
-         Prevent normal HTML form submission.
-         This stops the page from refreshing
-         and clearing everything.
-        */
-
         event.preventDefault();
-        event.stopPropagation();
 
 
-        showMessage(
-            "Submitting your complaint...",
-            "normal"
-        );
+        status.textContent = "";
+        debugBox.style.display = "none";
+        debugBox.textContent = "";
 
 
-        submitButton.disabled =
-            true;
+        const category =
+            document
+                .getElementById("category")
+                .value
+                .trim();
 
 
-        submitButton.textContent =
+        const subject =
+            document
+                .getElementById("subject")
+                .value
+                .trim();
+
+
+        const message =
+            document
+                .getElementById("message")
+                .value
+                .trim();
+
+
+        const transactionId =
+            document
+                .getElementById("transactionId")
+                .value
+                .trim();
+
+
+        if (
+            !category ||
+            !subject ||
+            !message
+        ) {
+
+            status.textContent =
+                "Please complete all required fields.";
+
+            status.style.color =
+                "#c3444d";
+
+            return;
+
+        }
+
+
+        button.disabled = true;
+
+        button.textContent =
             "Submitting...";
 
 
         try {
 
-
-            /* ----------------------------------
-               GET VALUES
-            ---------------------------------- */
-
-
-            const category =
-                document
-                    .getElementById("category")
-                    .value
-                    .trim();
-
-
-            const subject =
-                document
-                    .getElementById("subject")
-                    .value
-                    .trim();
-
-
-            const message =
-                document
-                    .getElementById("message")
-                    .value
-                    .trim();
-
-
-            const transactionId =
-                document
-                    .getElementById("transactionId")
-                    .value
-                    .trim();
-
-
-            /* ----------------------------------
-               VALIDATION
-            ---------------------------------- */
-
-
-            if (!category) {
-
-                throw new Error(
-                    "Please select a complaint category."
-                );
-
-            }
-
-
-            if (!subject) {
-
-                throw new Error(
-                    "Please enter a subject."
-                );
-
-            }
-
-
-            if (!message) {
-
-                throw new Error(
-                    "Please enter your complaint details."
-                );
-
-            }
-
-
-            /* ----------------------------------
-               CHECK LOGIN
-            ---------------------------------- */
-
+            /*
+             * Get the authenticated Supabase
+             * user directly from Supabase.
+             */
 
             const user =
-                await getCurrentUser();
+                await getLoggedInUser();
 
 
             console.log(
-                "Submitting for user:",
+                "Authenticated user ID:",
                 user.id
             );
 
 
-            /* ----------------------------------
-               PREPARE TICKET
-            ---------------------------------- */
-
+            /*
+             * IMPORTANT:
+             * user.id is the value that must
+             * match auth.uid() in the RLS policy.
+             */
 
             const ticket = {
 
@@ -677,8 +493,7 @@ supportForm.addEventListener(
                     message,
 
                 transaction_id:
-                    transactionId ||
-                    null,
+                    transactionId || null,
 
                 status:
                     "Open"
@@ -687,14 +502,9 @@ supportForm.addEventListener(
 
 
             console.log(
-                "Ticket data:",
+                "Ticket being submitted:",
                 ticket
             );
-
-
-            /* ----------------------------------
-               INSERT TICKET
-            ---------------------------------- */
 
 
             const {
@@ -702,101 +512,73 @@ supportForm.addEventListener(
                 error
             } =
                 await supabaseClient
-                    .from(
-                        "support_tickets"
-                    )
-                    .insert(
-                        ticket
-                    )
+                    .from("support_tickets")
+                    .insert(ticket)
                     .select()
                     .single();
 
 
-            console.log(
-                "Supabase response:",
-                data,
-                error
-            );
-
-
-            /* ----------------------------------
-               DATABASE ERROR
-            ---------------------------------- */
-
-
             if (error) {
 
-                throw new Error(
-                    error.message
+                console.error(
+                    "Supabase insert error:",
+                    error
                 );
+
+                throw error;
 
             }
 
 
-            /* ----------------------------------
-               SUCCESS
-            ---------------------------------- */
-
-
-            showMessage(
-                "✓ Complaint submitted successfully. Your ticket has been sent to customer support.",
-                "success"
+            console.log(
+                "Ticket successfully created:",
+                data
             );
 
 
-            submitButton.textContent =
-                "Complaint submitted ✓";
+            status.textContent =
+                "✓ Complaint submitted successfully. Your ticket has been sent to customer support.";
+
+            status.style.color =
+                "#17a673";
 
 
-            /*
-             IMPORTANT:
-             We intentionally DO NOT reset
-             the form. Your information stays
-             visible after submission.
-            */
-
-
-            setTimeout(
-                function() {
-
-                    submitButton.disabled =
-                        false;
-
-                    submitButton.textContent =
-                        "Submit complaint →";
-
-                },
-                2500
-            );
+            form.reset();
 
 
         } catch (error) {
 
-
             console.error(
-                "Support ticket submission error:",
+                "Support submission failed:",
                 error
             );
 
 
-            showMessage(
-                "✕ " +
+            status.textContent =
+                "Unable to submit complaint.";
+
+            status.style.color =
+                "#c3444d";
+
+
+            debugBox.style.display =
+                "block";
+
+
+            debugBox.textContent =
+                "Error: " +
                 (
                     error.message ||
-                    "Unable to submit complaint."
-                ),
-                "error"
-            );
-
-
-            submitButton.disabled =
-                false;
-
-
-            submitButton.textContent =
-                "Submit complaint →";
+                    String(error)
+                );
 
         }
+
+
+        button.disabled = false;
+
+        button.textContent =
+            "Submit complaint →";
 
     }
 );
@@ -806,24 +588,12 @@ supportForm.addEventListener(
    LOGOUT
 ========================================== */
 
-
 async function logout(event) {
 
     event.preventDefault();
 
 
-    try {
-
-        await supabaseClient.auth.signOut();
-
-    } catch (error) {
-
-        console.error(
-            "Logout error:",
-            error
-        );
-
-    }
+    await supabaseClient.auth.signOut();
 
 
     window.location.href =
@@ -833,16 +603,33 @@ async function logout(event) {
 
 
 /* ==========================================
-   START
+   INITIAL LOGIN CHECK
 ========================================== */
 
+(async function() {
 
-checkUser();
+    try {
 
+        const user =
+            await getLoggedInUser();
+
+        console.log(
+            "Logged in successfully. User ID:",
+            user.id
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        window.location.href =
+            "./login.html";
+
+    }
+
+})();
 
 </script>
 
-
 </body>
-
 </html>
