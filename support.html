@@ -502,25 +502,21 @@ document
 
 
                 const {
-                    data,
-                    error
-                } =
-                    await supabaseClient.rpc(
-                        "submit_support_ticket",
-                        {
-                            p_category:
-                                category,
-
-                            p_subject:
-                                subject,
-
-                            p_message:
-                                message,
-
-                            p_transaction_id:
-                                transactionId || null
-                        }
-                    );
+    data,
+    error
+} =
+    await supabaseClient
+        .from("support_tickets")
+        .insert({
+            user_id: currentUser.id,
+            category: category,
+            subject: subject,
+            message: message,
+            transaction_id: transactionId || null,
+            status: "Open"
+        })
+        .select()
+        .single();
 
 
                 /* ------------------------------
