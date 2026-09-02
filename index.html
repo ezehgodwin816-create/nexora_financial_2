@@ -1,29 +1,145 @@
 <!doctype html>
 
-<html lang="en">
-<head>
+<html lang="en"><head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Nexora Financial — Banking, simplified</title>
-    <link rel="stylesheet" href="./assets/style.css">
-</head><body><header>
-    <a class="brand" href="./index.html">
-        NEXORA
-        <span>FINANCIAL</span>
-    </a><nav class="navlinks">
-    <a href="#features">Features</a>
-    <a href="#security">Security</a>
-    <a href="./login.html">Sign in</a>
-    <a class="btn" href="./register.html">Get started</a>
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>Nexora Financial — Banking, simplified</title>
+
+<link rel="stylesheet" href="./assets/style.css">
+
+<style>
+    .demo {
+        text-align: center;
+        padding: 8px 15px;
+        background: #101820;
+        color: white;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 1px;
+    }
+
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 7px 12px;
+        margin-bottom: 16px;
+        border-radius: 999px;
+        background: #effaf5;
+        color: #16805a;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: .7px;
+    }
+
+    .hero-badge span {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #17a673;
+        display: inline-block;
+    }
+
+    .card-wrap {
+        position: relative;
+    }
+
+    .card-wrap::after {
+        content: "";
+        position: absolute;
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        background: rgba(23,166,115,.08);
+        filter: blur(25px);
+        right: -30px;
+        bottom: -35px;
+        z-index: -1;
+    }
+
+    .feature {
+        transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .feature:hover {
+        transform: translateY(-4px);
+    }
+
+    .security-note {
+        margin-top: 25px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+    }
+
+    .security-item {
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: white;
+    }
+
+    .security-item b {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 14px;
+    }
+
+    .security-item span {
+        color: var(--slate);
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    @media (max-width: 650px) {
+        .security-note {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+</head><body><div class="demo">
+    NEXORA FINANCIAL · SIMULATED ACCOUNT
+</div><header><a class="brand" href="./index.html">
+    NEXORA
+    <span>FINANCIAL</span>
+</a>
+
+
+<nav class="navlinks">
+
+    <a href="#features">
+        Features
+    </a>
+
+    <a href="#security">
+        Security
+    </a>
+
+    <a href="./login.html">
+        Sign in
+    </a>
+
+    <a
+        class="btn"
+        href="./register.html"
+    >
+        Get started
+    </a>
+
 </nav>
 
-<a class="btn" href="./login.html">Sign in</a>
-
 </header><main><section class="hero"><div>
+
+    <div class="hero-badge">
+        <span></span>
+        SIMULATED DIGITAL BANKING EXPERIENCE
+    </div>
+
 
     <div class="eyebrow">
         A BETTER WAY TO MANAGE MONEY
     </div>
+
 
     <h1>
         Your money.
@@ -31,18 +147,27 @@
         Simpler.
     </h1>
 
+
     <p>
         A modern digital banking experience designed around
         clarity, control and effortless everyday money management.
     </p>
 
+
     <div class="actions">
 
-        <a class="btn green" href="./register.html">
+        <a
+            class="btn green"
+            href="./register.html"
+        >
             Create account →
         </a>
 
-        <a class="textlink" href="./login.html">
+
+        <a
+            class="textlink"
+            href="./login.html"
+        >
             Explore dashboard
         </a>
 
@@ -50,26 +175,44 @@
 
 </div>
 
+
 <div class="card-wrap">
 
     <div class="bank-card">
 
         <div class="card-head">
-            <span>NEXORA</span>
-            <span>VISA</span>
+
+            <span>
+                NEXORA
+            </span>
+
+            <span>
+                VISA
+            </span>
+
         </div>
+
 
         <div class="card-chip">
             ▰
         </div>
 
+
         <div class="card-number">
             4821&nbsp;&nbsp; 7392&nbsp;&nbsp; 1048&nbsp;&nbsp; 4821
         </div>
 
+
         <div class="card-bottom">
-            <span>Alex Morgan</span>
-            <span>12/29</span>
+
+            <span>
+                Alex Morgan
+            </span>
+
+            <span>
+                12/29
+            </span>
+
         </div>
 
     </div>
@@ -79,32 +222,60 @@
 </section><section class="trust"><div class="trust-row">
 
     <div class="trust-box">
-        <b>£12,480.50</b>
-        <span>Available balance</span>
+
+        <b>
+            £12,480.50
+        </b>
+
+        <span>
+            Available balance
+        </span>
+
     </div>
 
-    <div class="trust-box">
-        <b>24/7</b>
-        <span>Always-on account access</span>
-    </div>
 
     <div class="trust-box">
-        <b>1,248+</b>
-        <span>Customers</span>
+
+        <b>
+            24/7
+        </b>
+
+        <span>
+            Always-on account access
+        </span>
+
+    </div>
+
+
+    <div class="trust-box">
+
+        <b>
+            1,248+
+        </b>
+
+        <span>
+            Customers
+        </span>
+
     </div>
 
 </div>
 
-</section><section class="features" id="features"><div class="features-head">
+</section><section
+    class="features"
+    id="features"
+><div class="features-head">
 
     <div class="eyebrow">
         BUILT AROUND YOU
     </div>
 
+
     <h2>
         Everything important.
         Nothing unnecessary.
     </h2>
+
 
     <p class="hero p">
         A modern financial experience with the tools
@@ -113,7 +284,9 @@
 
 </div>
 
+
 <div class="feature-grid">
+
 
     <article class="feature">
 
@@ -132,6 +305,7 @@
 
     </article>
 
+
     <article class="feature">
 
         <div class="feature-icon">
@@ -148,6 +322,7 @@
         </p>
 
     </article>
+
 
     <article class="feature">
 
@@ -166,27 +341,81 @@
 
     </article>
 
+
 </div>
 
-</section><section class="features" id="security"><div class="features-head">
+</section><section
+    class="features"
+    id="security"
+><div class="features-head">
 
     <div class="eyebrow">
         SECURITY
     </div>
+
 
     <h2>
         Simple enough to understand.
         Premium enough to remember.
     </h2>
 
+
     <p class="hero p">
         Your account information is organized in one place,
         giving you a clear view of your financial activity.
     </p>
 
+
+    <div class="security-note">
+
+
+        <div class="security-item">
+
+            <b>
+                🔐 Account protection
+            </b>
+
+            <span>
+                Secure authentication helps keep
+                your account access protected.
+            </span>
+
+        </div>
+
+
+        <div class="security-item">
+
+            <b>
+                📧 Email verification
+            </b>
+
+            <span>
+                New accounts can be verified through
+                email before accessing the platform.
+            </span>
+
+        </div>
+
+
+        <div class="security-item">
+
+            <b>
+                🛡️ Admin controls
+            </b>
+
+            <span>
+                Administrative features are restricted
+                to authorized administrator accounts.
+            </span>
+
+        </div>
+
+
+    </div>
+
 </div>
 
 </section></main><footer>
     Nexora Financial · Banking, simplified
-</footer><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase.js"></script></body>
-    </html>
+</footer></body>
+</html>
