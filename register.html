@@ -1,407 +1,343 @@
-<!doctype html>
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1"><title>Create account · Nexora Financial</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - Nexora Financial</title>
 
-<link rel="stylesheet" href="./assets/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-</head><body><main class="auth-page"><section class="auth-side"><a class="brand" href="./index.html">
-    NEXORA
-    <span>FINANCIAL</span>
-</a>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-<div>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #06111f, #0b1d33);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
 
-    <div class="eyebrow">
-        JOIN NEXORA
+        .container {
+            width: 100%;
+            max-width: 430px;
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+        }
+
+        .logo span {
+            color: #28d7ff;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+        }
+
+        h1 {
+            font-size: 25px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #9eacbd;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            color: #cbd5e1;
+            margin-bottom: 7px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 11px;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(0,0,0,0.2);
+            color: white;
+            outline: none;
+            margin-bottom: 17px;
+            font-size: 15px;
+        }
+
+        input:focus {
+            border-color: #28d7ff;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 11px;
+            background: linear-gradient(135deg, #19c9ff, #247cff);
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .message {
+            display: none;
+            margin-top: 17px;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .error {
+            display: block;
+            background: rgba(255, 60, 60, 0.12);
+            border: 1px solid rgba(255, 60, 60, 0.3);
+            color: #ff9d9d;
+        }
+
+        .success {
+            display: block;
+            background: rgba(30, 220, 130, 0.12);
+            border: 1px solid rgba(30, 220, 130, 0.3);
+            color: #7ff0b2;
+        }
+
+        .login {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #9eacbd;
+        }
+
+        .login a {
+            color: #28d7ff;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .demo {
+            text-align: center;
+            margin-top: 18px;
+            color: #66788d;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">
+        NEXORA <span>FINANCIAL</span>
     </div>
 
-    <h2>
-        A cleaner way to see your money.
-    </h2>
+    <div class="card">
 
-    <p>
-        Create your Nexora account and experience
-        a simpler way to manage your money.
-    </p>
+        <h1>Create your account</h1>
 
-</div>
+        <p class="subtitle">
+            Open your simulated Nexora Financial account.
+        </p>
 
-<p class="form-note">
-    Your information is securely connected to your account.
-</p>
+        <form id="registerForm">
 
-</section><section class="auth-main"><div class="auth-box">
-
-    <div class="eyebrow">
-        GET STARTED
-    </div>
-
-    <h1>
-        Create your account.
-    </h1>
-
-    <p>
-        Set up your account in a few seconds.
-    </p>
-
-
-    <form id="registerForm">
-
-        <label>
-            Full name
-
+            <label for="name">Full name</label>
             <input
-                id="name"
                 type="text"
+                id="name"
+                placeholder="Enter your full name"
                 required
-                placeholder="Alex Morgan"
-                autocomplete="name"
             >
-        </label>
 
-
-        <label>
-            Email address
-
+            <label for="email">Email address</label>
             <input
-                id="email"
                 type="email"
+                id="email"
+                placeholder="Enter your email"
                 required
-                placeholder="alex@example.com"
-                autocomplete="email"
             >
-        </label>
 
-
-        <label>
-            Password
-
+            <label for="password">Password</label>
             <input
-                id="password"
                 type="password"
-                minlength="8"
+                id="password"
+                placeholder="Create a password"
+                minlength="6"
                 required
-                placeholder="At least 8 characters"
-                autocomplete="new-password"
             >
-        </label>
 
+            <button type="submit" id="registerBtn">
+                Create Account
+            </button>
 
-        <button
-            class="btn green full"
-            type="submit"
-            id="registerButton"
-        >
-            Create account →
-        </button>
+        </form>
 
-    </form>
+        <div id="message" class="message"></div>
 
+        <div class="login">
+            Already have an account?
+            <a href="./login.html">Sign in</a>
+        </div>
 
-    <p
-        id="message"
-        class="auth-switch"
-    ></p>
+        <div class="demo">
+            NEXORA FINANCIAL · SIMULATED BANKING EXPERIENCE
+        </div>
 
-
-    <p class="auth-switch">
-
-        Already have an account?
-
-        <a
-            class="form-link"
-            href="./login.html"
-        >
-            Sign in
-        </a>
-
-    </p>
-
-
-    <p class="auth-switch">
-
-        <a
-            class="form-link"
-            href="./index.html"
-        >
-            ← Back to Nexora
-        </a>
-
-    </p>
+    </div>
 
 </div>
 
-</section></main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
-
-/*
-============================================================
-NEXORA FINANCIAL
-REGISTRATION
-NEW SUPABASE PROJECT
-============================================================
-*/
-
-
+<script>
 const SUPABASE_URL =
     "https://enstgbpcgkdnwhhlsnhh.supabase.co";
-
 
 const SUPABASE_KEY =
     "sb_publishable_0ecSKgmH9JIzdX9_3j5Kww_aNdNr_qT";
 
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
-const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
+const DASHBOARD_URL = "./dashboard.html?v=4000";
 
+const form = document.getElementById("registerForm");
+const registerBtn = document.getElementById("registerBtn");
+const message = document.getElementById("message");
 
-/*
-============================================================
-LIVE SITE URL
-============================================================
-*/
+function showMessage(text, type) {
+    message.textContent = text;
+    message.className = "message " + type;
+}
 
-const LOGIN_URL =
-    "https://ezehgodwin816-create.github.io/nexora_financial_2/login.html";
+form.addEventListener("submit", async function(e) {
 
+    e.preventDefault();
 
-/*
-============================================================
-REGISTER FORM
-============================================================
-*/
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
 
-document
-    .getElementById("registerForm")
-    .addEventListener(
-        "submit",
-        async function(event) {
+    if (!name || !email || !password) {
+        showMessage("Please complete all fields.", "error");
+        return;
+    }
 
-            event.preventDefault();
+    if (password.length < 6) {
+        showMessage("Password must be at least 6 characters.", "error");
+        return;
+    }
 
+    registerBtn.disabled = true;
+    registerBtn.textContent = "Creating account...";
+    message.className = "message";
 
-            const name =
-                document
-                    .getElementById("name")
-                    .value
-                    .trim();
+    try {
 
+        const { data, error } = await supabaseClient.auth.signUp({
+            email: email,
+            password: password,
+            options: {
+                data: {
+                    full_name: name
+                }
+            }
+        });
 
-            const email =
-                document
-                    .getElementById("email")
-                    .value
-                    .trim()
-                    .toLowerCase();
+        if (error) {
+            throw error;
+        }
 
+        if (!data.user) {
+            throw new Error("Account could not be created.");
+        }
 
-            const password =
-                document
-                    .getElementById("password")
-                    .value;
+        /*
+         * Email confirmation is disabled in Supabase,
+         * so the user should receive a session immediately.
+         */
 
+        if (data.session) {
 
-            const message =
-                document
-                    .getElementById("message");
+            localStorage.setItem(
+                "nexoraUserId",
+                data.user.id
+            );
 
+            showMessage(
+                "Account created successfully. Redirecting to your Nexora dashboard...",
+                "success"
+            );
 
-            const button =
-                document
-                    .getElementById("registerButton");
+            setTimeout(() => {
+                window.location.href = DASHBOARD_URL;
+            }, 800);
 
-
-            message.textContent = "";
-
+        } else {
 
             /*
-            ------------------------------------------------
-            BASIC VALIDATION
-            ------------------------------------------------
-            */
-
-            if (!name) {
-
-                message.textContent =
-                    "Please enter your full name.";
-
-                return;
-
-            }
-
-
-            if (!email) {
-
-                message.textContent =
-                    "Please enter your email address.";
-
-                return;
-
-            }
-
-
-            if (password.length < 8) {
-
-                message.textContent =
-                    "Password must be at least 8 characters.";
-
-                return;
-
-            }
-
-
-            button.disabled = true;
-
-            button.textContent =
-                "Creating account...";
-
-
-            try {
-
-                /*
-                ------------------------------------------------
-                CREATE AUTH ACCOUNT
-                ------------------------------------------------
-                */
-
-                const {
-                    data,
-                    error
-                } =
-                    await supabaseClient.auth.signUp({
-
-                        email: email,
-
-                        password: password,
-
-                        options: {
-
-                            data: {
-
-                                full_name: name
-
-                            },
-
-                            /*
-                            After email confirmation,
-                            send the user to the Nexora
-                            login page.
-                            */
-
-                            emailRedirectTo:
-                                LOGIN_URL
-
-                        }
-
-                    });
-
-
-                if (error) {
-
-                    throw error;
-
-                }
-
-
-                if (!data || !data.user) {
-
-                    throw new Error(
-                        "Account could not be created."
-                    );
-
-                }
-
-
-                /*
-                ------------------------------------------------
-                SAVE USER ID
-                ------------------------------------------------
-                */
-
-                localStorage.setItem(
-                    "nexoraUserId",
-                    data.user.id
-                );
-
-
-                /*
-                ------------------------------------------------
-                EMAIL CONFIRMATION REQUIRED
-                ------------------------------------------------
-                */
-
-                if (!data.session) {
-
-                    localStorage.removeItem(
-                        "nexoraLoggedIn"
-                    );
-
-
-                    message.textContent =
-                        "Account created successfully. Check your email and confirm your account. You will be returned to Nexora sign in.";
-
-                    button.disabled = false;
-
-                    button.textContent =
-                        "Create account →";
-
-                    return;
-
-                }
-
-
-                /*
-                ------------------------------------------------
-                SESSION AVAILABLE
-                ------------------------------------------------
-                */
-
-                localStorage.setItem(
-                    "nexoraLoggedIn",
-                    "true"
-                );
-
-
-                message.textContent =
-                    "Account created successfully. Opening your dashboard...";
-
-
-                setTimeout(function() {
-
-                    window.location.replace(
-                        "./dashboard.html?v=3000"
-                    );
-
-                }, 500);
-
-
-            } catch (error) {
-
-                console.error(
-                    "REGISTRATION ERROR:",
-                    error
-                );
-
-
-                message.textContent =
-                    error.message ||
-                    "Unable to create your account.";
-
-
-                button.disabled = false;
-
-                button.textContent =
-                    "Create account →";
-
-            }
-
+             * Safety fallback if Supabase does not return
+             * a session for some reason.
+             */
+
+            showMessage(
+                "Account created. Please sign in to continue.",
+                "success"
+            );
+
+            setTimeout(() => {
+                window.location.href = "./login.html?v=4000";
+            }, 1200);
         }
-    );
 
-</script></body>
+    } catch (error) {
+
+        console.error("REGISTRATION ERROR:", error);
+
+        let errorMessage = error.message || "Registration failed.";
+
+        if (errorMessage.toLowerCase().includes("already registered")) {
+            errorMessage = "An account with this email already exists.";
+        }
+
+        if (errorMessage.toLowerCase().includes("password")) {
+            errorMessage = "Please use a password with at least 6 characters.";
+        }
+
+        showMessage(errorMessage, "error");
+
+        registerBtn.disabled = false;
+        registerBtn.textContent = "Create Account";
+    }
+
+});
+</script>
+
+</body>
 </html>
