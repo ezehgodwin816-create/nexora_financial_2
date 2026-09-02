@@ -1,14 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Nexora Financial — Login</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Nexora Financial — Login</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
 * {
     box-sizing: border-box;
 }
@@ -17,79 +10,99 @@ body {
     margin: 0;
     min-height: 100vh;
     font-family: Arial, Helvetica, sans-serif;
-    background: #f5f7fb;
+    background: #f5f7f9;
+    color: #12202b;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
-    color: #172033;
+    padding: 24px;
 }
 
-.container {
+.auth {
     width: 100%;
-    max-width: 430px;
+    max-width: 420px;
 }
 
-.card {
-    background: white;
-    border-radius: 18px;
-    padding: 30px;
-    box-shadow: 0 10px 35px rgba(0,0,0,0.08);
+.panel {
+    background: #ffffff;
+    border: 1px solid #e3e8ec;
+    border-radius: 16px;
+    padding: 34px;
+    box-shadow: 0 8px 30px rgba(18, 32, 43, 0.07);
 }
 
-.logo {
+.brand {
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 32px;
 }
 
-.logo h1 {
+.brand h1 {
     margin: 0;
-    font-size: 30px;
+    font-size: 29px;
+    letter-spacing: 1.5px;
     font-weight: 800;
+    color: #12202b;
 }
 
-.logo p {
-    margin: 7px 0 0;
-    color: #7b8495;
+.brand p {
+    margin: 8px 0 0;
+    color: #7a8791;
     font-size: 14px;
 }
 
 h2 {
-    margin: 0 0 22px;
+    margin: 0 0 24px;
     font-size: 24px;
+    font-weight: 700;
+    color: #12202b;
+}
+
+.field {
+    margin-bottom: 18px;
 }
 
 label {
     display: block;
-    margin-bottom: 7px;
+    margin-bottom: 8px;
     font-size: 14px;
     font-weight: 600;
+    color: #263641;
 }
 
 input {
     width: 100%;
-    padding: 14px;
-    border: 1px solid #d9dee8;
-    border-radius: 10px;
-    font-size: 16px;
+    height: 48px;
+    padding: 0 14px;
+    border: 1px solid #d5dde2;
+    border-radius: 9px;
+    background: #fff;
+    color: #12202b;
+    font-size: 15px;
     outline: none;
-    margin-bottom: 16px;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 input:focus {
-    border-color: #111827;
+    border-color: #12202b;
+    box-shadow: 0 0 0 3px rgba(18, 32, 43, 0.08);
 }
 
 button {
     width: 100%;
-    border: none;
-    border-radius: 10px;
-    padding: 14px;
-    background: #111827;
-    color: white;
-    font-size: 16px;
+    height: 48px;
+    margin-top: 4px;
+    border: 0;
+    border-radius: 9px;
+    background: #12202b;
+    color: #ffffff;
+    font-size: 15px;
     font-weight: 700;
     cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+button:hover {
+    opacity: 0.92;
 }
 
 button:disabled {
@@ -98,752 +111,229 @@ button:disabled {
 }
 
 .message {
-    margin-top: 15px;
-    padding: 12px;
-    border-radius: 9px;
-    display: none;
+    margin-top: 16px;
+    padding: 12px 14px;
+    border-radius: 8px;
     font-size: 14px;
-    line-height: 1.5;
+    line-height: 1.45;
+    display: none;
 }
 
 .message.error {
     display: block;
-    background: #fff1f2;
-    color: #be123c;
+    background: #fff1f1;
+    color: #b42318;
+    border: 1px solid #ffd4d4;
 }
 
 .message.success {
     display: block;
-    background: #ecfdf5;
-    color: #047857;
+    background: #eef9f2;
+    color: #18753c;
+    border: 1px solid #ccebd7;
 }
 
 .register {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 22px;
+    color: #7a8791;
     font-size: 14px;
-    color: #6b7280;
 }
 
 .register a {
-    color: #111827;
+    color: #12202b;
     font-weight: 700;
     text-decoration: none;
 }
 
-.diagnostic {
-    margin-top: 25px;
-    padding: 15px;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-}
-
-.diagnostic h3 {
-    margin: 0 0 12px;
-    font-size: 14px;
-}
-
-.diag-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    font-size: 12px;
-    margin-bottom: 8px;
-}
-
-.diag-label {
-    color: #64748b;
-}
-
-.diag-value {
-    text-align: right;
-    word-break: break-word;
-    font-weight: 600;
+.register a:hover {
+    text-decoration: underline;
 }
 
 .footer {
     text-align: center;
     margin-top: 18px;
-    color: #9ca3af;
+    color: #9aa5ad;
     font-size: 12px;
 }
-</style>
-</head>
+</style></head><body><div class="auth"><div class="panel">
 
-<body>
+    <div class="brand">
+        <h1>NEXORA</h1>
+        <p>Financial Services</p>
+    </div>
 
-<div class="container">
+    <h2>Welcome back</h2>
 
-    <div class="card">
+    <form id="loginForm">
 
-        <div class="logo">
-            <h1>NEXORA</h1>
-            <p>Financial Demo</p>
-        </div>
-
-        <h2>Welcome back</h2>
-
-        <form id="loginForm">
-
+        <div class="field">
             <label for="email">Email</label>
             <input
                 type="email"
                 id="email"
                 placeholder="Enter your email"
-                required
                 autocomplete="email"
+                required
             >
+        </div>
 
+        <div class="field">
             <label for="password">Password</label>
             <input
                 type="password"
                 id="password"
                 placeholder="Enter your password"
-                required
                 autocomplete="current-password"
+                required
             >
-
-            <button type="submit" id="loginButton">
-                Sign In
-            </button>
-
-        </form>
-
-        <div id="message" class="message"></div>
-
-        <div class="register">
-            Don't have an account?
-            <a href="./register.html">Create account</a>
         </div>
 
-        <div class="diagnostic">
+        <button type="submit" id="loginButton">
+            Sign In
+        </button>
 
-            <h3>NEXORA CONNECTION DIAGNOSTIC</h3>
+    </form>
 
-            <div class="diag-row">
-                <span class="diag-label">Supabase URL:</span>
-                <span class="diag-value" id="diagUrl">
-                    Checking...
-                </span>
-            </div>
+    <div id="message" class="message"></div>
 
-            <div class="diag-row">
-                <span class="diag-label">Supabase client:</span>
-                <span class="diag-value" id="diagClient">
-                    Checking...
-                </span>
-            </div>
-
-            <div class="diag-row">
-                <span class="diag-label">Session:</span>
-                <span class="diag-value" id="diagSession">
-                    Checking...
-                </span>
-            </div>
-
-            <div class="diag-row">
-                <span class="diag-label">Auth user:</span>
-                <span class="diag-value" id="diagUser">
-                    Checking...
-                </span>
-            </div>
-
-            <div class="diag-row">
-                <span class="diag-label">User ID:</span>
-                <span class="diag-value" id="diagId">
-                    —
-                </span>
-            </div>
-
-            <div class="diag-row">
-                <span class="diag-label">Auth email:</span>
-                <span class="diag-value" id="diagEmail">
-                    —
-                </span>
-            </div>
-
-            <div class="diag-row">
-                <span class="diag-label">Profiles table:</span>
-                <span class="diag-value" id="diagProfiles">
-                    Checking...
-                </span>
-            </div>
-
-            <div class="diag-row">
-                <span class="diag-label">Support tickets table:</span>
-                <span class="diag-value" id="diagTickets">
-                    Checking...
-                </span>
-            </div>
-
-            <div class="diag-row">
-                <span class="diag-label">Admin status:</span>
-                <span class="diag-value" id="diagAdmin">
-                    Checking...
-                </span>
-            </div>
-
-            <div class="diag-row">
-                <span class="diag-label">Overall:</span>
-                <span class="diag-value" id="diagOverall">
-                    Checking...
-                </span>
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="footer">
-        Nexora Financial — Demo System
+    <div class="register">
+        Don't have an account?
+        <a href="./register.html">Create account</a>
     </div>
 
 </div>
 
-<script>
+<div class="footer">
+    Nexora Financial
+</div>
 
-/* =========================================================
-   NEXORA SUPABASE CONNECTION
-   IMPORTANT:
-   Existing users are stored in this OLD project.
-   ========================================================= */
-
+</div><script>
 const SUPABASE_URL =
     "https://krzxqmzvzgjmolepcnbg.supabase.co";
 
 const SUPABASE_KEY =
     "sb_publishable_YBTYFY_vqnZkncmCclQa8w_ZKB0Cyul";
 
-
-/* =========================================================
-   CREATE SUPABASE CLIENT
-   ========================================================= */
-
-let supabaseClient = null;
-
-try {
-
-    supabaseClient =
-        window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_KEY
-        );
-
-    document.getElementById("diagClient").textContent =
-        "✓ Created";
-
-} catch (error) {
-
-    document.getElementById("diagClient").textContent =
-        "✗ Failed";
-
-    console.error(
-        "Supabase client error:",
-        error
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
     );
+
+const loginForm =
+    document.getElementById("loginForm");
+
+const loginButton =
+    document.getElementById("loginButton");
+
+const message =
+    document.getElementById("message");
+
+
+function showError(text) {
+    message.className = "message error";
+    message.textContent = text;
 }
 
 
-/* =========================================================
-   BASIC DIAGNOSTIC
-   ========================================================= */
-
-document.getElementById("diagUrl").textContent =
-    SUPABASE_URL;
-
-
-/* =========================================================
-   MESSAGE HELPERS
-   ========================================================= */
-
-function showError(message) {
-
-    const box =
-        document.getElementById("message");
-
-    box.className =
-        "message error";
-
-    box.textContent =
-        message;
+function showSuccess(text) {
+    message.className = "message success";
+    message.textContent = text;
 }
 
 
-function showSuccess(message) {
+loginForm.addEventListener("submit", async function(event) {
 
-    const box =
-        document.getElementById("message");
+    event.preventDefault();
 
-    box.className =
-        "message success";
+    const email =
+        document.getElementById("email").value.trim();
 
-    box.textContent =
-        message;
-}
+    const password =
+        document.getElementById("password").value;
 
+    loginButton.disabled = true;
+    loginButton.textContent = "Signing in...";
 
-/* =========================================================
-   CHECK ADMIN STATUS
-   ========================================================= */
-
-async function checkAdminStatus(user) {
-
-    if (!user) {
-
-        document.getElementById("diagAdmin").textContent =
-            "⚠ Not logged in";
-
-        return false;
-    }
+    message.className = "message";
+    message.textContent = "";
 
     try {
 
-        const result =
+        const { data, error } =
+            await supabaseClient.auth.signInWithPassword({
+                email: email,
+                password: password
+            });
+
+        if (error) {
+            throw error;
+        }
+
+        if (!data.user) {
+            throw new Error("Unable to create a login session.");
+        }
+
+        /*
+         * Check the user's profile.
+         * Admin accounts are sent to admin.html.
+         * Everyone else is sent to dashboard.html.
+         */
+
+        const { data: profile, error: profileError } =
             await supabaseClient
                 .from("profiles")
                 .select("is_admin")
-                .eq("id", user.id)
+                .eq("id", data.user.id)
                 .maybeSingle();
 
-        if (result.error) {
+        if (profileError) {
+            console.error("Profile check:", profileError);
 
-            console.error(
-                "Admin status error:",
-                result.error
-            );
+            /*
+             * The authentication itself succeeded.
+             * If the profile cannot be read, use the normal dashboard.
+             */
+            showSuccess("Login successful. Opening dashboard...");
 
-            document.getElementById("diagAdmin").textContent =
-                "✗ " + result.error.message;
-
-            return false;
-        }
-
-        if (
-            result.data &&
-            result.data.is_admin === true
-        ) {
-
-            document.getElementById("diagAdmin").textContent =
-                "✓ ADMIN";
-
-            return true;
-        }
-
-        document.getElementById("diagAdmin").textContent =
-            "✓ Regular user";
-
-        return false;
-
-    } catch (error) {
-
-        console.error(
-            "Admin check failed:",
-            error
-        );
-
-        document.getElementById("diagAdmin").textContent =
-            "✗ Error";
-
-        return false;
-    }
-}
-
-
-/* =========================================================
-   RUN DIAGNOSTICS
-   ========================================================= */
-
-async function runDiagnostics() {
-
-    if (!supabaseClient) {
-        return;
-    }
-
-    try {
-
-        const sessionResult =
-            await supabaseClient.auth.getSession();
-
-        if (sessionResult.error) {
-
-            document.getElementById("diagSession").textContent =
-                "✗ " + sessionResult.error.message;
+            setTimeout(function() {
+                window.location.href = "./dashboard.html";
+            }, 500);
 
             return;
         }
 
-        const session =
-            sessionResult.data.session;
+        if (profile && profile.is_admin === true) {
 
-        if (!session) {
+            showSuccess("Login successful. Opening admin dashboard...");
 
-            document.getElementById("diagSession").textContent =
-                "⚠ No active session";
-
-            document.getElementById("diagUser").textContent =
-                "⚠ Not logged in";
-
-            document.getElementById("diagId").textContent =
-                "—";
-
-            document.getElementById("diagEmail").textContent =
-                "—";
-
-            document.getElementById("diagOverall").textContent =
-                "⚠ Please log in";
+            setTimeout(function() {
+                window.location.href = "./admin.html";
+            }, 500);
 
             return;
         }
 
-        const user =
-            session.user;
+        showSuccess("Login successful. Opening dashboard...");
 
-        document.getElementById("diagSession").textContent =
-            "✓ Active";
-
-        document.getElementById("diagUser").textContent =
-            "✓ Logged in";
-
-        document.getElementById("diagId").textContent =
-            user.id;
-
-        document.getElementById("diagEmail").textContent =
-            user.email || "—";
-
-
-        /* PROFILE CHECK */
-
-        const profileResult =
-            await supabaseClient
-                .from("profiles")
-                .select("id,is_admin")
-                .eq("id", user.id)
-                .maybeSingle();
-
-        if (profileResult.error) {
-
-            document.getElementById("diagProfiles").textContent =
-                "✗ " +
-                profileResult.error.message;
-
-        } else {
-
-            document.getElementById("diagProfiles").textContent =
-                "✓ Accessible";
-        }
-
-
-        /* SUPPORT TICKETS CHECK */
-
-        const ticketResult =
-            await supabaseClient
-                .from("support_tickets")
-                .select("id")
-                .limit(1);
-
-        if (ticketResult.error) {
-
-            document.getElementById("diagTickets").textContent =
-                "✗ " +
-                ticketResult.error.message;
-
-        } else {
-
-            document.getElementById("diagTickets").textContent =
-                "✓ Accessible";
-        }
-
-
-        /* ADMIN CHECK */
-
-        const isAdmin =
-            await checkAdminStatus(user);
-
-        if (isAdmin) {
-
-            document.getElementById("diagOverall").textContent =
-                "✓ Admin account detected";
-
-        } else {
-
-            document.getElementById("diagOverall").textContent =
-                "✓ Logged in";
-        }
+        setTimeout(function() {
+            window.location.href = "./dashboard.html";
+        }, 500);
 
     } catch (error) {
 
-        console.error(
-            "Diagnostic error:",
-            error
+        console.error("Login error:", error);
+
+        showError(
+            error.message ||
+            "Unable to sign in. Please check your email and password."
         );
 
-        document.getElementById("diagOverall").textContent =
-            "✗ " + error.message;
+        loginButton.disabled = false;
+        loginButton.textContent = "Sign In";
     }
-}
 
-
-/* =========================================================
-   LOGIN
-   ========================================================= */
-
-document
-    .getElementById("loginForm")
-    .addEventListener(
-        "submit",
-        async function(event) {
-
-            event.preventDefault();
-
-            const email =
-                document
-                    .getElementById("email")
-                    .value
-                    .trim();
-
-            const password =
-                document
-                    .getElementById("password")
-                    .value;
-
-            const button =
-                document
-                    .getElementById("loginButton");
-
-
-            if (!supabaseClient) {
-
-                showError(
-                    "Supabase connection could not be created."
-                );
-
-                return;
-            }
-
-
-            button.disabled = true;
-
-            button.textContent =
-                "Signing in...";
-
-            showSuccess(
-                "Connecting to Nexora..."
-            );
-
-
-            try {
-
-                /* =================================================
-                   SIGN IN USING EXISTING SUPABASE PROJECT
-                   ================================================= */
-
-                const result =
-                    await supabaseClient.auth.signInWithPassword({
-
-                        email: email,
-
-                        password: password
-
-                    });
-
-
-                if (result.error) {
-
-                    throw result.error;
-                }
-
-
-                const user =
-                    result.data.user;
-
-
-                if (!user) {
-
-                    throw new Error(
-                        "Login succeeded but no user session was returned."
-                    );
-                }
-
-
-                /* =================================================
-                   UPDATE DIAGNOSTIC
-                   ================================================= */
-
-                document.getElementById("diagSession").textContent =
-                    "✓ Active";
-
-                document.getElementById("diagUser").textContent =
-                    "✓ Logged in";
-
-                document.getElementById("diagId").textContent =
-                    user.id;
-
-                document.getElementById("diagEmail").textContent =
-                    user.email || "—";
-
-
-                /* =================================================
-                   CHECK PROFILE / ADMIN STATUS
-                   ================================================= */
-
-                const profileResult =
-                    await supabaseClient
-                        .from("profiles")
-                        .select("is_admin")
-                        .eq("id", user.id)
-                        .maybeSingle();
-
-
-                if (profileResult.error) {
-
-                    console.error(
-                        "Profile check error:",
-                        profileResult.error
-                    );
-
-                    /*
-                     * Login itself succeeded.
-                     * If profile permissions prevent the admin
-                     * check, send the user to the normal dashboard
-                     * rather than falsely treating the login as failed.
-                     */
-
-                    document.getElementById("diagProfiles").textContent =
-                        "✗ " +
-                        profileResult.error.message;
-
-                    document.getElementById("diagAdmin").textContent =
-                        "⚠ Could not verify";
-
-                    showSuccess(
-                        "✓ Login successful. Opening dashboard..."
-                    );
-
-                    setTimeout(
-                        function() {
-
-                            window.location.href =
-                                "./dashboard.html";
-
-                        },
-                        700
-                    );
-
-                    return;
-                }
-
-
-                document.getElementById("diagProfiles").textContent =
-                    "✓ Accessible";
-
-
-                /* =================================================
-                   ADMIN ACCOUNT
-                   ================================================= */
-
-                if (
-                    profileResult.data &&
-                    profileResult.data.is_admin === true
-                ) {
-
-                    document.getElementById("diagAdmin").textContent =
-                        "✓ ADMIN";
-
-                    document.getElementById("diagOverall").textContent =
-                        "✓ Admin account detected";
-
-                    showSuccess(
-                        "✓ Admin verified. Opening Admin V3..."
-                    );
-
-                    setTimeout(
-                        function() {
-
-                            window.location.href =
-                                "./admin.html";
-
-                        },
-                        700
-                    );
-
-                    return;
-                }
-
-
-                /* =================================================
-                   NORMAL ACCOUNT
-                   ================================================= */
-
-                document.getElementById("diagAdmin").textContent =
-                    "✓ Regular user";
-
-                document.getElementById("diagOverall").textContent =
-                    "✓ Logged in";
-
-                showSuccess(
-                    "✓ Login successful. Opening dashboard..."
-                );
-
-                setTimeout(
-                    function() {
-
-                        window.location.href =
-                            "./dashboard.html";
-
-                    },
-                    700
-                );
-
-
-            } catch (error) {
-
-                console.error(
-                    "Login failed:",
-                    error
-                );
-
-                showError(
-                    "Login failed: " +
-                    (
-                        error.message ||
-                        "Invalid login credentials"
-                    )
-                );
-
-                document.getElementById("diagSession").textContent =
-                    "⚠ No active session";
-
-                document.getElementById("diagUser").textContent =
-                    "⚠ Not logged in";
-
-                document.getElementById("diagOverall").textContent =
-                    "⚠ Login failed";
-
-                button.disabled = false;
-
-                button.textContent =
-                    "Sign In";
-            }
-
-        }
-    );
-
-
-/* =========================================================
-   CHECK SESSION WHEN PAGE LOADS
-   ========================================================= */
-
-window.addEventListener(
-    "load",
-    function() {
-
-        runDiagnostics();
-
-    }
-);
-
-</script>
-
-</body>
+});
+</script></body>
 </html>
