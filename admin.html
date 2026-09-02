@@ -303,16 +303,11 @@
 
 </head>
 
-
 <body class="dashboard-body">
 
-
 <div class="demo">
-
 NEXORA FINANCIAL · SIMULATED ACCOUNT
-
 </div>
-
 
 <header>
 
@@ -342,14 +337,11 @@ Log out
 
 </header>
 
-
 <main class="admin-page">
-
 
 <div class="version-badge">
 ADMIN V3
 </div>
-
 
 <div class="admin-header">
 
@@ -368,7 +360,6 @@ through the Nexora support system.
 
 </div>
 
-
 <div
     id="successBox"
     class="success-box"
@@ -376,12 +367,10 @@ through the Nexora support system.
 Connecting to support system...
 </div>
 
-
 <div
     id="errorBox"
     class="error-box"
 ></div>
-
 
 <div
     id="connectionInfo"
@@ -390,76 +379,29 @@ Connecting to support system...
 Checking administrator access...
 </div>
 
-
 <section class="stats">
 
+<div class="stat">
+<div class="stat-label">TOTAL</div>
+<div class="stat-number" id="totalCount">0</div>
+</div>
 
 <div class="stat">
-
-<div class="stat-label">
-TOTAL
+<div class="stat-label">OPEN</div>
+<div class="stat-number" id="openCount">0</div>
 </div>
-
-<div
-    class="stat-number"
-    id="totalCount"
->
-0
-</div>
-
-</div>
-
 
 <div class="stat">
-
-<div class="stat-label">
-OPEN
+<div class="stat-label">IN PROGRESS</div>
+<div class="stat-number" id="progressCount">0</div>
 </div>
-
-<div
-    class="stat-number"
-    id="openCount"
->
-0
-</div>
-
-</div>
-
 
 <div class="stat">
-
-<div class="stat-label">
-IN PROGRESS
+<div class="stat-label">RESOLVED</div>
+<div class="stat-number" id="resolvedCount">0</div>
 </div>
-
-<div
-    class="stat-number"
-    id="progressCount"
->
-0
-</div>
-
-</div>
-
-
-<div class="stat">
-
-<div class="stat-label">
-RESOLVED
-</div>
-
-<div
-    class="stat-number"
-    id="resolvedCount"
->
-0
-</div>
-
-</div>
-
 
 </section>
-
 
 <div class="toolbar">
 
@@ -469,60 +411,26 @@ RESOLVED
     placeholder="Search complaints..."
 >
 
-
 <select id="statusFilter">
 
-<option value="all">
-All statuses
-</option>
-
-<option value="open">
-Open
-</option>
-
-<option value="in progress">
-In Progress
-</option>
-
-<option value="resolved">
-Resolved
-</option>
+<option value="all">All statuses</option>
+<option value="open">Open</option>
+<option value="in progress">In Progress</option>
+<option value="resolved">Resolved</option>
 
 </select>
-
 
 <select id="categoryFilter">
 
-<option value="all">
-All categories
-</option>
-
-<option value="transaction">
-Transaction
-</option>
-
-<option value="account">
-Account
-</option>
-
-<option value="transfer">
-Transfer
-</option>
-
-<option value="balance">
-Balance
-</option>
-
-<option value="login">
-Login
-</option>
-
-<option value="other">
-Other
-</option>
+<option value="all">All categories</option>
+<option value="transaction">Transaction</option>
+<option value="account">Account</option>
+<option value="transfer">Transfer</option>
+<option value="balance">Balance</option>
+<option value="login">Login</option>
+<option value="other">Other</option>
 
 </select>
-
 
 <button
     class="btn green"
@@ -533,7 +441,6 @@ Other
 </button>
 
 </div>
-
 
 <section
     id="tickets"
@@ -552,12 +459,9 @@ Please wait.
 
 </section>
 
-
 </main>
 
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 
 <script>
 
@@ -566,20 +470,11 @@ Please wait.
    ADMIN V3
 ===================================================== */
 
-
-/* =====================================================
-   SUPABASE CONNECTION
-   IMPORTANT:
-   THIS MUST MATCH LOGIN.HTML
-===================================================== */
-
 const SUPABASE_URL =
 "https://krzxqmzvzgjmolepcnbg.supabase.co";
 
-
 const SUPABASE_KEY =
 "sb_publishable_YBTYFY_vqnZkncmCclQa8w_ZKB0Cyul";
-
 
 const supabaseClient =
 window.supabase.createClient(
@@ -587,9 +482,7 @@ window.supabase.createClient(
     SUPABASE_KEY
 );
 
-
 let currentUser = null;
-
 let tickets = [];
 
 
@@ -642,17 +535,11 @@ message;
 async function checkAuth() {
 
 const result =
-await supabaseClient
-.auth
-.getSession();
-
+await supabaseClient.auth.getSession();
 
 if (result.error) {
-
-throw result.error;
-
+    throw result.error;
 }
-
 
 if (
 !result.data ||
@@ -667,14 +554,13 @@ return false;
 
 }
 
-
 currentUser =
 result.data.session.user;
 
 
-/* ---------------------------------------------
-   Check admin profile
---------------------------------------------- */
+/* =====================================================
+   CHECK ADMIN PROFILE
+===================================================== */
 
 const profile =
 await supabaseClient
@@ -682,7 +568,6 @@ await supabaseClient
 .select("is_admin")
 .eq("id",currentUser.id)
 .maybeSingle();
-
 
 if (profile.error) {
 
@@ -692,7 +577,6 @@ profile.error.message
 );
 
 }
-
 
 if (
 !profile.data ||
@@ -705,7 +589,6 @@ throw new Error(
 
 }
 
-
 document.getElementById(
 "connectionInfo"
 ).textContent =
@@ -714,7 +597,6 @@ document.getElementById(
 "User ID: " +
 currentUser.id;
 
-
 return true;
 
 }
@@ -722,13 +604,14 @@ return true;
 
 /* =====================================================
    LOAD TICKETS
+   RPC FIRST
+   DIRECT TABLE FALLBACK SECOND
 ===================================================== */
 
 async function loadTickets() {
 
 const container =
 document.getElementById("tickets");
-
 
 container.innerHTML =
 
@@ -737,15 +620,49 @@ container.innerHTML =
 'Reading support tickets...' +
 '</div>';
 
-
 try {
 
+/* -----------------------------------------------------
+   FIRST: USE ADMIN RPC
+----------------------------------------------------- */
 
-const result =
+let result =
 await supabaseClient
-.rpc(
-    "admin_get_support_tickets"
+.rpc("admin_get_support_tickets");
+
+
+/* -----------------------------------------------------
+   IF RPC IS NOT AVAILABLE, USE TABLE
+----------------------------------------------------- */
+
+if (
+result.error &&
+(
+result.error.message.includes(
+"Could not find the function"
+) ||
+result.error.message.includes(
+"schema cache"
+)
+)
+) {
+
+console.warn(
+"RPC unavailable. Falling back to support_tickets table."
 );
+
+result =
+await supabaseClient
+.from("support_tickets")
+.select("*")
+.order(
+"created_at",
+{
+    ascending:false
+}
+);
+
+}
 
 
 if (result.error) {
@@ -773,26 +690,26 @@ document.getElementById(
 tickets.length +
 " ticket(s) found.";
 
+document.getElementById(
+"errorBox"
+).style.display =
+"none";
 
 updateStats();
-
 render();
 
 
 } catch(error) {
-
 
 console.error(
 "ADMIN V3 LOAD ERROR:",
 error
 );
 
-
 showError(
 error.message ||
 String(error)
 );
-
 
 container.innerHTML =
 
@@ -813,11 +730,8 @@ container.innerHTML =
 function updateStats() {
 
 let open = 0;
-
 let progress = 0;
-
 let resolved = 0;
-
 
 tickets.forEach(
 ticket => {
@@ -828,47 +742,34 @@ String(
 )
 .toLowerCase();
 
-
-if (
-status === "open"
-) {
+if (status === "open") {
     open++;
 }
 
-
-if (
-status === "in progress"
-) {
+if (status === "in progress") {
     progress++;
 }
 
-
-if (
-status === "resolved"
-) {
+if (status === "resolved") {
     resolved++;
 }
 
 });
-
 
 document.getElementById(
 "totalCount"
 ).textContent =
 tickets.length;
 
-
 document.getElementById(
 "openCount"
 ).textContent =
 open;
 
-
 document.getElementById(
 "progressCount"
 ).textContent =
 progress;
-
 
 document.getElementById(
 "resolvedCount"
@@ -887,45 +788,34 @@ function render() {
 const container =
 document.getElementById("tickets");
 
-
 const search =
 document.getElementById("search")
 .value
 .trim()
 .toLowerCase();
 
-
 const status =
 document.getElementById("statusFilter")
 .value
 .toLowerCase();
-
 
 const category =
 document.getElementById("categoryFilter")
 .value
 .toLowerCase();
 
-
 const filtered =
 tickets.filter(
 ticket => {
 
-
 const text = [
 
 ticket.id,
-
 ticket.user_id,
-
 ticket.category,
-
 ticket.subject,
-
 ticket.message,
-
 ticket.transaction_id,
-
 ticket.admin_response
 
 ]
@@ -933,11 +823,9 @@ ticket.admin_response
 .join(" ")
 .toLowerCase();
 
-
 const matchesSearch =
 !search ||
 text.includes(search);
-
 
 const ticketStatus =
 String(
@@ -945,23 +833,19 @@ ticket.status || "Open"
 )
 .toLowerCase();
 
-
 const ticketCategory =
 String(
 ticket.category || ""
 )
 .toLowerCase();
 
-
 const matchesStatus =
 status === "all" ||
 ticketStatus === status;
 
-
 const matchesCategory =
 category === "all" ||
 ticketCategory === category;
-
 
 return (
 matchesSearch &&
@@ -971,7 +855,6 @@ matchesCategory
 
 });
 
-
 if (
 filtered.length === 0
 ) {
@@ -979,17 +862,13 @@ filtered.length === 0
 container.innerHTML =
 
 '<div class="empty">' +
-
 '<strong>No complaints found</strong>' +
-
 'No tickets match the current filters.' +
-
 '</div>';
 
 return;
 
 }
-
 
 container.innerHTML =
 filtered
@@ -1009,11 +888,9 @@ const status =
 ticket.status ||
 "Open";
 
-
 const response =
 ticket.admin_response ||
 "";
-
 
 return `
 
@@ -1039,14 +916,11 @@ ${formatDate(ticket.created_at)}
 
 </div>
 
-
 <div class="message">
 ${esc(ticket.message || "")}
 </div>
 
-
 <div class="meta">
-
 
 <div class="meta-item">
 
@@ -1060,7 +934,6 @@ ${esc(ticket.id)}
 
 </div>
 
-
 <div class="meta-item">
 
 <span class="meta-label">
@@ -1072,7 +945,6 @@ ${esc(ticket.user_id)}
 </span>
 
 </div>
-
 
 <div class="meta-item">
 
@@ -1094,12 +966,9 @@ esc(ticket.transaction_id)
 
 </div>
 
-
 </div>
 
-
 <div class="actions">
-
 
 <div>
 
@@ -1136,7 +1005,6 @@ Resolved
 
 </div>
 
-
 <div>
 
 <label>
@@ -1150,7 +1018,6 @@ placeholder="Write your response..."
 
 </div>
 
-
 <button
 type="button"
 class="btn green"
@@ -1158,7 +1025,6 @@ onclick="saveTicket('${jsEsc(ticket.id)}')"
 >
 Save
 </button>
-
 
 </div>
 
@@ -1176,15 +1042,11 @@ Save
 function formatDate(value) {
 
 if (!value) {
-
-return "Unknown date";
-
+    return "Unknown date";
 }
-
 
 const date =
 new Date(value);
-
 
 if (
 Number.isNaN(
@@ -1195,7 +1057,6 @@ date.getTime()
 return String(value);
 
 }
-
 
 return date.toLocaleString(
 undefined,
@@ -1225,24 +1086,21 @@ return String(value || "")
 
 /* =====================================================
    SAVE TICKET
+   RPC FIRST
+   DIRECT UPDATE FALLBACK
 ===================================================== */
 
-async function saveTicket(
-ticketId
-) {
-
+async function saveTicket(ticketId) {
 
 const statusElement =
 document.getElementById(
 "status-" + ticketId
 );
 
-
 const responseElement =
 document.getElementById(
 "response-" + ticketId
 );
-
 
 if (
 !statusElement ||
@@ -1257,28 +1115,60 @@ return;
 
 }
 
-
 const newStatus =
 statusElement.value;
-
 
 const newResponse =
 responseElement.value.trim();
 
-
 try {
 
+/* -----------------------------------------------------
+   FIRST: ADMIN UPDATE RPC
+----------------------------------------------------- */
 
-const result =
+let result =
 await supabaseClient
 .rpc(
-    "admin_update_support_ticket",
-    {
-        p_ticket_id: ticketId,
-        p_status: newStatus,
-        p_admin_response: newResponse
-    }
+"admin_update_support_ticket",
+{
+    p_ticket_id: ticketId,
+    p_status: newStatus,
+    p_admin_response: newResponse
+}
 );
+
+
+/* -----------------------------------------------------
+   FALLBACK: DIRECT TABLE UPDATE
+----------------------------------------------------- */
+
+if (
+result.error &&
+(
+result.error.message.includes(
+"Could not find the function"
+) ||
+result.error.message.includes(
+"schema cache"
+)
+)
+) {
+
+console.warn(
+"Update RPC unavailable. Falling back to direct update."
+);
+
+result =
+await supabaseClient
+.from("support_tickets")
+.update({
+    status: newStatus,
+    admin_response: newResponse
+})
+.eq("id",ticketId);
+
+}
 
 
 if (result.error) {
@@ -1287,30 +1177,25 @@ throw result.error;
 
 }
 
-
 document.getElementById(
 "errorBox"
 ).style.display =
 "none";
-
 
 document.getElementById(
 "successBox"
 ).textContent =
 "✓ Ticket updated successfully.";
 
-
 await loadTickets();
 
 
 } catch(error) {
 
-
 console.error(
 "ADMIN V3 SAVE ERROR:",
 error
 );
-
 
 showError(
 error.message ||
@@ -1333,7 +1218,6 @@ document.getElementById(
 render
 );
 
-
 document.getElementById(
 "statusFilter"
 ).addEventListener(
@@ -1341,14 +1225,12 @@ document.getElementById(
 render
 );
 
-
 document.getElementById(
 "categoryFilter"
 ).addEventListener(
 "change",
 render
 );
-
 
 document.getElementById(
 "refresh"
@@ -1361,9 +1243,7 @@ this.disabled = true;
 this.textContent =
 "Refreshing...";
 
-
 await loadTickets();
-
 
 this.disabled = false;
 
@@ -1382,11 +1262,9 @@ async function logout(event) {
 
 event.preventDefault();
 
-
 await supabaseClient
 .auth
 .signOut();
-
 
 window.location.href =
 "./index.html";
@@ -1402,38 +1280,30 @@ async function start() {
 
 try {
 
-
 console.log(
 "NEXORA ADMIN V3 LOADED"
 );
 
-
 const allowed =
 await checkAuth();
 
-
 if (!allowed) {
-return;
+    return;
 }
-
 
 await loadTickets();
 
-
 } catch(error) {
-
 
 console.error(
 "ADMIN V3 START ERROR:",
 error
 );
 
-
 showError(
 error.message ||
 String(error)
 );
-
 
 document.getElementById(
 "connectionInfo"
@@ -1443,7 +1313,6 @@ document.getElementById(
 }
 
 }
-
 
 start();
 
