@@ -1,176 +1,406 @@
-<!DOCTYPE html><html lang="en"><head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nexora Financial — Login</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
-* {
-    box-sizing: border-box;
+<!doctype html>
+
+<html lang="en"><head><meta charset="utf-8"><meta
+name="viewport"
+content="width=device-width, initial-scale=1"
+
+«»
+
+<title>Admin V3 · Nexora Financial</title><link
+    rel="stylesheet"
+    href="./assets/style.css"
+><style>
+
+.admin-page {
+    max-width:1200px;
+    margin:auto;
+    padding:45px 5% 80px;
 }
 
-body {
-    margin: 0;
-    min-height: 100vh;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f5f7f9;
-    color: #12202b;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
+.version-badge {
+    display:inline-block;
+    padding:7px 13px;
+    border-radius:999px;
+    background:#101820;
+    color:white;
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:1px;
+    margin-bottom:16px;
 }
 
-.auth {
-    width: 100%;
-    max-width: 420px;
+.admin-header {
+    margin-bottom:30px;
 }
 
-.panel {
-    background: #fff;
-    border: 1px solid #e3e8ec;
-    border-radius: 16px;
-    padding: 34px;
-    box-shadow: 0 8px 30px rgba(18,32,43,.07);
+.admin-header h1 {
+    font:800 40px Manrope,sans-serif;
+    margin:8px 0;
 }
 
-.brand {
-    text-align: center;
-    margin-bottom: 32px;
+.admin-header p {
+    color:var(--slate);
+    line-height:1.7;
 }
 
-.brand h1 {
-    margin: 0;
-    font-size: 29px;
-    letter-spacing: 1.5px;
-    font-weight: 800;
+.info-box {
+    background:#f5f8fa;
+    border:1px solid #dfe5e8;
+    border-radius:16px;
+    padding:15px;
+    margin-bottom:20px;
+    font-size:12px;
+    line-height:1.7;
+    word-break:break-word;
+    white-space:pre-wrap;
 }
 
-.brand p {
-    margin: 8px 0 0;
-    color: #7a8791;
-    font-size: 14px;
+.success-box {
+    background:#effaf5;
+    border:1px solid #ccefe0;
+    color:#16805a;
+    border-radius:16px;
+    padding:15px;
+    margin-bottom:20px;
+    font-size:12px;
 }
 
-h2 {
-    margin: 0 0 24px;
-    font-size: 24px;
+.error-box {
+    display:none;
+    background:#fff5f5;
+    border:1px solid #ffd5d5;
+    color:#b42318;
+    border-radius:16px;
+    padding:15px;
+    margin-bottom:20px;
+    font-size:12px;
+    line-height:1.7;
+    word-break:break-word;
 }
 
-.field {
-    margin-bottom: 18px;
+.stats {
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:25px;
 }
 
-label {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 14px;
-    font-weight: 600;
+.stat {
+    background:white;
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:20px;
 }
 
-input {
-    width: 100%;
-    height: 48px;
-    padding: 0 14px;
-    border: 1px solid #d5dde2;
-    border-radius: 9px;
-    background: #fff;
-    color: #12202b;
-    font-size: 15px;
-    outline: none;
+.stat-label {
+    color:var(--slate);
+    font-size:11px;
+    font-weight:800;
+    margin-bottom:7px;
 }
 
-input:focus {
-    border-color: #12202b;
-    box-shadow: 0 0 0 3px rgba(18,32,43,.08);
+.stat-number {
+    font-size:28px;
+    font-weight:800;
 }
 
-button {
-    width: 100%;
-    height: 48px;
-    margin-top: 4px;
-    border: 0;
-    border-radius: 9px;
-    background: #12202b;
-    color: #fff;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
+.toolbar {
+    display:flex;
+    gap:12px;
+    margin-bottom:25px;
+    flex-wrap:wrap;
 }
 
-button:disabled {
-    opacity: .6;
-    cursor: not-allowed;
+.toolbar input,
+.toolbar select {
+    padding:13px;
+    border:1px solid #dfe5e8;
+    border-radius:11px;
+    background:white;
+    font:inherit;
+    outline:none;
+}
+
+.toolbar input {
+    flex:1;
+    min-width:220px;
+}
+
+.tickets {
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+.ticket {
+    background:white;
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:23px;
+    box-shadow:0 10px 30px rgba(16,24,32,.035);
+}
+
+.ticket-head {
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    margin-bottom:15px;
+}
+
+.category {
+    color:var(--green);
+    font-size:11px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.7px;
+}
+
+.subject {
+    font-size:19px;
+    font-weight:800;
+    margin:5px 0 8px;
+}
+
+.date {
+    color:var(--slate);
+    font-size:11px;
+    white-space:nowrap;
 }
 
 .message {
-    margin-top: 16px;
-    padding: 12px 14px;
-    border-radius: 8px;
-    font-size: 14px;
-    line-height: 1.45;
-    display: none;
+    background:#f8fafb;
+    border-radius:14px;
+    padding:16px;
+    font-size:13px;
+    line-height:1.7;
+    margin-bottom:15px;
+    white-space:pre-wrap;
+    word-break:break-word;
 }
 
-.message.error {
-    display: block;
-    background: #fff1f1;
-    color: #b42318;
-    border: 1px solid #ffd4d4;
+.meta {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-bottom:20px;
 }
 
-.message.success {
-    display: block;
-    background: #eef9f2;
-    color: #18753c;
-    border: 1px solid #ccebd7;
+.meta-item {
+    background:#fafbfc;
+    border:1px solid #edf0f2;
+    border-radius:12px;
+    padding:12px;
 }
 
-.register {
-    text-align: center;
-    margin-top: 22px;
-    color: #7a8791;
-    font-size: 14px;
+.meta-label {
+    display:block;
+    color:#8b98a1;
+    font-size:9px;
+    font-weight:800;
+    text-transform:uppercase;
+    margin-bottom:5px;
 }
 
-.register a {
-    color: #12202b;
-    font-weight: 700;
-    text-decoration: none;
+.meta-value {
+    font-size:11px;
+    word-break:break-all;
 }
 
-.footer {
-    text-align: center;
-    margin-top: 18px;
-    color: #9aa5ad;
-    font-size: 12px;
+.actions {
+    border-top:1px solid #edf0f2;
+    padding-top:18px;
+    display:grid;
+    grid-template-columns:180px 1fr auto;
+    gap:12px;
+    align-items:end;
 }
-</style></head><body><div class="auth"><div class="panel"><div class="brand">
-<h1>NEXORA</h1>
-<p>Financial Services</p>
-</div><h2>Welcome back</h2><form id="loginForm"><div class="field">
-<label for="email">Email</label>
-<input
-    type="email"
-    id="email"
-    placeholder="Enter your email"
-    autocomplete="email"
-    required
+
+.actions label {
+    display:block;
+    color:#66737d;
+    font-size:10px;
+    font-weight:800;
+    margin-bottom:7px;
+}
+
+.actions select,
+.actions textarea {
+    width:100%;
+    box-sizing:border-box;
+    border:1px solid #dfe5e8;
+    border-radius:11px;
+    padding:12px;
+    background:#fafbfc;
+    font:inherit;
+}
+
+.actions textarea {
+    min-height:45px;
+    resize:vertical;
+}
+
+.empty {
+    background:white;
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:45px;
+    text-align:center;
+    color:var(--slate);
+}
+
+.empty strong {
+    display:block;
+    color:var(--ink);
+    margin-bottom:7px;
+    font-size:17px;
+}
+
+@media(max-width:850px) {
+
+    .stats {
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .actions {
+        grid-template-columns:1fr;
+    }
+
+    .meta {
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:520px) {
+
+    .admin-page {
+        padding:35px 4% 60px;
+    }
+
+    .admin-header h1 {
+        font-size:32px;
+    }
+
+    .ticket-head {
+        flex-direction:column;
+    }
+
+    .date {
+        white-space:normal;
+    }
+
+}
+
+</style></head><body class="dashboard-body"><div class="demo">
+NEXORA FINANCIAL · SIMULATED ACCOUNT
+</div><header><a
+class="brand"
+href="./dashboard.html"
+
+«»
+
+NEXORA
+<span>FINANCIAL</span>
+
+</a><nav class="navlinks"><a href="./dashboard.html">
+Dashboard
+</a><a
+class="btn ghost"
+href="./index.html"
+onclick="logout(event)"
+
+«»
+
+Log out
+</a>
+
+</nav></header><main class="admin-page"><div class="version-badge">
+ADMIN V3
+</div><div class="admin-header"><div class="eyebrow">
+ADMINISTRATION
+</div><h1>
+Support dashboard
+</h1><p>
+Review and manage customer complaints submitted
+through the Nexora support system.
+</p></div><div
+    id="successBox"
+    class="success-box"
 >
-</div><div class="field">
-<label for="password">Password</label>
-<input
-    type="password"
-    id="password"
-    placeholder="Enter your password"
-    autocomplete="current-password"
-    required
+Connecting to support system...
+</div><div
+    id="errorBox"
+    class="error-box"
+></div><div
+    id="connectionInfo"
+    class="info-box"
 >
-</div><button type="submit" id="loginButton">
-Sign In
-</button></form><div id="message" class="message"></div><div class="register">
-Don't have an account?
-<a href="./register.html">Create account</a>
-</div></div><div class="footer">
-Nexora Financial
-</div></div><script>
+Checking administrator access...
+</div><section class="stats"><div class="stat">
+<div class="stat-label">TOTAL</div>
+<div class="stat-number" id="totalCount">0</div>
+</div><div class="stat">
+<div class="stat-label">OPEN</div>
+<div class="stat-number" id="openCount">0</div>
+</div><div class="stat">
+<div class="stat-label">IN PROGRESS</div>
+<div class="stat-number" id="progressCount">0</div>
+</div><div class="stat">
+<div class="stat-label">RESOLVED</div>
+<div class="stat-number" id="resolvedCount">0</div>
+</div></section><div class="toolbar"><input
+id="search"
+type="search"
+placeholder="Search complaints..."
+
+«»
+
+<select id="statusFilter"><option value="all">
+All statuses
+</option><option value="open">
+Open
+</option><option value="in progress">
+In Progress
+</option><option value="resolved">
+Resolved
+</option></select><select id="categoryFilter"><option value="all">
+All categories
+</option><option value="transaction">
+Transaction
+</option><option value="account">
+Account
+</option><option value="transfer">
+Transfer
+</option><option value="balance">
+Balance
+</option><option value="login">
+Login
+</option><option value="other">
+Other
+</option></select><button
+class="btn green"
+id="refresh"
+type="button"
+
+«»
+
+↻ Refresh
+</button>
+
+</div><section
+    id="tickets"
+    class="tickets"
+><div class="empty"><strong>
+Loading tickets...
+</strong>Please wait.
+
+</div></section></main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+
+/* =====================================================
+   NEXORA FINANCIAL
+   ADMIN V3
+   CORRECT SUPABASE PROJECT
+===================================================== */
 
 const SUPABASE_URL =
 "https://enstgbpcgkdnwhhlsnhh.supabase.co";
@@ -184,162 +414,763 @@ window.supabase.createClient(
     SUPABASE_KEY
 );
 
-const form =
-document.getElementById("loginForm");
-
-const button =
-document.getElementById("loginButton");
-
-const message =
-document.getElementById("message");
+let currentUser = null;
+let tickets = [];
 
 
-function showError(text) {
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
 
-    message.className = "message error";
-    message.textContent = text;
+function esc(value) {
+
+if (
+    value === null ||
+    value === undefined
+) {
+    return "";
+}
+
+return String(value)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
 
 }
 
 
-function showSuccess(text) {
+/* =====================================================
+   SHOW ERROR
+===================================================== */
 
-    message.className = "message success";
-    message.textContent = text;
+function showError(message) {
+
+const box =
+document.getElementById("errorBox");
+
+box.style.display =
+"block";
+
+box.textContent =
+"ADMIN V3 ERROR: " +
+message;
 
 }
 
 
-form.addEventListener("submit", async function(event) {
+/* =====================================================
+   CHECK AUTHENTICATION
+===================================================== */
 
-    event.preventDefault();
+async function checkAuth() {
 
-    const email =
-        document.getElementById("email").value.trim();
+const result =
+await supabaseClient.auth.getSession();
 
-    const password =
-        document.getElementById("password").value;
+if (result.error) {
+    throw result.error;
+}
 
-    button.disabled = true;
-    button.textContent = "Signing in...";
+if (
+!result.data ||
+!result.data.session ||
+!result.data.session.user
+) {
 
-    message.className = "message";
-    message.textContent = "";
+window.location.replace(
+"./login.html"
+);
 
-    try {
+return false;
 
-        const result =
-            await supabaseClient.auth.signInWithPassword({
-                email: email,
-                password: password
-            });
+}
 
-        if (result.error) {
-            throw result.error;
-        }
-
-        const user =
-            result.data.user;
-
-        if (!user) {
-            throw new Error("Unable to create a login session.");
-        }
+currentUser =
+result.data.session.user;
 
 
-        /*
-         * IMPORTANT:
-         * Only an account whose profile explicitly has
-         * is_admin = true is allowed into admin.html.
-         */
+/* =====================================================
+   CHECK ADMIN PROFILE
+===================================================== */
 
-        const profileResult =
-            await supabaseClient
-                .from("profiles")
-                .select("is_admin")
-                .eq("id", user.id)
-                .maybeSingle();
+const profile =
+await supabaseClient
+.from("profiles")
+.select("is_admin")
+.eq("id",currentUser.id)
+.maybeSingle();
 
+if (profile.error) {
 
-        if (profileResult.error) {
+throw new Error(
+"Profile check failed: " +
+profile.error.message
+);
 
-            console.error(
-                "Profile check failed:",
-                profileResult.error
-            );
+}
 
-            /*
-             * Authentication succeeded but the profile
-             * could not be read.
-             *
-             * Fail safely into the normal dashboard.
-             */
+if (
+!profile.data ||
+profile.data.is_admin !== true
+) {
 
-            showSuccess(
-                "Login successful. Opening dashboard..."
-            );
+/*
+ * IMPORTANT:
+ * A non-admin can never stay on this page.
+ */
 
-            setTimeout(function() {
-                window.location.replace(
-                    "./dashboard.html"
-                );
-            }, 400);
+await supabaseClient.auth.signOut();
 
-            return;
-        }
+window.location.replace(
+"./login.html"
+);
 
+return false;
 
-        const isAdmin =
-            profileResult.data &&
-            profileResult.data.is_admin === true;
+}
 
+document.getElementById(
+"connectionInfo"
+).textContent =
 
-        if (isAdmin) {
+"✓ ADMIN VERIFIED\n" +
+"User ID: " +
+currentUser.id;
 
-            showSuccess(
-                "Login successful. Opening admin dashboard..."
-            );
+return true;
 
-            setTimeout(function() {
-                window.location.replace(
-                    "./admin.html"
-                );
-            }, 400);
-
-            return;
-        }
+}
 
 
-        /*
-         * Every non-admin account goes here.
-         */
+/* =====================================================
+   LOAD TICKETS
+===================================================== */
 
-        showSuccess(
-            "Login successful. Opening dashboard..."
-        );
+async function loadTickets() {
 
-        setTimeout(function() {
-            window.location.replace(
-                "./dashboard.html"
-            );
-        }, 400);
+const container =
+document.getElementById("tickets");
 
-    } catch (error) {
+container.innerHTML =
 
-        console.error(
-            "Login error:",
-            error
-        );
+'<div class="empty">' +
+'<strong>Loading tickets...</strong>' +
+'Reading support tickets...' +
+'</div>';
 
-        showError(
-            error.message ||
-            "Unable to sign in. Please check your email and password."
-        );
+try {
 
-        button.disabled = false;
-        button.textContent = "Sign In";
-    }
+const result =
+await supabaseClient
+.rpc(
+"admin_get_support_tickets"
+);
+
+
+if (result.error) {
+
+throw result.error;
+
+}
+
+
+tickets =
+result.data || [];
+
+
+console.log(
+"NEXORA ADMIN TICKETS:",
+tickets
+);
+
+
+document.getElementById(
+"successBox"
+).textContent =
+
+"✓ Support system connected. " +
+tickets.length +
+" ticket(s) found.";
+
+document.getElementById(
+"errorBox"
+).style.display =
+"none";
+
+updateStats();
+render();
+
+
+} catch(error) {
+
+console.error(
+"ADMIN V3 LOAD ERROR:",
+error
+);
+
+showError(
+error.message ||
+String(error)
+);
+
+container.innerHTML =
+
+'<div class="empty">' +
+'<strong>Could not load tickets</strong>' +
+'See the ADMIN V3 ERROR above.' +
+'</div>';
+
+}
+
+}
+
+
+/* =====================================================
+   STATS
+===================================================== */
+
+function updateStats() {
+
+let open = 0;
+let progress = 0;
+let resolved = 0;
+
+tickets.forEach(
+ticket => {
+
+const status =
+String(
+    ticket.status || "Open"
+)
+.toLowerCase();
+
+if (status === "open") {
+    open++;
+}
+
+if (status === "in progress") {
+    progress++;
+}
+
+if (status === "resolved") {
+    resolved++;
+}
 
 });
 
-</script></body>
-</html>
+document.getElementById(
+"totalCount"
+).textContent =
+tickets.length;
+
+document.getElementById(
+"openCount"
+).textContent =
+open;
+
+document.getElementById(
+"progressCount"
+).textContent =
+progress;
+
+document.getElementById(
+"resolvedCount"
+).textContent =
+resolved;
+
+}
+
+
+/* =====================================================
+   RENDER TICKETS
+===================================================== */
+
+function render() {
+
+const container =
+document.getElementById("tickets");
+
+const search =
+document.getElementById("search")
+.value
+.trim()
+.toLowerCase();
+
+const status =
+document.getElementById("statusFilter")
+.value
+.toLowerCase();
+
+const category =
+document.getElementById("categoryFilter")
+.value
+.toLowerCase();
+
+const filtered =
+tickets.filter(
+ticket => {
+
+const text = [
+
+ticket.id,
+ticket.user_id,
+ticket.category,
+ticket.subject,
+ticket.message,
+ticket.transaction_id,
+ticket.admin_response
+
+]
+.filter(Boolean)
+.join(" ")
+.toLowerCase();
+
+const matchesSearch =
+!search ||
+text.includes(search);
+
+const ticketStatus =
+String(
+ticket.status || "Open"
+)
+.toLowerCase();
+
+const ticketCategory =
+String(
+ticket.category || ""
+)
+.toLowerCase();
+
+const matchesStatus =
+status === "all" ||
+ticketStatus === status;
+
+const matchesCategory =
+category === "all" ||
+ticketCategory === category;
+
+return (
+matchesSearch &&
+matchesStatus &&
+matchesCategory
+);
+
+});
+
+if (
+filtered.length === 0
+) {
+
+container.innerHTML =
+
+'<div class="empty">' +
+'<strong>No complaints found</strong>' +
+'No tickets match the current filters.' +
+'</div>';
+
+return;
+
+}
+
+container.innerHTML =
+filtered
+.map(ticket => ticketHtml(ticket))
+.join("");
+
+}
+
+
+/* =====================================================
+   TICKET HTML
+===================================================== */
+
+function ticketHtml(ticket) {
+
+const status =
+ticket.status ||
+"Open";
+
+const response =
+ticket.admin_response ||
+"";
+
+return `
+
+<article class="ticket">
+
+<div class="ticket-head">
+
+<div>
+
+<div class="category">
+${esc(ticket.category || "Other")}
+</div>
+
+<div class="subject">
+${esc(ticket.subject || "No subject")}
+</div>
+
+</div>
+
+<div class="date">
+${formatDate(ticket.created_at)}
+</div>
+
+</div>
+
+<div class="message">
+${esc(ticket.message || "")}
+</div>
+
+<div class="meta">
+
+<div class="meta-item">
+
+<span class="meta-label">
+Ticket ID
+</span>
+
+<span class="meta-value">
+${esc(ticket.id)}
+</span>
+
+</div>
+
+<div class="meta-item">
+
+<span class="meta-label">
+Customer ID
+</span>
+
+<span class="meta-value">
+${esc(ticket.user_id)}
+</span>
+
+</div>
+
+<div class="meta-item">
+
+<span class="meta-label">
+Transaction ID
+</span>
+
+<span class="meta-value">
+
+${
+ticket.transaction_id
+?
+esc(ticket.transaction_id)
+:
+"Not provided"
+}
+
+</span>
+
+</div>
+
+</div>
+
+<div class="actions">
+
+<div>
+
+<label>
+STATUS
+</label>
+
+<select
+id="status-${esc(ticket.id)}"
+>
+
+<option
+value="Open"
+${status.toLowerCase() === "open" ? "selected" : ""}
+>
+Open
+</option>
+
+<option
+value="In Progress"
+${status.toLowerCase() === "in progress" ? "selected" : ""}
+>
+In Progress
+</option>
+
+<option
+value="Resolved"
+${status.toLowerCase() === "resolved" ? "selected" : ""}
+>
+Resolved
+</option>
+
+</select>
+
+</div>
+
+<div>
+
+<label>
+ADMIN RESPONSE
+</label>
+
+<textarea
+id="response-${esc(ticket.id)}"
+placeholder="Write your response..."
+>${esc(response)}</textarea></div><button
+type="button"
+class="btn green"
+onclick="saveTicket('${jsEsc(ticket.id)}')"
+
+«»
+
+Save
+</button>
+
+</div></article>`;
+
+}
+
+/* =====================================================
+DATE
+===================================================== */
+
+function formatDate(value) {
+
+if (!value) {
+return "Unknown date";
+}
+
+const date =
+new Date(value);
+
+if (
+Number.isNaN(
+date.getTime()
+)
+) {
+
+return String(value);
+
+}
+
+return date.toLocaleString(
+undefined,
+{
+dateStyle:"medium",
+timeStyle:"short"
+}
+);
+
+}
+
+/* =====================================================
+JAVASCRIPT ESCAPE
+===================================================== */
+
+function jsEsc(value) {
+
+return String(value || "")
+.replace(/\/g,"\\")
+.replace(/'/g,"\'")
+.replace(/\n/g,"\n")
+.replace(/\r/g,"\r");
+
+}
+
+/* =====================================================
+SAVE TICKET
+===================================================== */
+
+async function saveTicket(ticketId) {
+
+const statusElement =
+document.getElementById(
+"status-" + ticketId
+);
+
+const responseElement =
+document.getElementById(
+"response-" + ticketId
+);
+
+if (
+!statusElement ||
+!responseElement
+) {
+
+showError(
+"Ticket controls could not be found."
+);
+
+return;
+
+}
+
+const newStatus =
+statusElement.value;
+
+const newResponse =
+responseElement.value.trim();
+
+try {
+
+const result =
+await supabaseClient
+.rpc(
+"admin_update_support_ticket",
+{
+p_ticket_id: ticketId,
+p_status: newStatus,
+p_admin_response: newResponse
+}
+);
+
+if (result.error) {
+
+throw result.error;
+
+}
+
+document.getElementById(
+"errorBox"
+).style.display =
+"none";
+
+document.getElementById(
+"successBox"
+).textContent =
+"✓ Ticket updated successfully.";
+
+await loadTickets();
+
+} catch(error) {
+
+console.error(
+"ADMIN V3 SAVE ERROR:",
+error
+);
+
+showError(
+error.message ||
+String(error)
+);
+
+}
+
+}
+
+/* =====================================================
+SEARCH / FILTER EVENTS
+===================================================== */
+
+document.getElementById(
+"search"
+).addEventListener(
+"input",
+render
+);
+
+document.getElementById(
+"statusFilter"
+).addEventListener(
+"change",
+render
+);
+
+document.getElementById(
+"categoryFilter"
+).addEventListener(
+"change",
+render
+);
+
+/* =====================================================
+REFRESH
+===================================================== */
+
+document.getElementById(
+"refresh"
+).addEventListener(
+"click",
+async function() {
+
+this.disabled = true;
+
+this.textContent =
+"Refreshing...";
+
+await loadTickets();
+
+this.disabled = false;
+
+this.textContent =
+"↻ Refresh";
+
+}
+);
+
+/* =====================================================
+LOGOUT
+===================================================== */
+
+async function logout(event) {
+
+event.preventDefault();
+
+await supabaseClient
+.auth
+.signOut();
+
+window.location.replace(
+"./index.html"
+);
+
+}
+
+/* =====================================================
+START
+===================================================== */
+
+async function start() {
+
+try {
+
+console.log(
+"NEXORA ADMIN V3 LOADED"
+);
+
+const allowed =
+await checkAuth();
+
+if (!allowed) {
+return;
+}
+
+await loadTickets();
+
+} catch(error) {
+
+console.error(
+"ADMIN V3 START ERROR:",
+error
+);
+
+showError(
+error.message ||
+String(error)
+);
+
+document.getElementById(
+"connectionInfo"
+).textContent =
+"Administrator verification failed.";
+
+}
+
+}
+
+start();
+
+</script></body></html>
