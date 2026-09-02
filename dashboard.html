@@ -38,7 +38,11 @@
             Support
         </a>
 
-        <a href="./admin.html">
+        <a
+            id="adminLink"
+            href="./admin.html"
+            style="display:none;"
+        >
             Admin
         </a>
 
@@ -250,8 +254,6 @@
     <div class="quick-grid">
 
 
-        <!-- SEND -->
-
         <a
             class="quick-action"
             href="#sendMoneyFormSection"
@@ -272,8 +274,6 @@
         </a>
 
 
-
-        <!-- ACTIVITY -->
 
         <a
             class="quick-action"
@@ -296,8 +296,6 @@
 
 
 
-        <!-- ACCOUNT -->
-
         <a
             class="quick-action"
             href="#account"
@@ -318,8 +316,6 @@
         </a>
 
 
-
-        <!-- SUPPORT -->
 
         <a
             class="quick-action"
@@ -694,11 +690,19 @@
 
 <script>
 
+/*
+============================================================
+NEXORA FINANCIAL
+NEW SUPABASE PROJECT
+============================================================
+*/
+
 const SUPABASE_URL =
-    "https://krzxqmzvzgjmolepcnbg.supabase.co";
+    "https://enstgbpcgkdnwhhlsnhh.supabase.co";
 
 const SUPABASE_KEY =
-    "sb_publishable_YBTYFY_vqnZkncmCclQa8w_ZKB0Cyul";
+    "sb_publishable_0ecSKgmH9JIzdX9_3j5Kww_aNdNr_qT";
+
 
 const supabaseClient =
     window.supabase.createClient(
@@ -736,8 +740,9 @@ async function loadDashboard() {
         !data.session.user
     ) {
 
-        window.location.href =
-            "./login.html";
+        window.location.replace(
+            "./login.html"
+        );
 
         return;
 
@@ -798,14 +803,76 @@ async function loadDashboard() {
     document.getElementById(
         "userAvatar"
     ).textContent =
-        initials;
+        initials || "U";
 
 
     await loadProfile();
 
+    await checkAdminStatus();
+
     await loadTransactions();
 
     startRealtime();
+
+}
+
+
+
+/* ==========================================
+   CHECK ADMIN STATUS
+========================================== */
+
+async function checkAdminStatus() {
+
+    const adminLink =
+        document.getElementById(
+            "adminLink"
+        );
+
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("profiles")
+                .select("is_admin")
+                .eq(
+                    "id",
+                    currentUser.id
+                )
+                .maybeSingle();
+
+
+        if (
+            !error &&
+            data &&
+            data.is_admin === true
+        ) {
+
+            adminLink.style.display =
+                "inline";
+
+        } else {
+
+            adminLink.style.display =
+                "none";
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Admin status check error:",
+            error
+        );
+
+        adminLink.style.display =
+            "none";
+
+    }
 
 }
 
@@ -840,6 +907,11 @@ async function loadProfile() {
             error
         );
 
+        /*
+        The account can still use the dashboard
+        even if the optional profile fields fail.
+        */
+
         return;
 
     }
@@ -848,10 +920,42 @@ async function loadProfile() {
     if (!data) {
 
         console.error(
-            "No profile found."
+            "No profile found for this account."
         );
 
         return;
+
+    }
+
+
+    if (data.name) {
+
+        document.getElementById(
+            "userName"
+        ).textContent =
+            data.name.split(" ")[0];
+
+
+        document.getElementById(
+            "userNameSmall"
+        ).textContent =
+            data.name;
+
+
+        document.getElementById(
+            "accountName"
+        ).textContent =
+            data.name;
+
+    }
+
+
+    if (data.email) {
+
+        document.getElementById(
+            "accountEmail"
+        ).textContent =
+            data.email;
 
     }
 
@@ -931,6 +1035,15 @@ document
                 );
 
 
+            const description =
+                document
+                    .getElementById(
+                        "sendDescription"
+                    )
+                    .value
+                    .trim();
+
+
             const message =
                 document.getElementById(
                     "sendMoneyMessage"
@@ -999,7 +1112,11 @@ document
                                 recipientEmail,
 
                             transfer_amount:
-                                amount
+                                amount,
+
+                            transfer_description:
+                                description ||
+                                "Payment"
                         }
                     );
 
@@ -1165,7 +1282,9 @@ async function loadTransactions() {
 
 
                 const isCredit =
-                    transaction.type === "add";
+                    transaction.type === "add" ||
+                    transaction.type === "credit" ||
+                    transaction.type === "deposit";
 
 
                 const sign =
@@ -1346,7 +1465,7 @@ function startRealtime() {
 
 function escapeHtml(value) {
 
-    return String(value)
+    return String(value ?? "")
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
         .replaceAll(">", "&gt;")
@@ -1380,8 +1499,9 @@ async function logout(event) {
     }
 
 
-    window.location.href =
-        "./index.html";
+    window.location.replace(
+        "./index.html"
+    );
 
 }
 
