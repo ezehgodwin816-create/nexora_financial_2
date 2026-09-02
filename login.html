@@ -1,7 +1,7 @@
-<!DOCTYPE html><html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Nexora Financial — Login</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexora Financial — Login</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
 * {
     box-sizing: border-box;
 }
@@ -24,11 +24,11 @@ body {
 }
 
 .panel {
-    background: #ffffff;
+    background: #fff;
     border: 1px solid #e3e8ec;
     border-radius: 16px;
     padding: 34px;
-    box-shadow: 0 8px 30px rgba(18, 32, 43, 0.07);
+    box-shadow: 0 8px 30px rgba(18,32,43,.07);
 }
 
 .brand {
@@ -41,7 +41,6 @@ body {
     font-size: 29px;
     letter-spacing: 1.5px;
     font-weight: 800;
-    color: #12202b;
 }
 
 .brand p {
@@ -53,8 +52,6 @@ body {
 h2 {
     margin: 0 0 24px;
     font-size: 24px;
-    font-weight: 700;
-    color: #12202b;
 }
 
 .field {
@@ -66,7 +63,6 @@ label {
     margin-bottom: 8px;
     font-size: 14px;
     font-weight: 600;
-    color: #263641;
 }
 
 input {
@@ -79,12 +75,11 @@ input {
     color: #12202b;
     font-size: 15px;
     outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 input:focus {
     border-color: #12202b;
-    box-shadow: 0 0 0 3px rgba(18, 32, 43, 0.08);
+    box-shadow: 0 0 0 3px rgba(18,32,43,.08);
 }
 
 button {
@@ -94,19 +89,14 @@ button {
     border: 0;
     border-radius: 9px;
     background: #12202b;
-    color: #ffffff;
+    color: #fff;
     font-size: 15px;
     font-weight: 700;
     cursor: pointer;
-    transition: opacity 0.2s;
-}
-
-button:hover {
-    opacity: 0.92;
 }
 
 button:disabled {
-    opacity: 0.6;
+    opacity: .6;
     cursor: not-allowed;
 }
 
@@ -146,104 +136,81 @@ button:disabled {
     text-decoration: none;
 }
 
-.register a:hover {
-    text-decoration: underline;
-}
-
 .footer {
     text-align: center;
     margin-top: 18px;
     color: #9aa5ad;
     font-size: 12px;
 }
-</style></head><body><div class="auth"><div class="panel">
+</style></head><body><div class="auth"><div class="panel"><div class="brand">
+<h1>NEXORA</h1>
+<p>Financial Services</p>
+</div><h2>Welcome back</h2><form id="loginForm"><div class="field">
+<label for="email">Email</label>
+<input
+    type="email"
+    id="email"
+    placeholder="Enter your email"
+    autocomplete="email"
+    required
+>
+</div><div class="field">
+<label for="password">Password</label>
+<input
+    type="password"
+    id="password"
+    placeholder="Enter your password"
+    autocomplete="current-password"
+    required
+>
+</div><button type="submit" id="loginButton">
+Sign In
+</button></form><div id="message" class="message"></div><div class="register">
+Don't have an account?
+<a href="./register.html">Create account</a>
+</div></div><div class="footer">
+Nexora Financial
+</div></div><script>
 
-    <div class="brand">
-        <h1>NEXORA</h1>
-        <p>Financial Services</p>
-    </div>
-
-    <h2>Welcome back</h2>
-
-    <form id="loginForm">
-
-        <div class="field">
-            <label for="email">Email</label>
-            <input
-                type="email"
-                id="email"
-                placeholder="Enter your email"
-                autocomplete="email"
-                required
-            >
-        </div>
-
-        <div class="field">
-            <label for="password">Password</label>
-            <input
-                type="password"
-                id="password"
-                placeholder="Enter your password"
-                autocomplete="current-password"
-                required
-            >
-        </div>
-
-        <button type="submit" id="loginButton">
-            Sign In
-        </button>
-
-    </form>
-
-    <div id="message" class="message"></div>
-
-    <div class="register">
-        Don't have an account?
-        <a href="./register.html">Create account</a>
-    </div>
-
-</div>
-
-<div class="footer">
-    Nexora Financial
-</div>
-
-</div><script>
 const SUPABASE_URL =
-    "https://krzxqmzvzgjmolepcnbg.supabase.co";
+"https://enstgbpcgkdnwhhlsnhh.supabase.co";
 
 const SUPABASE_KEY =
-    "sb_publishable_YBTYFY_vqnZkncmCclQa8w_ZKB0Cyul";
+"sb_publishable_0ecSKgmH9JIzdX9_3j5Kww_aNdNr_qT";
 
 const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
-const loginForm =
-    document.getElementById("loginForm");
+const form =
+document.getElementById("loginForm");
 
-const loginButton =
-    document.getElementById("loginButton");
+const button =
+document.getElementById("loginButton");
 
 const message =
-    document.getElementById("message");
+document.getElementById("message");
 
 
 function showError(text) {
+
     message.className = "message error";
     message.textContent = text;
+
 }
 
 
 function showSuccess(text) {
+
     message.className = "message success";
     message.textContent = text;
+
 }
 
 
-loginForm.addEventListener("submit", async function(event) {
+form.addEventListener("submit", async function(event) {
 
     event.preventDefault();
 
@@ -253,87 +220,126 @@ loginForm.addEventListener("submit", async function(event) {
     const password =
         document.getElementById("password").value;
 
-    loginButton.disabled = true;
-    loginButton.textContent = "Signing in...";
+    button.disabled = true;
+    button.textContent = "Signing in...";
 
     message.className = "message";
     message.textContent = "";
 
     try {
 
-        const { data, error } =
+        const result =
             await supabaseClient.auth.signInWithPassword({
                 email: email,
                 password: password
             });
 
-        if (error) {
-            throw error;
+        if (result.error) {
+            throw result.error;
         }
 
-        if (!data.user) {
+        const user =
+            result.data.user;
+
+        if (!user) {
             throw new Error("Unable to create a login session.");
         }
 
+
         /*
-         * Check the user's profile.
-         * Admin accounts are sent to admin.html.
-         * Everyone else is sent to dashboard.html.
+         * IMPORTANT:
+         * Only an account whose profile explicitly has
+         * is_admin = true is allowed into admin.html.
          */
 
-        const { data: profile, error: profileError } =
+        const profileResult =
             await supabaseClient
                 .from("profiles")
                 .select("is_admin")
-                .eq("id", data.user.id)
+                .eq("id", user.id)
                 .maybeSingle();
 
-        if (profileError) {
-            console.error("Profile check:", profileError);
+
+        if (profileResult.error) {
+
+            console.error(
+                "Profile check failed:",
+                profileResult.error
+            );
 
             /*
-             * The authentication itself succeeded.
-             * If the profile cannot be read, use the normal dashboard.
+             * Authentication succeeded but the profile
+             * could not be read.
+             *
+             * Fail safely into the normal dashboard.
              */
-            showSuccess("Login successful. Opening dashboard...");
+
+            showSuccess(
+                "Login successful. Opening dashboard..."
+            );
 
             setTimeout(function() {
-                window.location.href = "./dashboard.html";
-            }, 500);
+                window.location.replace(
+                    "./dashboard.html"
+                );
+            }, 400);
 
             return;
         }
 
-        if (profile && profile.is_admin === true) {
 
-            showSuccess("Login successful. Opening admin dashboard...");
+        const isAdmin =
+            profileResult.data &&
+            profileResult.data.is_admin === true;
+
+
+        if (isAdmin) {
+
+            showSuccess(
+                "Login successful. Opening admin dashboard..."
+            );
 
             setTimeout(function() {
-                window.location.href = "./admin.html";
-            }, 500);
+                window.location.replace(
+                    "./admin.html"
+                );
+            }, 400);
 
             return;
         }
 
-        showSuccess("Login successful. Opening dashboard...");
+
+        /*
+         * Every non-admin account goes here.
+         */
+
+        showSuccess(
+            "Login successful. Opening dashboard..."
+        );
 
         setTimeout(function() {
-            window.location.href = "./dashboard.html";
-        }, 500);
+            window.location.replace(
+                "./dashboard.html"
+            );
+        }, 400);
 
     } catch (error) {
 
-        console.error("Login error:", error);
+        console.error(
+            "Login error:",
+            error
+        );
 
         showError(
             error.message ||
             "Unable to sign in. Please check your email and password."
         );
 
-        loginButton.disabled = false;
-        loginButton.textContent = "Sign In";
+        button.disabled = false;
+        button.textContent = "Sign In";
     }
 
 });
+
 </script></body>
 </html>
