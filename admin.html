@@ -1048,4 +1048,112 @@
 
           if (button) {
             button.disabled = false;
-            button.textContent = "Save changes
+            button.textContent = "Save changes";
+          }
+
+          return;
+        }
+      }
+
+      await loadTickets();
+    }
+
+    /*
+      ------------------------------------------------------------
+      Logout
+      ------------------------------------------------------------
+    */
+
+    async function logout() {
+      try {
+        await fetch(
+          `${SUPABASE_URL}/auth/v1/logout`,
+          {
+            method: "POST",
+            headers: {
+              "apikey": SUPABASE_KEY,
+              "Authorization":
+                `Bearer ${session?.access_token || SUPABASE_KEY}`
+            }
+          }
+        );
+      } catch (error) {
+        console.error("Logout error:", error);
+      }
+
+      session = null;
+      window.location.href = "./login.html";
+    }
+
+    /*
+      ------------------------------------------------------------
+      Security / HTML escaping
+      ------------------------------------------------------------
+    */
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    /*
+      ------------------------------------------------------------
+      Filters
+      ------------------------------------------------------------
+    */
+
+    document
+      .getElementById("searchInput")
+      .addEventListener("input", renderTickets);
+
+    document
+      .getElementById("statusFilter")
+      .addEventListener("change", renderTickets);
+
+    document
+      .getElementById("categoryFilter")
+      .addEventListener("change", renderTickets);
+
+    document
+      .getElementById("logoutBtn")
+      .addEventListener("click", logout);
+
+    /*
+      ------------------------------------------------------------
+      START ADMIN V3
+      ------------------------------------------------------------
+    */
+
+    (async function startAdmin() {
+
+      try {
+
+        const allowed = await checkAdmin();
+
+        if (!allowed) {
+          return;
+        }
+
+        await loadTickets();
+
+      } catch (error) {
+
+        console.error("ADMIN START ERROR:", error);
+
+        setStatus(
+          "Unable to verify administrator access: " +
+          error.message,
+          "error"
+        );
+      }
+
+    })();
+
+  </script>
+
+</body>
+</html>
