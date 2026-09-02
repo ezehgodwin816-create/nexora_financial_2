@@ -4,9 +4,17 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>Create account · Nexora Financial</title>
+
     <link rel="stylesheet" href="./assets/style.css">
-</head><body><main class="auth-page"><section class="auth-side">
+</head>
+
+<body>
+
+<main class="auth-page">
+
+<section class="auth-side">
 
     <a class="brand" href="./index.html">
         NEXORA
@@ -36,6 +44,7 @@
 
 </section>
 
+
 <section class="auth-main">
 
     <div class="auth-box">
@@ -52,6 +61,7 @@
             Set up your account in a few seconds.
         </p>
 
+
         <form id="registerForm">
 
             <label>
@@ -62,8 +72,10 @@
                     type="text"
                     required
                     placeholder="Alex Morgan"
+                    autocomplete="name"
                 >
             </label>
+
 
             <label>
                 Email address
@@ -73,8 +85,10 @@
                     type="email"
                     required
                     placeholder="alex@example.com"
+                    autocomplete="email"
                 >
             </label>
+
 
             <label>
                 Password
@@ -85,8 +99,10 @@
                     minlength="8"
                     required
                     placeholder="At least 8 characters"
+                    autocomplete="new-password"
                 >
             </label>
+
 
             <button
                 class="btn green full"
@@ -98,32 +114,63 @@
 
         </form>
 
-        <p id="message" class="auth-switch"></p>
+
+        <p
+            id="message"
+            class="auth-switch"
+        ></p>
+
 
         <p class="auth-switch">
+
             Already have an account?
-            <a class="form-link" href="./login.html">
+
+            <a
+                class="form-link"
+                href="./login.html"
+            >
                 Sign in
             </a>
+
         </p>
 
+
         <p class="auth-switch">
-            <a class="form-link" href="./index.html">
+
+            <a
+                class="form-link"
+                href="./index.html"
+            >
                 ← Back to Nexora
             </a>
+
         </p>
 
     </div>
 
 </section>
 
-</main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+</main>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<script>
+
+/*
+============================================================
+NEXORA FINANCIAL
+NEW SUPABASE PROJECT
+============================================================
+*/
 
 const SUPABASE_URL =
-    "https://krzxqmzvzgjmolepcnbg.supabase.co";
+    "https://enstgbpcgkdnwhhlsnhh.supabase.co";
 
 const SUPABASE_KEY =
-    "sb_publishable_YBTYFY_vqnZkncmCclQa8w_ZKB0Cyul";
+    "sb_publishable_0ecSKgmH9JIzdX9_3j5Kww_aNdNr_qT";
+
 
 const supabaseClient =
     window.supabase.createClient(
@@ -131,6 +178,12 @@ const supabaseClient =
         SUPABASE_KEY
     );
 
+
+/*
+============================================================
+REGISTER FORM
+============================================================
+*/
 
 document
     .getElementById("registerForm")
@@ -140,11 +193,13 @@ document
 
             event.preventDefault();
 
+
             const name =
                 document
                     .getElementById("name")
                     .value
                     .trim();
+
 
             const email =
                 document
@@ -153,14 +208,17 @@ document
                     .trim()
                     .toLowerCase();
 
+
             const password =
                 document
                     .getElementById("password")
                     .value;
 
+
             const message =
                 document
                     .getElementById("message");
+
 
             const button =
                 document
@@ -169,6 +227,41 @@ document
 
             message.textContent = "";
 
+
+            /*
+            Basic validation
+            */
+
+            if (!name) {
+
+                message.textContent =
+                    "Please enter your full name.";
+
+                return;
+
+            }
+
+
+            if (!email) {
+
+                message.textContent =
+                    "Please enter your email address.";
+
+                return;
+
+            }
+
+
+            if (password.length < 8) {
+
+                message.textContent =
+                    "Password must be at least 8 characters.";
+
+                return;
+
+            }
+
+
             button.disabled = true;
 
             button.textContent =
@@ -176,6 +269,12 @@ document
 
 
             try {
+
+                /*
+                ------------------------------------------------
+                CREATE AUTH ACCOUNT
+                ------------------------------------------------
+                */
 
                 const {
                     data,
@@ -190,7 +289,9 @@ document
                         options: {
 
                             data: {
+
                                 full_name: name
+
                             }
 
                         }
@@ -199,11 +300,13 @@ document
 
 
                 if (error) {
+
                     throw error;
+
                 }
 
 
-                if (!data.user) {
+                if (!data || !data.user) {
 
                     throw new Error(
                         "Account could not be created."
@@ -212,10 +315,17 @@ document
                 }
 
 
+                /*
+                ------------------------------------------------
+                SAVE LOCAL SESSION INFORMATION
+                ------------------------------------------------
+                */
+
                 localStorage.setItem(
                     "nexoraLoggedIn",
                     "true"
                 );
+
 
                 localStorage.setItem(
                     "nexoraUserId",
@@ -223,14 +333,65 @@ document
                 );
 
 
-                window.location.href =
-                    "./dashboard.html";
+                /*
+                ------------------------------------------------
+                IMPORTANT:
+                If Supabase requires email confirmation,
+                there may be no active session yet.
+                ------------------------------------------------
+                */
+
+                if (!data.session) {
+
+                    message.textContent =
+                        "Account created successfully. Please check your email to confirm your account, then sign in.";
+
+                    button.disabled = false;
+
+                    button.textContent =
+                        "Create account →";
+
+                    return;
+
+                }
+
+
+                /*
+                ------------------------------------------------
+                ACCOUNT CREATED + SESSION AVAILABLE
+                ------------------------------------------------
+                */
+
+                message.textContent =
+                    "Account created successfully. Opening your dashboard...";
+
+
+                /*
+                Give the browser a moment to store
+                the Supabase session.
+                */
+
+                setTimeout(function() {
+
+                    window.location.replace(
+                        "./dashboard.html?v=3000"
+                    );
+
+                }, 500);
 
 
             } catch (error) {
 
+                console.error(
+                    "REGISTRATION ERROR:",
+                    error
+                );
+
+
                 message.textContent =
-                    error.message;
+                    error.message ||
+                    "Unable to create your account.";
+
 
                 button.disabled = false;
 
@@ -242,5 +403,7 @@ document
         }
     );
 
-</script></body>
+</script>
+
+</body>
 </html>
