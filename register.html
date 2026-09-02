@@ -3,170 +3,151 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>Create account · Nexora Financial</title>
 
-    <title>Create account · Nexora Financial</title>
+<link rel="stylesheet" href="./assets/style.css">
 
-    <link rel="stylesheet" href="./assets/style.css">
-</head>
+</head><body><main class="auth-page"><section class="auth-side"><a class="brand" href="./index.html">
+    NEXORA
+    <span>FINANCIAL</span>
+</a>
 
-<body>
+<div>
 
-<main class="auth-page">
-
-<section class="auth-side">
-
-    <a class="brand" href="./index.html">
-        NEXORA
-        <span>FINANCIAL</span>
-    </a>
-
-    <div>
-
-        <div class="eyebrow">
-            JOIN NEXORA
-        </div>
-
-        <h2>
-            A cleaner way to see your money.
-        </h2>
-
-        <p>
-            Create your Nexora account and experience
-            a simpler way to manage your money.
-        </p>
-
+    <div class="eyebrow">
+        JOIN NEXORA
     </div>
 
-    <p class="form-note">
-        Your information is securely connected to your account.
+    <h2>
+        A cleaner way to see your money.
+    </h2>
+
+    <p>
+        Create your Nexora account and experience
+        a simpler way to manage your money.
     </p>
 
-</section>
+</div>
 
+<p class="form-note">
+    Your information is securely connected to your account.
+</p>
 
-<section class="auth-main">
+</section><section class="auth-main"><div class="auth-box">
 
-    <div class="auth-box">
-
-        <div class="eyebrow">
-            GET STARTED
-        </div>
-
-        <h1>
-            Create your account.
-        </h1>
-
-        <p>
-            Set up your account in a few seconds.
-        </p>
-
-
-        <form id="registerForm">
-
-            <label>
-                Full name
-
-                <input
-                    id="name"
-                    type="text"
-                    required
-                    placeholder="Alex Morgan"
-                    autocomplete="name"
-                >
-            </label>
-
-
-            <label>
-                Email address
-
-                <input
-                    id="email"
-                    type="email"
-                    required
-                    placeholder="alex@example.com"
-                    autocomplete="email"
-                >
-            </label>
-
-
-            <label>
-                Password
-
-                <input
-                    id="password"
-                    type="password"
-                    minlength="8"
-                    required
-                    placeholder="At least 8 characters"
-                    autocomplete="new-password"
-                >
-            </label>
-
-
-            <button
-                class="btn green full"
-                type="submit"
-                id="registerButton"
-            >
-                Create account →
-            </button>
-
-        </form>
-
-
-        <p
-            id="message"
-            class="auth-switch"
-        ></p>
-
-
-        <p class="auth-switch">
-
-            Already have an account?
-
-            <a
-                class="form-link"
-                href="./login.html"
-            >
-                Sign in
-            </a>
-
-        </p>
-
-
-        <p class="auth-switch">
-
-            <a
-                class="form-link"
-                href="./index.html"
-            >
-                ← Back to Nexora
-            </a>
-
-        </p>
-
+    <div class="eyebrow">
+        GET STARTED
     </div>
 
-</section>
+    <h1>
+        Create your account.
+    </h1>
 
-</main>
+    <p>
+        Set up your account in a few seconds.
+    </p>
 
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <form id="registerForm">
+
+        <label>
+            Full name
+
+            <input
+                id="name"
+                type="text"
+                required
+                placeholder="Alex Morgan"
+                autocomplete="name"
+            >
+        </label>
 
 
-<script>
+        <label>
+            Email address
+
+            <input
+                id="email"
+                type="email"
+                required
+                placeholder="alex@example.com"
+                autocomplete="email"
+            >
+        </label>
+
+
+        <label>
+            Password
+
+            <input
+                id="password"
+                type="password"
+                minlength="8"
+                required
+                placeholder="At least 8 characters"
+                autocomplete="new-password"
+            >
+        </label>
+
+
+        <button
+            class="btn green full"
+            type="submit"
+            id="registerButton"
+        >
+            Create account →
+        </button>
+
+    </form>
+
+
+    <p
+        id="message"
+        class="auth-switch"
+    ></p>
+
+
+    <p class="auth-switch">
+
+        Already have an account?
+
+        <a
+            class="form-link"
+            href="./login.html"
+        >
+            Sign in
+        </a>
+
+    </p>
+
+
+    <p class="auth-switch">
+
+        <a
+            class="form-link"
+            href="./index.html"
+        >
+            ← Back to Nexora
+        </a>
+
+    </p>
+
+</div>
+
+</section></main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
 
 /*
 ============================================================
 NEXORA FINANCIAL
+REGISTRATION
 NEW SUPABASE PROJECT
 ============================================================
 */
 
+
 const SUPABASE_URL =
     "https://enstgbpcgkdnwhhlsnhh.supabase.co";
+
 
 const SUPABASE_KEY =
     "sb_publishable_0ecSKgmH9JIzdX9_3j5Kww_aNdNr_qT";
@@ -177,6 +158,16 @@ const supabaseClient =
         SUPABASE_URL,
         SUPABASE_KEY
     );
+
+
+/*
+============================================================
+LIVE SITE URL
+============================================================
+*/
+
+const LOGIN_URL =
+    "https://ezehgodwin816-create.github.io/nexora_financial_2/login.html";
 
 
 /*
@@ -229,7 +220,9 @@ document
 
 
             /*
-            Basic validation
+            ------------------------------------------------
+            BASIC VALIDATION
+            ------------------------------------------------
             */
 
             if (!name) {
@@ -292,7 +285,16 @@ document
 
                                 full_name: name
 
-                            }
+                            },
+
+                            /*
+                            After email confirmation,
+                            send the user to the Nexora
+                            login page.
+                            */
+
+                            emailRedirectTo:
+                                LOGIN_URL
 
                         }
 
@@ -317,15 +319,9 @@ document
 
                 /*
                 ------------------------------------------------
-                SAVE LOCAL SESSION INFORMATION
+                SAVE USER ID
                 ------------------------------------------------
                 */
-
-                localStorage.setItem(
-                    "nexoraLoggedIn",
-                    "true"
-                );
-
 
                 localStorage.setItem(
                     "nexoraUserId",
@@ -335,16 +331,19 @@ document
 
                 /*
                 ------------------------------------------------
-                IMPORTANT:
-                If Supabase requires email confirmation,
-                there may be no active session yet.
+                EMAIL CONFIRMATION REQUIRED
                 ------------------------------------------------
                 */
 
                 if (!data.session) {
 
+                    localStorage.removeItem(
+                        "nexoraLoggedIn"
+                    );
+
+
                     message.textContent =
-                        "Account created successfully. Please check your email to confirm your account, then sign in.";
+                        "Account created successfully. Check your email and confirm your account. You will be returned to Nexora sign in.";
 
                     button.disabled = false;
 
@@ -358,18 +357,19 @@ document
 
                 /*
                 ------------------------------------------------
-                ACCOUNT CREATED + SESSION AVAILABLE
+                SESSION AVAILABLE
                 ------------------------------------------------
                 */
+
+                localStorage.setItem(
+                    "nexoraLoggedIn",
+                    "true"
+                );
+
 
                 message.textContent =
                     "Account created successfully. Opening your dashboard...";
 
-
-                /*
-                Give the browser a moment to store
-                the Supabase session.
-                */
 
                 setTimeout(function() {
 
@@ -403,7 +403,5 @@ document
         }
     );
 
-</script>
-
-</body>
+</script></body>
 </html>
