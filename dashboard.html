@@ -62,10 +62,6 @@
 <main class="dash">
 
 
-<!-- ==========================================
-     DASHBOARD HEADER
-========================================== -->
-
 <div class="dash-top">
 
     <div>
@@ -114,10 +110,6 @@
 </div>
 
 
-
-<!-- ==========================================
-     BALANCE + ACCOUNT STATUS
-========================================== -->
 
 <section class="dash-grid">
 
@@ -227,10 +219,6 @@
 </section>
 
 
-
-<!-- ==========================================
-     QUICK ACTIONS
-========================================== -->
 
 <section class="quick-section">
 
@@ -343,10 +331,6 @@
 
 
 
-<!-- ==========================================
-     SUPPORT NOTICE
-========================================== -->
-
 <section class="dashboard-card support-notice">
 
     <div class="support-notice-icon">
@@ -382,10 +366,6 @@
 </section>
 
 
-
-<!-- ==========================================
-     SEND MONEY
-========================================== -->
 
 <section
     class="dashboard-card send-card"
@@ -509,10 +489,6 @@
 
 
 
-<!-- ==========================================
-     TRANSACTIONS
-========================================== -->
-
 <section
     class="dashboard-card"
     id="transactions"
@@ -555,10 +531,6 @@
 </section>
 
 
-
-<!-- ==========================================
-     ACCOUNT
-========================================== -->
 
 <section
     class="dashboard-card"
@@ -682,20 +654,9 @@
 
 
 
-<!-- ==========================================
-     SUPABASE
-========================================== -->
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-
-/*
-============================================================
-NEXORA FINANCIAL
-NEW SUPABASE PROJECT
-============================================================
-*/
 
 const SUPABASE_URL =
     "https://enstgbpcgkdnwhhlsnhh.supabase.co";
@@ -721,24 +682,88 @@ let currentUser = null;
 loadDashboard();
 
 
+
+/* ==========================================
+   RESTORE SESSION
+========================================== */
+
+async function restoreSession() {
+
+    const accessToken =
+        localStorage.getItem(
+            "nexora_access_token"
+        );
+
+    const refreshToken =
+        localStorage.getItem(
+            "nexora_refresh_token"
+        );
+
+
+    if (!accessToken) {
+
+        return null;
+
+    }
+
+
+    /*
+      Restore the tokens saved by login.html
+      into the Supabase client.
+    */
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient.auth.setSession({
+            access_token: accessToken,
+            refresh_token:
+                refreshToken || ""
+        });
+
+
+    if (error) {
+
+        console.error(
+            "Session restoration error:",
+            error
+        );
+
+        return null;
+
+    }
+
+
+    return data.session;
+
+}
+
+
+
 /* ==========================================
    LOAD DASHBOARD
 ========================================== */
 
 async function loadDashboard() {
 
-    const {
-        data,
-        error
-    } =
-        await supabaseClient.auth.getSession();
+    const session =
+        await restoreSession();
 
 
     if (
-        error ||
-        !data.session ||
-        !data.session.user
+        !session ||
+        !session.user
     ) {
+
+        localStorage.removeItem(
+            "nexora_access_token"
+        );
+
+        localStorage.removeItem(
+            "nexora_refresh_token"
+        );
+
 
         window.location.replace(
             "./login.html"
@@ -750,7 +775,7 @@ async function loadDashboard() {
 
 
     currentUser =
-        data.session.user;
+        session.user;
 
 
     const fullName =
@@ -846,6 +871,13 @@ async function checkAdminStatus() {
                 .maybeSingle();
 
 
+        console.log(
+            "Nexora admin check:",
+            data,
+            error
+        );
+
+
         if (
             !error &&
             data &&
@@ -865,7 +897,7 @@ async function checkAdminStatus() {
     } catch (error) {
 
         console.error(
-            "Admin status check error:",
+            "Admin status error:",
             error
         );
 
@@ -907,11 +939,6 @@ async function loadProfile() {
             error
         );
 
-        /*
-        The account can still use the dashboard
-        even if the optional profile fields fail.
-        */
-
         return;
 
     }
@@ -920,7 +947,7 @@ async function loadProfile() {
     if (!data) {
 
         console.error(
-            "No profile found for this account."
+            "No profile found."
         );
 
         return;
@@ -1497,6 +1524,15 @@ async function logout(event) {
         );
 
     }
+
+
+    localStorage.removeItem(
+        "nexora_access_token"
+    );
+
+    localStorage.removeItem(
+        "nexora_refresh_token"
+    );
 
 
     window.location.replace(
