@@ -23,6 +23,7 @@
 
 html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -31,6 +32,7 @@ body {
     color: var(--ink);
     font-family: 'DM Sans', sans-serif;
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 }
 
 a {
@@ -40,6 +42,11 @@ a {
 button,
 input {
     font: inherit;
+}
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
 }
 
 .demo {
@@ -69,6 +76,7 @@ header {
     top: 0;
     z-index: 20;
     backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
 }
 
 .brand {
@@ -97,6 +105,7 @@ header {
     color: var(--slate);
     font-size: 13px;
     font-weight: 600;
+    transition: color .2s ease;
 }
 
 .navlinks a:hover {
@@ -121,12 +130,20 @@ header {
     gap: 8px;
     font-weight: 700;
     cursor: pointer;
-    transition: .2s ease;
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
+    touch-action: manipulation;
 }
 
 .btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 10px 25px rgba(16,24,32,.14);
+}
+
+.btn:active {
+    transform: translateY(0);
 }
 
 .btn.light {
@@ -146,6 +163,13 @@ header {
 
 .btn.full {
     width: 100%;
+}
+
+.btn:focus-visible,
+a:focus-visible,
+input:focus-visible {
+    outline: 3px solid rgba(23,166,115,.18);
+    outline-offset: 2px;
 }
 
 
@@ -233,6 +257,12 @@ header {
     box-shadow: 0 35px 70px rgba(16,24,32,.25);
     position: relative;
     overflow: hidden;
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.bank-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 42px 80px rgba(16,24,32,.28);
 }
 
 .bank-card:after {
@@ -296,6 +326,12 @@ header {
     border: 1px solid var(--line);
     border-radius: var(--radius);
     padding: 25px;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.trust-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 35px rgba(16,24,32,.06);
 }
 
 .trust-box b {
@@ -338,6 +374,16 @@ header {
     border: 1px solid var(--line);
     border-radius: var(--radius);
     padding: 28px;
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        border-color .2s ease;
+}
+
+.feature:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 40px rgba(16,24,32,.07);
+    border-color: #dce3e6;
 }
 
 .feature-icon {
@@ -461,10 +507,19 @@ input {
     border-radius: 12px;
     background: #fafbfc;
     outline: none;
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
+}
+
+input:hover {
+    border-color: #cfd8dc;
 }
 
 input:focus {
     border-color: var(--green);
+    background: #fff;
     box-shadow: 0 0 0 3px rgba(23,166,115,.1);
 }
 
@@ -779,6 +834,10 @@ input:focus {
     box-shadow: 0 10px 25px rgba(16,24,32,.06);
 }
 
+.quick-action:active {
+    transform: translateY(0);
+}
+
 .quick-action strong {
     display: block;
     font-size: 21px;
@@ -827,10 +886,17 @@ input:focus {
     gap: 13px;
     padding: 17px 0;
     border-bottom: 1px solid #edf0f2;
+    transition: .18s ease;
 }
 
 .transaction:last-child {
     border-bottom: 0;
+}
+
+.transaction:hover {
+    padding-left: 7px;
+    padding-right: 7px;
+    background: #fbfcfc;
 }
 
 .tx-icon {
@@ -860,6 +926,7 @@ input:focus {
 
 .tx-info {
     flex: 1;
+    min-width: 0;
 }
 
 .tx-info b {
@@ -876,6 +943,7 @@ input:focus {
 .tx-amount {
     font-weight: 800;
     font-size: 13px;
+    white-space: nowrap;
 }
 
 .in {
@@ -932,6 +1000,12 @@ input:focus {
     border: 1px solid var(--line);
     border-radius: 19px;
     padding: 22px;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.stat:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 35px rgba(16,24,32,.06);
 }
 
 .stat small {
@@ -1007,148 +1081,8 @@ input:focus {
 
 
 /* ==========================================
-   MOBILE
-========================================== */
-
-@media (max-width: 850px) {
-
-    header {
-        padding: 0 5%;
-    }
-
-    .navlinks {
-        display: none;
-    }
-
-    .hero {
-        grid-template-columns: 1fr;
-        padding-top: 55px;
-        gap: 45px;
-    }
-
-    .hero h1 {
-        letter-spacing: -2px;
-    }
-
-    .trust-row,
-    .feature-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .auth-page {
-        grid-template-columns: 1fr;
-    }
-
-    .auth-side {
-        display: none;
-    }
-
-    .auth-main {
-        min-height: 100vh;
-    }
-
-    .dash-grid,
-    .dashboard-columns,
-    .admin-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .admin-stats {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
-
-@media (max-width: 520px) {
-
-    header {
-        height: 70px;
-    }
-
-    .hero {
-        padding: 45px 5% 55px;
-    }
-
-    .hero h1 {
-        font-size: 45px;
-    }
-
-    .actions {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .actions .btn {
-        width: 100%;
-    }
-
-    .bank-card {
-        min-height: 220px;
-        padding: 24px;
-    }
-
-    .trust,
-    .features {
-        padding-left: 5%;
-        padding-right: 5%;
-    }
-
-    .dash {
-        padding: 30px 4% 60px;
-    }
-
-    .dash-top {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-    .dash-top h1 {
-        font-size: 31px;
-    }
-
-    .balance-panel,
-    .dashboard-card {
-        padding: 22px;
-        border-radius: 21px;
-    }
-
-    .balance-number {
-        font-size: 40px;
-    }
-
-    .quick-grid {
-        gap: 7px;
-    }
-
-    .quick-action {
-        padding: 14px 6px;
-    }
-
-    .admin-stats {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .stat {
-        padding: 17px;
-    }
-
-    .stat strong {
-        font-size: 22px;
-    }
-
-    .table-row {
-        grid-template-columns: 1.2fr .7fr;
-    }
-
-    .table-row > :nth-child(2) {
-        display: none;
-    }
-}
-/* ==========================================
    NEXORA DASHBOARD VISUAL FINISH
 ========================================== */
-
-/* USER PILL */
 
 .user-pill-info {
     display: flex;
@@ -1400,6 +1334,9 @@ input:focus {
     box-shadow: 0 10px 25px rgba(23,166,115,.2);
 }
 
+
+/* FORM */
+
 .form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1480,24 +1417,6 @@ input:focus {
 }
 
 
-/* TRANSACTION ROWS */
-
-.transaction {
-    border-bottom: 1px solid #edf0f2;
-    transition: .18s ease;
-}
-
-.transaction:hover {
-    padding-left: 7px;
-    padding-right: 7px;
-    background: #fbfcfc;
-}
-
-.tx-amount.in {
-    color: var(--green);
-}
-
-
 /* ACCOUNT HEADER */
 
 .account-header {
@@ -1560,7 +1479,101 @@ input:focus {
 }
 
 
-/* MOBILE DASHBOARD */
+/* ==========================================
+   CUSTOMER SUPPORT
+========================================== */
+
+.support-icon {
+    background: #eef2f4;
+    color: var(--ink);
+}
+
+.support-notice {
+    margin-top: 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.support-notice-icon {
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 16px;
+    background: var(--green-soft);
+    color: var(--green);
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.support-notice h2 {
+    margin: 8px 0;
+    font: 700 20px Manrope;
+}
+
+.support-notice p {
+    max-width: 700px;
+    color: var(--slate);
+    font-size: 13px;
+    line-height: 1.7;
+    margin: 0 0 18px;
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 850px) {
+
+    header {
+        padding: 0 5%;
+    }
+
+    .navlinks {
+        display: none;
+    }
+
+    .hero {
+        grid-template-columns: 1fr;
+        padding-top: 55px;
+        gap: 45px;
+    }
+
+    .hero h1 {
+        letter-spacing: -2px;
+    }
+
+    .trust-row,
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .auth-page {
+        grid-template-columns: 1fr;
+    }
+
+    .auth-side {
+        display: none;
+    }
+
+    .auth-main {
+        min-height: 100vh;
+    }
+
+    .dash-grid,
+    .dashboard-columns,
+    .admin-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
 
 @media (max-width: 650px) {
 
@@ -1619,6 +1632,15 @@ input:focus {
         text-align: left;
     }
 
+    .support-notice {
+        flex-direction: column;
+    }
+
+    .transaction:hover {
+        padding-left: 0;
+        padding-right: 0;
+        background: transparent;
+    }
 }
 
 
@@ -1642,53 +1664,40 @@ input:focus {
         display: none;
     }
 
+    .dash {
+        padding-left: 4%;
+        padding-right: 4%;
     }
+
+    .balance-panel,
+    .dashboard-card {
+        border-radius: 20px;
+    }
+
+    .quick-action {
+        padding-left: 7px;
+        padding-right: 7px;
+    }
+
+}
+
+
 /* ==========================================
-   CUSTOMER SUPPORT
+   REDUCED MOTION
 ========================================== */
 
-.support-icon {
-    background: #eef2f4;
-    color: var(--ink);
-}
+@media (prefers-reduced-motion: reduce) {
 
-.support-notice {
-    margin-top: 18px;
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
-}
+    html {
+        scroll-behavior: auto;
+    }
 
-.support-notice-icon {
-    width: 50px;
-    height: 50px;
-    flex-shrink: 0;
-    display: grid;
-    place-items: center;
-    border-radius: 16px;
-    background: var(--green-soft);
-    color: var(--green);
-    font-size: 20px;
-    font-weight: 900;
-}
-
-.support-notice h2 {
-    margin: 8px 0;
-    font: 700 20px Manrope;
-}
-
-.support-notice p {
-    max-width: 700px;
-    color: var(--slate);
-    font-size: 13px;
-    line-height: 1.7;
-    margin: 0 0 18px;
-}
-
-@media (max-width: 650px) {
-
-    .support-notice {
-        flex-direction: column;
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
     }
 
 }
