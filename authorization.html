@@ -1,0 +1,669 @@
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Authorization - Nexora Financial</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #06111f, #0b1d33);
+        color: white;
+        min-height: 100vh;
+        padding: 20px;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 1000px;
+        margin: auto;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+
+    .logo {
+        font-size: 24px;
+        font-weight: 800;
+    }
+
+    .logo span {
+        color: #28d7ff;
+    }
+
+    .back {
+        color: #28d7ff;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .hero,
+    .card {
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 20px;
+        padding: 25px;
+    }
+
+    .hero {
+        margin-bottom: 20px;
+    }
+
+    h1 {
+        font-size: 27px;
+        margin-bottom: 8px;
+    }
+
+    .subtitle {
+        color: #9eacbd;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr 1.4fr;
+        gap: 20px;
+    }
+
+    .card h2 {
+        font-size: 18px;
+        margin-bottom: 18px;
+    }
+
+    label {
+        display: block;
+        color: #cbd5e1;
+        font-size: 13px;
+        margin-bottom: 7px;
+    }
+
+    input,
+    select {
+        width: 100%;
+        padding: 13px;
+        margin-bottom: 16px;
+        border-radius: 10px;
+        border: 1px solid rgba(255,255,255,0.12);
+        background: rgba(0,0,0,0.2);
+        color: white;
+        outline: none;
+    }
+
+    select option {
+        background: #0b1d33;
+    }
+
+    input:focus,
+    select:focus {
+        border-color: #28d7ff;
+    }
+
+    button {
+        width: 100%;
+        padding: 13px;
+        border: none;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #19c9ff, #247cff);
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .code-box {
+        display: none;
+        margin-top: 18px;
+        padding: 18px;
+        border-radius: 14px;
+        background: rgba(30,220,130,0.08);
+        border: 1px solid rgba(30,220,130,0.25);
+        text-align: center;
+    }
+
+    .code-box.show {
+        display: block;
+    }
+
+    .code {
+        font-size: 26px;
+        font-weight: 800;
+        letter-spacing: 4px;
+        margin: 12px 0;
+    }
+
+    .warning {
+        color: #d7c982;
+        font-size: 11px;
+        line-height: 1.5;
+    }
+
+    .auth-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .auth-item {
+        padding: 16px;
+        border-radius: 13px;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .auth-top {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    .auth-code {
+        font-weight: 800;
+        letter-spacing: 2px;
+    }
+
+    .status {
+        font-size: 11px;
+        padding: 5px 8px;
+        border-radius: 20px;
+    }
+
+    .active {
+        background: rgba(30,220,130,0.12);
+        color: #7ff0b2;
+    }
+
+    .used {
+        background: rgba(150,160,175,0.12);
+        color: #9eacbd;
+    }
+
+    .auth-meta {
+        color: #8999ac;
+        font-size: 12px;
+        line-height: 1.7;
+    }
+
+    .empty {
+        color: #8999ac;
+        font-size: 13px;
+        text-align: center;
+        padding: 30px 10px;
+    }
+
+    .message {
+        display: none;
+        margin-bottom: 18px;
+        padding: 12px;
+        border-radius: 10px;
+        font-size: 13px;
+    }
+
+    .message.show {
+        display: block;
+    }
+
+    .message.error {
+        background: rgba(255,60,60,0.12);
+        color: #ff9d9d;
+    }
+
+    .message.success {
+        background: rgba(30,220,130,0.12);
+        color: #7ff0b2;
+    }
+
+    @media (max-width: 750px) {
+        .grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+</head><body><div class="container"><div class="header">
+    <div class="logo">
+        NEXORA <span>FINANCIAL</span>
+    </div>
+
+    <a href="./admin.html" class="back">
+        ← Admin
+    </a>
+</div>
+
+
+<div class="hero">
+    <h1>Transaction Authorization</h1>
+
+    <p class="subtitle">
+        Generate authorization codes for simulated
+        Nexora payment transactions.
+    </p>
+</div>
+
+
+<div id="message" class="message"></div>
+
+
+<div class="grid">
+
+    <div class="card">
+
+        <h2>Generate Authorization</h2>
+
+        <label for="paymentType">
+            Payment type
+        </label>
+
+        <select id="paymentType">
+
+            <option value="all">
+                Any payment type
+            </option>
+
+            <option value="nexora">
+                Nexora Transfer
+            </option>
+
+            <option value="paypal">
+                PayPal
+            </option>
+
+            <option value="crypto">
+                Crypto
+            </option>
+
+            <option value="bank">
+                Bank Transfer
+            </option>
+
+            <option value="international">
+                International Transfer
+            </option>
+
+            <option value="request">
+                Request Money
+            </option>
+
+        </select>
+
+
+        <label for="maxAmount">
+            Maximum amount (£)
+        </label>
+
+        <input
+            type="number"
+            id="maxAmount"
+            min="0"
+            step="0.01"
+            placeholder="Leave empty for no limit"
+        >
+
+
+        <button id="generateBtn">
+            Generate Authorization Code
+        </button>
+
+
+        <div
+            class="code-box"
+            id="codeBox"
+        >
+
+            <div>
+                Authorization Code
+            </div>
+
+            <div
+                class="code"
+                id="generatedCode"
+            >
+                ------
+            </div>
+
+            <div class="warning">
+                This code is for the Nexora simulated
+                banking experience. Keep it private.
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>Authorization Codes</h2>
+
+        <div
+            class="auth-list"
+            id="authList"
+        >
+            <div class="empty">
+                Loading authorization codes...
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</div><script>
+
+/* ============================================================
+   SUPABASE
+============================================================ */
+
+const SUPABASE_URL =
+    "https://enstgbpcgkdnwhhlsnhh.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_0ecSKgmH9JIzdX9_3j5Kww_aNdNr_qT";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+/* ============================================================
+   ELEMENTS
+============================================================ */
+
+const message =
+    document.getElementById("message");
+
+const generateBtn =
+    document.getElementById("generateBtn");
+
+const codeBox =
+    document.getElementById("codeBox");
+
+const generatedCode =
+    document.getElementById("generatedCode");
+
+const authList =
+    document.getElementById("authList");
+
+
+/* ============================================================
+   MESSAGE
+============================================================ */
+
+function showMessage(text, type) {
+
+    message.textContent = text;
+
+    message.className =
+        "message show " + type;
+}
+
+
+/* ============================================================
+   AUTHENTICATION
+============================================================ */
+
+async function initialize() {
+
+    try {
+
+        const accessToken =
+            localStorage.getItem(
+                "nexora_access_token"
+            );
+
+        const refreshToken =
+            localStorage.getItem(
+                "nexora_refresh_token"
+            );
+
+
+        if (
+            accessToken &&
+            refreshToken
+        ) {
+
+            await supabaseClient.auth.setSession({
+
+                access_token:
+                    accessToken,
+
+                refresh_token:
+                    refreshToken
+
+            });
+
+        }
+
+
+        const {
+            data
+        } =
+            await supabaseClient.auth.getSession();
+
+
+        if (!data.session) {
+
+            window.location.replace(
+                "./login.html"
+            );
+
+            return;
+        }
+
+
+        const user =
+            data.session.user;
+
+
+        const {
+            data: profile,
+            error
+        } =
+            await supabaseClient
+                .from("profiles")
+                .select("is_admin")
+                .eq("id", user.id)
+                .single();
+
+
+        if (
+            error ||
+            !profile ||
+            profile.is_admin !== true
+        ) {
+
+            window.location.replace(
+                "./dashboard.html"
+            );
+
+            return;
+        }
+
+
+        await loadCodes();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "AUTHORIZATION AUTH ERROR:",
+            error
+        );
+
+        window.location.replace(
+            "./login.html"
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   GENERATE RANDOM CODE
+============================================================ */
+
+function generateCode() {
+
+    const chars =
+        "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+    let result = "";
+
+    for (
+        let i = 0;
+        i < 8;
+        i++
+    ) {
+
+        result +=
+            chars[
+                Math.floor(
+                    Math.random() *
+                    chars.length
+                )
+            ];
+
+    }
+
+    return result;
+
+}
+
+
+/* ============================================================
+   GENERATE BUTTON
+============================================================ */
+
+generateBtn.addEventListener(
+    "click",
+    async function() {
+
+        generateBtn.disabled =
+            true;
+
+        generateBtn.textContent =
+            "Generating...";
+
+
+        try {
+
+            const code =
+                generateCode();
+
+
+            const paymentType =
+                document.getElementById(
+                    "paymentType"
+                ).value;
+
+
+            const maxAmountValue =
+                document.getElementById(
+                    "maxAmount"
+                ).value;
+
+
+            const maxAmount =
+                maxAmountValue
+                    ? Number(maxAmountValue)
+                    : null;
+
+
+            /*
+             * The database table/function for storing
+             * authorization codes will be connected
+             * in the next step.
+             *
+             * For now this displays the generated code
+             * so the admin interface can be tested safely.
+             */
+
+            generatedCode.textContent =
+                code;
+
+            codeBox.classList.add(
+                "show"
+            );
+
+
+            showMessage(
+                "Authorization code generated successfully.",
+                "success"
+            );
+
+
+            generateBtn.disabled =
+                false;
+
+            generateBtn.textContent =
+                "Generate Authorization Code";
+
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            showMessage(
+                "Unable to generate authorization code.",
+                "error"
+            );
+
+            generateBtn.disabled =
+                false;
+
+            generateBtn.textContent =
+                "Generate Authorization Code";
+
+        }
+
+    }
+);
+
+
+/* ============================================================
+   TEMPORARY LIST
+============================================================ */
+
+async function loadCodes() {
+
+    authList.innerHTML = `
+
+        <div class="empty">
+            No authorization codes have been stored yet.
+        </div>
+
+    `;
+
+}
+
+
+/* ============================================================
+   START
+============================================================ */
+
+initialize();
+
+</script></body>
+</html>
