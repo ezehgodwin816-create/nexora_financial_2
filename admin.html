@@ -570,52 +570,30 @@ textarea {
 </div>
 
 
-<!-- ============================================================
-     CUSTOMER ACCOUNTS
-============================================================ -->
+<!-- CUSTOMER ACCOUNTS -->
 
 <section id="accountsPanel" class="panel active">
 
   <section class="stats">
 
     <div class="stat">
-      <div class="stat-label">
-        CUSTOMERS
-      </div>
-
-      <div class="stat-number" id="customerCount">
-        0
-      </div>
+      <div class="stat-label">CUSTOMERS</div>
+      <div class="stat-number" id="customerCount">0</div>
     </div>
 
     <div class="stat">
-      <div class="stat-label">
-        TOTAL BALANCE
-      </div>
-
-      <div class="stat-number" id="totalBalance">
-        £0.00
-      </div>
+      <div class="stat-label">TOTAL BALANCE</div>
+      <div class="stat-number" id="totalBalance">£0.00</div>
     </div>
 
     <div class="stat">
-      <div class="stat-label">
-        ADMINS
-      </div>
-
-      <div class="stat-number" id="adminCount">
-        0
-      </div>
+      <div class="stat-label">ADMINS</div>
+      <div class="stat-number" id="adminCount">0</div>
     </div>
 
     <div class="stat">
-      <div class="stat-label">
-        ACCOUNTS
-      </div>
-
-      <div class="stat-number" id="accountCount">
-        0
-      </div>
+      <div class="stat-label">ACCOUNTS</div>
+      <div class="stat-number" id="accountCount">0</div>
     </div>
 
   </section>
@@ -648,52 +626,30 @@ textarea {
 </section>
 
 
-<!-- ============================================================
-     SUPPORT COMPLAINTS
-============================================================ -->
+<!-- SUPPORT -->
 
 <section id="supportPanel" class="panel">
 
   <section class="stats">
 
     <div class="stat">
-      <div class="stat-label">
-        TOTAL
-      </div>
-
-      <div class="stat-number" id="totalCount">
-        0
-      </div>
+      <div class="stat-label">TOTAL</div>
+      <div class="stat-number" id="totalCount">0</div>
     </div>
 
     <div class="stat">
-      <div class="stat-label">
-        OPEN
-      </div>
-
-      <div class="stat-number" id="openCount">
-        0
-      </div>
+      <div class="stat-label">OPEN</div>
+      <div class="stat-number" id="openCount">0</div>
     </div>
 
     <div class="stat">
-      <div class="stat-label">
-        IN PROGRESS
-      </div>
-
-      <div class="stat-number" id="progressCount">
-        0
-      </div>
+      <div class="stat-label">IN PROGRESS</div>
+      <div class="stat-number" id="progressCount">0</div>
     </div>
 
     <div class="stat">
-      <div class="stat-label">
-        RESOLVED
-      </div>
-
-      <div class="stat-number" id="resolvedCount">
-        0
-      </div>
+      <div class="stat-label">RESOLVED</div>
+      <div class="stat-number" id="resolvedCount">0</div>
     </div>
 
   </section>
@@ -708,21 +664,10 @@ textarea {
 
     <select id="statusFilter">
 
-      <option value="all">
-        All statuses
-      </option>
-
-      <option value="open">
-        Open
-      </option>
-
-      <option value="in progress">
-        In Progress
-      </option>
-
-      <option value="resolved">
-        Resolved
-      </option>
+      <option value="all">All statuses</option>
+      <option value="open">Open</option>
+      <option value="in progress">In Progress</option>
+      <option value="resolved">Resolved</option>
 
     </select>
 
@@ -743,9 +688,7 @@ textarea {
 
 <script>
 
-/* ============================================================
-   SUPABASE
-============================================================ */
+/* SUPABASE */
 
 const SUPABASE_URL =
   "https://enstgbpcgkdnwhhlsnhh.supabase.co";
@@ -761,21 +704,16 @@ let tickets = [];
 let session = null;
 
 
-/* ============================================================
-   STATUS MESSAGE
-============================================================ */
+/* STATUS */
 
 function setStatus(message, type = "") {
 
   const box =
-    document.getElementById(
-      "statusMessage"
-    );
+    document.getElementById("statusMessage");
 
   box.textContent = message;
 
-  box.className =
-    "status-message";
+  box.className = "status-message";
 
   if (type) {
     box.classList.add(type);
@@ -783,9 +721,7 @@ function setStatus(message, type = "") {
 }
 
 
-/* ============================================================
-   TOKEN
-============================================================ */
+/* TOKEN */
 
 function getStoredAccessToken() {
 
@@ -795,9 +731,7 @@ function getStoredAccessToken() {
 }
 
 
-/* ============================================================
-   SUPABASE FETCH
-============================================================ */
+/* SUPABASE REQUEST */
 
 async function supabaseFetch(
   path,
@@ -874,9 +808,7 @@ async function supabaseFetch(
 }
 
 
-/* ============================================================
-   VERIFY USER
-============================================================ */
+/* VERIFY USER */
 
 async function getSession() {
 
@@ -914,10 +846,7 @@ async function getSession() {
     const user =
       await response.json();
 
-    if (
-      !user ||
-      !user.id
-    ) {
+    if (!user || !user.id) {
       return null;
     }
 
@@ -938,9 +867,7 @@ async function getSession() {
 }
 
 
-/* ============================================================
-   ADMIN CHECK
-============================================================ */
+/* ADMIN CHECK */
 
 async function checkAdmin() {
 
@@ -951,10 +878,7 @@ async function checkAdmin() {
   session =
     await getSession();
 
-  if (
-    !session ||
-    !session.user
-  ) {
+  if (!session || !session.user) {
 
     localStorage.removeItem(
       "nexora_access_token"
@@ -978,9 +902,7 @@ async function checkAdmin() {
       .trim()
       .toLowerCase();
 
-  if (
-    email === ADMIN_EMAIL
-  ) {
+  if (email === ADMIN_EMAIL) {
 
     setStatus(
       "Administrator access verified.",
@@ -1030,9 +952,7 @@ async function checkAdmin() {
 }
 
 
-/* ============================================================
-   LOAD CUSTOMER ACCOUNTS
-============================================================ */
+/* LOAD CUSTOMERS */
 
 async function loadCustomers() {
 
@@ -1051,7 +971,11 @@ async function loadCustomers() {
 
     const result =
       await supabaseFetch(
-        "/rest/v1/profiles?select=id,name,email,balance,is_admin,created_at,updated_at&order=created_at.desc"
+        "/rest/v1/rpc/admin_get_customers",
+        {
+          method: "POST",
+          body: "{}"
+        }
       );
 
     customers =
@@ -1062,6 +986,13 @@ async function loadCustomers() {
     updateCustomerStats();
 
     renderCustomers();
+
+    setStatus(
+      customers.length
+        ? `${customers.length} customer account${customers.length === 1 ? "" : "s"} loaded successfully.`
+        : "No customer accounts found.",
+      "success"
+    );
 
   } catch (error) {
 
@@ -1082,9 +1013,7 @@ async function loadCustomers() {
 
         <br><br>
 
-        ${escapeHtml(
-          error.message
-        )}
+        ${escapeHtml(error.message)}
       </div>
     `;
 
@@ -1097,22 +1026,15 @@ async function loadCustomers() {
 }
 
 
-/* ============================================================
-   CUSTOMER STATS
-============================================================ */
+/* CUSTOMER STATS */
 
 function updateCustomerStats() {
 
   const total =
     customers.reduce(
-      (
-        sum,
-        customer
-      ) =>
+      (sum, customer) =>
         sum +
-        Number(
-          customer.balance || 0
-        ),
+        Number(customer.balance || 0),
       0
     );
 
@@ -1144,9 +1066,7 @@ function updateCustomerStats() {
 }
 
 
-/* ============================================================
-   RENDER CUSTOMERS
-============================================================ */
+/* RENDER CUSTOMERS */
 
 function renderCustomers() {
 
@@ -1181,9 +1101,7 @@ function renderCustomers() {
             .join(" ")
             .toLowerCase();
 
-        return text.includes(
-          search
-        );
+        return text.includes(search);
       }
     );
 
@@ -1207,9 +1125,7 @@ function renderCustomers() {
       .join("");
 
   document
-    .querySelectorAll(
-      ".save-balance"
-    )
+    .querySelectorAll(".save-balance")
     .forEach(
       button => {
 
@@ -1229,13 +1145,9 @@ function renderCustomers() {
 }
 
 
-/* ============================================================
-   CUSTOMER CARD
-============================================================ */
+/* CUSTOMER CARD */
 
-function customerCard(
-  customer
-) {
+function customerCard(customer) {
 
   const id =
     String(
@@ -1379,13 +1291,9 @@ function customerCard(
 }
 
 
-/* ============================================================
-   UPDATE CUSTOMER BALANCE
-============================================================ */
+/* UPDATE BALANCE */
 
-async function updateBalance(
-  customerId
-) {
+async function updateBalance(customerId) {
 
   const input =
     document.getElementById(
@@ -1402,14 +1310,10 @@ async function updateBalance(
   }
 
   const newBalance =
-    Number(
-      input.value
-    );
+    Number(input.value);
 
   if (
-    !Number.isFinite(
-      newBalance
-    ) ||
+    !Number.isFinite(newBalance) ||
     newBalance < 0
   ) {
 
@@ -1456,17 +1360,11 @@ async function updateBalance(
     const index =
       customers.findIndex(
         customer =>
-          String(
-            customer.id
-          ) ===
-          String(
-            customerId
-          )
+          String(customer.id) ===
+          String(customerId)
       );
 
-    if (
-      index !== -1
-    ) {
+    if (index !== -1) {
 
       if (updated) {
 
@@ -1506,8 +1404,7 @@ async function updateBalance(
 
     if (button) {
 
-      button.disabled =
-        false;
+      button.disabled = false;
 
       button.textContent =
         "Save Balance";
@@ -1517,9 +1414,7 @@ async function updateBalance(
 }
 
 
-/* ============================================================
-   LOAD SUPPORT TICKETS
-============================================================ */
+/* LOAD SUPPORT TICKETS */
 
 async function loadTickets() {
 
@@ -1594,9 +1489,7 @@ async function loadTickets() {
 
           <br><br>
 
-          ${escapeHtml(
-            error.message
-          )}
+          ${escapeHtml(error.message)}
         </div>
       `;
 
@@ -1610,9 +1503,7 @@ async function loadTickets() {
 }
 
 
-/* ============================================================
-   TICKET STATS
-============================================================ */
+/* TICKET STATS */
 
 function updateTicketStats() {
 
@@ -1628,9 +1519,7 @@ function updateTicketStats() {
           ticket.status
         );
 
-      if (
-        status === "open"
-      ) {
+      if (status === "open") {
 
         open++;
 
@@ -1675,9 +1564,7 @@ function updateTicketStats() {
 }
 
 
-/* ============================================================
-   RENDER TICKETS
-============================================================ */
+/* RENDER TICKETS */
 
 function renderTickets() {
 
@@ -1720,21 +1607,16 @@ function renderTickets() {
 
         if (
           search &&
-          !searchable.includes(
-            search
-          )
+          !searchable.includes(search)
         ) {
-
           return false;
         }
 
         if (
           statusFilter !== "all" &&
-          normalizeStatus(
-            ticket.status
-          ) !== statusFilter
+          normalizeStatus(ticket.status) !==
+          statusFilter
         ) {
-
           return false;
         }
 
@@ -1762,9 +1644,7 @@ function renderTickets() {
       .join("");
 
   document
-    .querySelectorAll(
-      ".save-ticket"
-    )
+    .querySelectorAll(".save-ticket")
     .forEach(
       button => {
 
@@ -1784,13 +1664,9 @@ function renderTickets() {
 }
 
 
-/* ============================================================
-   TICKET CARD
-============================================================ */
+/* TICKET CARD */
 
-function ticketCard(
-  ticket
-) {
+function ticketCard(ticket) {
 
   const id =
     String(
@@ -1804,27 +1680,22 @@ function ticketCard(
 
   let badgeClass = "";
 
-  if (
-    status === "open"
-  ) {
+  if (status === "open") {
 
-    badgeClass =
-      "open";
+    badgeClass = "open";
 
   } else if (
     status === "in progress"
   ) {
 
-    badgeClass =
-      "in-progress";
+    badgeClass = "in-progress";
 
   } else if (
     status === "resolved" ||
     status === "closed"
   ) {
 
-    badgeClass =
-      "resolved";
+    badgeClass = "resolved";
 
   }
 
@@ -1992,13 +1863,9 @@ function ticketCard(
 }
 
 
-/* ============================================================
-   SAVE TICKET
-============================================================ */
+/* SAVE TICKET */
 
-async function saveTicket(
-  id
-) {
+async function saveTicket(id) {
 
   const statusElement =
     document.getElementById(
@@ -2030,8 +1897,7 @@ async function saveTicket(
 
   if (button) {
 
-    button.disabled =
-      true;
+    button.disabled = true;
 
     button.textContent =
       "Saving...";
@@ -2118,8 +1984,7 @@ async function saveTicket(
 
       if (button) {
 
-        button.disabled =
-          false;
+        button.disabled = false;
 
         button.textContent =
           "Save changes";
@@ -2132,14 +1997,10 @@ async function saveTicket(
 }
 
 
-/* ============================================================
-   TABS
-============================================================ */
+/* TABS */
 
 document
-  .querySelectorAll(
-    ".tab"
-  )
+  .querySelectorAll(".tab")
   .forEach(
     tab => {
 
@@ -2148,9 +2009,7 @@ document
         () => {
 
           document
-            .querySelectorAll(
-              ".tab"
-            )
+            .querySelectorAll(".tab")
             .forEach(
               item =>
                 item.classList.remove(
@@ -2159,9 +2018,7 @@ document
             );
 
           document
-            .querySelectorAll(
-              ".panel"
-            )
+            .querySelectorAll(".panel")
             .forEach(
               panel =>
                 panel.classList.remove(
@@ -2194,55 +2051,41 @@ document
   );
 
 
-/* ============================================================
-   SEARCH
-============================================================ */
+/* SEARCH */
 
 document
-  .getElementById(
-    "customerSearch"
-  )
+  .getElementById("customerSearch")
   .addEventListener(
     "input",
     renderCustomers
   );
 
 document
-  .getElementById(
-    "searchInput"
-  )
+  .getElementById("searchInput")
   .addEventListener(
     "input",
     renderTickets
   );
 
 document
-  .getElementById(
-    "statusFilter"
-  )
+  .getElementById("statusFilter")
   .addEventListener(
     "change",
     renderTickets
   );
 
 
-/* ============================================================
-   REFRESH CUSTOMERS
-============================================================ */
+/* REFRESH */
 
 document
-  .getElementById(
-    "refreshCustomers"
-  )
+  .getElementById("refreshCustomers")
   .addEventListener(
     "click",
     loadCustomers
   );
 
 
-/* ============================================================
-   LOGOUT
-============================================================ */
+/* LOGOUT */
 
 async function logout() {
 
@@ -2298,72 +2141,45 @@ async function logout() {
 
 
 document
-  .getElementById(
-    "logoutBtn"
-  )
+  .getElementById("logoutBtn")
   .addEventListener(
     "click",
     logout
 );
 
 
-/* ============================================================
-   FORMATTING
-============================================================ */
+/* FORMATTING */
 
-function formatMoney(
-  amount
-) {
+function formatMoney(amount) {
 
   return new Intl.NumberFormat(
     "en-GB",
     {
-      style:
-        "currency",
-
-      currency:
-        "GBP",
-
-      minimumFractionDigits:
-        2
+      style: "currency",
+      currency: "GBP",
+      minimumFractionDigits: 2
     }
   ).format(
-    Number(
-      amount || 0
-    )
+    Number(amount || 0)
   );
 }
 
 
-function normalizeStatus(
-  status
-) {
+function normalizeStatus(status) {
 
   return String(
     status || "open"
   )
     .trim()
     .toLowerCase()
-    .replace(
-      /_/g,
-      " "
-    )
-    .replace(
-      /-/g,
-      " "
-    );
+    .replace(/_/g, " ")
+    .replace(/-/g, " ");
 }
 
 
-function formatStatus(
-  status
-) {
+function formatStatus(status) {
 
-  if (
-    status ===
-    "in progress"
-  ) {
-
+  if (status === "in progress") {
     return "In Progress";
   }
 
@@ -2371,7 +2187,6 @@ function formatStatus(
     status === "resolved" ||
     status === "closed"
   ) {
-
     return "Resolved";
   }
 
@@ -2379,43 +2194,22 @@ function formatStatus(
 }
 
 
-/* ============================================================
-   HTML ESCAPING
-============================================================ */
+/* HTML ESCAPING */
 
-function escapeHtml(
-  value
-) {
+function escapeHtml(value) {
 
   return String(
     value ?? ""
   )
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-    .replace(
-      /</g,
-      "&lt;"
-    )
-    .replace(
-      />/g,
-      "&gt;"
-    )
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-    .replace(
-      /'/g,
-      "&#039;"
-    );
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 
-/* ============================================================
-   START ADMIN
-============================================================ */
+/* START ADMIN */
 
 (async function startAdmin() {
 
