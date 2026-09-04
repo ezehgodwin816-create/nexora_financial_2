@@ -1,229 +1,218 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Account - Nexora Financial</title>
+    <title>Create Account - Nexora Financial</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #06111f, #0b1d33);
+        color: white;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
 
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #06111f, #0b1d33);
-            color: white;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
+    .container {
+        width: 100%;
+        max-width: 430px;
+    }
 
-        .container {
-            width: 100%;
-            max-width: 430px;
-        }
+    .logo {
+        text-align: center;
+        font-size: 28px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        margin-bottom: 25px;
+    }
 
-        .logo {
-            text-align: center;
-            font-size: 28px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            margin-bottom: 25px;
-        }
+    .logo span {
+        color: #28d7ff;
+    }
 
-        .logo span {
-            color: #28d7ff;
-        }
+    .card {
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 20px;
+        padding: 30px;
+        backdrop-filter: blur(15px);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    }
 
-        .card {
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 20px;
-            padding: 30px;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.35);
-        }
+    h1 {
+        font-size: 25px;
+        margin-bottom: 8px;
+    }
 
-        h1 {
-            font-size: 25px;
-            margin-bottom: 8px;
-        }
+    .subtitle {
+        color: #9eacbd;
+        font-size: 14px;
+        margin-bottom: 25px;
+    }
 
-        .subtitle {
-            color: #9eacbd;
-            font-size: 14px;
-            margin-bottom: 25px;
-        }
+    label {
+        display: block;
+        font-size: 13px;
+        color: #cbd5e1;
+        margin-bottom: 7px;
+    }
 
-        label {
-            display: block;
-            font-size: 13px;
-            color: #cbd5e1;
-            margin-bottom: 7px;
-        }
+    input {
+        width: 100%;
+        padding: 14px;
+        border-radius: 11px;
+        border: 1px solid rgba(255,255,255,0.12);
+        background: rgba(0,0,0,0.2);
+        color: white;
+        outline: none;
+        margin-bottom: 17px;
+        font-size: 15px;
+    }
 
-        input {
-            width: 100%;
-            padding: 14px;
-            border-radius: 11px;
-            border: 1px solid rgba(255,255,255,0.12);
-            background: rgba(0,0,0,0.2);
-            color: white;
-            outline: none;
-            margin-bottom: 17px;
-            font-size: 15px;
-        }
+    input:focus {
+        border-color: #28d7ff;
+    }
 
-        input:focus {
-            border-color: #28d7ff;
-        }
+    button {
+        width: 100%;
+        padding: 14px;
+        border: none;
+        border-radius: 11px;
+        background: linear-gradient(135deg, #19c9ff, #247cff);
+        color: white;
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+        margin-top: 5px;
+    }
 
-        button {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 11px;
-            background: linear-gradient(135deg, #19c9ff, #247cff);
-            color: white;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 5px;
-        }
+    button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
 
-        button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
+    .message {
+        display: none;
+        margin-top: 17px;
+        padding: 12px;
+        border-radius: 10px;
+        font-size: 13px;
+        line-height: 1.5;
+    }
 
-        .message {
-            display: none;
-            margin-top: 17px;
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 13px;
-            line-height: 1.5;
-        }
+    .error {
+        display: block;
+        background: rgba(255, 60, 60, 0.12);
+        border: 1px solid rgba(255, 60, 60, 0.3);
+        color: #ff9d9d;
+    }
 
-        .error {
-            display: block;
-            background: rgba(255, 60, 60, 0.12);
-            border: 1px solid rgba(255, 60, 60, 0.3);
-            color: #ff9d9d;
-        }
+    .success {
+        display: block;
+        background: rgba(30, 220, 130, 0.12);
+        border: 1px solid rgba(30, 220, 130, 0.3);
+        color: #7ff0b2;
+    }
 
-        .success {
-            display: block;
-            background: rgba(30, 220, 130, 0.12);
-            border: 1px solid rgba(30, 220, 130, 0.3);
-            color: #7ff0b2;
-        }
+    .login {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 14px;
+        color: #9eacbd;
+    }
 
-        .login {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 14px;
-            color: #9eacbd;
-        }
+    .login a {
+        color: #28d7ff;
+        text-decoration: none;
+        font-weight: 700;
+    }
 
-        .login a {
-            color: #28d7ff;
-            text-decoration: none;
-            font-weight: 700;
-        }
+    .demo {
+        text-align: center;
+        margin-top: 18px;
+        color: #66788d;
+        font-size: 11px;
+        letter-spacing: 0.5px;
+    }
+</style>
 
-        .demo {
-            text-align: center;
-            margin-top: 18px;
-            color: #66788d;
-            font-size: 11px;
-            letter-spacing: 0.5px;
-        }
-    </style>
-</head>
+</head><body><div class="container"><div class="logo">
+    NEXORA <span>FINANCIAL</span>
+</div>
 
-<body>
+<div class="card">
 
-<div class="container">
+    <h1>Create your account</h1>
 
-    <div class="logo">
-        NEXORA <span>FINANCIAL</span>
+    <p class="subtitle">
+        Open your simulated Nexora Financial account.
+    </p>
+
+    <form id="registerForm">
+
+        <label for="name">Full name</label>
+
+        <input
+            type="text"
+            id="name"
+            placeholder="Enter your full name"
+            autocomplete="name"
+            required
+        >
+
+        <label for="email">Email address</label>
+
+        <input
+            type="email"
+            id="email"
+            placeholder="Enter your email"
+            autocomplete="email"
+            required
+        >
+
+        <label for="password">Password</label>
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Create a password"
+            minlength="6"
+            autocomplete="new-password"
+            required
+        >
+
+        <button
+            type="submit"
+            id="registerBtn"
+        >
+            Create Account
+        </button>
+
+    </form>
+
+    <div id="message" class="message"></div>
+
+    <div class="login">
+        Already have an account?
+        <a href="./login.html">Sign in</a>
     </div>
 
-    <div class="card">
-
-        <h1>Create your account</h1>
-
-        <p class="subtitle">
-            Open your simulated Nexora Financial account.
-        </p>
-
-        <form id="registerForm">
-
-            <label for="name">Full name</label>
-
-            <input
-                type="text"
-                id="name"
-                placeholder="Enter your full name"
-                autocomplete="name"
-                required
-            >
-
-            <label for="email">Email address</label>
-
-            <input
-                type="email"
-                id="email"
-                placeholder="Enter your email"
-                autocomplete="email"
-                required
-            >
-
-            <label for="password">Password</label>
-
-            <input
-                type="password"
-                id="password"
-                placeholder="Create a password"
-                minlength="6"
-                autocomplete="new-password"
-                required
-            >
-
-            <button
-                type="submit"
-                id="registerBtn"
-            >
-                Create Account
-            </button>
-
-        </form>
-
-        <div id="message" class="message"></div>
-
-        <div class="login">
-            Already have an account?
-            <a href="./login.html">Sign in</a>
-        </div>
-
-        <div class="demo">
-            NEXORA FINANCIAL · SIMULATED BANKING EXPERIENCE
-        </div>
-
+    <div class="demo">
+        NEXORA FINANCIAL · SIMULATED BANKING EXPERIENCE
     </div>
 
 </div>
 
-
-<script>
+</div><script>
 
 /* ============================================================
    SUPABASE
@@ -247,7 +236,7 @@ const supabaseClient =
 ============================================================ */
 
 const DASHBOARD_URL =
-    "./dashboard.html?v=4000";
+    "./dashboard.html?v=8000";
 
 
 /* ============================================================
@@ -368,10 +357,27 @@ form.addEventListener(
         try {
 
             /* ------------------------------------------------
-               CREATE AUTH ACCOUNT
+               CLEAR OLD NEXORA SESSION DATA
 
-               The full_name metadata is picked up by the
-               database trigger and stored in profiles.name.
+               This prevents a previous account's locally
+               stored tokens from being reused.
+            ------------------------------------------------ */
+
+            localStorage.removeItem(
+                "nexora_access_token"
+            );
+
+            localStorage.removeItem(
+                "nexora_refresh_token"
+            );
+
+            localStorage.removeItem(
+                "nexoraUserId"
+            );
+
+
+            /* ------------------------------------------------
+               CREATE AUTH ACCOUNT
             ------------------------------------------------ */
 
             const {
@@ -420,20 +426,27 @@ form.addEventListener(
 
 
             /* ------------------------------------------------
-               SAVE USER ID
-            ------------------------------------------------ */
-
-            localStorage.setItem(
-                "nexoraUserId",
-                data.user.id
-            );
-
-
-            /* ------------------------------------------------
-               SESSION AVAILABLE
+               MAKE SURE THE NEW USER SESSION IS THE ACTIVE
+               NEXORA SESSION
             ------------------------------------------------ */
 
             if (data.session) {
+
+                localStorage.setItem(
+                    "nexora_access_token",
+                    data.session.access_token
+                );
+
+                localStorage.setItem(
+                    "nexora_refresh_token",
+                    data.session.refresh_token
+                );
+
+                localStorage.setItem(
+                    "nexoraUserId",
+                    data.user.id
+                );
+
 
                 showMessage(
                     "Account created successfully. Redirecting to your Nexora dashboard...",
@@ -444,8 +457,9 @@ form.addEventListener(
                 setTimeout(
                     function() {
 
-                        window.location.href =
-                            DASHBOARD_URL;
+                        window.location.replace(
+                            DASHBOARD_URL
+                        );
 
                     },
                     800
@@ -458,6 +472,12 @@ form.addEventListener(
                    EMAIL CONFIRMATION / NO SESSION
                 -------------------------------------------- */
 
+                localStorage.setItem(
+                    "nexoraUserId",
+                    data.user.id
+                );
+
+
                 showMessage(
                     "Account created. Please sign in to continue.",
                     "success"
@@ -467,8 +487,9 @@ form.addEventListener(
                 setTimeout(
                     function() {
 
-                        window.location.href =
-                            "./login.html?v=4000";
+                        window.location.replace(
+                            "./login.html?v=8000"
+                        );
 
                     },
                     1200
@@ -535,7 +556,5 @@ form.addEventListener(
     }
 );
 
-</script>
-
-</body>
+</script></body>
 </html>
