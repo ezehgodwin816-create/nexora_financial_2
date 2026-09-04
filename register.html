@@ -168,31 +168,40 @@
         <form id="registerForm">
 
             <label for="name">Full name</label>
+
             <input
                 type="text"
                 id="name"
                 placeholder="Enter your full name"
+                autocomplete="name"
                 required
             >
 
             <label for="email">Email address</label>
+
             <input
                 type="email"
                 id="email"
                 placeholder="Enter your email"
+                autocomplete="email"
                 required
             >
 
             <label for="password">Password</label>
+
             <input
                 type="password"
                 id="password"
                 placeholder="Create a password"
                 minlength="6"
+                autocomplete="new-password"
                 required
             >
 
-            <button type="submit" id="registerBtn">
+            <button
+                type="submit"
+                id="registerBtn"
+            >
                 Create Account
             </button>
 
@@ -213,130 +222,319 @@
 
 </div>
 
+
 <script>
+
+/* ============================================================
+   SUPABASE
+============================================================ */
+
 const SUPABASE_URL =
     "https://enstgbpcgkdnwhhlsnhh.supabase.co";
 
 const SUPABASE_KEY =
     "sb_publishable_0ecSKgmH9JIzdX9_3j5Kww_aNdNr_qT";
 
-const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
-const DASHBOARD_URL = "./dashboard.html?v=4000";
 
-const form = document.getElementById("registerForm");
-const registerBtn = document.getElementById("registerBtn");
-const message = document.getElementById("message");
+/* ============================================================
+   DASHBOARD
+============================================================ */
 
-function showMessage(text, type) {
-    message.textContent = text;
-    message.className = "message " + type;
+const DASHBOARD_URL =
+    "./dashboard.html?v=4000";
+
+
+/* ============================================================
+   ELEMENTS
+============================================================ */
+
+const form =
+    document.getElementById(
+        "registerForm"
+    );
+
+const registerBtn =
+    document.getElementById(
+        "registerBtn"
+    );
+
+const message =
+    document.getElementById(
+        "message"
+    );
+
+
+/* ============================================================
+   MESSAGE
+============================================================ */
+
+function showMessage(
+    text,
+    type
+) {
+
+    message.textContent =
+        text;
+
+    message.className =
+        "message " + type;
 }
 
-form.addEventListener("submit", async function(e) {
 
-    e.preventDefault();
+/* ============================================================
+   REGISTRATION
+============================================================ */
 
-    const name = document.getElementById("name").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
+form.addEventListener(
+    "submit",
+    async function(e) {
 
-    if (!name || !email || !password) {
-        showMessage("Please complete all fields.", "error");
-        return;
-    }
+        e.preventDefault();
 
-    if (password.length < 6) {
-        showMessage("Password must be at least 6 characters.", "error");
-        return;
-    }
 
-    registerBtn.disabled = true;
-    registerBtn.textContent = "Creating account...";
-    message.className = "message";
+        const name =
+            document
+                .getElementById("name")
+                .value
+                .trim();
 
-    try {
 
-        const { data, error } = await supabaseClient.auth.signUp({
-            email: email,
-            password: password,
-            options: {
-                data: {
-                    full_name: name
-                }
+        const email =
+            document
+                .getElementById("email")
+                .value
+                .trim()
+                .toLowerCase();
+
+
+        const password =
+            document
+                .getElementById("password")
+                .value;
+
+
+        /* ----------------------------------------------------
+           VALIDATION
+        ---------------------------------------------------- */
+
+        if (
+            !name ||
+            !email ||
+            !password
+        ) {
+
+            showMessage(
+                "Please complete all fields.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        if (
+            password.length < 6
+        ) {
+
+            showMessage(
+                "Password must be at least 6 characters.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        /* ----------------------------------------------------
+           BUTTON
+        ---------------------------------------------------- */
+
+        registerBtn.disabled =
+            true;
+
+        registerBtn.textContent =
+            "Creating account...";
+
+        message.className =
+            "message";
+
+
+        try {
+
+            /* ------------------------------------------------
+               CREATE AUTH ACCOUNT
+
+               The full_name metadata is picked up by the
+               database trigger and stored in profiles.name.
+            ------------------------------------------------ */
+
+            const {
+                data,
+                error
+            } =
+                await supabaseClient.auth.signUp({
+
+                    email:
+                        email,
+
+                    password:
+                        password,
+
+                    options: {
+
+                        data: {
+
+                            full_name:
+                                name,
+
+                            name:
+                                name
+
+                        }
+
+                    }
+
+                });
+
+
+            if (error) {
+                throw error;
             }
-        });
 
-        if (error) {
-            throw error;
-        }
 
-        if (!data.user) {
-            throw new Error("Account could not be created.");
-        }
+            if (
+                !data ||
+                !data.user
+            ) {
 
-        /*
-         * Email confirmation is disabled in Supabase,
-         * so the user should receive a session immediately.
-         */
+                throw new Error(
+                    "Account could not be created."
+                );
+            }
 
-        if (data.session) {
+
+            /* ------------------------------------------------
+               SAVE USER ID
+            ------------------------------------------------ */
 
             localStorage.setItem(
                 "nexoraUserId",
                 data.user.id
             );
 
-            showMessage(
-                "Account created successfully. Redirecting to your Nexora dashboard...",
-                "success"
+
+            /* ------------------------------------------------
+               SESSION AVAILABLE
+            ------------------------------------------------ */
+
+            if (data.session) {
+
+                showMessage(
+                    "Account created successfully. Redirecting to your Nexora dashboard...",
+                    "success"
+                );
+
+
+                setTimeout(
+                    function() {
+
+                        window.location.href =
+                            DASHBOARD_URL;
+
+                    },
+                    800
+                );
+
+
+            } else {
+
+                /* --------------------------------------------
+                   EMAIL CONFIRMATION / NO SESSION
+                -------------------------------------------- */
+
+                showMessage(
+                    "Account created. Please sign in to continue.",
+                    "success"
+                );
+
+
+                setTimeout(
+                    function() {
+
+                        window.location.href =
+                            "./login.html?v=4000";
+
+                    },
+                    1200
+                );
+
+            }
+
+
+        } catch (error) {
+
+            console.error(
+                "REGISTRATION ERROR:",
+                error
             );
 
-            setTimeout(() => {
-                window.location.href = DASHBOARD_URL;
-            }, 800);
 
-        } else {
+            let errorMessage =
+                error.message ||
+                "Registration failed.";
 
-            /*
-             * Safety fallback if Supabase does not return
-             * a session for some reason.
-             */
+
+            const lowerMessage =
+                errorMessage.toLowerCase();
+
+
+            if (
+                lowerMessage.includes(
+                    "already registered"
+                )
+            ) {
+
+                errorMessage =
+                    "An account with this email already exists.";
+
+            }
+
+
+            else if (
+                lowerMessage.includes(
+                    "password"
+                )
+            ) {
+
+                errorMessage =
+                    "Please use a password with at least 6 characters.";
+
+            }
+
 
             showMessage(
-                "Account created. Please sign in to continue.",
-                "success"
+                errorMessage,
+                "error"
             );
 
-            setTimeout(() => {
-                window.location.href = "./login.html?v=4000";
-            }, 1200);
+
+            registerBtn.disabled =
+                false;
+
+            registerBtn.textContent =
+                "Create Account";
+
         }
 
-    } catch (error) {
-
-        console.error("REGISTRATION ERROR:", error);
-
-        let errorMessage = error.message || "Registration failed.";
-
-        if (errorMessage.toLowerCase().includes("already registered")) {
-            errorMessage = "An account with this email already exists.";
-        }
-
-        if (errorMessage.toLowerCase().includes("password")) {
-            errorMessage = "Please use a password with at least 6 characters.";
-        }
-
-        showMessage(errorMessage, "error");
-
-        registerBtn.disabled = false;
-        registerBtn.textContent = "Create Account";
     }
+);
 
-});
 </script>
 
 </body>
