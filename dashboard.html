@@ -34,6 +34,10 @@
             Account
         </a>
 
+        <a href="./payments.html">
+            Payments
+        </a>
+
         <a href="./support.html">
             Support
         </a>
@@ -257,6 +261,26 @@
 
             <span>
                 Transfer funds
+            </span>
+
+        </a>
+
+
+        <a
+            class="quick-action"
+            href="./payments.html"
+        >
+
+            <div class="quick-icon send-icon">
+                £
+            </div>
+
+            <strong>
+                Payments
+            </strong>
+
+            <span>
+                Pay & transfer
             </span>
 
         </a>
@@ -706,11 +730,6 @@ async function restoreSession() {
 
     }
 
-
-    /*
-      Restore the tokens saved by login.html
-      into the Supabase client.
-    */
 
     const {
         data,
