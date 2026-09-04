@@ -1,481 +1,622 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payments - Nexora Financial</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexora — Payments</title>
 
 <style>
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
+* {
+    box-sizing: border-box;
+}
 
-    body {
-        font-family: Arial, sans-serif;
-        background: linear-gradient(135deg, #06111f, #0b1d33);
-        color: white;
-        min-height: 100vh;
-        padding: 20px;
-    }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    color: #172033;
+}
 
-    .container {
-        width: 100%;
-        max-width: 900px;
-        margin: auto;
+.header {
+    background: #111827;
+    color: white;
+    padding: 18px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.header span {
+    display: block;
+    font-size: 12px;
+    opacity: .7;
+    margin-top: 3px;
+}
+
+.container {
+    max-width: 950px;
+    margin: 30px auto;
+    padding: 0 18px;
+}
+
+.card {
+    background: white;
+    border-radius: 16px;
+    padding: 22px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,.06);
+}
+
+h1 {
+    margin-top: 0;
+}
+
+h2 {
+    font-size: 19px;
+    margin-top: 0;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin: 14px 0 7px;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #d7dce5;
+    border-radius: 10px;
+    font-size: 15px;
+    outline: none;
+}
+
+textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #111827;
+}
+
+button {
+    width: 100%;
+    border: 0;
+    border-radius: 10px;
+    padding: 14px;
+    background: #111827;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 18px;
+}
+
+button:hover {
+    opacity: .9;
+}
+
+.secondary {
+    background: #e9edf3;
+    color: #172033;
+}
+
+.balance {
+    font-size: 30px;
+    font-weight: 800;
+    margin-top: 5px;
+}
+
+.methods {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.method {
+    border: 2px solid #e4e8ef;
+    border-radius: 14px;
+    padding: 17px;
+    cursor: pointer;
+    transition: .15s;
+}
+
+.method:hover {
+    border-color: #111827;
+}
+
+.method.active {
+    border-color: #111827;
+    background: #f5f7fa;
+}
+
+.method strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.method small {
+    color: #667085;
+}
+
+.form-section {
+    display: none;
+    margin-top: 20px;
+}
+
+.form-section.active {
+    display: block;
+}
+
+.review {
+    display: none;
+}
+
+.review-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 12px 0;
+    border-bottom: 1px solid #edf0f4;
+}
+
+.review-row:last-child {
+    border-bottom: 0;
+}
+
+.review-label {
+    color: #667085;
+}
+
+.review-value {
+    font-weight: 700;
+    text-align: right;
+    word-break: break-word;
+}
+
+.tac-box {
+    display: none;
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 14px;
+    background: #f1f5f9;
+}
+
+.tac-box input {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 4px;
+}
+
+.notice {
+    background: #fff8df;
+    border: 1px solid #f0df9c;
+    border-radius: 12px;
+    padding: 13px;
+    font-size: 13px;
+    color: #735d00;
+    margin-top: 16px;
+}
+
+.message {
+    display: none;
+    padding: 13px;
+    border-radius: 10px;
+    margin-top: 15px;
+}
+
+.success {
+    background: #e8f8ee;
+    color: #18733b;
+}
+
+.error {
+    background: #fdecec;
+    color: #a52222;
+}
+
+.loading {
+    opacity: .6;
+    pointer-events: none;
+}
+
+@media (max-width: 650px) {
+    .methods {
+        grid-template-columns: 1fr;
     }
 
     .header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 25px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
     }
-
-    .logo {
-        font-size: 24px;
-        font-weight: 800;
-        letter-spacing: 1px;
-    }
-
-    .logo span {
-        color: #28d7ff;
-    }
-
-    .back {
-        color: #28d7ff;
-        text-decoration: none;
-        font-size: 14px;
-        font-weight: 700;
-    }
-
-    .hero {
-        background: rgba(255,255,255,0.06);
-        border: 1px solid rgba(255,255,255,0.12);
-        border-radius: 22px;
-        padding: 28px;
-        margin-bottom: 20px;
-    }
-
-    .hero h1 {
-        font-size: 28px;
-        margin-bottom: 8px;
-    }
-
-    .hero p {
-        color: #9eacbd;
-        font-size: 14px;
-        line-height: 1.6;
-    }
-
-    .balance {
-        margin-top: 20px;
-        padding: 18px;
-        border-radius: 15px;
-        background: rgba(40,215,255,0.08);
-        border: 1px solid rgba(40,215,255,0.15);
-    }
-
-    .balance-label {
-        color: #9eacbd;
-        font-size: 12px;
-        margin-bottom: 5px;
-    }
-
-    .balance-value {
-        font-size: 27px;
-        font-weight: 800;
-    }
-
-    .section-title {
-        font-size: 17px;
-        margin: 25px 0 12px;
-    }
-
-    .methods {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-    }
-
-    .method {
-        background: rgba(255,255,255,0.055);
-        border: 1px solid rgba(255,255,255,0.11);
-        border-radius: 17px;
-        padding: 18px;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-
-    .method:hover {
-        transform: translateY(-2px);
-        border-color: rgba(40,215,255,0.5);
-    }
-
-    .method.active {
-        border-color: #28d7ff;
-        background: rgba(40,215,255,0.1);
-    }
-
-    .icon {
-        font-size: 25px;
-        margin-bottom: 10px;
-    }
-
-    .method strong {
-        display: block;
-        font-size: 15px;
-        margin-bottom: 5px;
-    }
-
-    .method small {
-        color: #8797aa;
-        font-size: 12px;
-    }
-
-    .form-card {
-        display: none;
-        background: rgba(255,255,255,0.06);
-        border: 1px solid rgba(255,255,255,0.12);
-        border-radius: 20px;
-        padding: 25px;
-        margin-top: 20px;
-    }
-
-    .form-card.show {
-        display: block;
-    }
-
-    .form-title {
-        font-size: 20px;
-        margin-bottom: 5px;
-    }
-
-    .form-subtitle {
-        color: #8797aa;
-        font-size: 13px;
-        margin-bottom: 22px;
-    }
-
-    label {
-        display: block;
-        color: #cbd5e1;
-        font-size: 13px;
-        margin-bottom: 7px;
-    }
-
-    input,
-    select,
-    textarea {
-        width: 100%;
-        padding: 14px;
-        margin-bottom: 16px;
-        border-radius: 11px;
-        border: 1px solid rgba(255,255,255,0.12);
-        background: rgba(0,0,0,0.2);
-        color: white;
-        outline: none;
-        font-size: 14px;
-    }
-
-    select option {
-        background: #0b1d33;
-        color: white;
-    }
-
-    textarea {
-        min-height: 90px;
-        resize: vertical;
-    }
-
-    input:focus,
-    select:focus,
-    textarea:focus {
-        border-color: #28d7ff;
-    }
-
-    .row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-    }
-
-    .send-btn {
-        width: 100%;
-        padding: 15px;
-        border: none;
-        border-radius: 11px;
-        background: linear-gradient(135deg, #19c9ff, #247cff);
-        color: white;
-        font-size: 15px;
-        font-weight: 700;
-        cursor: pointer;
-        margin-top: 5px;
-    }
-
-    .send-btn:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-    }
-
-    .notice {
-        margin-top: 15px;
-        padding: 12px;
-        border-radius: 10px;
-        background: rgba(255,193,7,0.08);
-        border: 1px solid rgba(255,193,7,0.2);
-        color: #e8cf83;
-        font-size: 12px;
-        line-height: 1.5;
-    }
-
-    .message {
-        display: none;
-        margin-top: 15px;
-        padding: 13px;
-        border-radius: 10px;
-        font-size: 13px;
-    }
-
-    .message.show {
-        display: block;
-    }
-
-    .message.error {
-        background: rgba(255,60,60,0.12);
-        border: 1px solid rgba(255,60,60,0.3);
-        color: #ff9d9d;
-    }
-
-    .message.success {
-        background: rgba(30,220,130,0.12);
-        border: 1px solid rgba(30,220,130,0.3);
-        color: #7ff0b2;
-    }
-
-    .tac-box {
-        display: none;
-        margin-top: 20px;
-        padding: 22px;
-        border-radius: 16px;
-        background: rgba(40,215,255,0.06);
-        border: 1px solid rgba(40,215,255,0.2);
-    }
-
-    .tac-box.show {
-        display: block;
-    }
-
-    .tac-box h3 {
-        font-size: 18px;
-        margin-bottom: 8px;
-    }
-
-    .tac-box p {
-        color: #9eacbd;
-        font-size: 13px;
-        line-height: 1.5;
-        margin-bottom: 16px;
-    }
-
-    .authorize-btn {
-        width: 100%;
-        padding: 14px;
-        border: none;
-        border-radius: 11px;
-        background: #19c98a;
-        color: white;
-        font-weight: 700;
-        cursor: pointer;
-    }
-
-    @media (max-width: 600px) {
-        .methods,
-        .row {
-            grid-template-columns: 1fr;
-        }
-
-        .hero h1 {
-            font-size: 24px;
-        }
-    }
+}
 </style>
+</head>
 
-</head><body><div class="container"><div class="header">
-    <div class="logo">
-        NEXORA <span>FINANCIAL</span>
+<body>
+
+<header class="header">
+    <div>
+        <div class="logo">NEXORA FINANCIAL</div>
+        <span>Secure Payment Center</span>
     </div>
-
-    <a href="./dashboard.html" class="back">
-        ← Dashboard
-    </a>
-</div>
-
-
-<div class="hero">
-
-    <h1>Payments & Transfers</h1>
-
-    <p>
-        Send money, make payments and manage simulated
-        external transfers from one secure payment center.
-    </p>
-
-    <div class="balance">
-        <div class="balance-label">
-            Available balance
-        </div>
-
-        <div class="balance-value" id="balance">
-            £0.00
-        </div>
-    </div>
-
-</div>
-
-
-<div class="section-title">
-    Choose payment method
-</div>
-
-
-<div class="methods">
-
-    <div class="method" data-method="nexora">
-        <div class="icon">💸</div>
-        <strong>Nexora Transfer</strong>
-        <small>Send money to another Nexora customer</small>
-    </div>
-
-    <div class="method" data-method="paypal">
-        <div class="icon">🅿️</div>
-        <strong>PayPal</strong>
-        <small>Simulated PayPal payment</small>
-    </div>
-
-    <div class="method" data-method="crypto">
-        <div class="icon">₿</div>
-        <strong>Crypto</strong>
-        <small>Simulated cryptocurrency transfer</small>
-    </div>
-
-    <div class="method" data-method="bank">
-        <div class="icon">🏦</div>
-        <strong>Bank Transfer</strong>
-        <small>Simulated external bank transfer</small>
-    </div>
-
-    <div class="method" data-method="international">
-        <div class="icon">🌐</div>
-        <strong>International</strong>
-        <small>Simulated international payment</small>
-    </div>
-
-    <div class="method" data-method="request">
-        <div class="icon">💰</div>
-        <strong>Request Money</strong>
-        <small>Create a simulated payment request</small>
-    </div>
-
-</div>
-
-
-<div class="form-card" id="paymentForm">
-
-    <div class="form-title" id="formTitle">
-        Payment
-    </div>
-
-    <div class="form-subtitle" id="formSubtitle">
-        Enter the payment details below.
-    </div>
-
-
-    <div id="dynamicFields"></div>
-
-
-    <label for="amount">
-        Amount
-    </label>
-
-    <input
-        type="number"
-        id="amount"
-        placeholder="0.00"
-        min="0.01"
-        step="0.01"
-    >
-
-
-    <label for="description">
-        Payment note
-    </label>
-
-    <textarea
-        id="description"
-        placeholder="Optional payment description"
-    ></textarea>
-
 
     <button
-        class="send-btn"
-        id="continueBtn"
+        class="secondary"
+        style="width:auto;margin:0"
+        onclick="window.location.href='./dashboard.html'"
     >
-        Review Payment
+        Dashboard
     </button>
+</header>
 
 
-    <div class="notice">
-        This is a simulated banking experience.
-        External payments, PayPal payments, cryptocurrency
-        transfers and bank transfers are not actually sent.
+<div class="container">
+
+    <div class="card">
+        <h1>Payments</h1>
+
+        <div>
+            <div style="color:#667085;font-size:13px">
+                Available balance
+            </div>
+
+            <div class="balance" id="balance">
+                £0.00
+            </div>
+        </div>
+
+        <div class="notice">
+            <strong>Demo environment:</strong>
+            External payment methods such as PayPal, Crypto and
+            international transfers are simulated. No real external
+            money transfer is performed.
+        </div>
     </div>
 
 
-    <div
-        class="message"
-        id="message"
-    ></div>
+    <div class="card" id="paymentCard">
+
+        <h2>Choose Payment Method</h2>
+
+        <div class="methods">
+
+            <div
+                class="method active"
+                data-method="Nexora Transfer"
+                onclick="selectMethod(this)"
+            >
+                <strong>Nexora Transfer</strong>
+                <small>Send money to another Nexora customer</small>
+            </div>
+
+            <div
+                class="method"
+                data-method="PayPal"
+                onclick="selectMethod(this)"
+            >
+                <strong>PayPal</strong>
+                <small>Simulated PayPal payment</small>
+            </div>
+
+            <div
+                class="method"
+                data-method="Crypto"
+                onclick="selectMethod(this)"
+            >
+                <strong>Crypto</strong>
+                <small>Simulated cryptocurrency payment</small>
+            </div>
+
+            <div
+                class="method"
+                data-method="Bank Transfer"
+                onclick="selectMethod(this)"
+            >
+                <strong>Bank Transfer</strong>
+                <small>Simulated bank transfer</small>
+            </div>
+
+            <div
+                class="method"
+                data-method="International Transfer"
+                onclick="selectMethod(this)"
+            >
+                <strong>International Transfer</strong>
+                <small>Simulated international payment</small>
+            </div>
+
+        </div>
 
 
+        <!-- NEXORA -->
+
+        <div
+            class="form-section active"
+            id="Nexora-Transfer"
+        >
+
+            <label>Recipient Email</label>
+
+            <input
+                id="nexoraRecipient"
+                type="email"
+                placeholder="customer@example.com"
+            >
+
+            <label>Amount (£)</label>
+
+            <input
+                id="nexoraAmount"
+                type="number"
+                min="0.01"
+                step="0.01"
+                placeholder="0.00"
+            >
+
+            <label>Description</label>
+
+            <textarea
+                id="nexoraDescription"
+                placeholder="Payment description"
+            ></textarea>
+
+        </div>
+
+
+        <!-- PAYPAL -->
+
+        <div
+            class="form-section"
+            id="PayPal"
+        >
+
+            <label>PayPal Email</label>
+
+            <input
+                id="paypalRecipient"
+                type="email"
+                placeholder="recipient@example.com"
+            >
+
+            <label>Amount (£)</label>
+
+            <input
+                id="paypalAmount"
+                type="number"
+                min="0.01"
+                step="0.01"
+                placeholder="0.00"
+            >
+
+            <label>Payment Note</label>
+
+            <textarea
+                id="paypalDescription"
+                placeholder="Payment note"
+            ></textarea>
+
+        </div>
+
+
+        <!-- CRYPTO -->
+
+        <div
+            class="form-section"
+            id="Crypto"
+        >
+
+            <label>Wallet Address</label>
+
+            <input
+                id="cryptoRecipient"
+                type="text"
+                placeholder="Wallet address"
+            >
+
+            <label>Amount (£)</label>
+
+            <input
+                id="cryptoAmount"
+                type="number"
+                min="0.01"
+                step="0.01"
+                placeholder="0.00"
+            >
+
+            <label>Asset</label>
+
+            <select id="cryptoAsset">
+                <option>Bitcoin (BTC)</option>
+                <option>Ethereum (ETH)</option>
+                <option>USDT</option>
+                <option>USDC</option>
+            </select>
+
+        </div>
+
+
+        <!-- BANK -->
+
+        <div
+            class="form-section"
+            id="Bank-Transfer"
+        >
+
+            <label>Account Name</label>
+
+            <input
+                id="bankName"
+                type="text"
+                placeholder="Account holder"
+            >
+
+            <label>Account Number</label>
+
+            <input
+                id="bankAccount"
+                type="text"
+                placeholder="Account number"
+            >
+
+            <label>Amount (£)</label>
+
+            <input
+                id="bankAmount"
+                type="number"
+                min="0.01"
+                step="0.01"
+                placeholder="0.00"
+            >
+
+            <label>Bank Name</label>
+
+            <input
+                id="bankBank"
+                type="text"
+                placeholder="Bank name"
+            >
+
+        </div>
+
+
+        <!-- INTERNATIONAL -->
+
+        <div
+            class="form-section"
+            id="International-Transfer"
+        >
+
+            <label>Recipient Name</label>
+
+            <input
+                id="internationalName"
+                type="text"
+                placeholder="Recipient name"
+            >
+
+            <label>Recipient Country</label>
+
+            <input
+                id="internationalCountry"
+                type="text"
+                placeholder="Country"
+            >
+
+            <label>Amount (£)</label>
+
+            <input
+                id="internationalAmount"
+                type="number"
+                min="0.01"
+                step="0.01"
+                placeholder="0.00"
+            >
+
+            <label>Account / IBAN</label>
+
+            <input
+                id="internationalAccount"
+                type="text"
+                placeholder="Account or IBAN"
+            >
+
+        </div>
+
+
+        <div
+            class="message"
+            id="message"
+        ></div>
+
+        <button onclick="reviewPayment()">
+            Review Payment
+        </button>
+
+    </div>
+
+
+    <!-- REVIEW -->
+
     <div
-        class="tac-box"
-        id="tacBox"
+        class="card review"
+        id="reviewCard"
     >
 
-        <h3>
-            🔐 Transaction Authorization
-        </h3>
+        <h2>Review Payment</h2>
+
+        <div id="reviewDetails"></div>
+
+        <button onclick="showAuthorization()">
+            Continue to Authorization
+        </button>
+
+        <button
+            class="secondary"
+            onclick="backToPayment()"
+        >
+            Edit Payment
+        </button>
+
+    </div>
+
+
+    <!-- TAC -->
+
+    <div
+        class="card tac-box"
+        id="tacCard"
+    >
+
+        <h2>Transaction Authorization</h2>
 
         <p>
-            Enter the Transaction Authorization Code
-            provided by the administrator to authorize
-            this simulated transaction.
+            Enter the Transaction Authorization Code provided
+            by the Nexora administrator.
         </p>
 
         <input
+            id="tac"
             type="text"
-            id="tacCode"
-            placeholder="Enter authorization code"
+            maxlength="8"
+            placeholder="ENTER TAC"
             autocomplete="off"
         >
 
+        <div
+            class="message"
+            id="tacMessage"
+        ></div>
+
+        <button onclick="authorizePayment()">
+            Authorize & Complete Payment
+        </button>
+
         <button
-            class="authorize-btn"
-            id="authorizeBtn"
+            class="secondary"
+            onclick="backToReview()"
         >
-            Authorize Simulated Payment
+            Back
         </button>
 
     </div>
 
 </div>
 
-</div><script>
 
-/* ============================================================
-   SUPABASE
-============================================================ */
+<script>
 
 const SUPABASE_URL =
     "https://enstgbpcgkdnwhhlsnhh.supabase.co";
@@ -483,648 +624,638 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
     "sb_publishable_0ecSKgmH9JIzdX9_3j5Kww_aNdNr_qT";
 
-const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
+const accessToken =
+    localStorage.getItem("nexora_access_token");
+
+const refreshToken =
+    localStorage.getItem("nexora_refresh_token");
+
+
+let selectedMethod = "Nexora Transfer";
+
+let paymentData = null;
+
+
+function supabaseFetch(path, options = {}) {
+
+    const headers = {
+        "apikey": SUPABASE_KEY,
+        "Authorization": "Bearer " + accessToken,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        ...(options.headers || {})
+    };
+
+    return fetch(
+        SUPABASE_URL + path,
+        {
+            ...options,
+            headers
+        }
     );
-
-
-/* ============================================================
-   STATE
-============================================================ */
-
-let currentUser = null;
-let selectedMethod = null;
-let pendingPayment = null;
-
-
-/* ============================================================
-   METHOD INFORMATION
-============================================================ */
-
-const methodInfo = {
-
-    nexora: {
-        title: "Nexora Transfer",
-        subtitle: "Send money directly to another Nexora customer."
-    },
-
-    paypal: {
-        title: "PayPal Payment",
-        subtitle: "Create a simulated PayPal payment."
-    },
-
-    crypto: {
-        title: "Crypto Transfer",
-        subtitle: "Create a simulated cryptocurrency transfer."
-    },
-
-    bank: {
-        title: "Bank Transfer",
-        subtitle: "Create a simulated external bank transfer."
-    },
-
-    international: {
-        title: "International Transfer",
-        subtitle: "Create a simulated international payment."
-    },
-
-    request: {
-        title: "Request Money",
-        subtitle: "Create a simulated request for payment."
-    }
-
-};
-
-
-/* ============================================================
-   ELEMENTS
-============================================================ */
-
-const paymentForm =
-    document.getElementById("paymentForm");
-
-const dynamicFields =
-    document.getElementById("dynamicFields");
-
-const formTitle =
-    document.getElementById("formTitle");
-
-const formSubtitle =
-    document.getElementById("formSubtitle");
-
-const amountInput =
-    document.getElementById("amount");
-
-const descriptionInput =
-    document.getElementById("description");
-
-const continueBtn =
-    document.getElementById("continueBtn");
-
-const message =
-    document.getElementById("message");
-
-const tacBox =
-    document.getElementById("tacBox");
-
-const tacCode =
-    document.getElementById("tacCode");
-
-const authorizeBtn =
-    document.getElementById("authorizeBtn");
-
-const balanceElement =
-    document.getElementById("balance");
-
-
-/* ============================================================
-   MESSAGE
-============================================================ */
-
-function showMessage(text, type) {
-
-    message.textContent = text;
-
-    message.className =
-        "message show " + type;
 }
 
 
-/* ============================================================
-   AUTHENTICATION
-============================================================ */
+async function restoreSession() {
 
-async function initialize() {
+    if (!accessToken) {
+        window.location.replace("./login.html");
+        return false;
+    }
 
     try {
 
-        const accessToken =
-            localStorage.getItem(
-                "nexora_access_token"
-            );
-
-        const refreshToken =
-            localStorage.getItem(
-                "nexora_refresh_token"
-            );
-
-
-        if (
-            accessToken &&
-            refreshToken
-        ) {
-
-            await supabaseClient.auth.setSession({
-                access_token: accessToken,
-                refresh_token: refreshToken
-            });
-
-        }
-
-
-        const {
-            data
-        } =
-            await supabaseClient.auth.getSession();
-
-
-        if (!data.session) {
-
-            window.location.replace(
-                "./login.html"
-            );
-
-            return;
-        }
-
-
-        currentUser =
-            data.session.user;
-
-
-        await loadBalance();
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "PAYMENT AUTH ERROR:",
-            error
+        const response = await supabaseFetch(
+            "/auth/v1/user"
         );
 
-        window.location.replace(
-            "./login.html"
-        );
+        if (!response.ok) {
+            window.location.replace("./login.html");
+            return false;
+        }
 
+        return true;
+
+    } catch (error) {
+
+        console.error(error);
+
+        window.location.replace("./login.html");
+
+        return false;
     }
-
 }
 
 
-/* ============================================================
-   LOAD BALANCE
-============================================================ */
+function selectMethod(element) {
 
-async function loadBalance() {
+    document
+        .querySelectorAll(".method")
+        .forEach(function(item) {
+            item.classList.remove("active");
+        });
 
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-            .from("profiles")
-            .select("balance")
-            .eq("id", currentUser.id)
-            .single();
+    element.classList.add("active");
+
+    selectedMethod =
+        element.dataset.method;
+
+    document
+        .querySelectorAll(".form-section")
+        .forEach(function(section) {
+            section.classList.remove("active");
+        });
+
+    const section =
+        document.getElementById(
+            selectedMethod.replace(/ /g, "-")
+        );
+
+    if (section) {
+        section.classList.add("active");
+    }
+
+    hideMessage();
+}
 
 
-    if (error) {
+function getAmount() {
 
-        console.error(
-            "BALANCE ERROR:",
-            error
+    const ids = {
+        "Nexora Transfer": "nexoraAmount",
+        "PayPal": "paypalAmount",
+        "Crypto": "cryptoAmount",
+        "Bank Transfer": "bankAmount",
+        "International Transfer": "internationalAmount"
+    };
+
+    return Number(
+        document.getElementById(
+            ids[selectedMethod]
+        ).value
+    );
+}
+
+
+function getRecipient() {
+
+    if (selectedMethod === "Nexora Transfer") {
+        return document.getElementById(
+            "nexoraRecipient"
+        ).value.trim();
+    }
+
+    if (selectedMethod === "PayPal") {
+        return document.getElementById(
+            "paypalRecipient"
+        ).value.trim();
+    }
+
+    if (selectedMethod === "Crypto") {
+        return document.getElementById(
+            "cryptoRecipient"
+        ).value.trim();
+    }
+
+    if (selectedMethod === "Bank Transfer") {
+        return document.getElementById(
+            "bankAccount"
+        ).value.trim();
+    }
+
+    if (selectedMethod === "International Transfer") {
+        return document.getElementById(
+            "internationalAccount"
+        ).value.trim();
+    }
+
+    return "";
+}
+
+
+function getDescription() {
+
+    if (selectedMethod === "Nexora Transfer") {
+
+        return (
+            document.getElementById(
+                "nexoraDescription"
+            ).value.trim()
+            || "Nexora Transfer"
+        );
+    }
+
+    if (selectedMethod === "PayPal") {
+
+        return (
+            document.getElementById(
+                "paypalDescription"
+            ).value.trim()
+            || "Simulated PayPal Payment"
+        );
+    }
+
+    if (selectedMethod === "Crypto") {
+
+        return (
+            "Simulated Crypto Payment - " +
+            document.getElementById(
+                "cryptoAsset"
+            ).value
+        );
+    }
+
+    if (selectedMethod === "Bank Transfer") {
+
+        return (
+            "Simulated Bank Transfer - " +
+            document.getElementById(
+                "bankBank"
+            ).value.trim()
+        );
+    }
+
+    if (selectedMethod === "International Transfer") {
+
+        return (
+            "Simulated International Transfer - " +
+            document.getElementById(
+                "internationalCountry"
+            ).value.trim()
+        );
+    }
+
+    return "Payment";
+}
+
+
+function reviewPayment() {
+
+    hideMessage();
+
+    const amount = getAmount();
+
+    if (!amount || amount <= 0) {
+
+        showMessage(
+            "Enter a valid payment amount.",
+            "error"
         );
 
         return;
     }
 
-
-    const balance =
-        Number(data.balance || 0);
-
-
-    balanceElement.textContent =
-        "£" +
-        balance.toLocaleString(
-            "en-GB",
-            {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            }
-        );
-
-}
-
-
-/* ============================================================
-   PAYMENT METHODS
-============================================================ */
-
-document
-    .querySelectorAll(".method")
-    .forEach(function(method) {
-
-        method.addEventListener(
-            "click",
-            function() {
-
-                document
-                    .querySelectorAll(".method")
-                    .forEach(function(item) {
-
-                        item.classList.remove(
-                            "active"
-                        );
-
-                    });
-
-
-                method.classList.add(
-                    "active"
-                );
-
-
-                selectedMethod =
-                    method.dataset.method;
-
-
-                setupPaymentForm();
-
-            }
-
-        );
-
-    });
-
-
-/* ============================================================
-   SETUP FORM
-============================================================ */
-
-function setupPaymentForm() {
-
-    const info =
-        methodInfo[selectedMethod];
-
-
-    formTitle.textContent =
-        info.title;
-
-    formSubtitle.textContent =
-        info.subtitle;
-
-
-    dynamicFields.innerHTML = "";
-
-
-    if (
-        selectedMethod ===
-        "nexora"
-    ) {
-
-        dynamicFields.innerHTML = `
-
-            <label>
-                Recipient email
-            </label>
-
-            <input
-                type="email"
-                id="recipient"
-                placeholder="customer@example.com"
-            >
-
-        `;
-
-    }
-
-
-    else if (
-        selectedMethod ===
-        "paypal"
-    ) {
-
-        dynamicFields.innerHTML = `
-
-            <label>
-                PayPal email
-            </label>
-
-            <input
-                type="email"
-                id="recipient"
-                placeholder="recipient@example.com"
-            >
-
-        `;
-
-    }
-
-
-    else if (
-        selectedMethod ===
-        "crypto"
-    ) {
-
-        dynamicFields.innerHTML = `
-
-            <label>
-                Cryptocurrency
-            </label>
-
-            <select id="cryptoAsset">
-
-                <option value="BTC">
-                    Bitcoin (BTC)
-                </option>
-
-                <option value="ETH">
-                    Ethereum (ETH)
-                </option>
-
-                <option value="USDT">
-                    Tether (USDT)
-                </option>
-
-            </select>
-
-            <label>
-                Wallet address
-            </label>
-
-            <input
-                type="text"
-                id="recipient"
-                placeholder="Enter wallet address"
-            >
-
-        `;
-
-    }
-
-
-    else if (
-        selectedMethod ===
-        "bank"
-    ) {
-
-        dynamicFields.innerHTML = `
-
-            <label>
-                Account name
-            </label>
-
-            <input
-                type="text"
-                id="accountName"
-                placeholder="Recipient account name"
-            >
-
-            <label>
-                Account number
-            </label>
-
-            <input
-                type="text"
-                id="accountNumber"
-                placeholder="Account number"
-            >
-
-            <label>
-                Bank
-            </label>
-
-            <input
-                type="text"
-                id="bankName"
-                placeholder="Bank name"
-            >
-
-        `;
-
-    }
-
-
-    else if (
-        selectedMethod ===
-        "international"
-    ) {
-
-        dynamicFields.innerHTML = `
-
-            <label>
-                Beneficiary name
-            </label>
-
-            <input
-                type="text"
-                id="recipient"
-                placeholder="Full beneficiary name"
-            >
-
-            <label>
-                IBAN / Account number
-            </label>
-
-            <input
-                type="text"
-                id="accountNumber"
-                placeholder="IBAN or account number"
-            >
-
-            <label>
-                Country
-            </label>
-
-            <input
-                type="text"
-                id="country"
-                placeholder="Destination country"
-            >
-
-        `;
-
-    }
-
-
-    else if (
-        selectedMethod ===
-        "request"
-    ) {
-
-        dynamicFields.innerHTML = `
-
-            <label>
-                Request from
-            </label>
-
-            <input
-                type="email"
-                id="recipient"
-                placeholder="customer@example.com"
-            >
-
-        `;
-
-    }
-
-
-    paymentForm.classList.add(
-        "show"
-    );
-
-    tacBox.classList.remove(
-        "show"
-    );
-
-    message.className =
-        "message";
-
-}
-
-
-/* ============================================================
-   REVIEW PAYMENT
-============================================================ */
-
-continueBtn.addEventListener(
-    "click",
-    function() {
-
-        if (!selectedMethod) {
-
-            showMessage(
-                "Please choose a payment method.",
-                "error"
-            );
-
-            return;
-        }
-
-
-        const amount =
-            Number(
-                amountInput.value
-            );
-
-
-        if (
-            !amount ||
-            amount <= 0
-        ) {
-
-            showMessage(
-                "Please enter a valid amount.",
-                "error"
-            );
-
-            return;
-        }
-
-
-        const recipientElement =
-            document.getElementById(
-                "recipient"
-            );
-
+    if (selectedMethod === "Nexora Transfer") {
 
         const recipient =
-            recipientElement
-                ? recipientElement.value.trim()
-                : "";
+            document.getElementById(
+                "nexoraRecipient"
+            ).value.trim();
 
-
-        if (
-            selectedMethod !==
-            "request" &&
-            !recipient &&
-            selectedMethod !==
-            "bank" &&
-            selectedMethod !==
-            "international"
-        ) {
+        if (!recipient) {
 
             showMessage(
-                "Please enter the recipient details.",
+                "Enter the recipient email.",
                 "error"
             );
 
             return;
         }
-
-
-        pendingPayment = {
-
-            method:
-                selectedMethod,
-
-            amount:
-                amount,
-
-            recipient:
-                recipient,
-
-            description:
-                descriptionInput.value.trim()
-
-        };
-
-
-        showMessage(
-            "Payment details accepted. Transaction authorization is required.",
-            "success"
-        );
-
-
-        tacBox.classList.add(
-            "show"
-        );
-
-
-        tacBox.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
-        });
-
     }
-);
 
+    if (selectedMethod === "PayPal") {
 
-/* ============================================================
-   AUTHORIZATION
-============================================================ */
+        const recipient =
+            document.getElementById(
+                "paypalRecipient"
+            ).value.trim();
 
-authorizeBtn.addEventListener(
-    "click",
-    async function() {
-
-        const code =
-            tacCode.value.trim();
-
-
-        if (!code) {
+        if (!recipient) {
 
             showMessage(
-                "Enter your Transaction Authorization Code.",
+                "Enter the PayPal email.",
                 "error"
             );
 
             return;
         }
+    }
+
+    if (selectedMethod === "Crypto") {
+
+        const recipient =
+            document.getElementById(
+                "cryptoRecipient"
+            ).value.trim();
+
+        if (!recipient) {
+
+            showMessage(
+                "Enter the wallet address.",
+                "error"
+            );
+
+            return;
+        }
+    }
+
+    if (selectedMethod === "Bank Transfer") {
+
+        const name =
+            document.getElementById(
+                "bankName"
+            ).value.trim();
+
+        const account =
+            document.getElementById(
+                "bankAccount"
+            ).value.trim();
+
+        const bank =
+            document.getElementById(
+                "bankBank"
+            ).value.trim();
+
+        if (!name || !account || !bank) {
+
+            showMessage(
+                "Complete the bank transfer details.",
+                "error"
+            );
+
+            return;
+        }
+    }
+
+    if (selectedMethod === "International Transfer") {
+
+        const name =
+            document.getElementById(
+                "internationalName"
+            ).value.trim();
+
+        const country =
+            document.getElementById(
+                "internationalCountry"
+            ).value.trim();
+
+        const account =
+            document.getElementById(
+                "internationalAccount"
+            ).value.trim();
+
+        if (!name || !country || !account) {
+
+            showMessage(
+                "Complete the international transfer details.",
+                "error"
+            );
+
+            return;
+        }
+    }
+
+    paymentData = {
+        paymentType: selectedMethod,
+        amount: amount,
+        recipient: getRecipient(),
+        description: getDescription()
+    };
+
+    renderReview();
+
+    document.getElementById(
+        "paymentCard"
+    ).style.display = "none";
+
+    document.getElementById(
+        "reviewCard"
+    ).style.display = "block";
+}
 
 
-        /*
-         * Authorization validation will be connected to the
-         * secure admin authorization system in the next step.
-         */
+function renderReview() {
 
-        showMessage(
-            "Authorization system is being prepared.",
-            "success"
+    const details =
+        document.getElementById(
+            "reviewDetails"
         );
 
+    details.innerHTML = "";
+
+    const rows = [
+        ["Payment Type", paymentData.paymentType],
+        ["Recipient", paymentData.recipient],
+        ["Amount", "£" + paymentData.amount.toFixed(2)],
+        ["Description", paymentData.description]
+    ];
+
+    rows.forEach(function(row) {
+
+        const div =
+            document.createElement("div");
+
+        div.className = "review-row";
+
+        const label =
+            document.createElement("div");
+
+        label.className = "review-label";
+        label.textContent = row[0];
+
+        const value =
+            document.createElement("div");
+
+        value.className = "review-value";
+        value.textContent = row[1];
+
+        div.appendChild(label);
+        div.appendChild(value);
+
+        details.appendChild(div);
+    });
+}
+
+
+function showAuthorization() {
+
+    document.getElementById(
+        "reviewCard"
+    ).style.display = "none";
+
+    document.getElementById(
+        "tacCard"
+    ).style.display = "block";
+
+    document.getElementById(
+        "tac"
+    ).focus();
+}
+
+
+function backToPayment() {
+
+    document.getElementById(
+        "reviewCard"
+    ).style.display = "none";
+
+    document.getElementById(
+        "paymentCard"
+    ).style.display = "block";
+}
+
+
+function backToReview() {
+
+    document.getElementById(
+        "tacCard"
+    ).style.display = "none";
+
+    document.getElementById(
+        "reviewCard"
+    ).style.display = "block";
+}
+
+
+async function authorizePayment() {
+
+    const tac =
+        document.getElementById(
+            "tac"
+        ).value.trim().toUpperCase();
+
+    const message =
+        document.getElementById(
+            "tacMessage"
+        );
+
+    message.style.display = "none";
+
+    if (!tac || tac.length !== 8) {
+
+        message.textContent =
+            "Enter the 8-character authorization code.";
+
+        message.className =
+            "message error";
+
+        message.style.display =
+            "block";
+
+        return;
     }
-);
+
+    if (!paymentData) {
+
+        message.textContent =
+            "Payment information is missing.";
+
+        message.className =
+            "message error";
+
+        message.style.display =
+            "block";
+
+        return;
+    }
+
+    try {
+
+        const response =
+            await supabaseFetch(
+                "/rest/v1/rpc/authorize_simulated_payment",
+                {
+                    method: "POST",
+                    body: JSON.stringify({
+                        p_code: tac,
+                        p_payment_type:
+                            paymentData.paymentType,
+                        p_amount:
+                            paymentData.amount,
+                        p_description:
+                            paymentData.description,
+                        p_recipient:
+                            paymentData.recipient
+                    })
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                data.error_description ||
+                data.details ||
+                data.hint ||
+                data.error ||
+                "Payment authorization failed."
+            );
+        }
+
+        message.textContent =
+            "Payment authorized successfully. Your simulated payment has been completed.";
+
+        message.className =
+            "message success";
+
+        message.style.display =
+            "block";
+
+        document.getElementById(
+            "tac"
+        ).value = "";
+
+        setTimeout(function() {
+
+            window.location.replace(
+                "./dashboard.html?v=" +
+                Date.now()
+            );
+
+        }, 1800);
+
+    } catch (error) {
+
+        console.error(error);
+
+        message.textContent =
+            error.message ||
+            "Payment authorization failed.";
+
+        message.className =
+            "message error";
+
+        message.style.display =
+            "block";
+    }
+}
 
 
-/* ============================================================
-   START
-============================================================ */
+async function loadBalance() {
 
-initialize();
+    try {
 
-</script></body>
+        const userResponse =
+            await supabaseFetch(
+                "/auth/v1/user"
+            );
+
+        if (!userResponse.ok) return;
+
+        const user =
+            await userResponse.json();
+
+        const response =
+            await supabaseFetch(
+                "/rest/v1/profiles?id=eq." +
+                encodeURIComponent(user.id) +
+                "&select=balance"
+            );
+
+        if (!response.ok) return;
+
+        const profiles =
+            await response.json();
+
+        if (profiles.length) {
+
+            const balance =
+                Number(
+                    profiles[0].balance || 0
+                );
+
+            document.getElementById(
+                "balance"
+            ).textContent =
+                "£" + balance.toFixed(2);
+        }
+
+    } catch (error) {
+
+        console.error(error);
+    }
+}
+
+
+function showMessage(text, type) {
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+    message.textContent = text;
+    message.className =
+        "message " + type;
+
+    message.style.display =
+        "block";
+}
+
+
+function hideMessage() {
+
+    document.getElementById(
+        "message"
+    ).style.display = "none";
+}
+
+
+(async function init() {
+
+    const valid =
+        await restoreSession();
+
+    if (!valid) return;
+
+    await loadBalance();
+
+})();
+
+</script>
+
+</body>
 </html>
