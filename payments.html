@@ -277,13 +277,6 @@ button:hover {
                 £0.00
             </div>
         </div>
-
-        <div class="notice">
-            <strong>Demo environment:</strong>
-            External payment methods such as PayPal, Crypto and
-            international transfers are simulated. No real external
-            money transfer is performed.
-        </div>
     </div>
 
 
@@ -308,7 +301,7 @@ button:hover {
                 onclick="selectMethod(this)"
             >
                 <strong>PayPal</strong>
-                <small>Simulated PayPal payment</small>
+                <small>PayPal payment</small>
             </div>
 
             <div
@@ -317,7 +310,7 @@ button:hover {
                 onclick="selectMethod(this)"
             >
                 <strong>Crypto</strong>
-                <small>Simulated cryptocurrency payment</small>
+                <small>Cryptocurrency payment</small>
             </div>
 
             <div
@@ -326,7 +319,7 @@ button:hover {
                 onclick="selectMethod(this)"
             >
                 <strong>Bank Transfer</strong>
-                <small>Simulated bank transfer</small>
+                <small>Bank transfer</small>
             </div>
 
             <div
@@ -335,7 +328,7 @@ button:hover {
                 onclick="selectMethod(this)"
             >
                 <strong>International Transfer</strong>
-                <small>Simulated international payment</small>
+                <small>International payment</small>
             </div>
 
         </div>
@@ -791,14 +784,14 @@ function getDescription() {
             document.getElementById(
                 "paypalDescription"
             ).value.trim()
-            || "Simulated PayPal Payment"
+            || "PayPal Payment"
         );
     }
 
     if (selectedMethod === "Crypto") {
 
         return (
-            "Simulated Crypto Payment - " +
+            "Crypto Payment - " +
             document.getElementById(
                 "cryptoAsset"
             ).value
@@ -808,7 +801,7 @@ function getDescription() {
     if (selectedMethod === "Bank Transfer") {
 
         return (
-            "Simulated Bank Transfer - " +
+            "Bank Transfer - " +
             document.getElementById(
                 "bankBank"
             ).value.trim()
@@ -818,7 +811,7 @@ function getDescription() {
     if (selectedMethod === "International Transfer") {
 
         return (
-            "Simulated International Transfer - " +
+            "International Transfer - " +
             document.getElementById(
                 "internationalCountry"
             ).value.trim()
@@ -1136,7 +1129,7 @@ async function authorizePayment() {
         }
 
         message.textContent =
-            "Payment authorized successfully. Your simulated payment has been completed.";
+            "Payment authorized successfully. Your payment has been completed.";
 
         message.className =
             "message success";
