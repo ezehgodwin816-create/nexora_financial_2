@@ -8,6 +8,94 @@
     <title>Dashboard · Nexora Financial</title>
 
     <link rel="stylesheet" href="./assets/style.css">
+
+    <style>
+        /* ==========================================
+           NEXORA FEATURE HUB
+        ========================================== */
+
+        .feature-section {
+            margin-top: 28px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 16px;
+        }
+
+        .feature-card {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            background: #fff;
+            border: 1px solid #e5e9ef;
+            border-radius: 17px;
+            padding: 19px;
+            transition:
+                transform .18s ease,
+                box-shadow .18s ease,
+                border-color .18s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(20, 35, 70, .08);
+            border-color: #d5ddea;
+        }
+
+        .feature-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f0f4ff;
+            color: #4169e1;
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 14px;
+        }
+
+        .feature-card strong {
+            display: block;
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+
+        .feature-card span {
+            display: block;
+            color: #7b8490;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .feature-arrow {
+            margin-top: 13px;
+            color: #4169e1;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        @media (max-width: 720px) {
+
+            .feature-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 450px) {
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+    </style>
+
 </head>
 
 <body class="dashboard-body">
@@ -224,6 +312,10 @@
 
 
 
+<!-- ==========================================
+     QUICK ACTIONS
+========================================== -->
+
 <section class="quick-section">
 
     <div class="section-heading">
@@ -286,7 +378,6 @@
         </a>
 
 
-
         <a
             class="quick-action"
             href="#transactions"
@@ -307,7 +398,6 @@
         </a>
 
 
-
         <a
             class="quick-action"
             href="#account"
@@ -326,7 +416,6 @@
             </span>
 
         </a>
-
 
 
         <a
@@ -354,6 +443,198 @@
 </section>
 
 
+
+<!-- ==========================================
+     NEXORA FEATURES
+========================================== -->
+
+<section class="feature-section">
+
+    <div class="section-heading">
+
+        <div>
+
+            <div class="eyebrow">
+                NEXORA SERVICES
+            </div>
+
+            <h2>
+                Explore your account
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <div class="feature-grid">
+
+
+        <!-- PAYMENTS -->
+
+        <a
+            class="feature-card"
+            href="./payments.html"
+        >
+
+            <div class="feature-icon">
+                £
+            </div>
+
+            <strong>
+                Payments
+            </strong>
+
+            <span>
+                Make simulated payments and transfers.
+            </span>
+
+            <div class="feature-arrow">
+                Open Payments →
+            </div>
+
+        </a>
+
+
+        <!-- ANALYTICS -->
+
+        <a
+            class="feature-card"
+            href="./analytics.html"
+        >
+
+            <div class="feature-icon">
+                ◔
+            </div>
+
+            <strong>
+                Analytics
+            </strong>
+
+            <span>
+                Understand your balance and financial activity.
+            </span>
+
+            <div class="feature-arrow">
+                View Analytics →
+            </div>
+
+        </a>
+
+
+        <!-- STATEMENTS -->
+
+        <a
+            class="feature-card"
+            href="./statements.html"
+        >
+
+            <div class="feature-icon">
+                ▤
+            </div>
+
+            <strong>
+                Statements
+            </strong>
+
+            <span>
+                Review and print your account statements.
+            </span>
+
+            <div class="feature-arrow">
+                View Statements →
+            </div>
+
+        </a>
+
+
+        <!-- NOTIFICATIONS -->
+
+        <a
+            class="feature-card"
+            href="./notifications.html"
+        >
+
+            <div class="feature-icon">
+                ♢
+            </div>
+
+            <strong>
+                Notifications
+            </strong>
+
+            <span>
+                View account and transaction notifications.
+            </span>
+
+            <div class="feature-arrow">
+                View Notifications →
+            </div>
+
+        </a>
+
+
+        <!-- PROFILE -->
+
+        <a
+            class="feature-card"
+            href="./profile.html"
+        >
+
+            <div class="feature-icon">
+                ◉
+            </div>
+
+            <strong>
+                Profile
+            </strong>
+
+            <span>
+                View and manage your personal account profile.
+            </span>
+
+            <div class="feature-arrow">
+                Open Profile →
+            </div>
+
+        </a>
+
+
+        <!-- SECURITY -->
+
+        <a
+            class="feature-card"
+            href="./security.html"
+        >
+
+            <div class="feature-icon">
+                🔒
+            </div>
+
+            <strong>
+                Security
+            </strong>
+
+            <span>
+                Manage your password and account security.
+            </span>
+
+            <div class="feature-arrow">
+                Open Security →
+            </div>
+
+        </a>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- ==========================================
+     SUPPORT
+========================================== -->
 
 <section class="dashboard-card support-notice">
 
@@ -390,6 +671,10 @@
 </section>
 
 
+
+<!-- ==========================================
+     SEND MONEY
+========================================== -->
 
 <section
     class="dashboard-card send-card"
@@ -513,6 +798,10 @@
 
 
 
+<!-- ==========================================
+     TRANSACTIONS
+========================================== -->
+
 <section
     class="dashboard-card"
     id="transactions"
@@ -555,6 +844,10 @@
 </section>
 
 
+
+<!-- ==========================================
+     ACCOUNT
+========================================== -->
 
 <section
     class="dashboard-card"
@@ -799,6 +1092,7 @@ async function loadDashboard() {
 
     const fullName =
         currentUser.user_metadata?.full_name ||
+        currentUser.user_metadata?.name ||
         "User";
 
 
@@ -880,14 +1174,14 @@ async function checkAdminStatus() {
             data,
             error
         } =
-            await supabaseClient
-                .from("profiles")
-                .select("is_admin")
-                .eq(
-                    "id",
-                    currentUser.id
-                )
-                .maybeSingle();
+        await supabaseClient
+            .from("profiles")
+            .select("is_admin")
+            .eq(
+                "id",
+                currentUser.id
+            )
+            .maybeSingle();
 
 
         console.log(
