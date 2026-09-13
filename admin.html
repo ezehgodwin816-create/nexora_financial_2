@@ -224,6 +224,101 @@ textarea:focus {
   box-shadow: 0 0 0 3px rgba(37,99,235,.1);
 }
 
+
+/* VERIFICATION / DOCUMENT STATUS */
+.verification-panel {
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  background: #f8fafc;
+}
+
+.verification-panel-title {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .05em;
+  color: #475569;
+  margin-bottom: 12px;
+}
+
+.verification-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.verification-item {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 11px;
+}
+
+.verification-label {
+  font-size: 10px;
+  font-weight: 800;
+  color: #64748b;
+  margin-bottom: 5px;
+}
+
+.verification-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: #172033;
+  word-break: break-word;
+}
+
+.verification-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: capitalize;
+}
+
+.verification-status.pending {
+  background: #fff7ed;
+  color: #c2410c;
+}
+
+.verification-status.submitted {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.verification-status.verified,
+.verification-status.approved {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.verification-status.rejected,
+.verification-status.failed {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.verification-status.not-submitted,
+.verification-status.unknown {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+@media (max-width: 900px) {
+  .verification-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 450px) {
+  .verification-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* CUSTOMER CARDS */
 
 .customers {
@@ -272,6 +367,12 @@ textarea:focus {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 14px;
+}
+
+@media (max-width: 900px) {
+  .customer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .info-box {
@@ -1095,7 +1196,16 @@ function renderCustomers() {
           [
             customer.id,
             customer.name,
-            customer.email
+            customer.email,
+            customer.first_name,
+            customer.middle_name,
+            customer.last_name,
+            customer.phone,
+            customer.country,
+            customer.date_of_birth,
+            customer.current_address,
+            customer.previous_address,
+            customer.occupation
           ]
             .filter(Boolean)
             .join(" ")
@@ -1147,6 +1257,177 @@ function renderCustomers() {
 
 /* CUSTOMER CARD */
 
+
+function normalizeVerificationStatus(value) {
+  const raw = String(value || "").trim().toLowerCase();
+
+  if (!raw) return "not-submitted";
+
+  if (
+    raw === "verified" ||
+    raw === "approved" ||
+    raw === "complete" ||
+    raw === "completed"
+  ) {
+    return "verified";
+  }
+
+  if (
+    raw === "rejected" ||
+    raw === "failed" ||
+    raw === "declined"
+  ) {
+    return "rejected";
+  }
+
+  if (
+    raw === "submitted" ||
+    raw === "uploaded" ||
+    raw === "received"
+  ) {
+    return "submitted";
+  }
+
+  if (
+    raw === "pending" ||
+    raw === "in progress" ||
+    raw === "processing"
+  ) {
+    return "pending";
+  }
+
+  return "unknown";
+}
+
+function verificationStatusLabel(value) {
+  const status = normalizeVerificationStatus(value);
+
+  const labels = {
+    "not-submitted": "Not submitted",
+    "submitted": "Submitted",
+    "pending": "Pending",
+    "verified": "Verified",
+    "rejected": "Rejected",
+    "unknown": value || "Unknown"
+  };
+
+  return labels[status] || "Unknown";
+}
+
+function customerVerificationPanel(customer) {
+  /*
+    These fields are intentionally display-only status/metadata.
+    The admin page does not display raw SSNs, passport numbers,
+    licence numbers, or identity-document contents.
+  */
+  const verificationStatus =
+    customer.verification_status ||
+    customer.identity_verification_status ||
+    customer.kyc_status ||
+    "";
+
+  const documentStatus =
+    customer.document_status ||
+    customer.documents_status ||
+    customer.kyc_document_status ||
+    "";
+
+  const documentCount =
+    customer.documents_count ??
+    customer.document_count ??
+    customer.uploaded_documents_count ??
+    0;
+
+  const verificationUpdated =
+    customer.verification_updated_at ||
+    customer.documents_updated_at ||
+    customer.kyc_updated_at ||
+    "";
+
+  const verificationNotes =
+    customer.verification_notes ||
+    customer.kyc_notes ||
+    "";
+
+  const vClass = normalizeVerificationStatus(verificationStatus);
+  const dClass = normalizeVerificationStatus(documentStatus);
+
+  const verificationText =
+    verificationStatusLabel(verificationStatus);
+
+  const documentText =
+    verificationStatusLabel(documentStatus);
+
+  const updatedText =
+    verificationUpdated
+      ? new Date(verificationUpdated).toLocaleString()
+      : "—";
+
+  const notesText =
+    verificationNotes || "—";
+
+  return `
+    <div class="verification-panel">
+      <div class="verification-panel-title">
+        VERIFICATION &amp; DOCUMENT STATUS
+      </div>
+
+      <div class="verification-grid">
+
+        <div class="verification-item">
+          <div class="verification-label">
+            IDENTITY VERIFICATION
+          </div>
+          <div class="verification-value">
+            <span class="verification-status ${escapeHtml(vClass)}">
+              ${escapeHtml(verificationText)}
+            </span>
+          </div>
+        </div>
+
+        <div class="verification-item">
+          <div class="verification-label">
+            DOCUMENT STATUS
+          </div>
+          <div class="verification-value">
+            <span class="verification-status ${escapeHtml(dClass)}">
+              ${escapeHtml(documentText)}
+            </span>
+          </div>
+        </div>
+
+        <div class="verification-item">
+          <div class="verification-label">
+            DOCUMENTS SUBMITTED
+          </div>
+          <div class="verification-value">
+            ${escapeHtml(String(documentCount))}
+          </div>
+        </div>
+
+        <div class="verification-item">
+          <div class="verification-label">
+            LAST VERIFICATION UPDATE
+          </div>
+          <div class="verification-value">
+            ${escapeHtml(updatedText)}
+          </div>
+        </div>
+
+        <div class="verification-item">
+          <div class="verification-label">
+            VERIFICATION NOTES
+          </div>
+          <div class="verification-value">
+            ${escapeHtml(notesText)}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  `;
+}
+
 function customerCard(customer) {
 
   const id =
@@ -1161,6 +1442,33 @@ function customerCard(customer) {
   const email =
     customer.email ||
     "No email";
+
+  const firstName =
+    customer.first_name || "—";
+
+  const middleName =
+    customer.middle_name || "—";
+
+  const lastName =
+    customer.last_name || "—";
+
+  const phone =
+    customer.phone || "—";
+
+  const country =
+    customer.country || "—";
+
+  const dob =
+    customer.date_of_birth || "—";
+
+  const currentAddress =
+    customer.current_address || "—";
+
+  const previousAddress =
+    customer.previous_address || "—";
+
+  const occupation =
+    customer.occupation || "—";
 
   const balance =
     Number(
@@ -1215,45 +1523,68 @@ function customerCard(customer) {
       <div class="customer-grid">
 
         <div class="info-box">
-
-          <div class="info-label">
-            CUSTOMER ID
-          </div>
-
-          <div class="info-value">
-            ${escapeHtml(id)}
-          </div>
-
+          <div class="info-label">CUSTOMER ID</div>
+          <div class="info-value">${escapeHtml(id)}</div>
         </div>
 
-
         <div class="info-box">
-
-          <div class="info-label">
-            CREATED
-          </div>
-
-          <div class="info-value">
-            ${escapeHtml(created)}
-          </div>
-
+          <div class="info-label">FIRST NAME</div>
+          <div class="info-value">${escapeHtml(firstName)}</div>
         </div>
 
+        <div class="info-box">
+          <div class="info-label">MIDDLE NAME</div>
+          <div class="info-value">${escapeHtml(middleName)}</div>
+        </div>
 
         <div class="info-box">
+          <div class="info-label">LAST NAME</div>
+          <div class="info-value">${escapeHtml(lastName)}</div>
+        </div>
 
-          <div class="info-label">
-            LAST UPDATED
-          </div>
+        <div class="info-box">
+          <div class="info-label">PHONE</div>
+          <div class="info-value">${escapeHtml(phone)}</div>
+        </div>
 
-          <div class="info-value">
-            ${escapeHtml(updated)}
-          </div>
+        <div class="info-box">
+          <div class="info-label">COUNTRY</div>
+          <div class="info-value">${escapeHtml(country)}</div>
+        </div>
 
+        <div class="info-box">
+          <div class="info-label">DATE OF BIRTH</div>
+          <div class="info-value">${escapeHtml(dob)}</div>
+        </div>
+
+        <div class="info-box">
+          <div class="info-label">OCCUPATION</div>
+          <div class="info-value">${escapeHtml(occupation)}</div>
+        </div>
+
+        <div class="info-box">
+          <div class="info-label">CURRENT ADDRESS</div>
+          <div class="info-value">${escapeHtml(currentAddress)}</div>
+        </div>
+
+        <div class="info-box">
+          <div class="info-label">PREVIOUS ADDRESS</div>
+          <div class="info-value">${escapeHtml(previousAddress)}</div>
+        </div>
+
+        <div class="info-box">
+          <div class="info-label">CREATED</div>
+          <div class="info-value">${escapeHtml(created)}</div>
+        </div>
+
+        <div class="info-box">
+          <div class="info-label">LAST UPDATED</div>
+          <div class="info-value">${escapeHtml(updated)}</div>
         </div>
 
       </div>
 
+      ${customerVerificationPanel(customer)}
 
       <div class="balance-box">
 
