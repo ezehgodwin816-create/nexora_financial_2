@@ -744,6 +744,8 @@ textarea {
 </main>
 
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
 
 /* SUPABASE */
@@ -754,12 +756,51 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
   "sb_publishable_0ecSKgmH9JIzdX9_3j5Kww_aNdNr_qT";
 
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY,
+    {
+      auth: {
+        autoRefreshToken: true,
+        persistSession: true,
+        detectSessionInUrl: true
+      }
+    }
+  );
+
 const ADMIN_EMAIL =
   "jeff1234@gmail.com";
 
 let customers = [];
 let tickets = [];
 let session = null;
+
+
+/* SYNC STORED SESSION FOR PRIVATE STORAGE */
+
+async function syncSupabaseClientSession() {
+  const accessToken = localStorage.getItem("nexora_access_token");
+  const refreshToken = localStorage.getItem("nexora_refresh_token");
+
+  if (!accessToken) {
+    throw new Error("No login session found.");
+  }
+
+  if (!refreshToken) {
+    throw new Error(
+      "Your login session is missing its refresh token. Please log out and log in again, then try opening the document."
+    );
+  }
+
+  const { data, error } = await supabaseClient.auth.setSession({
+    access_token: accessToken,
+    refresh_token: refreshToken
+  });
+
+  if (error) throw error;
+  return data?.session || null;
+}
 
 
 /* STATUS */
@@ -1484,6 +1525,8 @@ async function viewKycDocument(path) {
   if (!path) return;
 
   try {
+    await syncSupabaseClientSession();
+
     const { data, error } = await supabaseClient.storage
       .from("nexora-kyc-documents")
       .createSignedUrl(path, 300);
@@ -2428,6 +2471,8 @@ function escapeHtml(value) {
 (async function startAdmin() {
 
   try {
+
+    await syncSupabaseClientSession();
 
     const allowed =
       await checkAdmin();
