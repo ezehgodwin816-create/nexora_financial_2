@@ -1,34 +1,29 @@
-NEXORA FINANCIAL — ADMIN VERIFICATION STATUS UPDATE
+NEXORA FINANCIAL — KYC CONNECTION PACKAGE
 
-This package keeps the corrected register.html and updates admin.html.
+FILES
+- register.html — based on the user's latest registration layout; US/UK fields are connected to KYC storage.
+- admin.html — existing Admin page with a KYC & Documents section added.
+- nexora_kyc_setup.sql — additive SQL migration; does not replace admin_get_customers().
 
-Admin customer cards now include:
-- Identity verification status
-- Document status
-- Number of documents submitted
-- Last verification/document update
-- Verification notes
+IMPORTANT SETUP
+1. Run nexora_kyc_setup.sql in Supabase SQL Editor.
+2. In Supabase Dashboard > Storage, create a bucket named:
+   nexora-kyc-documents
+   Keep it PRIVATE.
+3. Run the storage policies included at the bottom of the SQL file.
+4. Replace the live register.html and admin.html with these versions.
+5. Test with a test customer account before collecting real verification information.
 
-The admin UI reads these optional fields when returned by the
-admin_get_customers RPC:
-- verification_status
-- identity_verification_status
-- kyc_status
-- document_status
-- documents_status
-- documents_count
-- document_count
-- uploaded_documents_count
-- verification_updated_at
-- documents_updated_at
-- kyc_updated_at
-- verification_notes
-- kyc_notes
+SECURITY DESIGN
+- Normal customer fields remain in the existing profile/Auth workflow.
+- Country-specific KYC fields are stored in kyc_sensitive, protected by RLS.
+- Documents are stored in a PRIVATE Storage bucket.
+- Admin document viewing uses short-lived signed URLs (5 minutes).
+- The Admin RPC is restricted to authenticated administrators through private.is_nexora_admin().
+- No document is made public.
 
-IMPORTANT:
-The admin page intentionally displays status/metadata rather than raw
-SSNs, passport numbers, licence numbers, or identity-document contents.
+EMAIL CONFIRMATION NOTE
+If Supabase requires email confirmation, the signup response may not include an authenticated session. In that case this version does NOT store sensitive KYC fields in localStorage or Auth metadata. The user is sent to login and should complete KYC after authentication. This is intentional for security.
 
-For the new status boxes to show real values, the database/RPC must return
-the corresponding status fields. If those fields are absent, the UI safely
-shows "Not submitted" or "—".
+IMPORTANT
+The labels/fields are based on the latest code you supplied. The UK "driving licence number" input is kept as a FILE input because that is how it appeared in the supplied code; if you want it to be a text number field instead, change that input to type="text" before going live.

@@ -224,101 +224,6 @@ textarea:focus {
   box-shadow: 0 0 0 3px rgba(37,99,235,.1);
 }
 
-
-/* VERIFICATION / DOCUMENT STATUS */
-.verification-panel {
-  margin-top: 18px;
-  padding: 16px;
-  border: 1px solid #e2e8f0;
-  border-radius: 14px;
-  background: #f8fafc;
-}
-
-.verification-panel-title {
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: .05em;
-  color: #475569;
-  margin-bottom: 12px;
-}
-
-.verification-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
-
-.verification-item {
-  background: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 10px;
-  padding: 11px;
-}
-
-.verification-label {
-  font-size: 10px;
-  font-weight: 800;
-  color: #64748b;
-  margin-bottom: 5px;
-}
-
-.verification-value {
-  font-size: 13px;
-  font-weight: 700;
-  color: #172033;
-  word-break: break-word;
-}
-
-.verification-status {
-  display: inline-flex;
-  align-items: center;
-  padding: 5px 9px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 800;
-  text-transform: capitalize;
-}
-
-.verification-status.pending {
-  background: #fff7ed;
-  color: #c2410c;
-}
-
-.verification-status.submitted {
-  background: #eff6ff;
-  color: #1d4ed8;
-}
-
-.verification-status.verified,
-.verification-status.approved {
-  background: #ecfdf5;
-  color: #047857;
-}
-
-.verification-status.rejected,
-.verification-status.failed {
-  background: #fef2f2;
-  color: #b91c1c;
-}
-
-.verification-status.not-submitted,
-.verification-status.unknown {
-  background: #f1f5f9;
-  color: #64748b;
-}
-
-@media (max-width: 900px) {
-  .verification-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-@media (max-width: 450px) {
-  .verification-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
 /* CUSTOMER CARDS */
 
 .customers {
@@ -393,6 +298,58 @@ textarea:focus {
   font-size: 14px;
   font-weight: 700;
   word-break: break-word;
+}
+
+.kyc-box {
+  margin-top: 18px;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 18px;
+}
+
+.kyc-title {
+  font-size: 13px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.kyc-status {
+  display: inline-flex;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #3730a3;
+  font-size: 11px;
+  font-weight: 800;
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+.kyc-documents {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.kyc-document {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  background: #f8fafc;
+  border-radius: 10px;
+  font-size: 12px;
+}
+
+.kyc-document a {
+  color: #2563eb;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.kyc-empty {
+  color: #64748b;
+  font-size: 12px;
 }
 
 .balance-box {
@@ -1084,6 +1041,23 @@ async function loadCustomers() {
         ? result
         : [];
 
+    try {
+      const kycResult = await supabaseFetch(
+        "/rest/v1/rpc/admin_get_customer_kyc",
+        { method: "POST", body: "{}" }
+      );
+
+      const kycRows = Array.isArray(kycResult) ? kycResult : [];
+      const kycMap = new Map(kycRows.map(row => [String(row.user_id), row]));
+      customers = customers.map(customer => ({
+        ...customer,
+        kyc: kycMap.get(String(customer.id)) || null
+      }));
+    } catch (kycError) {
+      console.warn("KYC data could not be loaded:", kycError);
+      customers = customers.map(customer => ({ ...customer, kyc: null }));
+    }
+
     updateCustomerStats();
 
     renderCustomers();
@@ -1257,177 +1231,6 @@ function renderCustomers() {
 
 /* CUSTOMER CARD */
 
-
-function normalizeVerificationStatus(value) {
-  const raw = String(value || "").trim().toLowerCase();
-
-  if (!raw) return "not-submitted";
-
-  if (
-    raw === "verified" ||
-    raw === "approved" ||
-    raw === "complete" ||
-    raw === "completed"
-  ) {
-    return "verified";
-  }
-
-  if (
-    raw === "rejected" ||
-    raw === "failed" ||
-    raw === "declined"
-  ) {
-    return "rejected";
-  }
-
-  if (
-    raw === "submitted" ||
-    raw === "uploaded" ||
-    raw === "received"
-  ) {
-    return "submitted";
-  }
-
-  if (
-    raw === "pending" ||
-    raw === "in progress" ||
-    raw === "processing"
-  ) {
-    return "pending";
-  }
-
-  return "unknown";
-}
-
-function verificationStatusLabel(value) {
-  const status = normalizeVerificationStatus(value);
-
-  const labels = {
-    "not-submitted": "Not submitted",
-    "submitted": "Submitted",
-    "pending": "Pending",
-    "verified": "Verified",
-    "rejected": "Rejected",
-    "unknown": value || "Unknown"
-  };
-
-  return labels[status] || "Unknown";
-}
-
-function customerVerificationPanel(customer) {
-  /*
-    These fields are intentionally display-only status/metadata.
-    The admin page does not display raw SSNs, passport numbers,
-    licence numbers, or identity-document contents.
-  */
-  const verificationStatus =
-    customer.verification_status ||
-    customer.identity_verification_status ||
-    customer.kyc_status ||
-    "";
-
-  const documentStatus =
-    customer.document_status ||
-    customer.documents_status ||
-    customer.kyc_document_status ||
-    "";
-
-  const documentCount =
-    customer.documents_count ??
-    customer.document_count ??
-    customer.uploaded_documents_count ??
-    0;
-
-  const verificationUpdated =
-    customer.verification_updated_at ||
-    customer.documents_updated_at ||
-    customer.kyc_updated_at ||
-    "";
-
-  const verificationNotes =
-    customer.verification_notes ||
-    customer.kyc_notes ||
-    "";
-
-  const vClass = normalizeVerificationStatus(verificationStatus);
-  const dClass = normalizeVerificationStatus(documentStatus);
-
-  const verificationText =
-    verificationStatusLabel(verificationStatus);
-
-  const documentText =
-    verificationStatusLabel(documentStatus);
-
-  const updatedText =
-    verificationUpdated
-      ? new Date(verificationUpdated).toLocaleString()
-      : "—";
-
-  const notesText =
-    verificationNotes || "—";
-
-  return `
-    <div class="verification-panel">
-      <div class="verification-panel-title">
-        VERIFICATION &amp; DOCUMENT STATUS
-      </div>
-
-      <div class="verification-grid">
-
-        <div class="verification-item">
-          <div class="verification-label">
-            IDENTITY VERIFICATION
-          </div>
-          <div class="verification-value">
-            <span class="verification-status ${escapeHtml(vClass)}">
-              ${escapeHtml(verificationText)}
-            </span>
-          </div>
-        </div>
-
-        <div class="verification-item">
-          <div class="verification-label">
-            DOCUMENT STATUS
-          </div>
-          <div class="verification-value">
-            <span class="verification-status ${escapeHtml(dClass)}">
-              ${escapeHtml(documentText)}
-            </span>
-          </div>
-        </div>
-
-        <div class="verification-item">
-          <div class="verification-label">
-            DOCUMENTS SUBMITTED
-          </div>
-          <div class="verification-value">
-            ${escapeHtml(String(documentCount))}
-          </div>
-        </div>
-
-        <div class="verification-item">
-          <div class="verification-label">
-            LAST VERIFICATION UPDATE
-          </div>
-          <div class="verification-value">
-            ${escapeHtml(updatedText)}
-          </div>
-        </div>
-
-        <div class="verification-item">
-          <div class="verification-label">
-            VERIFICATION NOTES
-          </div>
-          <div class="verification-value">
-            ${escapeHtml(notesText)}
-          </div>
-        </div>
-
-      </div>
-    </div>
-  `;
-}
-
 function customerCard(customer) {
 
   const id =
@@ -1488,6 +1291,45 @@ function customerCard(customer) {
           customer.updated_at
         ).toLocaleString()
       : "Unknown";
+
+  const kyc = customer.kyc || {};
+  const kycStatus = kyc.verification_status || "not_submitted";
+  const documentStatus = kyc.document_status || "not_submitted";
+  const documents = Array.isArray(kyc.documents) ? kyc.documents : [];
+  const sensitiveRows = [];
+
+  if (country === "United States") {
+    sensitiveRows.push(
+      ["social security number", kyc.us_sensitive_1],
+      ["passport number", kyc.us_sensitive_2],
+      ["state ID number", kyc.us_sensitive_3]
+    );
+  }
+
+  if (country === "United Kingdom") {
+    sensitiveRows.push(
+      ["national insurance number", kyc.uk_sensitive_1],
+      ["passport number", kyc.uk_sensitive_2]
+    );
+  }
+
+  const kycFieldsHtml = sensitiveRows.length
+    ? sensitiveRows.map(([label, value]) => `
+        <div class="info-box">
+          <div class="info-label">${escapeHtml(label)}</div>
+          <div class="info-value">${escapeHtml(value || "Not provided")}</div>
+        </div>
+      `).join("")
+    : `<div class="kyc-empty">No country-specific KYC fields submitted.</div>`;
+
+  const documentHtml = documents.length
+    ? documents.map((doc, index) => `
+        <div class="kyc-document">
+          <span>${escapeHtml(doc.file_name || `Document ${index + 1}`)}</span>
+          <button type="button" class="btn btn-primary view-kyc-document" data-path="${escapeHtml(doc.storage_path || "")}">View</button>
+        </div>
+      `).join("")
+    : `<div class="kyc-empty">No documents uploaded.</div>`;
 
   return `
 
@@ -1584,7 +1426,21 @@ function customerCard(customer) {
 
       </div>
 
-      ${customerVerificationPanel(customer)}
+
+      <div class="kyc-box">
+        <div class="kyc-title">VERIFICATION & DOCUMENTS</div>
+        <span class="kyc-status">Verification: ${escapeHtml(kycStatus)}</span>
+        <span class="kyc-status">Documents: ${escapeHtml(documentStatus)}</span>
+        <span class="kyc-status">Files: ${escapeHtml(String(kyc.documents_count || documents.length || 0))}</span>
+
+        <div class="customer-grid">
+          ${kycFieldsHtml}
+        </div>
+
+        <div class="kyc-documents">
+          ${documentHtml}
+        </div>
+      </div>
 
       <div class="balance-box">
 
@@ -1620,6 +1476,33 @@ function customerCard(customer) {
 
   `;
 }
+
+
+/* VIEW PRIVATE KYC DOCUMENT */
+
+async function viewKycDocument(path) {
+  if (!path) return;
+
+  try {
+    const { data, error } = await supabaseClient.storage
+      .from("nexora-kyc-documents")
+      .createSignedUrl(path, 300);
+
+    if (error) throw error;
+    if (!data?.signedUrl) throw new Error("Could not create a secure document link.");
+
+    window.open(data.signedUrl, "_blank", "noopener,noreferrer");
+  } catch (error) {
+    console.error("KYC DOCUMENT ERROR:", error);
+    alert("Unable to open this document: " + error.message);
+  }
+}
+
+document.addEventListener("click", function(event) {
+  const button = event.target.closest(".view-kyc-document");
+  if (!button) return;
+  viewKycDocument(button.dataset.path);
+});
 
 
 /* UPDATE BALANCE */
