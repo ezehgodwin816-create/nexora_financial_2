@@ -1,207 +1,327 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Account - Nexora Financial</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <title>Create Account - Nexora Financial</title>
 
-<style>
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    body {
-        font-family: Arial, sans-serif;
-        background: linear-gradient(135deg, #06111f, #0b1d33);
-        color: white;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-    }
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    .container {
-        width: 100%;
-        max-width: 430px;
-    }
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #06111f, #0b1d33);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
 
-    .logo {
-        text-align: center;
-        font-size: 28px;
-        font-weight: 800;
-        letter-spacing: 1px;
-        margin-bottom: 25px;
-    }
+        .container {
+            width: 100%;
+            max-width: 430px;
+        }
 
-    .logo span {
-        color: #28d7ff;
-    }
+        .logo {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+        }
 
-    .card {
-        background: rgba(255,255,255,0.06);
-        border: 1px solid rgba(255,255,255,0.12);
-        border-radius: 20px;
-        padding: 30px;
-        backdrop-filter: blur(15px);
-        box-shadow: 0 20px 50px rgba(0,0,0,0.35);
-    }
+        .logo span {
+            color: #28d7ff;
+        }
 
-    h1 {
-        font-size: 25px;
-        margin-bottom: 8px;
-    }
+        .card {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+        }
 
-    .subtitle {
-        color: #9eacbd;
-        font-size: 14px;
-        margin-bottom: 25px;
-    }
+        h1 {
+            font-size: 25px;
+            margin-bottom: 8px;
+        }
 
-    label {
-        display: block;
-        font-size: 13px;
-        color: #cbd5e1;
-        margin-bottom: 7px;
-    }
+        .subtitle {
+            color: #9eacbd;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
 
-    input {
-        width: 100%;
-        padding: 14px;
-        border-radius: 11px;
-        border: 1px solid rgba(255,255,255,0.12);
-        background: rgba(0,0,0,0.2);
-        color: white;
-        outline: none;
-        margin-bottom: 17px;
-        font-size: 15px;
-    }
+        label {
+            display: block;
+            font-size: 13px;
+            color: #cbd5e1;
+            margin-bottom: 7px;
+        }
 
-    input:focus {
-        border-color: #28d7ff;
-    }
+        input, select {
+            width: 100%;
+            padding: 14px;
+            border-radius: 11px;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(0,0,0,0.2);
+            color: white;
+            outline: none;
+            margin-bottom: 17px;
+            font-size: 15px;
+        }
 
-    button {
-        width: 100%;
-        padding: 14px;
-        border: none;
-        border-radius: 11px;
-        background: linear-gradient(135deg, #19c9ff, #247cff);
-        color: white;
-        font-size: 15px;
-        font-weight: 700;
-        cursor: pointer;
-        margin-top: 5px;
-    }
+        select option {
+            background: #0b1d33;
+            color: white;
+        }
 
-    button:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-    }
+        input:focus, select:focus {
+            border-color: #28d7ff;
+        }
 
-    .message {
-        display: none;
-        margin-top: 17px;
-        padding: 12px;
-        border-radius: 10px;
-        font-size: 13px;
-        line-height: 1.5;
-    }
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 11px;
+            background: linear-gradient(135deg, #19c9ff, #247cff);
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 5px;
+        }
 
-    .error {
-        display: block;
-        background: rgba(255, 60, 60, 0.12);
-        border: 1px solid rgba(255, 60, 60, 0.3);
-        color: #ff9d9d;
-    }
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
 
-    .success {
-        display: block;
-        background: rgba(30, 220, 130, 0.12);
-        border: 1px solid rgba(30, 220, 130, 0.3);
-        color: #7ff0b2;
-    }
+        .message {
+            display: none;
+            margin-top: 17px;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
 
-    .login {
-        text-align: center;
-        margin-top: 20px;
-        font-size: 14px;
-        color: #9eacbd;
-    }
+        .error {
+            display: block;
+            background: rgba(255, 60, 60, 0.12);
+            border: 1px solid rgba(255, 60, 60, 0.3);
+            color: #ff9d9d;
+        }
 
-    .login a {
-        color: #28d7ff;
-        text-decoration: none;
-        font-weight: 700;
-    }
-</style>
+        .success {
+            display: block;
+            background: rgba(30, 220, 130, 0.12);
+            border: 1px solid rgba(30, 220, 130, 0.3);
+            color: #7ff0b2;
+        }
 
-</head><body><div class="container"><div class="logo">
-    NEXORA <span>FINANCIAL</span>
-</div>
+        .country-details {
+            margin-bottom: 4px;
+        }
 
-<div class="card">
+        .login {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #9eacbd;
+        }
 
-    <h1>Create your account</h1>
+        .login a {
+            color: #28d7ff;
+            text-decoration: none;
+            font-weight: 700;
+        }
+    </style>
+</head>
 
-    <p class="subtitle">
-        Open your Nexora Financial account.
-    </p>
+<body>
 
-    <form id="registerForm">
+<div class="container">
 
-        <label for="name">Full name</label>
-
-        <input
-            type="text"
-            id="name"
-            placeholder="Enter your full name"
-            autocomplete="name"
-            required
-        >
-
-        <label for="email">Email address</label>
-
-        <input
-            type="email"
-            id="email"
-            placeholder="Enter your email"
-            autocomplete="email"
-            required
-        >
-
-        <label for="password">Password</label>
-
-        <input
-            type="password"
-            id="password"
-            placeholder="Create a password"
-            minlength="6"
-            autocomplete="new-password"
-            required
-        >
-
-        <button
-            type="submit"
-            id="registerBtn"
-        >
-            Create Account
-        </button>
-
-    </form>
-
-    <div id="message" class="message"></div>
-
-    <div class="login">
-        Already have an account?
-        <a href="./login.html">Sign in</a>
+    <div class="logo">
+        NEXORA <span>FINANCIAL</span>
     </div>
 
+    <div class="card">
+
+        <h1>Create your account</h1>
+
+        <p class="subtitle">
+            Open your Nexora Financial account. All information is for account verification.
+        </p>
+
+        <form id="registerForm">
+
+            <label for="firstName">First name</label>
+            <input
+                type="text"
+                id="firstName"
+                placeholder="First name"
+                autocomplete="given-name"
+                required
+            >
+
+            <label for="middleName">Middle name</label>
+            <input
+                type="text"
+                id="middleName"
+                placeholder="Middle name"
+                autocomplete="additional-name"
+            >
+
+            <label for="lastName">Last name</label>
+            <input
+                type="text"
+                id="lastName"
+                placeholder="Last name"
+                autocomplete="family-name"
+                required
+            >
+
+            <label for="email">Email address</label>
+            <input
+                type="email"
+                id="email"
+                placeholder="Enter your email"
+                autocomplete="email"
+                required
+            >
+
+            <label for="password">Password</label>
+            <input
+                type="password"
+                id="password"
+                placeholder="Create a password (min 6 characters)"
+                minlength="6"
+                autocomplete="new-password"
+                required
+            >
+
+            <label for="phone">Mobile number</label>
+            <input
+                type="tel"
+                id="phone"
+                placeholder="Enter your mobile number"
+                autocomplete="tel"
+                required
+            >
+
+            <label for="country">Country</label>
+            <select id="country" required>
+                <option value="">Select your country</option>
+                <option value="United States">United States</option>
+                <option value="United Kingdom">United Kingdom</option>
+                <option value="Canada">Canada</option>
+                <option value="Nigeria">Nigeria</option>
+                <option value="Ghana">Ghana</option>
+                <option value="South Africa">South Africa</option>
+                <option value="Kenya">Kenya</option>
+                <option value="India">India</option>
+                <option value="Australia">Australia</option>
+                <option value="Germany">Germany</option>
+                <option value="France">France</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <label for="dob">Date of birth</label>
+            <input type="date" id="dob" required>
+
+            <!-- UNITED STATES SECTION -->
+            <div id="us-details" class="country-details" hidden>
+
+                <label for="us-socialsecuritynumber(SSN)1">social security number</label>
+                <input type="text" id="us-socialsecuritynumber(SSN)1" placeholder="social security number (SSN)">
+
+                <label for="us-passportnumber2">passport number</label>
+                <input type="text" id="us-passportnumber2" placeholder="passport number">
+
+                <label for="us-stateidnumber3">state ID number</label>
+                <input type="text" id="us-stateidnumber3" placeholder="state ID number">
+
+                <label for="us-driver'slicense">driver's license</label>
+                <input
+                    type="file"
+                    id="us-driver'slicense"
+                    accept="image/*,.pdf,.doc,.docx"
+                    multiple
+                >
+
+            </div>
+
+            <!-- UNITED KINGDOM SECTION -->
+            <div id="uk-details" class="country-details" hidden>
+
+                <label for="uk-nationalinsurancenumber">national insurance number</label>
+                <input type="text" id="uk-nationalinsurancenumber1" placeholder="national insurance number">
+
+                <label for="uk-passportnumber2">passport number</label>
+                <input type="text" id="uk-passportnumber2" placeholder="passport number">
+
+                <label for="uk-drivinglicencenumber3">driving licence number</label>
+                <input type="file" id="uk-drivinglicencenumber3" accept="image/*,.pdf,.doc,.docx" multiple>
+
+                <label for="uk-IDphoto4">ID photo</label>
+                <input type="file" id="uk-IDphoto4" accept="image/*,.pdf,.doc,.docx" multiple>
+
+            </div>
+
+            <label for="currentAddress">Current address</label>
+            <input
+                type="text"
+                id="currentAddress"
+                placeholder="Street, city, postcode"
+                autocomplete="street-address"
+                required
+            >
+
+            <label for="previousAddress">Previous address (optional)</label>
+            <input
+                type="text"
+                id="previousAddress"
+                placeholder="Previous street, city, postcode"
+            >
+
+            <label for="occupation">Occupation</label>
+            <input
+                type="text"
+                id="occupation"
+                placeholder="Your occupation"
+                required
+            >
+
+            <button type="submit" id="registerBtn">
+                Create Account
+            </button>
+
+        </form>
+
+        <div id="message" class="message"></div>
+
+        <div class="login">
+            Already have an account?
+            <a href="./login.html">Sign in</a>
+        </div>
+
+    </div>
 </div>
 
-</div><script>
-
+<script>
 /* ============================================================
    SUPABASE
 ============================================================ */
@@ -232,32 +352,54 @@ const DASHBOARD_URL =
 ============================================================ */
 
 const form =
-    document.getElementById(
-        "registerForm"
-    );
+    document.getElementById("registerForm");
 
 const registerBtn =
-    document.getElementById(
-        "registerBtn"
-    );
+    document.getElementById("registerBtn");
 
 const message =
-    document.getElementById(
-        "message"
-    );
+    document.getElementById("message");
+
+const country =
+    document.getElementById("country");
+
+const usDetails =
+    document.getElementById("us-details");
+
+const ukDetails =
+    document.getElementById("uk-details");
+
+
+/* ============================================================
+   COUNTRY SECTIONS
+============================================================ */
+
+function updateCountryDetails() {
+
+    const selectedCountry = country.value;
+
+    usDetails.hidden =
+        selectedCountry !== "United States";
+
+    ukDetails.hidden =
+        selectedCountry !== "United Kingdom";
+}
+
+country.addEventListener(
+    "change",
+    updateCountryDetails
+);
+
+updateCountryDetails();
 
 
 /* ============================================================
    MESSAGE
 ============================================================ */
 
-function showMessage(
-    text,
-    type
-) {
+function showMessage(text, type) {
 
-    message.textContent =
-        text;
+    message.textContent = text;
 
     message.className =
         "message " + type;
@@ -274,26 +416,54 @@ form.addEventListener(
 
         e.preventDefault();
 
+        const firstName =
+            document.getElementById("firstName").value.trim();
 
-        const name =
-            document
-                .getElementById("name")
-                .value
-                .trim();
+        const middleName =
+            document.getElementById("middleName").value.trim();
 
+        const lastName =
+            document.getElementById("lastName").value.trim();
+
+        const fullName =
+            [firstName, middleName, lastName]
+                .filter(Boolean)
+                .join(" ");
 
         const email =
-            document
-                .getElementById("email")
+            document.getElementById("email")
                 .value
                 .trim()
                 .toLowerCase();
 
-
         const password =
-            document
-                .getElementById("password")
-                .value;
+            document.getElementById("password").value;
+
+        const phone =
+            document.getElementById("phone")
+                .value
+                .trim();
+
+        const selectedCountry =
+            document.getElementById("country").value;
+
+        const dob =
+            document.getElementById("dob").value;
+
+        const currentAddress =
+            document.getElementById("currentAddress")
+                .value
+                .trim();
+
+        const previousAddress =
+            document.getElementById("previousAddress")
+                .value
+                .trim();
+
+        const occupation =
+            document.getElementById("occupation")
+                .value
+                .trim();
 
 
         /* ----------------------------------------------------
@@ -301,13 +471,29 @@ form.addEventListener(
         ---------------------------------------------------- */
 
         if (
-            !name ||
+            !firstName ||
+            !lastName ||
             !email ||
-            !password
+            !password ||
+            !phone ||
+            !selectedCountry ||
+            !dob ||
+            !currentAddress ||
+            !occupation
+            !IDphoto ||
+            !socialsecuritynumber(SSN) ||
+            !driver'slicense
+            !driver'slicense
+            !stateidnumber
+            ! passportnumber
+            !nationalinsurancenumber
+            !passportnumber
+            !drivinglicencenumber
+            !IDphoto
         ) {
 
             showMessage(
-                "Please complete all fields.",
+                "Please complete all required fields.",
                 "error"
             );
 
@@ -315,9 +501,7 @@ form.addEventListener(
         }
 
 
-        if (
-            password.length < 6
-        ) {
+        if (password.length < 6) {
 
             showMessage(
                 "Password must be at least 6 characters.",
@@ -332,8 +516,7 @@ form.addEventListener(
            BUTTON
         ---------------------------------------------------- */
 
-        registerBtn.disabled =
-            true;
+        registerBtn.disabled = true;
 
         registerBtn.textContent =
             "Creating account...";
@@ -345,10 +528,7 @@ form.addEventListener(
         try {
 
             /* ------------------------------------------------
-               CLEAR OLD NEXORA SESSION DATA
-
-               This prevents a previous account's locally
-               stored tokens from being reused.
+               CLEAR ONLY NEXORA LOCAL SESSION DATA
             ------------------------------------------------ */
 
             localStorage.removeItem(
@@ -374,21 +554,25 @@ form.addEventListener(
             } =
                 await supabaseClient.auth.signUp({
 
-                    email:
-                        email,
+                    email: email,
 
-                    password:
-                        password,
+                    password: password,
 
                     options: {
 
                         data: {
 
-                            full_name:
-                                name,
-
-                            name:
-                                name
+                            full_name: fullName,
+                            name: fullName,
+                            first_name: firstName,
+                            middle_name: middleName,
+                            last_name: lastName,
+                            phone: phone,
+                            country: selectedCountry,
+                            date_of_birth: dob,
+                            current_address: currentAddress,
+                            previous_address: previousAddress,
+                            occupation: occupation
 
                         }
 
@@ -414,8 +598,7 @@ form.addEventListener(
 
 
             /* ------------------------------------------------
-               MAKE SURE THE NEW USER SESSION IS THE ACTIVE
-               NEXORA SESSION
+               MAKE THE NEW USER SESSION ACTIVE
             ------------------------------------------------ */
 
             if (data.session) {
@@ -437,7 +620,7 @@ form.addEventListener(
 
 
                 showMessage(
-                    "Account created successfully. Redirecting to your Nexora dashboard...",
+                    "Successfully signed up! Your details are being processed. You can continue using your account. We will contact you if any information is missing or needs correction.",
                     "success"
                 );
 
@@ -450,7 +633,7 @@ form.addEventListener(
                         );
 
                     },
-                    800
+                    3500
                 );
 
 
@@ -467,7 +650,7 @@ form.addEventListener(
 
 
                 showMessage(
-                    "Account created. Please sign in to continue.",
+                    "Successfully signed up! Your details are being processed. Please sign in to continue using your account. We will contact you if any information is missing or needs correction.",
                     "success"
                 );
 
@@ -480,7 +663,7 @@ form.addEventListener(
                         );
 
                     },
-                    1200
+                    3500
                 );
 
             }
@@ -512,10 +695,7 @@ form.addEventListener(
                 errorMessage =
                     "An account with this email already exists.";
 
-            }
-
-
-            else if (
+            } else if (
                 lowerMessage.includes(
                     "password"
                 )
@@ -543,6 +723,7 @@ form.addEventListener(
 
     }
 );
+</script>
 
-</script></body>
+</body>
 </html>
