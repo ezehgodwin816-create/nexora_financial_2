@@ -1006,6 +1006,20 @@ form.addEventListener(
                 error
             } =
                 await supabaseClient.auth.signUp({
+                console.log("SIGNUP USER:", data?.user);
+console.log("SIGNUP SESSION:", data?.session);
+
+const { data: sessionData, error: sessionError } =
+    await supabaseClient.auth.getSession();
+
+console.log("CURRENT SESSION:", sessionData?.session);
+console.log("SESSION ERROR:", sessionError);
+
+const { data: userData, error: userError } =
+    await supabaseClient.auth.getUser();
+
+console.log("CURRENT USER:", userData?.user);
+console.log("USER ERROR:", userError);
 
                     email,
 
