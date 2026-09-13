@@ -69,7 +69,8 @@
             margin-bottom: 7px;
         }
 
-        input, select {
+        input,
+        select {
             width: 100%;
             padding: 14px;
             border-radius: 11px;
@@ -86,8 +87,14 @@
             color: white;
         }
 
-        input:focus, select:focus {
+        input:focus,
+        select:focus {
             border-color: #28d7ff;
+        }
+
+        input[type="file"] {
+            padding: 11px;
+            cursor: pointer;
         }
 
         button {
@@ -246,16 +253,33 @@
             <div id="us-details" class="country-details" hidden>
 
                 <label for="us-socialsecuritynumber-1">social security number</label>
-                <input type="text" id="us-socialsecuritynumber-1" placeholder="social security number (SSN)">
+                <input
+                    type="text"
+                    id="us-socialsecuritynumber-1"
+                    placeholder="social security number (SSN)"
+                >
 
                 <label for="us-passportnumber-2">passport number</label>
-                <input type="text" id="us-passportnumber-2" placeholder="passport number">
+                <input
+                    type="text"
+                    id="us-passportnumber-2"
+                    placeholder="passport number"
+                >
 
                 <label for="us-stateidnumber-3">state ID number</label>
-                <input type="text" id="us-stateidnumber-3" placeholder="state ID number">
+                <input
+                    type="text"
+                    id="us-stateidnumber-3"
+                    placeholder="state ID number"
+                >
 
                 <label for="us-driverslicense">driver's license</label>
-                <input type="file" id="us-driverslicense" accept="image/*,.pdf,.doc,.docx" multiple>
+                <input
+                    type="file"
+                    id="us-driverslicense"
+                    accept="image/*,.pdf,.doc,.docx"
+                    multiple
+                >
 
             </div>
 
@@ -263,16 +287,34 @@
             <div id="uk-details" class="country-details" hidden>
 
                 <label for="uk-nationalinsurancenumber-1">national insurance number</label>
-                <input type="text" id="uk-nationalinsurancenumber-1" placeholder="national insurance number">
+                <input
+                    type="text"
+                    id="uk-nationalinsurancenumber-1"
+                    placeholder="national insurance number"
+                >
 
                 <label for="uk-passportnumber-2">passport number</label>
-                <input type="text" id="uk-passportnumber-2" placeholder="passport number">
+                <input
+                    type="text"
+                    id="uk-passportnumber-2"
+                    placeholder="passport number"
+                >
 
                 <label for="uk-drivinglicencenumber-3">driving licence number</label>
-                <input type="file" id="uk-drivinglicencenumber-3" accept="image/*,.pdf,.doc,.docx" multiple>
+                <input
+                    type="file"
+                    id="uk-drivinglicencenumber-3"
+                    accept="image/*,.pdf,.doc,.docx"
+                    multiple
+                >
 
                 <label for="uk-IDphoto-4">ID photo</label>
-                <input type="file" id="uk-IDphoto-4" accept="image/*,.pdf,.doc,.docx" multiple>
+                <input
+                    type="file"
+                    id="uk-IDphoto-4"
+                    accept="image/*,.pdf,.doc,.docx"
+                    multiple
+                >
 
             </div>
 
@@ -319,10 +361,21 @@
 <script>
 const SUPABASE_URL = "https://enstgbpcgkdnwhhlsnhh.supabase.co";
 const SUPABASE_KEY = "sb_publishable_0ecSKgmH9JIzdX9_3j5Kww_aNdNr_qT";
+
 const KYC_BUCKET = "nexora-kyc-documents";
 const DASHBOARD_URL = "./dashboard.html?v=8000";
 
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY,
+    {
+        auth: {
+            autoRefreshToken: true,
+            persistSession: true,
+            detectSessionInUrl: true
+        }
+    }
+);
 
 const form = document.getElementById("registerForm");
 const registerBtn = document.getElementById("registerBtn");
@@ -331,8 +384,14 @@ const country = document.getElementById("country");
 const usDetails = document.getElementById("us-details");
 const ukDetails = document.getElementById("uk-details");
 
+
+/* =========================================================
+   COUNTRY SECTIONS
+========================================================= */
+
 function updateCountryDetails() {
     const selectedCountry = country.value;
+
     usDetails.hidden = selectedCountry !== "United States";
     ukDetails.hidden = selectedCountry !== "United Kingdom";
 }
@@ -340,10 +399,25 @@ function updateCountryDetails() {
 country.addEventListener("change", updateCountryDetails);
 updateCountryDetails();
 
+
+/* =========================================================
+   MESSAGES
+========================================================= */
+
 function showMessage(text, type) {
     message.textContent = text;
     message.className = "message " + type;
 }
+
+function clearMessage() {
+    message.textContent = "";
+    message.className = "message";
+}
+
+
+/* =========================================================
+   LOCAL STORAGE
+========================================================= */
 
 function clearNexoraSessionStorage() {
     localStorage.removeItem("nexora_access_token");
@@ -351,29 +425,83 @@ function clearNexoraSessionStorage() {
     localStorage.removeItem("nexoraUserId");
 }
 
-function safeFileName(name) {
-    return name.replace(/[^a-zA-Z0-9._-]/g, "_");
+function saveNexoraSession(session, userId) {
+    if (session?.access_token) {
+        localStorage.setItem(
+            "nexora_access_token",
+            session.access_token
+        );
+    }
+
+    if (session?.refresh_token) {
+        localStorage.setItem(
+            "nexora_refresh_token",
+            session.refresh_token
+        );
+    }
+
+    if (userId) {
+        localStorage.setItem(
+            "nexoraUserId",
+            userId
+        );
+    }
 }
 
+
+/* =========================================================
+   FILE NAME
+========================================================= */
+
+function safeFileName(name) {
+    return String(name || "file")
+        .replace(/[^a-zA-Z0-9._-]/g, "_");
+}
+
+
+/* =========================================================
+   UPLOAD KYC DOCUMENTS
+========================================================= */
+
 async function uploadKycFiles(userId, files, groupName) {
+
     const uploaded = [];
 
     for (let i = 0; i < files.length; i++) {
+
         const file = files[i];
-        const path = `${userId}/${groupName}/${Date.now()}-${i}-${safeFileName(file.name)}`;
 
-        const { error } = await supabaseClient.storage
+        if (!file) {
+            continue;
+        }
+
+        const timestamp = Date.now();
+
+        const path =
+            `${userId}/${groupName}/${timestamp}-${i}-${safeFileName(file.name)}`;
+
+        const { data, error } = await supabaseClient
+            .storage
             .from(KYC_BUCKET)
-            .upload(path, file, {
-                cacheControl: "3600",
-                upsert: false,
-                contentType: file.type || "application/octet-stream"
-            });
+            .upload(
+                path,
+                file,
+                {
+                    cacheControl: "3600",
+                    upsert: false,
+                    contentType:
+                        file.type || "application/octet-stream"
+                }
+            );
 
-        if (error) throw error;
+        if (error) {
+            throw new Error(
+                `Document upload failed: ${error.message}`
+            );
+        }
 
         uploaded.push({
-            path,
+            path: data?.path || path,
             original_name: file.name,
             mime_type: file.type || null,
             size_bytes: file.size,
@@ -384,154 +512,787 @@ async function uploadKycFiles(userId, files, groupName) {
     return uploaded;
 }
 
-async function collectKyc(userId, selectedCountry) {
-    const us1 = document.getElementById("us-socialsecuritynumber-1")?.value.trim() || "";
-    const us2 = document.getElementById("us-passportnumber-2")?.value.trim() || "";
-    const us3 = document.getElementById("us-stateidnumber-3")?.value.trim() || "";
-    const usFiles = Array.from(document.getElementById("us-driverslicense")?.files || []);
 
-    const uk1 = document.getElementById("uk-nationalinsurancenumber-1")?.value.trim() || "";
-    const uk2 = document.getElementById("uk-passportnumber-2")?.value.trim() || "";
-    const ukFiles1 = Array.from(document.getElementById("uk-drivinglicencenumber-3")?.files || []);
-    const ukFiles2 = Array.from(document.getElementById("uk-IDphoto-4")?.files || []);
+/* =========================================================
+   COLLECT AND SAVE KYC
+========================================================= */
+
+async function collectKyc(userId, selectedCountry) {
+
+    /*
+     * US TEXT FIELDS
+     */
+
+    const us1 =
+        document
+            .getElementById("us-socialsecuritynumber-1")
+            ?.value
+            .trim() || "";
+
+    const us2 =
+        document
+            .getElementById("us-passportnumber-2")
+            ?.value
+            .trim() || "";
+
+    const us3 =
+        document
+            .getElementById("us-stateidnumber-3")
+            ?.value
+            .trim() || "";
+
+
+    /*
+     * US FILES
+     */
+
+    const usFiles =
+        Array.from(
+            document
+                .getElementById("us-driverslicense")
+                ?.files || []
+        );
+
+
+    /*
+     * UK TEXT FIELDS
+     */
+
+    const uk1 =
+        document
+            .getElementById("uk-nationalinsurancenumber-1")
+            ?.value
+            .trim() || "";
+
+    const uk2 =
+        document
+            .getElementById("uk-passportnumber-2")
+            ?.value
+            .trim() || "";
+
+
+    /*
+     * UK FILES
+     */
+
+    const ukFiles1 =
+        Array.from(
+            document
+                .getElementById("uk-drivinglicencenumber-3")
+                ?.files || []
+        );
+
+    const ukFiles2 =
+        Array.from(
+            document
+                .getElementById("uk-IDphoto-4")
+                ?.files || []
+        );
+
+
+    /*
+     * UPLOAD DOCUMENTS
+     */
 
     const uploaded = [];
 
+
     if (selectedCountry === "United States") {
-        uploaded.push(...await uploadKycFiles(userId, usFiles, "us-drivers-license"));
+
+        const usUploaded =
+            await uploadKycFiles(
+                userId,
+                usFiles,
+                "us-drivers-license"
+            );
+
+        uploaded.push(...usUploaded);
     }
+
 
     if (selectedCountry === "United Kingdom") {
-        uploaded.push(...await uploadKycFiles(userId, ukFiles1, "uk-driving-licence"));
-        uploaded.push(...await uploadKycFiles(userId, ukFiles2, "uk-id-photo"));
+
+        const ukLicenceUploaded =
+            await uploadKycFiles(
+                userId,
+                ukFiles1,
+                "uk-driving-licence"
+            );
+
+        uploaded.push(...ukLicenceUploaded);
+
+
+        const ukPhotoUploaded =
+            await uploadKycFiles(
+                userId,
+                ukFiles2,
+                "uk-id-photo"
+            );
+
+        uploaded.push(...ukPhotoUploaded);
     }
+
+
+    /*
+     * DETERMINE WHETHER ANY KYC WAS PROVIDED
+     */
+
+    const hasSensitiveInformation =
+        Boolean(
+            us1 ||
+            us2 ||
+            us3 ||
+            uk1 ||
+            uk2
+        );
+
+    const hasDocuments =
+        uploaded.length > 0;
+
+    const hasKycSubmission =
+        hasSensitiveInformation ||
+        hasDocuments;
+
+
+    /*
+     * CREATE KYC DATABASE RECORD
+     */
 
     const payload = {
+
         user_id: userId,
+
         country: selectedCountry,
-        us_sensitive_1: selectedCountry === "United States" ? us1 : null,
-        us_sensitive_2: selectedCountry === "United States" ? us2 : null,
-        us_sensitive_3: selectedCountry === "United States" ? us3 : null,
-        uk_sensitive_1: selectedCountry === "United Kingdom" ? uk1 : null,
-        uk_sensitive_2: selectedCountry === "United Kingdom" ? uk2 : null,
-        verification_status: uploaded.length || us1 || us2 || us3 || uk1 || uk2 ? "submitted" : "not_submitted",
-        document_status: uploaded.length ? "submitted" : "not_submitted",
-        documents_count: uploaded.length
+
+        us_sensitive_1:
+            selectedCountry === "United States"
+                ? us1
+                : null,
+
+        us_sensitive_2:
+            selectedCountry === "United States"
+                ? us2
+                : null,
+
+        us_sensitive_3:
+            selectedCountry === "United States"
+                ? us3
+                : null,
+
+        uk_sensitive_1:
+            selectedCountry === "United Kingdom"
+                ? uk1
+                : null,
+
+        uk_sensitive_2:
+            selectedCountry === "United Kingdom"
+                ? uk2
+                : null,
+
+        verification_status:
+            hasKycSubmission
+                ? "submitted"
+                : "not_submitted",
+
+        document_status:
+            hasDocuments
+                ? "submitted"
+                : "not_submitted",
+
+        documents_count:
+            uploaded.length,
+
+        verification_notes:
+            null,
+
+        verification_updated_at:
+            new Date().toISOString(),
+
+        updated_at:
+            new Date().toISOString()
     };
 
-    const { error: kycError } = await supabaseClient
-        .from("kyc_sensitive")
-        .upsert(payload, { onConflict: "user_id" });
 
-    if (kycError) throw kycError;
+    /*
+     * SAVE KYC
+     */
 
-    if (uploaded.length) {
-        const rows = uploaded.map(x => ({
-            user_id: userId,
-            storage_path: x.path,
-            file_name: x.original_name,
-            mime_type: x.mime_type,
-            size_bytes: x.size_bytes,
-            document_group: x.document_group,
-            status: "submitted"
-        }));
+    const { error: kycError } =
+        await supabaseClient
+            .from("kyc_sensitive")
+            .upsert(
+                payload,
+                {
+                    onConflict: "user_id"
+                }
+            );
 
-        const { error: documentError } = await supabaseClient
-            .from("kyc_document_files")
-            .insert(rows);
 
-        if (documentError) throw documentError;
+    if (kycError) {
+
+        console.error(
+            "KYC DATABASE ERROR:",
+            kycError
+        );
+
+        throw new Error(
+            `KYC information could not be saved: ${kycError.message}`
+        );
     }
+
+
+    /*
+     * SAVE DOCUMENT METADATA
+     */
+
+    if (uploaded.length > 0) {
+
+        const rows =
+            uploaded.map(file => ({
+
+                user_id: userId,
+
+                storage_path: file.path,
+
+                file_name: file.original_name,
+
+                mime_type: file.mime_type,
+
+                size_bytes: file.size_bytes,
+
+                document_group: file.document_group,
+
+                status: "submitted"
+
+            }));
+
+
+        const {
+            error: documentError
+        } =
+            await supabaseClient
+                .from("kyc_document_files")
+                .insert(rows);
+
+
+        if (documentError) {
+
+            console.error(
+                "DOCUMENT DATABASE ERROR:",
+                documentError
+            );
+
+            throw new Error(
+                `Document information could not be saved: ${documentError.message}`
+            );
+        }
+    }
+
+
+    /*
+     * FINAL VERIFICATION
+     *
+     * Read the row back so we know the submission
+     * actually exists before sending the user away.
+     */
+
+    const {
+        data: savedKyc,
+        error: verifyError
+    } =
+        await supabaseClient
+            .from("kyc_sensitive")
+            .select(
+                "user_id,country,verification_status,document_status,documents_count"
+            )
+            .eq("user_id", userId)
+            .maybeSingle();
+
+
+    if (verifyError) {
+
+        console.error(
+            "KYC VERIFICATION ERROR:",
+            verifyError
+        );
+
+        throw new Error(
+            `KYC was submitted but could not be verified: ${verifyError.message}`
+        );
+    }
+
+
+    if (!savedKyc) {
+
+        throw new Error(
+            "The account was created, but the KYC record was not found after submission."
+        );
+    }
+
+
+    if (savedKyc.verification_status !== "submitted") {
+
+        throw new Error(
+            "The account was created, but the KYC submission was not marked as submitted."
+        );
+    }
+
+
+    return {
+        kyc: savedKyc,
+        uploaded
+    };
 }
 
-form.addEventListener("submit", async function(e) {
-    e.preventDefault();
 
-    const firstName = document.getElementById("firstName").value.trim();
-    const middleName = document.getElementById("middleName").value.trim();
-    const lastName = document.getElementById("lastName").value.trim();
-    const fullName = [firstName, middleName, lastName].filter(Boolean).join(" ");
-    const email = document.getElementById("email").value.trim().toLowerCase();
-    const password = document.getElementById("password").value;
-    const phone = document.getElementById("phone").value.trim();
-    const selectedCountry = document.getElementById("country").value;
-    const dob = document.getElementById("dob").value;
-    const currentAddress = document.getElementById("currentAddress").value.trim();
-    const previousAddress = document.getElementById("previousAddress").value.trim();
-    const occupation = document.getElementById("occupation").value.trim();
+/* =========================================================
+   REGISTRATION
+========================================================= */
 
-    if (!firstName || !lastName || !email || !password || !phone || !selectedCountry || !dob || !currentAddress || !occupation) {
-        showMessage("Please complete all required fields.", "error");
-        return;
-    }
+form.addEventListener(
+    "submit",
+    async function(e) {
 
-    if (password.length < 6) {
-        showMessage("Password must be at least 6 characters.", "error");
-        return;
-    }
+        e.preventDefault();
 
-    registerBtn.disabled = true;
-    registerBtn.textContent = "Creating account...";
-    message.className = "message";
+        clearMessage();
 
-    try {
-        clearNexoraSessionStorage();
 
-        const { data, error } = await supabaseClient.auth.signUp({
-            email,
-            password,
-            options: {
-                data: {
-                    full_name: fullName,
-                    name: fullName,
-                    first_name: firstName,
-                    middle_name: middleName,
-                    last_name: lastName,
-                    phone,
-                    country: selectedCountry,
-                    date_of_birth: dob,
-                    current_address: currentAddress,
-                    previous_address: previousAddress,
-                    occupation
-                }
+        /*
+         * NORMAL ACCOUNT FIELDS
+         */
+
+        const firstName =
+            document
+                .getElementById("firstName")
+                .value
+                .trim();
+
+        const middleName =
+            document
+                .getElementById("middleName")
+                .value
+                .trim();
+
+        const lastName =
+            document
+                .getElementById("lastName")
+                .value
+                .trim();
+
+        const fullName =
+            [
+                firstName,
+                middleName,
+                lastName
+            ]
+            .filter(Boolean)
+            .join(" ");
+
+        const email =
+            document
+                .getElementById("email")
+                .value
+                .trim()
+                .toLowerCase();
+
+        const password =
+            document
+                .getElementById("password")
+                .value;
+
+        const phone =
+            document
+                .getElementById("phone")
+                .value
+                .trim();
+
+        const selectedCountry =
+            document
+                .getElementById("country")
+                .value;
+
+        const dob =
+            document
+                .getElementById("dob")
+                .value;
+
+        const currentAddress =
+            document
+                .getElementById("currentAddress")
+                .value
+                .trim();
+
+        const previousAddress =
+            document
+                .getElementById("previousAddress")
+                .value
+                .trim();
+
+        const occupation =
+            document
+                .getElementById("occupation")
+                .value
+                .trim();
+
+
+        /*
+         * NORMAL VALIDATION
+         */
+
+        if (
+            !firstName ||
+            !lastName ||
+            !email ||
+            !password ||
+            !phone ||
+            !selectedCountry ||
+            !dob ||
+            !currentAddress ||
+            !occupation
+        ) {
+
+            showMessage(
+                "Please complete all required fields.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        if (password.length < 6) {
+
+            showMessage(
+                "Password must be at least 6 characters.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        /*
+         * COUNTRY-SPECIFIC KYC VALIDATION
+         *
+         * These are intentionally not required here because
+         * your original form allows the fields to be optional.
+         */
+
+        registerBtn.disabled = true;
+        registerBtn.textContent = "Creating account...";
+
+
+        try {
+
+            clearNexoraSessionStorage();
+
+
+            /*
+             * MAKE SURE THERE IS NO OLD SESSION
+             */
+
+            await supabaseClient.auth.signOut();
+
+
+            /*
+             * CREATE SUPABASE ACCOUNT
+             *
+             * Confirm Email must be OFF in Supabase.
+             */
+
+            const {
+                data,
+                error
+            } =
+                await supabaseClient.auth.signUp({
+
+                    email,
+
+                    password,
+
+                    options: {
+
+                        data: {
+
+                            full_name:
+                                fullName,
+
+                            name:
+                                fullName,
+
+                            first_name:
+                                firstName,
+
+                            middle_name:
+                                middleName,
+
+                            last_name:
+                                lastName,
+
+                            phone,
+
+                            country:
+                                selectedCountry,
+
+                            date_of_birth:
+                                dob,
+
+                            current_address:
+                                currentAddress,
+
+                            previous_address:
+                                previousAddress,
+
+                            occupation
+
+                        }
+                    }
+                });
+
+
+            if (error) {
+
+                throw error;
             }
-        });
 
-        if (error) throw error;
-        if (!data?.user) throw new Error("Account could not be created.");
 
-        if (data.session) {
-            localStorage.setItem("nexora_access_token", data.session.access_token);
-            localStorage.setItem("nexora_refresh_token", data.session.refresh_token);
-            localStorage.setItem("nexoraUserId", data.user.id);
+            if (!data?.user) {
 
-            await collectKyc(data.user.id, selectedCountry);
+                throw new Error(
+                    "Account could not be created."
+                );
+            }
 
-            showMessage("Successfully signed up! Your verification information and documents were submitted securely.", "success");
 
-            setTimeout(() => window.location.replace(DASHBOARD_URL), 3500);
-        } else {
-            localStorage.setItem("nexoraUserId", data.user.id);
-            showMessage("Your account was created. Please confirm your email and sign in. Your verification documents can then be completed securely from your account.", "success");
+            /*
+             * IMPORTANT:
+             *
+             * Because Confirm Email is OFF, Supabase should
+             * return an active session here.
+             */
 
-            setTimeout(() => window.location.replace("./login.html?v=8000"), 3500);
+            let session =
+                data.session || null;
+
+
+            /*
+             * FALLBACK:
+             *
+             * Ask Supabase for the current session in case
+             * the client has already persisted it.
+             */
+
+            if (!session) {
+
+                const {
+                    data: sessionData,
+                    error: sessionError
+                } =
+                    await supabaseClient.auth.getSession();
+
+
+                if (sessionError) {
+
+                    throw new Error(
+                        `Account created, but the login session could not be established: ${sessionError.message}`
+                    );
+                }
+
+
+                session =
+                    sessionData?.session || null;
+            }
+
+
+            /*
+             * NO SESSION = STOP.
+             *
+             * We do not attempt to bypass RLS or store
+             * sensitive KYC information without authentication.
+             */
+
+            if (!session) {
+
+                throw new Error(
+                    "The account was created, but no active login session was returned. Make sure Confirm Email is OFF in Supabase Authentication settings, then try again."
+                );
+            }
+
+
+            /*
+             * SAVE SESSION
+             */
+
+            saveNexoraSession(
+                session,
+                data.user.id
+            );
+
+
+            /*
+             * MAKE SURE SUPABASE AUTH RECOGNIZES THE USER
+             */
+
+            const {
+                data: userData,
+                error: userError
+            } =
+                await supabaseClient.auth.getUser();
+
+
+            if (userError) {
+
+                throw new Error(
+                    `Account session could not be verified: ${userError.message}`
+                );
+            }
+
+
+            if (!userData?.user?.id) {
+
+                throw new Error(
+                    "The account session was created, but the authenticated user could not be verified."
+                );
+            }
+
+
+            /*
+             * USE THE AUTHENTICATED USER ID
+             */
+
+            const userId =
+                userData.user.id;
+
+
+            /*
+             * SAVE KYC + DOCUMENTS
+             */
+
+            registerBtn.textContent =
+                "Saving verification...";
+
+
+            const kycResult =
+                await collectKyc(
+                    userId,
+                    selectedCountry
+                );
+
+
+            /*
+             * SUCCESS
+             */
+
+            const documentMessage =
+                kycResult.uploaded.length > 0
+                    ? ` ${kycResult.uploaded.length} document${kycResult.uploaded.length === 1 ? "" : "s"} uploaded.`
+                    : "";
+
+
+            showMessage(
+                `Successfully created your account. Your verification information has been submitted.${documentMessage}`,
+                "success"
+            );
+
+
+            registerBtn.textContent =
+                "Account Created";
+
+
+            /*
+             * GO TO DASHBOARD
+             */
+
+            setTimeout(
+                () => {
+                    window.location.replace(
+                        DASHBOARD_URL
+                    );
+                },
+                2500
+            );
+
+        } catch (error) {
+
+            console.error(
+                "REGISTRATION ERROR:",
+                error
+            );
+
+
+            let errorMessage =
+                error?.message ||
+                "Registration failed.";
+
+
+            const lowerMessage =
+                errorMessage.toLowerCase();
+
+
+            if (
+                lowerMessage.includes(
+                    "already registered"
+                )
+            ) {
+
+                errorMessage =
+                    "An account with this email already exists.";
+
+            } else if (
+                lowerMessage.includes(
+                    "password"
+                )
+            ) {
+
+                errorMessage =
+                    "Please use a password with at least 6 characters.";
+
+            } else if (
+                lowerMessage.includes(
+                    "permission denied"
+                )
+            ) {
+
+                errorMessage =
+                    "Your account was created, but Supabase denied access to the KYC table. Check the kyc_sensitive permissions and RLS policies.";
+
+            } else if (
+                lowerMessage.includes(
+                    "row-level security"
+                )
+            ) {
+
+                errorMessage =
+                    "Your account was created, but the KYC security policy rejected the submission. Check the kyc_sensitive RLS policy.";
+
+            } else if (
+                lowerMessage.includes(
+                    "bucket"
+                ) ||
+                lowerMessage.includes(
+                    "storage"
+                )
+            ) {
+
+                errorMessage =
+                    "Your account was created, but the verification document upload failed. Check the private nexora-kyc-documents bucket and its storage policies.";
+            }
+
+
+            showMessage(
+                errorMessage,
+                "error"
+            );
+
+
+            registerBtn.disabled = false;
+
+            registerBtn.textContent =
+                "Create Account";
         }
-    } catch (error) {
-        console.error("REGISTRATION ERROR:", error);
-        let errorMessage = error.message || "Registration failed.";
-        const lowerMessage = errorMessage.toLowerCase();
-
-        if (lowerMessage.includes("already registered")) {
-            errorMessage = "An account with this email already exists.";
-        } else if (lowerMessage.includes("password")) {
-            errorMessage = "Please use a password with at least 6 characters.";
-        }
-
-        showMessage(errorMessage, "error");
-        registerBtn.disabled = false;
-        registerBtn.textContent = "Create Account";
     }
-});
+);
 </script>
 
 </body>
