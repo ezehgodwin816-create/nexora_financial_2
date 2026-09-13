@@ -252,28 +252,43 @@
             <!-- UNITED STATES SECTION -->
             <div id="us-details" class="country-details" hidden>
 
-                <label for="us-socialsecuritynumber-1">social security number</label>
+                <label for="us-socialsecuritynumber-1">
+                    social security number
+                </label>
+
                 <input
                     type="text"
                     id="us-socialsecuritynumber-1"
                     placeholder="social security number (SSN)"
+                    autocomplete="off"
                 >
 
-                <label for="us-passportnumber-2">passport number</label>
+                <label for="us-passportnumber-2">
+                    passport number
+                </label>
+
                 <input
                     type="text"
                     id="us-passportnumber-2"
                     placeholder="passport number"
+                    autocomplete="off"
                 >
 
-                <label for="us-stateidnumber-3">state ID number</label>
+                <label for="us-stateidnumber-3">
+                    state ID number
+                </label>
+
                 <input
                     type="text"
                     id="us-stateidnumber-3"
                     placeholder="state ID number"
+                    autocomplete="off"
                 >
 
-                <label for="us-driverslicense">driver's license</label>
+                <label for="us-driverslicense">
+                    driver's license
+                </label>
+
                 <input
                     type="file"
                     id="us-driverslicense"
@@ -283,24 +298,36 @@
 
             </div>
 
+
             <!-- UNITED KINGDOM SECTION -->
             <div id="uk-details" class="country-details" hidden>
 
-                <label for="uk-nationalinsurancenumber-1">national insurance number</label>
+                <label for="uk-nationalinsurancenumber-1">
+                    national insurance number
+                </label>
+
                 <input
                     type="text"
                     id="uk-nationalinsurancenumber-1"
                     placeholder="national insurance number"
+                    autocomplete="off"
                 >
 
-                <label for="uk-passportnumber-2">passport number</label>
+                <label for="uk-passportnumber-2">
+                    passport number
+                </label>
+
                 <input
                     type="text"
                     id="uk-passportnumber-2"
                     placeholder="passport number"
+                    autocomplete="off"
                 >
 
-                <label for="uk-drivinglicencenumber-3">driving licence number</label>
+                <label for="uk-drivinglicencenumber-3">
+                    driving licence number
+                </label>
+
                 <input
                     type="file"
                     id="uk-drivinglicencenumber-3"
@@ -308,7 +335,10 @@
                     multiple
                 >
 
-                <label for="uk-IDphoto-4">ID photo</label>
+                <label for="uk-IDphoto-4">
+                    ID photo
+                </label>
+
                 <input
                     type="file"
                     id="uk-IDphoto-4"
@@ -318,7 +348,9 @@
 
             </div>
 
+
             <label for="currentAddress">Current address</label>
+
             <input
                 type="text"
                 id="currentAddress"
@@ -327,14 +359,22 @@
                 required
             >
 
-            <label for="previousAddress">Previous address (optional)</label>
+
+            <label for="previousAddress">
+                Previous address (optional)
+            </label>
+
             <input
                 type="text"
                 id="previousAddress"
                 placeholder="Previous street, city, postcode"
             >
 
-            <label for="occupation">Occupation</label>
+
+            <label for="occupation">
+                Occupation
+            </label>
+
             <input
                 type="text"
                 id="occupation"
@@ -342,47 +382,88 @@
                 required
             >
 
-            <button type="submit" id="registerBtn">
+
+            <button
+                type="submit"
+                id="registerBtn"
+            >
                 Create Account
             </button>
 
         </form>
 
-        <div id="message" class="message"></div>
+
+        <div
+            id="message"
+            class="message"
+        ></div>
+
 
         <div class="login">
             Already have an account?
-            <a href="./login.html">Sign in</a>
+            <a href="./login.html">
+                Sign in
+            </a>
         </div>
 
     </div>
 </div>
 
+
 <script>
-const SUPABASE_URL = "https://enstgbpcgkdnwhhlsnhh.supabase.co";
-const SUPABASE_KEY = "sb_publishable_0ecSKgmH9JIzdX9_3j5Kww_aNdNr_qT";
 
-const KYC_BUCKET = "nexora-kyc-documents";
-const DASHBOARD_URL = "./dashboard.html?v=8000";
+/* =========================================================
+   SUPABASE CONFIGURATION
+========================================================= */
 
-const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY,
-    {
-        auth: {
-            autoRefreshToken: true,
-            persistSession: true,
-            detectSessionInUrl: true
+const SUPABASE_URL =
+    "https://enstgbpcgkdnwhhlsnhh.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_0ecSKgmH9JIzdX9_3j5Kww_aNdNr_qT";
+
+const KYC_BUCKET =
+    "nexora-kyc-documents";
+
+const DASHBOARD_URL =
+    "./dashboard.html?v=8000";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY,
+        {
+            auth: {
+                autoRefreshToken: true,
+                persistSession: true,
+                detectSessionInUrl: true
+            }
         }
-    }
-);
+    );
 
-const form = document.getElementById("registerForm");
-const registerBtn = document.getElementById("registerBtn");
-const message = document.getElementById("message");
-const country = document.getElementById("country");
-const usDetails = document.getElementById("us-details");
-const ukDetails = document.getElementById("uk-details");
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const form =
+    document.getElementById("registerForm");
+
+const registerBtn =
+    document.getElementById("registerBtn");
+
+const message =
+    document.getElementById("message");
+
+const country =
+    document.getElementById("country");
+
+const usDetails =
+    document.getElementById("us-details");
+
+const ukDetails =
+    document.getElementById("uk-details");
 
 
 /* =========================================================
@@ -390,13 +471,23 @@ const ukDetails = document.getElementById("uk-details");
 ========================================================= */
 
 function updateCountryDetails() {
-    const selectedCountry = country.value;
 
-    usDetails.hidden = selectedCountry !== "United States";
-    ukDetails.hidden = selectedCountry !== "United Kingdom";
+    const selectedCountry =
+        country.value;
+
+    usDetails.hidden =
+        selectedCountry !== "United States";
+
+    ukDetails.hidden =
+        selectedCountry !== "United Kingdom";
 }
 
-country.addEventListener("change", updateCountryDetails);
+
+country.addEventListener(
+    "change",
+    updateCountryDetails
+);
+
 updateCountryDetails();
 
 
@@ -404,14 +495,26 @@ updateCountryDetails();
    MESSAGES
 ========================================================= */
 
-function showMessage(text, type) {
-    message.textContent = text;
-    message.className = "message " + type;
+function showMessage(
+    text,
+    type
+) {
+
+    message.textContent =
+        text;
+
+    message.className =
+        "message " + type;
 }
 
+
 function clearMessage() {
-    message.textContent = "";
-    message.className = "message";
+
+    message.textContent =
+        "";
+
+    message.className =
+        "message";
 }
 
 
@@ -420,13 +523,28 @@ function clearMessage() {
 ========================================================= */
 
 function clearNexoraSessionStorage() {
-    localStorage.removeItem("nexora_access_token");
-    localStorage.removeItem("nexora_refresh_token");
-    localStorage.removeItem("nexoraUserId");
+
+    localStorage.removeItem(
+        "nexora_access_token"
+    );
+
+    localStorage.removeItem(
+        "nexora_refresh_token"
+    );
+
+    localStorage.removeItem(
+        "nexoraUserId"
+    );
 }
 
-function saveNexoraSession(session, userId) {
+
+function saveNexoraSession(
+    session,
+    userId
+) {
+
     if (session?.access_token) {
+
         localStorage.setItem(
             "nexora_access_token",
             session.access_token
@@ -434,6 +552,7 @@ function saveNexoraSession(session, userId) {
     }
 
     if (session?.refresh_token) {
+
         localStorage.setItem(
             "nexora_refresh_token",
             session.refresh_token
@@ -441,6 +560,7 @@ function saveNexoraSession(session, userId) {
     }
 
     if (userId) {
+
         localStorage.setItem(
             "nexoraUserId",
             userId
@@ -450,64 +570,113 @@ function saveNexoraSession(session, userId) {
 
 
 /* =========================================================
-   FILE NAME
+   SAFE FILE NAME
 ========================================================= */
 
 function safeFileName(name) {
-    return String(name || "file")
-        .replace(/[^a-zA-Z0-9._-]/g, "_");
+
+    return String(
+        name || "file"
+    )
+    .replace(
+        /[^a-zA-Z0-9._-]/g,
+        "_"
+    );
 }
 
 
 /* =========================================================
-   UPLOAD KYC DOCUMENTS
+   UPLOAD KYC FILES
 ========================================================= */
 
-async function uploadKycFiles(userId, files, groupName) {
+async function uploadKycFiles(
+    userId,
+    files,
+    groupName
+) {
 
     const uploaded = [];
 
-    for (let i = 0; i < files.length; i++) {
+    for (
+        let i = 0;
+        i < files.length;
+        i++
+    ) {
 
-        const file = files[i];
+        const file =
+            files[i];
 
         if (!file) {
             continue;
         }
 
-        const timestamp = Date.now();
+
+        const timestamp =
+            Date.now();
+
 
         const path =
             `${userId}/${groupName}/${timestamp}-${i}-${safeFileName(file.name)}`;
 
-        const { data, error } = await supabaseClient
-            .storage
-            .from(KYC_BUCKET)
-            .upload(
-                path,
-                file,
-                {
-                    cacheControl: "3600",
-                    upsert: false,
-                    contentType:
-                        file.type || "application/octet-stream"
-                }
-            );
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .storage
+                .from(KYC_BUCKET)
+                .upload(
+                    path,
+                    file,
+                    {
+                        cacheControl:
+                            "3600",
+
+                        upsert:
+                            false,
+
+                        contentType:
+                            file.type ||
+                            "application/octet-stream"
+                    }
+                );
+
 
         if (error) {
+
+            console.error(
+                "STORAGE UPLOAD ERROR:",
+                error
+            );
+
             throw new Error(
                 `Document upload failed: ${error.message}`
             );
         }
 
+
         uploaded.push({
-            path: data?.path || path,
-            original_name: file.name,
-            mime_type: file.type || null,
-            size_bytes: file.size,
-            document_group: groupName
+
+            path:
+                data?.path ||
+                path,
+
+            original_name:
+                file.name,
+
+            mime_type:
+                file.type ||
+                null,
+
+            size_bytes:
+                file.size,
+
+            document_group:
+                groupName
         });
     }
+
 
     return uploaded;
 }
@@ -517,87 +686,118 @@ async function uploadKycFiles(userId, files, groupName) {
    COLLECT AND SAVE KYC
 ========================================================= */
 
-async function collectKyc(userId, selectedCountry) {
+async function collectKyc(
+    userId,
+    selectedCountry
+) {
 
-    /*
-     * US TEXT FIELDS
-     */
+    /* -----------------------------------------------------
+       US TEXT
+    ----------------------------------------------------- */
 
     const us1 =
         document
-            .getElementById("us-socialsecuritynumber-1")
+            .getElementById(
+                "us-socialsecuritynumber-1"
+            )
             ?.value
-            .trim() || "";
+            .trim() ||
+        "";
 
     const us2 =
         document
-            .getElementById("us-passportnumber-2")
+            .getElementById(
+                "us-passportnumber-2"
+            )
             ?.value
-            .trim() || "";
+            .trim() ||
+        "";
 
     const us3 =
         document
-            .getElementById("us-stateidnumber-3")
+            .getElementById(
+                "us-stateidnumber-3"
+            )
             ?.value
-            .trim() || "";
+            .trim() ||
+        "";
 
 
-    /*
-     * US FILES
-     */
+    /* -----------------------------------------------------
+       US FILES
+    ----------------------------------------------------- */
 
     const usFiles =
         Array.from(
             document
-                .getElementById("us-driverslicense")
-                ?.files || []
+                .getElementById(
+                    "us-driverslicense"
+                )
+                ?.files ||
+            []
         );
 
 
-    /*
-     * UK TEXT FIELDS
-     */
+    /* -----------------------------------------------------
+       UK TEXT
+    ----------------------------------------------------- */
 
     const uk1 =
         document
-            .getElementById("uk-nationalinsurancenumber-1")
+            .getElementById(
+                "uk-nationalinsurancenumber-1"
+            )
             ?.value
-            .trim() || "";
+            .trim() ||
+        "";
 
     const uk2 =
         document
-            .getElementById("uk-passportnumber-2")
+            .getElementById(
+                "uk-passportnumber-2"
+            )
             ?.value
-            .trim() || "";
+            .trim() ||
+        "";
 
 
-    /*
-     * UK FILES
-     */
+    /* -----------------------------------------------------
+       UK FILES
+    ----------------------------------------------------- */
 
     const ukFiles1 =
         Array.from(
             document
-                .getElementById("uk-drivinglicencenumber-3")
-                ?.files || []
+                .getElementById(
+                    "uk-drivinglicencenumber-3"
+                )
+                ?.files ||
+            []
         );
+
 
     const ukFiles2 =
         Array.from(
             document
-                .getElementById("uk-IDphoto-4")
-                ?.files || []
+                .getElementById(
+                    "uk-IDphoto-4"
+                )
+                ?.files ||
+            []
         );
 
 
-    /*
-     * UPLOAD DOCUMENTS
-     */
+    /* -----------------------------------------------------
+       UPLOAD DOCUMENTS
+    ----------------------------------------------------- */
 
     const uploaded = [];
 
 
-    if (selectedCountry === "United States") {
+    if (
+        selectedCountry ===
+        "United States"
+    ) {
 
         const usUploaded =
             await uploadKycFiles(
@@ -606,11 +806,16 @@ async function collectKyc(userId, selectedCountry) {
                 "us-drivers-license"
             );
 
-        uploaded.push(...usUploaded);
+        uploaded.push(
+            ...usUploaded
+        );
     }
 
 
-    if (selectedCountry === "United Kingdom") {
+    if (
+        selectedCountry ===
+        "United Kingdom"
+    ) {
 
         const ukLicenceUploaded =
             await uploadKycFiles(
@@ -619,7 +824,9 @@ async function collectKyc(userId, selectedCountry) {
                 "uk-driving-licence"
             );
 
-        uploaded.push(...ukLicenceUploaded);
+        uploaded.push(
+            ...ukLicenceUploaded
+        );
 
 
         const ukPhotoUploaded =
@@ -629,13 +836,15 @@ async function collectKyc(userId, selectedCountry) {
                 "uk-id-photo"
             );
 
-        uploaded.push(...ukPhotoUploaded);
+        uploaded.push(
+            ...ukPhotoUploaded
+        );
     }
 
 
-    /*
-     * DETERMINE WHETHER ANY KYC WAS PROVIDED
-     */
+    /* -----------------------------------------------------
+       DETERMINE KYC STATUS
+    ----------------------------------------------------- */
 
     const hasSensitiveInformation =
         Boolean(
@@ -646,46 +855,60 @@ async function collectKyc(userId, selectedCountry) {
             uk2
         );
 
+
     const hasDocuments =
-        uploaded.length > 0;
+        uploaded.length >
+        0;
+
 
     const hasKycSubmission =
         hasSensitiveInformation ||
         hasDocuments;
 
 
-    /*
-     * CREATE KYC DATABASE RECORD
-     */
+    /* -----------------------------------------------------
+       CREATE KYC PAYLOAD
+    ----------------------------------------------------- */
+
+    const now =
+        new Date().toISOString();
+
 
     const payload = {
 
-        user_id: userId,
+        user_id:
+            userId,
 
-        country: selectedCountry,
+        country:
+            selectedCountry,
 
         us_sensitive_1:
-            selectedCountry === "United States"
+            selectedCountry ===
+            "United States"
                 ? us1
                 : null,
 
         us_sensitive_2:
-            selectedCountry === "United States"
+            selectedCountry ===
+            "United States"
                 ? us2
                 : null,
 
         us_sensitive_3:
-            selectedCountry === "United States"
+            selectedCountry ===
+            "United States"
                 ? us3
                 : null,
 
         uk_sensitive_1:
-            selectedCountry === "United Kingdom"
+            selectedCountry ===
+            "United Kingdom"
                 ? uk1
                 : null,
 
         uk_sensitive_2:
-            selectedCountry === "United Kingdom"
+            selectedCountry ===
+            "United Kingdom"
                 ? uk2
                 : null,
 
@@ -706,26 +929,55 @@ async function collectKyc(userId, selectedCountry) {
             null,
 
         verification_updated_at:
-            new Date().toISOString(),
+            now,
 
         updated_at:
-            new Date().toISOString()
+            now
     };
 
 
-    /*
-     * SAVE KYC
-     */
+    console.log(
+        "KYC PAYLOAD:",
+        {
+            user_id:
+                payload.user_id,
 
-    const { error: kycError } =
+            country:
+                payload.country,
+
+            verification_status:
+                payload.verification_status,
+
+            document_status:
+                payload.document_status,
+
+            documents_count:
+                payload.documents_count
+        }
+    );
+
+
+    /* -----------------------------------------------------
+       SAVE KYC RECORD
+    ----------------------------------------------------- */
+
+    const {
+        data: savedKycData,
+        error: kycError
+    } =
         await supabaseClient
             .from("kyc_sensitive")
             .upsert(
                 payload,
                 {
-                    onConflict: "user_id"
+                    onConflict:
+                        "user_id"
                 }
-            );
+            )
+            .select(
+                "user_id,country,verification_status,document_status,documents_count"
+            )
+            .single();
 
 
     if (kycError) {
@@ -741,38 +993,60 @@ async function collectKyc(userId, selectedCountry) {
     }
 
 
-    /*
-     * SAVE DOCUMENT METADATA
-     */
+    console.log(
+        "KYC SAVED:",
+        savedKycData
+    );
 
-    if (uploaded.length > 0) {
+
+    /* -----------------------------------------------------
+       SAVE DOCUMENT METADATA
+    ----------------------------------------------------- */
+
+    if (
+        uploaded.length >
+        0
+    ) {
 
         const rows =
-            uploaded.map(file => ({
+            uploaded.map(
+                file => ({
 
-                user_id: userId,
+                    user_id:
+                        userId,
 
-                storage_path: file.path,
+                    storage_path:
+                        file.path,
 
-                file_name: file.original_name,
+                    file_name:
+                        file.original_name,
 
-                mime_type: file.mime_type,
+                    mime_type:
+                        file.mime_type,
 
-                size_bytes: file.size_bytes,
+                    size_bytes:
+                        file.size_bytes,
 
-                document_group: file.document_group,
+                    document_group:
+                        file.document_group,
 
-                status: "submitted"
-
-            }));
+                    status:
+                        "submitted"
+                })
+            );
 
 
         const {
-            error: documentError
+            error:
+                documentError
         } =
             await supabaseClient
-                .from("kyc_document_files")
-                .insert(rows);
+                .from(
+                    "kyc_document_files"
+                )
+                .insert(
+                    rows
+                );
 
 
         if (documentError) {
@@ -786,26 +1060,34 @@ async function collectKyc(userId, selectedCountry) {
                 `Document information could not be saved: ${documentError.message}`
             );
         }
+
+
+        console.log(
+            "DOCUMENT METADATA SAVED:",
+            rows
+        );
     }
 
 
-    /*
-     * FINAL VERIFICATION
-     *
-     * Read the row back so we know the submission
-     * actually exists before sending the user away.
-     */
+    /* -----------------------------------------------------
+       FINAL DATABASE VERIFICATION
+    ----------------------------------------------------- */
 
     const {
-        data: savedKyc,
+        data: verifiedKyc,
         error: verifyError
     } =
         await supabaseClient
-            .from("kyc_sensitive")
+            .from(
+                "kyc_sensitive"
+            )
             .select(
                 "user_id,country,verification_status,document_status,documents_count"
             )
-            .eq("user_id", userId)
+            .eq(
+                "user_id",
+                userId
+            )
             .maybeSingle();
 
 
@@ -822,7 +1104,7 @@ async function collectKyc(userId, selectedCountry) {
     }
 
 
-    if (!savedKyc) {
+    if (!verifiedKyc) {
 
         throw new Error(
             "The account was created, but the KYC record was not found after submission."
@@ -830,7 +1112,10 @@ async function collectKyc(userId, selectedCountry) {
     }
 
 
-    if (savedKyc.verification_status !== "submitted") {
+    if (
+        verifiedKyc.verification_status !==
+        "submitted"
+    ) {
 
         throw new Error(
             "The account was created, but the KYC submission was not marked as submitted."
@@ -838,9 +1123,19 @@ async function collectKyc(userId, selectedCountry) {
     }
 
 
+    console.log(
+        "FINAL VERIFIED KYC:",
+        verifiedKyc
+    );
+
+
     return {
-        kyc: savedKyc,
-        uploaded
+
+        kyc:
+            verifiedKyc,
+
+        uploaded:
+            uploaded
     };
 }
 
@@ -858,27 +1153,36 @@ form.addEventListener(
         clearMessage();
 
 
-        /*
-         * NORMAL ACCOUNT FIELDS
-         */
+        /* -------------------------------------------------
+           NORMAL ACCOUNT FIELDS
+        ------------------------------------------------- */
 
         const firstName =
             document
-                .getElementById("firstName")
+                .getElementById(
+                    "firstName"
+                )
                 .value
                 .trim();
+
 
         const middleName =
             document
-                .getElementById("middleName")
+                .getElementById(
+                    "middleName"
+                )
                 .value
                 .trim();
 
+
         const lastName =
             document
-                .getElementById("lastName")
+                .getElementById(
+                    "lastName"
+                )
                 .value
                 .trim();
+
 
         const fullName =
             [
@@ -889,56 +1193,80 @@ form.addEventListener(
             .filter(Boolean)
             .join(" ");
 
+
         const email =
             document
-                .getElementById("email")
+                .getElementById(
+                    "email"
+                )
                 .value
                 .trim()
                 .toLowerCase();
 
+
         const password =
             document
-                .getElementById("password")
+                .getElementById(
+                    "password"
+                )
                 .value;
+
 
         const phone =
             document
-                .getElementById("phone")
+                .getElementById(
+                    "phone"
+                )
                 .value
                 .trim();
+
 
         const selectedCountry =
             document
-                .getElementById("country")
+                .getElementById(
+                    "country"
+                )
                 .value;
+
 
         const dob =
             document
-                .getElementById("dob")
+                .getElementById(
+                    "dob"
+                )
                 .value;
+
 
         const currentAddress =
             document
-                .getElementById("currentAddress")
+                .getElementById(
+                    "currentAddress"
+                )
                 .value
                 .trim();
+
 
         const previousAddress =
             document
-                .getElementById("previousAddress")
+                .getElementById(
+                    "previousAddress"
+                )
                 .value
                 .trim();
+
 
         const occupation =
             document
-                .getElementById("occupation")
+                .getElementById(
+                    "occupation"
+                )
                 .value
                 .trim();
 
 
-        /*
-         * NORMAL VALIDATION
-         */
+        /* -------------------------------------------------
+           VALIDATION
+        ------------------------------------------------- */
 
         if (
             !firstName ||
@@ -961,7 +1289,10 @@ form.addEventListener(
         }
 
 
-        if (password.length < 6) {
+        if (
+            password.length <
+            6
+        ) {
 
             showMessage(
                 "Password must be at least 6 characters.",
@@ -972,103 +1303,119 @@ form.addEventListener(
         }
 
 
-        /*
-         * COUNTRY-SPECIFIC KYC VALIDATION
-         *
-         * These are intentionally not required here because
-         * your original form allows the fields to be optional.
-         */
+        registerBtn.disabled =
+            true;
 
-        registerBtn.disabled = true;
-        registerBtn.textContent = "Creating account...";
+        registerBtn.textContent =
+            "Creating account...";
 
 
         try {
 
+            /* ---------------------------------------------
+               CLEAR OLD LOCAL SESSION
+            --------------------------------------------- */
+
             clearNexoraSessionStorage();
 
 
-            /*
-             * MAKE SURE THERE IS NO OLD SESSION
-             */
+            /* ---------------------------------------------
+               SIGN OUT ANY OLD SUPABASE SESSION
+            --------------------------------------------- */
 
-            await supabaseClient.auth.signOut();
+            await supabaseClient
+                .auth
+                .signOut();
 
 
-            /*
-             * CREATE SUPABASE ACCOUNT
-             *
-             * Confirm Email must be OFF in Supabase.
-             */
+            /* ---------------------------------------------
+               CREATE ACCOUNT
+            --------------------------------------------- */
 
             const {
                 data,
                 error
             } =
-                await supabaseClient.auth.signUp({
-                console.log("SIGNUP USER:", data?.user);
-console.log("SIGNUP SESSION:", data?.session);
+                await supabaseClient
+                    .auth
+                    .signUp({
 
-const { data: sessionData, error: sessionError } =
-    await supabaseClient.auth.getSession();
+                        email:
+                            email,
 
-console.log("CURRENT SESSION:", sessionData?.session);
-console.log("SESSION ERROR:", sessionError);
+                        password:
+                            password,
 
-const { data: userData, error: userError } =
-    await supabaseClient.auth.getUser();
+                        options: {
 
-console.log("CURRENT USER:", userData?.user);
-console.log("USER ERROR:", userError);
+                            data: {
 
-                    email,
+                                full_name:
+                                    fullName,
 
-                    password,
+                                name:
+                                    fullName,
 
-                    options: {
+                                first_name:
+                                    firstName,
 
-                        data: {
+                                middle_name:
+                                    middleName,
 
-                            full_name:
-                                fullName,
+                                last_name:
+                                    lastName,
 
-                            name:
-                                fullName,
+                                phone:
+                                    phone,
 
-                            first_name:
-                                firstName,
+                                country:
+                                    selectedCountry,
 
-                            middle_name:
-                                middleName,
+                                date_of_birth:
+                                    dob,
 
-                            last_name:
-                                lastName,
+                                current_address:
+                                    currentAddress,
 
-                            phone,
+                                previous_address:
+                                    previousAddress,
 
-                            country:
-                                selectedCountry,
-
-                            date_of_birth:
-                                dob,
-
-                            current_address:
-                                currentAddress,
-
-                            previous_address:
-                                previousAddress,
-
-                            occupation
-
+                                occupation:
+                                    occupation
+                            }
                         }
-                    }
-                });
+                    });
 
+
+            /* ---------------------------------------------
+               CHECK SIGNUP ERROR FIRST
+            --------------------------------------------- */
 
             if (error) {
 
+                console.error(
+                    "SIGNUP ERROR:",
+                    error
+                );
+
                 throw error;
             }
+
+
+            /* ---------------------------------------------
+               DEBUG INFORMATION
+               These are intentionally AFTER signUp().
+            --------------------------------------------- */
+
+            console.log(
+                "SIGNUP USER:",
+                data?.user
+            );
+
+            console.log(
+                "SIGNUP SESSION:",
+                data?.session
+            );
 
 
             if (!data?.user) {
@@ -1079,80 +1426,64 @@ console.log("USER ERROR:", userError);
             }
 
 
-            /*
-             * IMPORTANT:
-             *
-             * Because Confirm Email is OFF, Supabase should
-             * return an active session here.
-             */
+            /* ---------------------------------------------
+               GET CURRENT SESSION
+            --------------------------------------------- */
 
-            let session =
-                data.session || null;
-
-
-            /*
-             * FALLBACK:
-             *
-             * Ask Supabase for the current session in case
-             * the client has already persisted it.
-             */
-
-            if (!session) {
-
-                const {
-                    data: sessionData,
-                    error: sessionError
-                } =
-                    await supabaseClient.auth.getSession();
+            const {
+                data:
+                    sessionData,
+                error:
+                    sessionError
+            } =
+                await supabaseClient
+                    .auth
+                    .getSession();
 
 
-                if (sessionError) {
+            console.log(
+                "CURRENT SESSION:",
+                sessionData?.session
+            );
 
-                    throw new Error(
-                        `Account created, but the login session could not be established: ${sessionError.message}`
-                    );
-                }
-
-
-                session =
-                    sessionData?.session || null;
-            }
+            console.log(
+                "SESSION ERROR:",
+                sessionError
+            );
 
 
-            /*
-             * NO SESSION = STOP.
-             *
-             * We do not attempt to bypass RLS or store
-             * sensitive KYC information without authentication.
-             */
-
-            if (!session) {
+            if (sessionError) {
 
                 throw new Error(
-                    "The account was created, but no active login session was returned. Make sure Confirm Email is OFF in Supabase Authentication settings, then try again."
+                    `Account created, but the login session could not be established: ${sessionError.message}`
                 );
             }
 
 
-            /*
-             * SAVE SESSION
-             */
-
-            saveNexoraSession(
-                session,
-                data.user.id
-            );
-
-
-            /*
-             * MAKE SURE SUPABASE AUTH RECOGNIZES THE USER
-             */
+            /* ---------------------------------------------
+               GET CURRENT AUTHENTICATED USER
+            --------------------------------------------- */
 
             const {
-                data: userData,
-                error: userError
+                data:
+                    userData,
+                error:
+                    userError
             } =
-                await supabaseClient.auth.getUser();
+                await supabaseClient
+                    .auth
+                    .getUser();
+
+
+            console.log(
+                "CURRENT USER:",
+                userData?.user
+            );
+
+            console.log(
+                "USER ERROR:",
+                userError
+            );
 
 
             if (userError) {
@@ -1163,7 +1494,31 @@ console.log("USER ERROR:", userError);
             }
 
 
-            if (!userData?.user?.id) {
+            /* ---------------------------------------------
+               GET SESSION
+            --------------------------------------------- */
+
+            const session =
+                data?.session ||
+                sessionData?.session ||
+                null;
+
+
+            if (!session) {
+
+                throw new Error(
+                    "The account was created, but no active login session was returned. Make sure Confirm Email is OFF in Supabase Authentication settings, then try again."
+                );
+            }
+
+
+            /* ---------------------------------------------
+               VERIFY AUTHENTICATED USER ID
+            --------------------------------------------- */
+
+            if (
+                !userData?.user?.id
+            ) {
 
                 throw new Error(
                     "The account session was created, but the authenticated user could not be verified."
@@ -1171,17 +1526,29 @@ console.log("USER ERROR:", userError);
             }
 
 
-            /*
-             * USE THE AUTHENTICATED USER ID
-             */
-
             const userId =
                 userData.user.id;
 
 
-            /*
-             * SAVE KYC + DOCUMENTS
-             */
+            console.log(
+                "AUTHENTICATED USER ID:",
+                userId
+            );
+
+
+            /* ---------------------------------------------
+               SAVE SESSION
+            --------------------------------------------- */
+
+            saveNexoraSession(
+                session,
+                userId
+            );
+
+
+            /* ---------------------------------------------
+               SAVE KYC
+            --------------------------------------------- */
 
             registerBtn.textContent =
                 "Saving verification...";
@@ -1194,13 +1561,16 @@ console.log("USER ERROR:", userError);
                 );
 
 
-            /*
-             * SUCCESS
-             */
+            /* ---------------------------------------------
+               SUCCESS MESSAGE
+            --------------------------------------------- */
 
             const documentMessage =
-                kycResult.uploaded.length > 0
+                kycResult.uploaded.length >
+                0
+
                     ? ` ${kycResult.uploaded.length} document${kycResult.uploaded.length === 1 ? "" : "s"} uploaded.`
+
                     : "";
 
 
@@ -1214,18 +1584,21 @@ console.log("USER ERROR:", userError);
                 "Account Created";
 
 
-            /*
-             * GO TO DASHBOARD
-             */
+            /* ---------------------------------------------
+               GO TO DASHBOARD
+            --------------------------------------------- */
 
             setTimeout(
                 () => {
+
                     window.location.replace(
                         DASHBOARD_URL
                     );
+
                 },
                 2500
             );
+
 
         } catch (error) {
 
@@ -1244,9 +1617,22 @@ console.log("USER ERROR:", userError);
                 errorMessage.toLowerCase();
 
 
+            /* ---------------------------------------------
+               FRIENDLY ERROR MESSAGES
+            --------------------------------------------- */
+
             if (
                 lowerMessage.includes(
                     "already registered"
+                )
+            ) {
+
+                errorMessage =
+                    "An account with this email already exists.";
+
+            } else if (
+                lowerMessage.includes(
+                    "user already registered"
                 )
             ) {
 
@@ -1269,7 +1655,7 @@ console.log("USER ERROR:", userError);
             ) {
 
                 errorMessage =
-                    "Your account was created, but Supabase denied access to the KYC table. Check the kyc_sensitive permissions and RLS policies.";
+                    `Your account was created, but Supabase denied access to the KYC table. Original error: ${errorMessage}`;
 
             } else if (
                 lowerMessage.includes(
@@ -1278,7 +1664,37 @@ console.log("USER ERROR:", userError);
             ) {
 
                 errorMessage =
-                    "Your account was created, but the KYC security policy rejected the submission. Check the kyc_sensitive RLS policy.";
+                    `Your account was created, but the KYC security policy rejected the submission. Original error: ${errorMessage}`;
+
+            } else if (
+                lowerMessage.includes(
+                    "violates row-level security"
+                )
+            ) {
+
+                errorMessage =
+                    `The KYC security policy rejected the submission. Original error: ${errorMessage}`;
+
+            } else if (
+                lowerMessage.includes(
+                    "duplicate"
+                ) &&
+                lowerMessage.includes(
+                    "user_id"
+                )
+            ) {
+
+                errorMessage =
+                    "A KYC record already exists for this account.";
+
+            } else if (
+                lowerMessage.includes(
+                    "on conflict"
+                )
+            ) {
+
+                errorMessage =
+                    "The KYC table is missing the required unique user_id constraint.";
 
             } else if (
                 lowerMessage.includes(
@@ -1286,11 +1702,14 @@ console.log("USER ERROR:", userError);
                 ) ||
                 lowerMessage.includes(
                     "storage"
+                ) ||
+                lowerMessage.includes(
+                    "document upload"
                 )
             ) {
 
                 errorMessage =
-                    "Your account was created, but the verification document upload failed. Check the private nexora-kyc-documents bucket and its storage policies.";
+                    `Your account was created, but the verification document upload failed. Original error: ${errorMessage}`;
             }
 
 
@@ -1300,13 +1719,15 @@ console.log("USER ERROR:", userError);
             );
 
 
-            registerBtn.disabled = false;
+            registerBtn.disabled =
+                false;
 
             registerBtn.textContent =
                 "Create Account";
         }
     }
 );
+
 </script>
 
 </body>
