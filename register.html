@@ -69,7 +69,8 @@
             margin-bottom: 7px;
         }
 
-        input, select {
+        input,
+        select {
             width: 100%;
             padding: 14px;
             border-radius: 11px;
@@ -86,7 +87,8 @@
             color: white;
         }
 
-        input:focus, select:focus {
+        input:focus,
+        select:focus {
             border-color: #28d7ff;
         }
 
@@ -223,6 +225,7 @@
             >
 
             <label for="country">Country</label>
+
             <select id="country" required>
                 <option value="">Select your country</option>
                 <option value="United States">United States</option>
@@ -242,46 +245,115 @@
             <label for="dob">Date of birth</label>
             <input type="date" id="dob" required>
 
-            <!-- UNITED STATES SECTION -->
+
+            <!-- =================================================
+                 UNITED STATES SECTION
+            ================================================== -->
+
             <div id="us-details" class="country-details" hidden>
 
-                <label for="us-socialsecuritynumber(SSN)1">social security number</label>
-                <input type="text" id="us-socialsecuritynumber(SSN)1" placeholder="social security number (SSN)">
+                <label for="us-socialsecuritynumber-1">
+                    social security number
+                </label>
 
-                <label for="us-passportnumber2">passport number</label>
-                <input type="text" id="us-passportnumber2" placeholder="passport number">
+                <input
+                    type="text"
+                    id="us-socialsecuritynumber-1"
+                    placeholder="social security number (SSN)"
+                >
 
-                <label for="us-stateidnumber3">state ID number</label>
-                <input type="text" id="us-stateidnumber3" placeholder="state ID number">
 
-                <label for="us-driver'slicense">driver's license</label>
+                <label for="us-passportnumber-2">
+                    passport number
+                </label>
+
+                <input
+                    type="text"
+                    id="us-passportnumber-2"
+                    placeholder="passport number"
+                >
+
+
+                <label for="us-stateidnumber-3">
+                    state ID number
+                </label>
+
+                <input
+                    type="text"
+                    id="us-stateidnumber-3"
+                    placeholder="state ID number"
+                >
+
+
+                <label for="us-driverslicense">
+                    driver's license
+                </label>
+
                 <input
                     type="file"
-                    id="us-driver'slicense"
+                    id="us-driverslicense"
                     accept="image/*,.pdf,.doc,.docx"
                     multiple
                 >
 
             </div>
 
-            <!-- UNITED KINGDOM SECTION -->
+
+            <!-- =================================================
+                 UNITED KINGDOM SECTION
+            ================================================== -->
+
             <div id="uk-details" class="country-details" hidden>
 
-                <label for="uk-nationalinsurancenumber">national insurance number</label>
-                <input type="text" id="uk-nationalinsurancenumber1" placeholder="national insurance number">
+                <label for="uk-nationalinsurancenumber-1">
+                    national insurance number
+                </label>
 
-                <label for="uk-passportnumber2">passport number</label>
-                <input type="text" id="uk-passportnumber2" placeholder="passport number">
+                <input
+                    type="text"
+                    id="uk-nationalinsurancenumber-1"
+                    placeholder="national insurance number"
+                >
 
-                <label for="uk-drivinglicencenumber3">driving licence number</label>
-                <input type="file" id="uk-drivinglicencenumber3" accept="image/*,.pdf,.doc,.docx" multiple>
 
-                <label for="uk-IDphoto4">ID photo</label>
-                <input type="file" id="uk-IDphoto4" accept="image/*,.pdf,.doc,.docx" multiple>
+                <label for="uk-passportnumber-2">
+                    passport number
+                </label>
+
+                <input
+                    type="text"
+                    id="uk-passportnumber-2"
+                    placeholder="passport number"
+                >
+
+
+                <label for="uk-drivinglicencenumber-3">
+                    driving licence number
+                </label>
+
+                <input
+                    type="text"
+                    id="uk-drivinglicencenumber-3"
+                    placeholder="driving licence number"
+                >
+
+
+                <label for="uk-IDphoto-4">
+                    ID photo
+                </label>
+
+                <input
+                    type="file"
+                    id="uk-IDphoto-4"
+                    accept="image/*,.pdf,.doc,.docx"
+                    multiple
+                >
 
             </div>
 
+
             <label for="currentAddress">Current address</label>
+
             <input
                 type="text"
                 id="currentAddress"
@@ -290,14 +362,20 @@
                 required
             >
 
-            <label for="previousAddress">Previous address (optional)</label>
+
+            <label for="previousAddress">
+                Previous address (optional)
+            </label>
+
             <input
                 type="text"
                 id="previousAddress"
                 placeholder="Previous street, city, postcode"
             >
 
+
             <label for="occupation">Occupation</label>
+
             <input
                 type="text"
                 id="occupation"
@@ -305,13 +383,16 @@
                 required
             >
 
+
             <button type="submit" id="registerBtn">
                 Create Account
             </button>
 
         </form>
 
+
         <div id="message" class="message"></div>
+
 
         <div class="login">
             Already have an account?
@@ -321,7 +402,9 @@
     </div>
 </div>
 
+
 <script>
+
 /* ============================================================
    SUPABASE
 ============================================================ */
@@ -376,19 +459,42 @@ const ukDetails =
 
 function updateCountryDetails() {
 
-    const selectedCountry = country.value;
+    const selectedCountry =
+        country.value;
+
+    /*
+       United States selected:
+       Show US section.
+    */
 
     usDetails.hidden =
         selectedCountry !== "United States";
+
+
+    /*
+       United Kingdom selected:
+       Show UK section.
+    */
 
     ukDetails.hidden =
         selectedCountry !== "United Kingdom";
 }
 
+
+/*
+   IMPORTANT:
+   This runs immediately when the user changes country.
+*/
+
 country.addEventListener(
     "change",
     updateCountryDetails
 );
+
+
+/*
+   Run once when the page loads.
+*/
 
 updateCountryDetails();
 
@@ -399,7 +505,8 @@ updateCountryDetails();
 
 function showMessage(text, type) {
 
-    message.textContent = text;
+    message.textContent =
+        text;
 
     message.className =
         "message " + type;
@@ -416,58 +523,98 @@ form.addEventListener(
 
         e.preventDefault();
 
+
+        /* ----------------------------------------------------
+           NORMAL CUSTOMER INFORMATION
+        ---------------------------------------------------- */
+
         const firstName =
-            document.getElementById("firstName").value.trim();
+            document
+                .getElementById("firstName")
+                .value
+                .trim();
+
 
         const middleName =
-            document.getElementById("middleName").value.trim();
+            document
+                .getElementById("middleName")
+                .value
+                .trim();
+
 
         const lastName =
-            document.getElementById("lastName").value.trim();
+            document
+                .getElementById("lastName")
+                .value
+                .trim();
+
 
         const fullName =
-            [firstName, middleName, lastName]
-                .filter(Boolean)
-                .join(" ");
+            [
+                firstName,
+                middleName,
+                lastName
+            ]
+            .filter(Boolean)
+            .join(" ");
+
 
         const email =
-            document.getElementById("email")
+            document
+                .getElementById("email")
                 .value
                 .trim()
                 .toLowerCase();
 
+
         const password =
-            document.getElementById("password").value;
+            document
+                .getElementById("password")
+                .value;
+
 
         const phone =
-            document.getElementById("phone")
+            document
+                .getElementById("phone")
                 .value
                 .trim();
+
 
         const selectedCountry =
-            document.getElementById("country").value;
+            document
+                .getElementById("country")
+                .value;
+
 
         const dob =
-            document.getElementById("dob").value;
+            document
+                .getElementById("dob")
+                .value;
+
 
         const currentAddress =
-            document.getElementById("currentAddress")
+            document
+                .getElementById("currentAddress")
                 .value
                 .trim();
+
 
         const previousAddress =
-            document.getElementById("previousAddress")
+            document
+                .getElementById("previousAddress")
                 .value
                 .trim();
 
+
         const occupation =
-            document.getElementById("occupation")
+            document
+                .getElementById("occupation")
                 .value
                 .trim();
 
 
         /* ----------------------------------------------------
-           VALIDATION
+           NORMAL FIELD VALIDATION
         ---------------------------------------------------- */
 
         if (
@@ -480,16 +627,6 @@ form.addEventListener(
             !dob ||
             !currentAddress ||
             !occupation
-            !IDphoto ||
-            !socialsecuritynumber(SSN) ||
-            !driver'slicense
-            !driver'slicense
-            !stateidnumber
-            ! passportnumber
-            !nationalinsurancenumber
-            !passportnumber
-            !drivinglicencenumber
-            !IDphoto
         ) {
 
             showMessage(
@@ -516,7 +653,8 @@ form.addEventListener(
            BUTTON
         ---------------------------------------------------- */
 
-        registerBtn.disabled = true;
+        registerBtn.disabled =
+            true;
 
         registerBtn.textContent =
             "Creating account...";
@@ -526,6 +664,7 @@ form.addEventListener(
 
 
         try {
+
 
             /* ------------------------------------------------
                CLEAR ONLY NEXORA LOCAL SESSION DATA
@@ -546,6 +685,13 @@ form.addEventListener(
 
             /* ------------------------------------------------
                CREATE AUTH ACCOUNT
+
+               IMPORTANT:
+               Only normal customer information is placed
+               into user metadata.
+
+               Sensitive identity/document information is
+               NOT placed here.
             ------------------------------------------------ */
 
             const {
@@ -562,17 +708,38 @@ form.addEventListener(
 
                         data: {
 
-                            full_name: fullName,
-                            name: fullName,
-                            first_name: firstName,
-                            middle_name: middleName,
-                            last_name: lastName,
-                            phone: phone,
-                            country: selectedCountry,
-                            date_of_birth: dob,
-                            current_address: currentAddress,
-                            previous_address: previousAddress,
-                            occupation: occupation
+                            full_name:
+                                fullName,
+
+                            name:
+                                fullName,
+
+                            first_name:
+                                firstName,
+
+                            middle_name:
+                                middleName,
+
+                            last_name:
+                                lastName,
+
+                            phone:
+                                phone,
+
+                            country:
+                                selectedCountry,
+
+                            date_of_birth:
+                                dob,
+
+                            current_address:
+                                currentAddress,
+
+                            previous_address:
+                                previousAddress,
+
+                            occupation:
+                                occupation
 
                         }
 
@@ -598,7 +765,7 @@ form.addEventListener(
 
 
             /* ------------------------------------------------
-               MAKE THE NEW USER SESSION ACTIVE
+               SESSION ACTIVE
             ------------------------------------------------ */
 
             if (data.session) {
@@ -640,7 +807,7 @@ form.addEventListener(
             } else {
 
                 /* --------------------------------------------
-                   EMAIL CONFIRMATION / NO SESSION
+                   EMAIL CONFIRMATION REQUIRED
                 -------------------------------------------- */
 
                 localStorage.setItem(
@@ -723,6 +890,7 @@ form.addEventListener(
 
     }
 );
+
 </script>
 
 </body>
