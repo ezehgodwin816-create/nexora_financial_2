@@ -1,119 +1,403 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Check</title>
-  <style>
-    body { font-family: sans-serif; padding: 16px; }
-    .wrap { overflow-x: auto; }
-    table { border-collapse: collapse; width: 100%; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; white-space: nowrap; }
-    th { background: #eee; }
-    input { display: block; margin: 8px 0; padding: 10px; width: 100%; max-width: 320px; box-sizing: border-box; }
-    button { padding: 10px 16px; }
-    #msg { color: #b00020; margin-top: 12px; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Test Submission Dashboard</title>
+
+<style>
+:root {
+    --navy: #101a2e;
+    --blue: #315de8;
+    --muted: #64748b;
+    --line: #e2e8f0;
+    --bg: #f4f7fb;
+    --green: #16794b;
+    --red: #b42318;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: #172033;
+    font-family: system-ui, Arial, sans-serif;
+}
+
+header {
+    background: var(--navy);
+    color: white;
+    padding: 20px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.wrap {
+    width: min(1100px, calc(100% - 28px));
+    margin: 28px auto;
+}
+
+.card {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 20px #1d315008;
+}
+
+input, button {
+    font: inherit;
+    padding: 11px 13px;
+    border-radius: 8px;
+}
+
+input {
+    border: 1px solid #cbd5e1;
+    width: 100%;
+    margin: 7px 0 14px;
+}
+
+button {
+    cursor: pointer;
+    border: 0;
+    background: var(--blue);
+    color: white;
+    font-weight: 700;
+}
+
+button:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.secondary {
+    background: #e9eef8;
+    color: #26344f;
+}
+
+.danger {
+    background: #b42318;
+}
+
+.status {
+    margin-top: 14px;
+    padding: 12px;
+    background: #f1f5f9;
+    border-radius: 8px;
+    overflow-wrap: anywhere;
+}
+
+.error {
+    color: var(--red);
+}
+
+.success {
+    color: var(--green);
+}
+
+.toolbar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.toolbar input {
+    flex: 1;
+    min-width: 180px;
+    margin: 0;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+}
+
+th {
+    background: #f8fafc;
+}
+
+pre {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    max-width: 450px;
+    margin: 0;
+}
+
+.hidden {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .card { padding: 15px; }
+}
+</style>
 </head>
+
 <body>
-  <div id="login">
-    <h2>Admin login</h2>
-    <input id="email" type="email" placeholder="Email" value="jeff1234@gmail.com">
-    <input id="pass" type="password" placeholder="Password">
-    <button id="loginBtn">Log in</button>
-  </div>
 
-  <div id="view" style="display:none">
-    <h2>All Submitted Details</h2>
-    <div class="wrap"><table id="t"></table></div>
-    <br>
-    <button id="logoutBtn">Log out</button>
-  </div>
+<header>
+    <h1>Test Submission Dashboard</h1>
+</header>
 
-  <div id="msg"></div>
+<main class="wrap">
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    const SUPABASE_URL = "PUT YOURS HERE";       // e.g. https://abcdxyz.supabase.co
-    const SUPABASE_ANON_KEY = "PUT YOURS HERE";  // the long anon / public key
+    <section class="card" id="loginPanel">
+        <h2>Administrator Login</h2>
 
-    const msg = document.getElementById("msg");
-    const say = text => { msg.textContent = text; };
+        <form id="loginForm">
+            <label for="email">Administrator email</label>
+            <input id="email" type="email" autocomplete="username" required>
 
-    let sb;
-    try {
-      if (typeof supabase === "undefined") {
-        throw new Error("Supabase library did not load. Check your internet and refresh.");
-      }
-      if (!SUPABASE_URL.startsWith("https://") || SUPABASE_ANON_KEY.length < 40) {
-        throw new Error("The URL or key at the top of this file is not filled in correctly.");
-      }
-      sb = supabase.createClient(SUPABASE_URL.trim(), SUPABASE_ANON_KEY.trim());
-    } catch (e) {
-      say("Setup problem: " + e.message);
+            <label for="password">Password</label>
+            <input id="password" type="password"
+                   autocomplete="current-password" required>
+
+            <button type="submit">Sign In</button>
+        </form>
+
+        <div id="loginStatus" class="status" role="status"></div>
+    </section>
+
+    <section class="card hidden" id="dashboard">
+        <h2>Submissions</h2>
+
+        <p id="accountInfo"></p>
+
+        <div class="toolbar">
+            <input id="search" type="search"
+                   placeholder="Search test submissions...">
+
+            <button id="refreshButton" type="button">Refresh</button>
+            <button id="logoutButton" class="secondary"
+                    type="button">Sign Out</button>
+        </div>
+
+        <div id="dashboardStatus" class="status" role="status">
+            Loading submissions...
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Submitted</th>
+                        <th>Test data</th>
+                    </tr>
+                </thead>
+                <tbody id="entriesBody"></tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+(() => {
+    const SUPABASE_URL =
+        "https://enstgbpcgkdnwhhlsnhh.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+        "YOUR_PUBLISHABLE_KEY";
+
+    const sb = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
+
+    const loginPanel = document.getElementById("loginPanel");
+    const dashboard = document.getElementById("dashboard");
+    const loginForm = document.getElementById("loginForm");
+    const loginStatus = document.getElementById("loginStatus");
+    const dashboardStatus = document.getElementById("dashboardStatus");
+    const entriesBody = document.getElementById("entriesBody");
+    const search = document.getElementById("search");
+
+    let entries = [];
+
+    function setStatus(element, message, type = "") {
+        element.textContent = message;
+        element.className = "status " + type;
     }
 
-    document.getElementById("loginBtn").addEventListener("click", async () => {
-      say("");
-      if (!sb) return say("Setup problem: fix the URL and key at the top of the file.");
-      say("Logging in...");
-      try {
-        const { error } = await sb.auth.signInWithPassword({
-          email: document.getElementById("email").value.trim(),
-          password: document.getElementById("pass").value
+    function showDashboard(user) {
+        loginPanel.classList.add("hidden");
+        dashboard.classList.remove("hidden");
+        document.getElementById("accountInfo").textContent =
+            "Signed in as " + user.email;
+    }
+
+    function showLogin() {
+        dashboard.classList.add("hidden");
+        loginPanel.classList.remove("hidden");
+    }
+
+    loginForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        setStatus(loginStatus, "Signing in...");
+
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+
+        const { data, error } = await sb.auth.signInWithPassword({
+            email,
+            password
         });
-        if (error) return say("Error: " + error.message);
-        say("");
-        await show();
-      } catch (e) {
-        say("Crash: " + e.message);
-      }
+
+        if (error) {
+            setStatus(loginStatus, error.message, "error");
+            return;
+        }
+
+        setStatus(loginStatus, "Login successful.", "success");
+        showDashboard(data.user);
+        await loadEntries();
     });
 
-    document.getElementById("logoutBtn").addEventListener("click", async () => {
-      await sb.auth.signOut();
-      location.reload();
+    async function loadEntries() {
+        entriesBody.replaceChildren();
+        setStatus(dashboardStatus, "Loading submissions...");
+
+        const { data, error } = await sb
+            .from("entries")
+            .select("id, data, created_at")
+            .order("created_at", { ascending: false })
+            .limit(200);
+
+        if (error) {
+            console.error("Supabase query error:", error);
+            setStatus(
+                dashboardStatus,
+                "Could not load submissions: " + error.message,
+                "error"
+            );
+            return;
+        }
+
+        entries = data || [];
+        renderEntries();
+
+        setStatus(
+            dashboardStatus,
+            entries.length
+                ? "Loaded " + entries.length + " submissions."
+                : "No submissions found. Check whether the test form is saving records.",
+            entries.length ? "success" : ""
+        );
+    }
+
+    function renderEntries() {
+        entriesBody.replaceChildren();
+
+        const term = search.value.trim().toLowerCase();
+
+        const filtered = entries.filter(entry => {
+            const searchable = JSON.stringify(entry.data || {}).toLowerCase();
+            return searchable.includes(term) ||
+                String(entry.id).includes(term);
+        });
+
+        for (const entry of filtered) {
+            const row = document.createElement("tr");
+
+            const idCell = document.createElement("td");
+            idCell.textContent = String(entry.id);
+
+            const dateCell = document.createElement("td");
+            const date = new Date(entry.created_at);
+            dateCell.textContent = Number.isNaN(date.getTime())
+                ? "Unknown"
+                : date.toLocaleString();
+
+            const dataCell = document.createElement("td");
+            const pre = document.createElement("pre");
+
+            // Hide fields commonly used for sensitive authentication data.
+            const safeData = { ...(entry.data || {}) };
+
+            for (const key of Object.keys(safeData)) {
+                if (/password|passcode|otp|tac|cvv|cvc|security.?code|card.?number|authentication.?code/i.test(key)) {
+                    safeData[key] = "[hidden]";
+                }
+            }
+
+            pre.textContent = JSON.stringify(safeData, null, 2);
+            dataCell.appendChild(pre);
+
+            row.append(idCell, dateCell, dataCell);
+            entriesBody.appendChild(row);
+        }
+
+        if (!filtered.length) {
+            const row = document.createElement("tr");
+            const cell = document.createElement("td");
+            cell.colSpan = 3;
+            cell.textContent = "No matching submissions.";
+            row.appendChild(cell);
+            entriesBody.appendChild(row);
+        }
+    }
+
+    search.addEventListener("input", renderEntries);
+
+    document.getElementById("refreshButton").addEventListener(
+        "click", loadEntries
+    );
+
+    document.getElementById("logoutButton").addEventListener(
+        "click", async () => {
+            await sb.auth.signOut();
+            entries = [];
+            entriesBody.replaceChildren();
+            showLogin();
+            setStatus(loginStatus, "You have signed out.");
+        }
+    );
+
+    sb.auth.onAuthStateChange((event, session) => {
+        if (event === "SIGNED_OUT" || !session) {
+            showLogin();
+        }
     });
 
-    async function show() {
-      const { data: rows, error } = await sb.from("entries")
-        .select("data, created_at")
-        .order("created_at");
-      if (error) return say("Could not load entries: " + error.message);
+    async function restoreSession() {
+        const { data, error } = await sb.auth.getSession();
 
-      document.getElementById("login").style.display = "none";
-      document.getElementById("view").style.display = "block";
+        if (error) {
+            setStatus(loginStatus, error.message, "error");
+            return;
+        }
 
-      const t = document.getElementById("t");
-      t.innerHTML = "";
-      if (!rows.length) {
-        t.innerHTML = "<tr><td>No entries yet</td></tr>";
-        return;
-      }
-
-      const list = rows.map(r => ({
-        ...r.data,
-        submittedAt: new Date(r.created_at).toLocaleString("en-GB", { timeZone: "Africa/Lagos" })
-      }));
-      const keys = [...new Set(list.flatMap(Object.keys))];
-
-      const head = t.insertRow();
-      keys.forEach(k => {
-        const th = document.createElement("th");
-        th.textContent = k;
-        head.appendChild(th);
-      });
-      list.forEach(d => {
-        const row = t.insertRow();
-        keys.forEach(k => row.insertCell().textContent = d[k] ?? "");
-      });
+        if (data.session) {
+            showDashboard(data.session.user);
+            await loadEntries();
+        }
     }
 
-    if (sb) {
-      sb.auth.getSession().then(({ data }) => {
-        if (data && data.session) show();
-      });
-    }
-  </script>
+    restoreSession();
+})();
+</script>
+
 </body>
 </html>
