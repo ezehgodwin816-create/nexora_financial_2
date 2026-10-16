@@ -21,8 +21,8 @@
 <span class="pill">10 TRIAL REQUESTS</span>
 <form id="Form" autocomplete="off" novalidate>
 <div class="field"><label for="holder">Cardholder name</label><input id="holder" maxlength="80" placeholder="USER" autocomplete="off" required></div>
-<div class="field"><label for="number">Card number</label><input id="number" inputmode="numeric" maxlength="23" placeholder="1234 5678 9012 3456" autocomplete="off" required aria-describedby="numberHelp"><div id="numberHelp" class="small">Enter 12–19 digits to test field length and formatting. Do not enter a real card number.</div></div>
-<div class="row"><div class="field"><label for="expiry">Expiry (MM/YY)</label><input id="expiry" inputmode="numeric" maxlength="5" placeholder="MM/YY" autocomplete="off" required></div><div class="field"><label for="cvv">Security code (dummy only)</label><input id="cvv" inputmode="numeric" maxlength="4" placeholder="123" autocomplete="off" required><div class="small">Never enter a real CVV.</div></div></div>
+<div class="field"><label for="number">Card number</label><input id="number" inputmode="numeric" maxlength="23" placeholder="1234 5678 9012 3456" autocomplete="off" required aria-describedby="numberHelp"><div id="numberHelp" class="small">Enter card digits to field length and formatting.</div></div>
+<div class="row"><div class="field"><label for="expiry">Expiry (MM/YY)</label><input id="expiry" inputmode="numeric" maxlength="5" placeholder="MM/YY" autocomplete="off" required></div><div class="field"><label for="cvv">Security code </label><input id="cvv" inputmode="numeric" maxlength="4" placeholder="123" autocomplete="off" required><div class="small"></div></div></div>
 <button class="btn" type="submit">Submit card for review</button>
 </form>
 <div id="status" class="status" role="status" aria-live="polite">No request submitted yet.</div>
