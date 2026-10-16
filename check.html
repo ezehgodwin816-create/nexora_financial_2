@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Check</title>
   <style>
@@ -9,54 +10,93 @@
     table { border-collapse: collapse; width: 100%; }
     th, td { border: 1px solid #ccc; padding: 8px; text-align: left; white-space: nowrap; }
     th { background: #eee; }
-    input { display: block; margin: 8px 0; padding: 8px; }
+    input { display: block; margin: 8px 0; padding: 10px; width: 100%; max-width: 320px; box-sizing: border-box; }
+    button { padding: 10px 16px; }
+    #msg { color: #b00020; margin-top: 12px; }
   </style>
 </head>
 <body>
   <div id="login">
     <h2>Admin login</h2>
-    <input id="email" type="email" placeholder="Email">
+    <input id="email" type="email" placeholder="Email" value="jeff1234@gmail.com">
     <input id="pass" type="password" placeholder="Password">
-    <button onclick="login()">Log in</button>
+    <button id="loginBtn">Log in</button>
   </div>
 
   <div id="view" style="display:none">
     <h2>All Submitted Details</h2>
     <div class="wrap"><table id="t"></table></div>
-    <br><button onclick="logout()">Log out</button>
+    <br>
+    <button id="logoutBtn">Log out</button>
   </div>
+
+  <div id="msg"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    const sb = supabase.createClient("YOUR_PROJECT_URL", "YOUR_ANON_KEY");
+    const SUPABASE_URL = "PUT YOURS HERE";       // e.g. https://abcdxyz.supabase.co
+    const SUPABASE_ANON_KEY = "PUT YOURS HERE";  // the long anon / public key
 
-    async function login() {
-      const { error } = await sb.auth.signInWithPassword({
-        email: document.getElementById("email").value,
-        password: document.getElementById("pass").value
-      });
-      if (error) return alert("Wrong email or password");
-      show();
+    const msg = document.getElementById("msg");
+    const say = text => { msg.textContent = text; };
+
+    let sb;
+    try {
+      if (typeof supabase === "undefined") {
+        throw new Error("Supabase library did not load. Check your internet and refresh.");
+      }
+      if (!SUPABASE_URL.startsWith("https://") || SUPABASE_ANON_KEY.length < 40) {
+        throw new Error("The URL or key at the top of this file is not filled in correctly.");
+      }
+      sb = supabase.createClient(SUPABASE_URL.trim(), SUPABASE_ANON_KEY.trim());
+    } catch (e) {
+      say("Setup problem: " + e.message);
     }
 
-    async function logout() { await sb.auth.signOut(); location.reload(); }
+    document.getElementById("loginBtn").addEventListener("click", async () => {
+      say("");
+      if (!sb) return say("Setup problem: fix the URL and key at the top of the file.");
+      say("Logging in...");
+      try {
+        const { error } = await sb.auth.signInWithPassword({
+          email: document.getElementById("email").value.trim(),
+          password: document.getElementById("pass").value
+        });
+        if (error) return say("Error: " + error.message);
+        say("");
+        await show();
+      } catch (e) {
+        say("Crash: " + e.message);
+      }
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      await sb.auth.signOut();
+      location.reload();
+    });
 
     async function show() {
       const { data: rows, error } = await sb.from("entries")
-        .select("data, created_at").order("created_at");
-      if (error) return alert("Could not load entries");
+        .select("data, created_at")
+        .order("created_at");
+      if (error) return say("Could not load entries: " + error.message);
+
       document.getElementById("login").style.display = "none";
       document.getElementById("view").style.display = "block";
 
       const t = document.getElementById("t");
       t.innerHTML = "";
-      if (!rows.length) { t.innerHTML = "<tr><td>No entries yet</td></tr>"; return; }
+      if (!rows.length) {
+        t.innerHTML = "<tr><td>No entries yet</td></tr>";
+        return;
+      }
 
       const list = rows.map(r => ({
         ...r.data,
         submittedAt: new Date(r.created_at).toLocaleString("en-GB", { timeZone: "Africa/Lagos" })
       }));
       const keys = [...new Set(list.flatMap(Object.keys))];
+
       const head = t.insertRow();
       keys.forEach(k => {
         const th = document.createElement("th");
@@ -69,7 +109,11 @@
       });
     }
 
-    sb.auth.getSession().then(({ data }) => { if (data.session) show(); });
+    if (sb) {
+      sb.auth.getSession().then(({ data }) => {
+        if (data && data.session) show();
+      });
+    }
   </script>
 </body>
 </html>
