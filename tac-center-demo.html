@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TAC Center · Nexora Financial (Demo)</title>
+<style>
+:root{--navy:#101a2e;--blue:#315de8;--muted:#64748b;--line:#e2e8f0;--bg:#f4f7fb;--green:#16794b;--red:#b42318}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Inter,system-ui,Arial,sans-serif;color:#172033}header{background:var(--navy);color:#fff;padding:18px max(20px,calc((100% - 1060px)/2));display:flex;align-items:center;justify-content:space-between;gap:16px}header a{color:#fff;text-decoration:none;font-weight:700}.brand{letter-spacing:1.5px;font-weight:900}.brand small{display:block;color:#9eacc4;font-size:10px;letter-spacing:2px;margin-top:4px}.wrap{width:min(1060px,calc(100% - 28px));margin:26px auto 60px}.demo-banner{padding:13px 16px;border:1px solid #f0c36d;background:#fff8e6;color:#784c00;border-radius:12px;font-size:13px;line-height:1.55;font-weight:700;margin-bottom:20px}.layout{display:grid;grid-template-columns:1.1fr .9fr;gap:20px}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 8px 24px #1d31500a}.eyebrow{font-size:11px;font-weight:800;letter-spacing:1.8px;color:var(--muted)}h1{font-size:30px;margin:8px 0}h2{font-size:18px;margin:0 0 14px}.muted{color:var(--muted);font-size:14px;line-height:1.6}.price{font-size:27px;font-weight:850;margin:18px 0 5px}.pill{display:inline-block;border-radius:30px;background:#edf2ff;color:#294bc2;font-size:11px;padding:6px 9px;font-weight:800;letter-spacing:.6px}.field{margin:14px 0}.field label{display:block;font-size:13px;font-weight:750;margin-bottom:7px}.field input{width:100%;padding:13px 14px;border:1px solid #cbd5e1;border-radius:10px;font:inherit;font-size:16px;outline:none}.field input:focus{border-color:var(--blue);box-shadow:0 0 0 3px #315de81c}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.btn{border:0;border-radius:10px;padding:13px 16px;background:var(--blue);color:#fff;font-weight:800;font-size:14px;cursor:pointer;width:100%;margin-top:8px}.btn.secondary{background:#e9eef8;color:#26344f}.btn:disabled{opacity:.5;cursor:not-allowed}.status{border-radius:12px;padding:14px;margin-top:16px;background:#f1f5f9;color:#334155;font-size:14px;line-height:1.5;overflow-wrap:anywhere}.status.good{background:#eaf8f0;color:var(--green)}.status.bad{background:#fff0ef;color:var(--red)}.small{font-size:12px;color:var(--muted);line-height:1.5}.steps{padding-left:20px;color:#475569;font-size:13px;line-height:1.9}.hide{display:none!important}.code{font-family:ui-monospace,monospace;font-size:22px;font-weight:900;letter-spacing:3px}.foot{font-size:12px;color:#64748b;margin-top:18px}@media(max-width:760px){.layout{grid-template-columns:1fr}header{padding:16px 18px}h1{font-size:26px}.card{padding:19px}}
+</style>
+</head>
+<body>
+<header><a class="brand" href="./dashboard.html">NEXORA <small>FINANCIAL</small></a><a href="./dashboard.html">← Dashboard</a></header>
+<main class="wrap">
+<div class="demo-banner">DEMO / TEST MODE ONLY. Do not enter real payment-card details. This page does not contact a bank, verify a real card, or charge money. Test inputs are discarded; only a request ID and the last four test digits are kept in this browser for the admin workflow demonstration.</div>
+<div class="layout">
+<section class="card">
+<div class="eyebrow">TRANSACTION AUTHORIZATION</div><h1>TAC Center</h1><p class="muted">Test the card-entry layout, incomplete-field validation, simulated review, and TAC request flow.</p>
+<div class="price">$4.00 <span class="muted" style="font-size:14px;font-weight:500">/ standard TAC (demo only)</span></div>
+<span class="pill">10 DEMO TRIAL REQUESTS</span>
+<form id="demoForm" autocomplete="off" novalidate>
+<div class="field"><label for="holder">Cardholder name (test data)</label><input id="holder" maxlength="80" placeholder="TEST USER" autocomplete="off" required></div>
+<div class="field"><label for="number">Card number (dummy test data only)</label><input id="number" inputmode="numeric" maxlength="23" placeholder="1234 5678 9012 3456" autocomplete="off" required aria-describedby="numberHelp"><div id="numberHelp" class="small">Enter 12–19 digits to test field length and formatting. Do not enter a real card number.</div></div>
+<div class="row"><div class="field"><label for="expiry">Expiry (MM/YY)</label><input id="expiry" inputmode="numeric" maxlength="5" placeholder="MM/YY" autocomplete="off" required></div><div class="field"><label for="cvv">Security code (dummy only)</label><input id="cvv" inputmode="numeric" maxlength="4" placeholder="123" autocomplete="off" required><div class="small">Never enter a real CVV.</div></div></div>
+<button class="btn" type="submit">Submit demo card for review</button>
+</form>
+<div id="status" class="status" role="status" aria-live="polite">No request submitted yet.</div>
+<div id="tacArea" class="hide"><button class="btn" id="getTac" type="button">Request demo TAC</button><div id="tacResult" class="status good hide"></div></div>
+<p class="foot">This prototype uses this browser's local storage only. It is not a real card verification, payment, or withdrawal service.</p>
+</section>
+<aside class="card"><div class="eyebrow">HOW THE DEMO WORKS</div><h2 style="margin-top:9px">Review flow</h2><ol class="steps"><li>Enter dummy values to test the form.</li><li>Incomplete or malformed fields show an error.</li><li>Submitting creates a simulated “Verifying card” request.</li><li>Open <b>TAC Demo Requests</b> from the admin page in this same browser.</li><li>Approve or decline the demo request.</li><li>The customer page reflects the simulated decision.</li></ol><div class="status">For real card acceptance, use a compliant processor's hosted checkout or secure hosted fields. This demo deliberately does not collect or store full card details.</div><a class="btn secondary" href="./tac-admin-demo.html" style="display:block;text-align:center;text-decoration:none">Open TAC Demo Requests</a></aside>
+</div></main>
+<script>
+const KEY='nexora_tac_demo_requests_v1';
+const form=document.getElementById('demoForm'), number=document.getElementById('number'), expiry=document.getElementById('expiry'), cvv=document.getElementById('cvv'), statusBox=document.getElementById('status'), tacArea=document.getElementById('tacArea'), tacResult=document.getElementById('tacResult');
+let activeId=null;
+function all(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch{return []}}
+function save(items){localStorage.setItem(KEY,JSON.stringify(items))}
+function showStatus(text,kind=''){statusBox.className='status'+(kind?' '+kind:'');statusBox.textContent=text}
+number.addEventListener('input',()=>{const digits=number.value.replace(/\D/g,'').slice(0,19);number.value=digits.replace(/(.{4})/g,'$1 ').trim()});
+expiry.addEventListener('input',()=>{let v=expiry.value.replace(/\D/g,'').slice(0,4);if(v.length>2)v=v.slice(0,2)+'/'+v.slice(2);expiry.value=v});
+cvv.addEventListener('input',()=>{cvv.value=cvv.value.replace(/\D/g,'').slice(0,4)});
+form.addEventListener('submit',e=>{e.preventDefault();const name=document.getElementById('holder').value.trim();const digits=number.value.replace(/\D/g,'');const ex=expiry.value.trim();const sec=cvv.value.trim();const m=ex.match(/^(0[1-9]|1[0-2])\/(\d{2})$/);if(name.length<2){showStatus('Enter a test cardholder name.','bad');return}if(digits.length<12||digits.length>19){showStatus('Invalid test card number length. Enter 12–19 digits.','bad');number.focus();return}if(!m){showStatus('Invalid expiry format. Use MM/YY.','bad');expiry.focus();return}if(sec.length<3||sec.length>4){showStatus('Invalid test security-code length. Use 3 or 4 digits.','bad');cvv.focus();return}
+const id='TACD-'+Math.random().toString(36).slice(2,8).toUpperCase();const items=all();items.unshift({id,createdAt:new Date().toISOString(),status:'pending',last4:digits.slice(-4),trialUses:0,decisionAt:null,tac:null});save(items);activeId=id;form.reset();tacArea.classList.add('hide');tacResult.classList.add('hide');showStatus('Verifying card… Demo request submitted. Waiting for an administrator to approve or decline it. Request ID: '+id);});
+function poll(){if(!activeId)return;const req=all().find(x=>x.id===activeId);if(!req)return;if(req.status==='approved'){showStatus('Demo card verified (simulated). This is not a real bank verification. You may now request a demo TAC.','good');tacArea.classList.remove('hide')}else if(req.status==='declined'){showStatus('Demo request declined by the administrator. No real card was checked or charged.','bad');tacArea.classList.add('hide')}else if(req.status==='issued'){showStatus('Demo TAC issued. No withdrawal is authorized by this test code.','good');tacArea.classList.remove('hide');tacResult.classList.remove('hide');tacResult.innerHTML='Demo TAC: <div class="code"></div><div class="small">Test code only. Not valid for any real transaction.</div>';tacResult.querySelector('.code').textContent=req.tac||'DEMO-0000'}}
+document.getElementById('getTac').addEventListener('click',()=>{const items=all(),i=items.findIndex(x=>x.id===activeId);if(i<0||items[i].status!=='approved'){showStatus('The demo request must be approved first.','bad');return}items[i].status='issued';items[i].tac='DEMO-'+Math.floor(1000+Math.random()*9000);items[i].issuedAt=new Date().toISOString();save(items);poll()});setInterval(poll,1200);
+</script>
+</body></html>
