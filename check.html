@@ -15,32 +15,23 @@
     --green: #16794b;
     --red: #b42318;
 }
-
 * { box-sizing: border-box; }
-
 body {
     margin: 0;
     background: var(--bg);
     color: #172033;
     font-family: system-ui, Arial, sans-serif;
 }
-
 header {
     background: var(--navy);
     color: white;
     padding: 20px;
 }
-
-header h1 {
-    margin: 0;
-    font-size: 22px;
-}
-
+header h1 { margin: 0; font-size: 22px; }
 .wrap {
     width: min(1100px, calc(100% - 28px));
     margin: 28px auto;
 }
-
 .card {
     background: white;
     border: 1px solid var(--line);
@@ -49,19 +40,16 @@ header h1 {
     margin-bottom: 20px;
     box-shadow: 0 5px 20px #1d315008;
 }
-
 input, button {
     font: inherit;
     padding: 11px 13px;
     border-radius: 8px;
 }
-
 input {
     border: 1px solid #cbd5e1;
     width: 100%;
     margin: 7px 0 14px;
 }
-
 button {
     cursor: pointer;
     border: 0;
@@ -69,21 +57,8 @@ button {
     color: white;
     font-weight: 700;
 }
-
-button:disabled {
-    opacity: .5;
-    cursor: not-allowed;
-}
-
-.secondary {
-    background: #e9eef8;
-    color: #26344f;
-}
-
-.danger {
-    background: #b42318;
-}
-
+button:disabled { opacity: .5; cursor: not-allowed; }
+.secondary { background: #e9eef8; color: #26344f; }
 .status {
     margin-top: 14px;
     padding: 12px;
@@ -91,60 +66,31 @@ button:disabled {
     border-radius: 8px;
     overflow-wrap: anywhere;
 }
-
-.error {
-    color: var(--red);
-}
-
-.success {
-    color: var(--green);
-}
-
+.error { color: var(--red); }
+.success { color: var(--green); }
 .toolbar {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
     margin-bottom: 15px;
 }
-
-.toolbar input {
-    flex: 1;
-    min-width: 180px;
-    margin: 0;
-}
-
-.table-wrap {
-    overflow-x: auto;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-}
-
+.toolbar input { flex: 1; min-width: 180px; margin: 0; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
 th, td {
     padding: 12px;
     text-align: left;
     border-bottom: 1px solid var(--line);
     vertical-align: top;
 }
-
-th {
-    background: #f8fafc;
-}
-
+th { background: #f8fafc; }
 pre {
     white-space: pre-wrap;
     overflow-wrap: anywhere;
     max-width: 450px;
     margin: 0;
 }
-
-.hidden {
-    display: none;
-}
-
+.hidden { display: none; }
 @media (max-width: 600px) {
     .card { padding: 15px; }
 }
@@ -164,7 +110,8 @@ pre {
 
         <form id="loginForm">
             <label for="email">Administrator email</label>
-            <input id="email" type="email" autocomplete="username" required>
+            <input id="email" type="email"
+                   autocomplete="username" required>
 
             <label for="password">Password</label>
             <input id="password" type="password"
@@ -177,14 +124,12 @@ pre {
     </section>
 
     <section class="card hidden" id="dashboard">
-        <h2>Submissions</h2>
-
+        <h2>Test Submissions</h2>
         <p id="accountInfo"></p>
 
         <div class="toolbar">
             <input id="search" type="search"
-                   placeholder="Search test submissions...">
-
+                   placeholder="Search submissions...">
             <button id="refreshButton" type="button">Refresh</button>
             <button id="logoutButton" class="secondary"
                     type="button">Sign Out</button>
@@ -200,7 +145,7 @@ pre {
                     <tr>
                         <th>ID</th>
                         <th>Submitted</th>
-                        <th>Test data</th>
+                        <th>Test Data</th>
                     </tr>
                 </thead>
                 <tbody id="entriesBody"></tbody>
@@ -218,7 +163,7 @@ pre {
         "https://enstgbpcgkdnwhhlsnhh.supabase.co";
 
     const SUPABASE_PUBLISHABLE_KEY =
-        "YOUR_PUBLISHABLE_KEY";
+        "sb_publishable_0ecSKgmH9JIzdX9_3j5Kww_aNdNr_qT";
 
     const sb = window.supabase.createClient(
         SUPABASE_URL,
@@ -254,7 +199,6 @@ pre {
 
     loginForm.addEventListener("submit", async (event) => {
         event.preventDefault();
-
         setStatus(loginStatus, "Signing in...");
 
         const email = document.getElementById("email").value.trim();
@@ -302,7 +246,7 @@ pre {
             dashboardStatus,
             entries.length
                 ? "Loaded " + entries.length + " submissions."
-                : "No submissions found. Check whether the test form is saving records.",
+                : "No submissions found.",
             entries.length ? "success" : ""
         );
     }
@@ -313,9 +257,11 @@ pre {
         const term = search.value.trim().toLowerCase();
 
         const filtered = entries.filter(entry => {
-            const searchable = JSON.stringify(entry.data || {}).toLowerCase();
-            return searchable.includes(term) ||
-                String(entry.id).includes(term);
+            return (
+                String(entry.id).includes(term) ||
+                JSON.stringify(entry.data || {})
+                    .toLowerCase().includes(term)
+            );
         });
 
         for (const entry of filtered) {
@@ -332,8 +278,6 @@ pre {
 
             const dataCell = document.createElement("td");
             const pre = document.createElement("pre");
-
-            // Hide fields commonly used for sensitive authentication data.
             const safeData = { ...(entry.data || {}) };
 
             for (const key of Object.keys(safeData)) {
@@ -361,19 +305,17 @@ pre {
 
     search.addEventListener("input", renderEntries);
 
-    document.getElementById("refreshButton").addEventListener(
-        "click", loadEntries
-    );
+    document.getElementById("refreshButton")
+        .addEventListener("click", loadEntries);
 
-    document.getElementById("logoutButton").addEventListener(
-        "click", async () => {
+    document.getElementById("logoutButton")
+        .addEventListener("click", async () => {
             await sb.auth.signOut();
             entries = [];
             entriesBody.replaceChildren();
             showLogin();
             setStatus(loginStatus, "You have signed out.");
-        }
-    );
+        });
 
     sb.auth.onAuthStateChange((event, session) => {
         if (event === "SIGNED_OUT" || !session) {
