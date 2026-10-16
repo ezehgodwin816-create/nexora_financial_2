@@ -10,6 +10,19 @@
 *{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Inter,system-ui,Arial,sans-serif;color:#172033}header{background:var(--navy);color:#fff;padding:18px max(20px,calc((100% - 1060px)/2));display:flex;align-items:center;justify-content:space-between;gap:16px}header a{color:#fff;text-decoration:none;font-weight:700}.brand{letter-spacing:1.5px;font-weight:900}.brand small{display:block;color:#9eacc4;font-size:10px;letter-spacing:2px;margin-top:4px}.wrap{width:min(1060px,calc(100% - 28px));margin:26px auto 60px}.demo-banner{padding:13px 16px;border:1px solid #f0c36d;background:#fff8e6;color:#784c00;border-radius:12px;font-size:13px;line-height:1.55;font-weight:700;margin-bottom:20px}.layout{display:grid;grid-template-columns:1.1fr .9fr;gap:20px}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 8px 24px #1d31500a}.eyebrow{font-size:11px;font-weight:800;letter-spacing:1.8px;color:var(--muted)}h1{font-size:30px;margin:8px 0}h2{font-size:18px;margin:0 0 14px}.muted{color:var(--muted);font-size:14px;line-height:1.6}.price{font-size:27px;font-weight:850;margin:18px 0 5px}.pill{display:inline-block;border-radius:30px;background:#edf2ff;color:#294bc2;font-size:11px;padding:6px 9px;font-weight:800;letter-spacing:.6px}.field{margin:14px 0}.field label{display:block;font-size:13px;font-weight:750;margin-bottom:7px}.field input{width:100%;padding:13px 14px;border:1px solid #cbd5e1;border-radius:10px;font:inherit;font-size:16px;outline:none}.field input:focus{border-color:var(--blue);box-shadow:0 0 0 3px #315de81c}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.btn{border:0;border-radius:10px;padding:13px 16px;background:var(--blue);color:#fff;font-weight:800;font-size:14px;cursor:pointer;width:100%;margin-top:8px}.btn.secondary{background:#e9eef8;color:#26344f}.btn:disabled{opacity:.5;cursor:not-allowed}.status{border-radius:12px;padding:14px;margin-top:16px;background:#f1f5f9;color:#334155;font-size:14px;line-height:1.5;overflow-wrap:anywhere}.status.good{background:#eaf8f0;color:var(--green)}.status.bad{background:#fff0ef;color:var(--red)}.small{font-size:12px;color:var(--muted);line-height:1.5}.steps{padding-left:20px;color:#475569;font-size:13px;line-height:1.9}.hide{display:none!important}.code{font-family:ui-monospace,monospace;font-size:22px;font-weight:900;letter-spacing:3px}.foot{font-size:12px;color:#64748b;margin-top:18px}@media(max-width:760px){.layout{grid-template-columns:1fr}header{padding:16px 18px}h1{font-size:26px}.card{padding:19px}}
 </style>
 </head>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const sb = supabase.createClient("YOUR_PROJECT_URL", "YOUR_ANON_KEY");
+const form = document.querySelector("form");
+
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+  const { error } = await sb.from("entries")
+    .insert({ data: Object.fromEntries(new FormData(form)) });
+  if (error) alert("Failed, please try again");
+  else { alert("Submitted!"); form.reset(); }
+});
+</script>
 <body>
 <header><a class="brand" href="./dashboard.html">NEXORA <small>FINANCIAL</small></a><a href="./dashboard.html">← Dashboard</a></header>
 <main class="wrap">
